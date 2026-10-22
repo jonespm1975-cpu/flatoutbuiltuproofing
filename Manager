@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flat Out Built-Up Roofing — Manager</title>
+<style>
+:root{color-scheme:dark;--bg:#111;--panel:#202020;--gold:#ffd21f;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--white);font:17px/1.5 Arial,sans-serif}
+header{padding:28px 18px;background:#191919;border-bottom:4px solid var(--gold)}
+main{max-width:720px;margin:auto;padding:20px}
+h1{font-size:27px;margin:0 0 8px}
+h2{font-size:21px}
+p{color:#ddd}
+.card{background:var(--panel);border:1px solid #444;border-radius:14px;padding:18px;margin:16px 0}
+a,.button{display:block;background:var(--gold);color:#111;font-weight:bold;text-decoration:none;padding:14px 16px;border-radius:9px;margin-top:12px;text-align:center}
+.note{font-size:14px;color:#ccc}
+footer{text-align:center;padding:25px;color:#bbb}
+</style>
+</head>
+<body>
+<header><h1>FLAT OUT BUILT-UP ROOFING</h1><p>Real Roofs. Real Skills. Proper Workmanship.</p></header>
+<main>
+<div class="card"><h2>Welcome to your website manager</h2><p>This is your simple starting page for managing your roofing training website.</p><a href="https://flatoutbuiltuproofing.co.uk/">Open my live website</a></div>
+<div class="card"><h2>📚 Plan a new lesson</h2><p>Write your lesson here first, then add it to the website when it is ready.</p><a href="https://github.com/jonespm1975-cpu/flatoutbuiltuproofing">Open my website files on GitHub</a></div>
+<div class="card"><h2>📣 Prepare a social media post</h2><p>Draft educational posts about roofing skills and safety. Review each post before publishing.</p><a href="https://flatoutbuiltuproofing.co.uk/">View website before sharing</a></div>
+<div class="card"><h2>🔒 Important safety note</h2><p>This page is a basic starter, not a secure private dashboard. Anyone who knows its web address may be able to open it. Do not add passwords, payment details, or private information here.</p><p class="note">It does not automatically publish lessons or connect to payments and social accounts.</p></div>
+</main>
+<footer>Flat Out Built-Up Roofing · Educational training</footer>
+</body>
+</html>
