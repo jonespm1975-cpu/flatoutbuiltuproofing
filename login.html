@@ -93,6 +93,7 @@
     </button>
 
     <p id="message" role="status" aria-live="polite"></p>
+    <p><a href="members.html">Open My Learning</a></p>
     <button class="link" id="signOutBtn" type="button" hidden>Sign Out</button>
   </main>
 
@@ -101,21 +102,7 @@
   </footer>
 
   <script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-    
-
-    // ADD YOUR PUBLIC SUPABASE DETAILS HERE LATER
-   const SUPABASE_URL = "https://fhyhshakmvqwzdyannec.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_U5QORbnSzGR4j1_8hrmCGg_GOeQ5jwu";
-
-    const configured =
-      SUPABASE_URL.startsWith("https://") &&
-      SUPABASE_KEY.startsWith("sb_publishable_");
-
-    const supabase = configured
-      ? createClient(SUPABASE_URL, SUPABASE_KEY)
-      : null;
-
+    import { supabase, safeNext } from "./auth.js";
     const form = document.getElementById("authForm");
     const heading = document.getElementById("heading");
     const submitBtn = document.getElementById("submitBtn");
@@ -139,7 +126,7 @@
           submitBtn.textContent = "Save New Password";
           notify("Enter a new password with at least 12 characters.");
         }
-        refreshSession();
+        setTimeout(() => refreshSession(), 0);
       });
       refreshSession();
     }
@@ -188,7 +175,7 @@
           password.value = "";
           heading.textContent = "Customer Login";
           submitBtn.textContent = "Log In";
-          notify("Password updated. You can now sign in.");
+          location.replace("members.html");
         } else if (signup) {
           const { error } = await supabase.auth.signUp({
             email,
@@ -207,8 +194,7 @@
               password: pass
             });
           if (error) throw error;
-          notify("Signed in successfully. Paid lessons are not available yet.");
-          await refreshSession();
+          location.replace(safeNext(params.get("next")));
         }
       } catch (error) {
         notify(error.message || "Something went wrong.");
