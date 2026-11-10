@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>My Learning | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"></head>
+<body><main style="max-width:760px;margin:40px auto;padding:24px"><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Your lessons</h2><p>Paid lessons are being prepared. Payments remain disabled.</p><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
+import { supabase, requireUser } from './auth.js';
+const status = document.querySelector('#status');
+const account = document.querySelector('#account');
+supabase.auth.onAuthStateChange((event) => {
+  if (event === 'SIGNED_OUT') { account.hidden = true; location.replace('login.html'); }
+});
+document.querySelector('#logout').onclick = async () => {
+  account.hidden = true;
+  const { error } = await supabase.auth.signOut();
+  if (error) { status.textContent = 'Could not sign out. Please try again.'; account.hidden = false; }
+  else location.replace('login.html');
+};
+try {
+  const user = await requireUser();
+  if (user) {
+    document.querySelector('#email').textContent = user.email;
+    const results = await Promise.all([
+      supabase.from('course_access').select('course_id').eq('user_id', user.id),
+      supabase.from('lesson_access').select('lesson_id').eq('user_id', user.id)
+    ]);
+    if (results.some(result => result.error)) throw new Error('Could not load lesson access. Please try again.');
+    const lessons = new Set(results.flatMap((result, i) => result.data.map(row => i === 0 ? row.course_id : String(row.lesson_id))));
+    for (const lesson of lessons) {
+      const item = document.createElement('li'); item.textContent = `Lesson ${lesson} — access recorded; content coming soon.`;
+      document.querySelector('#lessons').append(item);
+    }
+    status.textContent = lessons.size ? 'Your account is ready.' : 'You have no paid lessons yet.';
+    account.hidden = false;
+  }
+} catch (error) { status.textContent = error.message || 'Unable to check access. Please reload.'; }
+window.addEventListener('pageshow', event => { if (event.persisted) { account.hidden = true; location.reload(); } });
+</script></body></html>
