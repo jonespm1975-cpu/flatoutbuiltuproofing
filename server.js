@@ -3,6 +3,8 @@
 require('dotenv').config();
 const express=require('express');const Stripe=require('stripe');const app=express();
 const port=process.env.PORT||4242;const stripe=process.env.STRIPE_SECRET_KEY?new Stripe(process.env.STRIPE_SECRET_KEY):null;
+// Do not take payment until entitlement fulfilment, legal terms and identity checks are live.
+const checkoutEnabled=false;
 // Stripe webhooks require the raw body and signature verification.
 app.post('/webhook',express.raw({type:'application/json'}),(req,res)=>{
  if(!stripe||!process.env.STRIPE_WEBHOOK_SECRET)return res.status(503).send('Payment provider not configured');
@@ -13,10 +15,11 @@ app.post('/webhook',express.raw({type:'application/json'}),(req,res)=>{
  res.json({received:true});
 });
 app.use(express.json());
-app.get('/health',(req,res)=>res.json({ok:true,app:'Flat Out Built-Up Roofing',paymentsConfigured:!!stripe}));
+app.get('/health',(req,res)=>res.json({ok:true,app:'Flat Out Built-Up Roofing',paymentsConfigured:!!stripe,checkoutEnabled}));
 app.post('/create-checkout-session',async(req,res)=>{
+ if(!checkoutEnabled)return res.status(503).json({error:'Paid courses are not available yet. No payment has been taken.'});
  if(!stripe)return res.status(503).json({error:'Checkout is not configured yet.'});
- try{const session=await stripe.checkout.sessions.create({mode:'payment',line_items:[{price_data:{currency:'gbp',product_data:{name:'Three-Layer Torch-On Roofing: Foundations'},unit_amount:1999},quantity:1}],success_url:`${process.env.PUBLIC_BASE_URL}/?payment=return`,cancel_url:`${process.env.PUBLIC_BASE_URL}/?payment=cancel`,billing_address_collection:'auto'});res.json({url:session.url})}catch(e){console.error(e);res.status(500).json({error:'Unable to create checkout session.'})}
+ try{const session=await stripe.checkout.sessions.create({mode:'payment',line_items:[{price_data:{currency:'gbp',product_data:{name:'Three-Layer Torch-On Roofing: Foundations'},unit_amount:999},quantity:1}],success_url:`${process.env.PUBLIC_BASE_URL}/?payment=return`,cancel_url:`${process.env.PUBLIC_BASE_URL}/?payment=cancel`,billing_address_collection:'auto'});res.json({url:session.url})}catch(e){console.error(e);res.status(500).json({error:'Unable to create checkout session.'})}
 });
 // Do not expose admin or transaction endpoints until authenticated, authorised and backed by a DB.
 app.listen(port,()=>console.log(`Starter server listening on ${port}`));
