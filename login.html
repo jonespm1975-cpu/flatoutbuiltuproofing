@@ -93,6 +93,7 @@
     </button>
 
     <p id="message" role="status" aria-live="polite"></p>
+    <button class="link" id="signOutBtn" type="button" hidden>Sign Out</button>
   </main>
 
   <footer>
@@ -122,6 +123,31 @@
     const resetBtn = document.getElementById("resetBtn");
     const message = document.getElementById("message");
     const password = document.getElementById("password");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const params = new URLSearchParams(location.search);
+    let recoveryMode = false;
+    async function refreshSession() {
+      if (!supabase) return;
+      const { data } = await supabase.auth.getUser();
+      signOutBtn.hidden = !data?.user;
+    }
+    if (supabase) {
+      supabase.auth.onAuthStateChange((event) => {
+        if (event === "PASSWORD_RECOVERY") {
+          recoveryMode = true;
+          heading.textContent = "Set New Password";
+          submitBtn.textContent = "Save New Password";
+          notify("Enter a new password with at least 12 characters.");
+        }
+        refreshSession();
+      });
+      refreshSession();
+    }
+    signOutBtn.addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      notify(error ? "Could not sign out. Please try again." : "Signed out successfully.");
+      refreshSession();
+    });
 
     let signup = false;
 
@@ -155,7 +181,15 @@
       submitBtn.disabled = true;
 
       try {
-        if (signup) {
+        if (recoveryMode) {
+          const { error } = await supabase.auth.updateUser({ password: pass });
+          if (error) throw error;
+          recoveryMode = false;
+          password.value = "";
+          heading.textContent = "Customer Login";
+          submitBtn.textContent = "Log In";
+          notify("Password updated. You can now sign in.");
+        } else if (signup) {
           const { error } = await supabase.auth.signUp({
             email,
             password: pass,
@@ -173,7 +207,8 @@
               password: pass
             });
           if (error) throw error;
-          notify("Signed in successfully. Course access is not ready yet.");
+          notify("Signed in successfully. Paid lessons are not available yet.");
+          await refreshSession();
         }
       } catch (error) {
         notify(error.message || "Something went wrong.");
@@ -195,6 +230,7 @@
         return;
       }
 
+      if (!supabase) return;
       const { error } = await supabase.auth.resetPasswordForEmail(
         email,
         {
