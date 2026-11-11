@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm";
 export const supabase = createClient("https://fhyhshakmvqwzdyannec.supabase.co", "sb_publishable_U5QORbnSzGR4j1_8hrmCGg_GOeQ5jwu");
 export function safeNext(value) {
-  const allowed = new Set(['members.html']);
+  const allowed = new Set(['members.html','sandbox-checkout.html']);
   return allowed.has(value) ? value : 'members.html';
 }
 export async function requireUser() {
