@@ -1,9 +1,25 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>My Learning | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"></head>
-<body><main style="max-width:760px;margin:40px auto;padding:24px"><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Your lessons</h2><p>Paid lessons are being prepared. Payments remain disabled.</p><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
+<body><main style="max-width:760px;margin:40px auto;padding:24px"><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
 import { supabase, requireUser } from './auth.js';
 const status = document.querySelector('#status');
 const account = document.querySelector('#account');
+async function loadPaidLesson() {
+ const panel=document.querySelector('#paidContent');
+ const {data:sessionData,error:sessionError}=await supabase.auth.getSession();
+ if(sessionError || !sessionData.session) { status.textContent='Please sign in again.'; return; }
+ status.textContent='Loading your protected lesson…';
+ try {
+  const response=await fetch('https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/paid-lesson-content',{method:'GET',headers:{'Authorization':'Bearer '+sessionData.session.access_token,'apikey':'sb_publishable_U5QORbnSzGR4j1_8hrmCGg_GOeQ5jwu'},cache:'no-store'});
+  const result=await response.json();
+  if(!response.ok) throw new Error(result.error||'Lesson could not be opened');
+  document.querySelector('#paidTitle').textContent=result.title;
+  const target=document.querySelector('#paidSections'); target.replaceChildren();
+  for(const section of result.sections) { const h=document.createElement('h3');h.textContent=section.heading;const p=document.createElement('p');p.textContent=section.body;target.append(h,p); }
+  panel.hidden=false;status.textContent='Your lesson is ready.';panel.scrollIntoView({behavior:'smooth'});
+ } catch(error) {status.textContent=error.message||'Could not load the lesson.';}
+}
+
 supabase.auth.onAuthStateChange((event) => {
   if (event === 'SIGNED_OUT') { account.hidden = true; location.replace('login.html'); }
 });
@@ -24,7 +40,7 @@ try {
     if (results.some(result => result.error)) throw new Error('Could not load lesson access. Please try again.');
     const lessons = new Set(results.flatMap((result, i) => result.data.map(row => i === 0 ? row.course_id : String(row.lesson_id))));
     for (const lesson of lessons) {
-      const item = document.createElement('li'); item.textContent = `Lesson ${lesson} — access recorded; content coming soon.`;
+      const item = document.createElement('li'); item.textContent = lesson === 'beginner-training-course' ? 'Beginner Training Course — access recorded' : `Lesson ${lesson} — access recorded`; if (lesson === 'beginner-training-course') { const open = document.createElement('button'); open.type='button'; open.textContent='Open my paid lesson'; open.onclick=loadPaidLesson; item.append(' ',open); }
       document.querySelector('#lessons').append(item);
     }
     status.textContent = lessons.size ? 'Your account is ready.' : 'You have no paid lessons yet.';
