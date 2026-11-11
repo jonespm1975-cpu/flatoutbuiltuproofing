@@ -24,8 +24,10 @@ Status: Training only; roofing lead generation OFF. No new live charges authoris
 - [ ] Test accessibility, loading speed, navigation hotspot placement and broken links.
 
 ## P2 — Content production
+- [x] Publish tapered-insulation course-outline preview with original drainage diagram and revision questions.
 - [ ] Complete full tapered-insulation / lay-to-falls specialist course: design drawings, falls, outlets, board layout, VCL, fixing/adhesive system, workmanship, quality checks and assessment.
-- [ ] Complete free tool-safety library: 110V site tools, cordless equipment, hand tools, safe isolation, PPE, inspections, fire and work-at-height awareness.
+- [x] Publish original six-part introductory tool-safety awareness guide with knowledge checks.
+- [ ] Expand free tool-safety library: 110V site tools, cordless equipment, hand tools, safe isolation, PPE, inspections, fire and work-at-height awareness.
 - [ ] Produce original diagrams and owned/licensed practical photos; include manufacturer-specific caveats and competent supervision.
 - [ ] Add advanced lessons: roof outlets, flashings, upstands, vapour control, inspection and maintenance.
 - [ ] Expand original CSCS revision without copying proprietary test questions.
