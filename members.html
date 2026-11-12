@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>My Learning | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="academy-interior.css"></head>
-<body><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
+<body><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Monthly membership</h2><p id="membershipStatus" role="status">Checking subscription status…</p><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
 import { supabase, requireUser } from './auth.js';
 const status = document.querySelector('#status');
 const account = document.querySelector('#account');
@@ -33,6 +33,9 @@ try {
   const user = await requireUser();
   if (user) {
     document.querySelector('#email').textContent = user.email;
+    const membershipStatus = document.querySelector('#membershipStatus');
+    const {data:memberActive,error:membershipError} = await supabase.rpc('has_active_membership');
+    membershipStatus.textContent = membershipError ? 'Membership status temporarily unavailable. No subscription access has been granted.' : memberActive === true ? 'Your monthly membership is active.' : 'No active monthly membership on this account.';
     const results = await Promise.all([
       supabase.from('course_access').select('course_id').eq('user_id', user.id),
       supabase.from('lesson_access').select('lesson_id').eq('user_id', user.id)
