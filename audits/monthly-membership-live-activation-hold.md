@@ -232,3 +232,36 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Edge log: dedicated `membership-test-webhook` returned HTTP 200 at `2026-11-12T23:36:52.235Z` after cancellation.
 - **Pass:** cancellation scheduling and verified webhook synchronisation; subscription remains active until its current paid period ends, as configured.
 - **Still untested:** actual post-expiry cancellation transition on 2026-12-12, renewal/failure paths, entitlement checks, and production launch. Keep live recurring billing off.
+
+
+## Task 16 — NON-DESTRUCTIVE renewal-failure / expiry protection audit — 12 November 2026
+**Boundaries respected:** Read-only Stripe TEST and Supabase queries; no test clock advancement, no webhook replay, no simulated or real charges, no mutation of the existing cancellation schedule, and no live billing change.
+
+### Verified live/canonical state
+- Stripe TEST subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains `status=active`, `livemode=false`, `cancel_at_period_end=true`, current period ends **2026-12-12 22:59:03 UTC**.
+- Supabase `membership_subscriptions` row matches active, sandbox-only, cancellation at end of paid period, expiry 2026-12-12 22:59:03 UTC; no cancellation change or test payment made.
+- `public.has_active_membership()` directly inspected: requires `m.user_id=auth.uid()`, `m.livemode=true`, `m.status='active'`, `m.current_period_end>now()`.
+- Database access check: `authenticated` clients have only SELECT on membership subscriptions (ownership-scoped RLS confirmed in prior audit); client-side status tampering is not permitted.
+- Deployed `membership-test-webhook` v9 inspected: validates Stripe signed raw-body event and `livemode=false`, accepts `invoice.payment_failed`, `invoice.paid`, `customer.subscription.created/updated/deleted`, fetches canonical subscription status, requires exact £1.99 sandbox price and user mapping, requires latest invoice status paid and amount/currency validation before preserving active, and uses service-only `apply_membership_test_event` RPC. These are code-review assurances; not an executed failed-payment lifecycle test.
+
+### Read-only SQL scenario matrix
+Evaluated the **exact boolean entitlement predicate** using synthetic in-query values only (no inserted or changed rows). All **10 of 10** expected cases passed:
+- live paid active and unexpired -> allow
+- sandbox active -> deny
+- live past_due -> deny
+- live unpaid -> deny
+- live canceled -> deny
+- live paused -> deny
+- live incomplete -> deny
+- live trialing -> deny
+- live expired -> deny
+- live at expiry instant -> deny
+
+**Limits:** These were SQL predicate evaluations, not authenticated end-to-end API tests, Stripe test-clock simulations, failure-event delivery checks, automatic expiry cleanup checks, or complete premium-content route reviews. Actual customer subscriptions must be reconciled to verified Stripe invoices and server-side authorisation before live membership billing launch. Separate controlled TEST subscriptions/test clocks may be used later without disturbing the existing cancel-at-period-end subscription.
+
+### Remaining Task 16 gates
+1. Simulate failed invoice and subsequent payment recovery using isolated Stripe TEST clock/subscription (or reliable replayable fixtures), with signed webhook and Supabase record observations; don't alter existing subscription.
+2. Test period expiry -> canceled and membership access revoked via controlled test clock or on 2026-12-12 after actual scheduled end.
+3. Test unauthenticated and wrong-account premium-content requests fail closed, including direct endpoints.
+4. Ensure webhook processing for an out-of-order failure/renewal event remains correct with verified canonical Stripe state and database stale-event handling.
+5. Keep live membership billing disabled pending all launch gates.
