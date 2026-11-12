@@ -162,3 +162,12 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Live `has_active_membership()` explicitly requires `livemode=true`, so even a correctly synchronized sandbox row must *not* show as active on production My Learning. Add a clearly labeled sandbox-only status query/UI if needed for testing.
 - Do **not** create another test subscription. Repair/verify destination signature configuration then retry a relevant failed event only to the dedicated `membership-test-webhook`. Verify HTTP 200, correct Supabase test-only row, and no production membership entitlement before any further lifecycle tests.
 - No live payment settings modified, no real money charged, and no extra subscriptions created in this audit.
+
+
+## Membership webhook secret follow-up — 12 November 2026
+- Owner reported saving the dedicated Stripe sandbox webhook signing secret as `MEMBERSHIP_TEST_WEBHOOK_SECRET` in Supabase. The value was not disclosed or verified independently.
+- Existing Stripe TEST subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains active, invoice `in_1Ub6xPKS41qhUQTKYuPvcjg5` remains paid for 199 pence, and subscription price matches the test allowlist. No new payment was created.
+- Supabase still has no corresponding `membership_subscriptions` row. Last observed `membership-test-webhook` deliveries returned HTTP 400 around 22:59 UTC, before the owner's secret update; no later webhook invocation yet appears.
+- Located the **existing** relevant Stripe TEST event `evt_1Ub6xTKS41qhUQTKOh4fYYQT` (`customer.subscription.created`, subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT`, `pending_webhooks=1`).
+- Connected Stripe API does not expose a targeted webhook delivery retry operation. Next operator action: retry **this event only to the dedicated membership-test-webhook destination** `we_1Ub4iGKS41qhUQTK172Hv2zX`, not the live or £9.99 course endpoint. Verify returned HTTP status in Supabase logs and membership row before further changes. Do not create another subscription.
+- Live billing settings untouched and unchanged.
