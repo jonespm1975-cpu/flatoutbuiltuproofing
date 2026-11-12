@@ -265,3 +265,26 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 3. Test unauthenticated and wrong-account premium-content requests fail closed, including direct endpoints.
 4. Ensure webhook processing for an out-of-order failure/renewal event remains correct with verified canonical Stripe state and database stale-event handling.
 5. Keep live membership billing disabled pending all launch gates.
+
+
+## Task 17 — Paid lesson and unpaid-account security audit (12 November 2026)
+**Scope:** Supabase `paid-lesson-content` auth and RLS, course and lesson grants, GitHub `members.html`; no charges, grant modifications, payment flags, or live billing changes.
+
+### Verified initial access policy
+- `paid-lesson-content` v15: `verify_jwt=true`, GET-only API, validates Supabase JWT user with `auth.getUser`, rejects anonymous user and checks owner-scoped `public.course_access` before returning lesson text. Standard unauthenticated/wrong-account returns are 401/403 in source, but **new live unauthenticated HTTP request not executed** (network/DNS unavailable to this runtime); previous successful authenticated GET 200s confirmed in function logs.
+- `course_access`, `lesson_access`, `membership_subscriptions` all have RLS enabled, authenticated SELECT only, no anon SELECT and no authenticated INSERT/UPDATE/DELETE grants. Owner-only SELECT policies use `auth.uid()=user_id`.
+- Supabase current grant counts: 2 course grants and 0 separate lesson grants. Both existing `course_access` grants reference `cs_test_*` Checkout Sessions. Cross-check in connected Stripe **TEST** account confirms both are `status=complete`, `payment_status=paid`, `livemode=false`: totals 999 and 1199 pence GBP (the latter requires tax/price explanation before reuse). Neither matching session had an accompanying record in `purchase_confirmations` on the joined keys; missing confirmation does not alone disprove payment.
+- **Found weakness:** the production lesson endpoint previously accepted sandbox-paid `course_access` rows; this would expose the same production lesson content on successful test transactions.
+
+### Safe corrective action
+- Supabase `paid-lesson-content` redeployed **v16 ACTIVE** with existing JWT/user ownership checks plus `.like("stripe_checkout_session_id","cs_live_%")` on the existing `course_access` lookup. This prevents prior `cs_test_*` course grant rows from unlocking **production** lesson content.
+- GitHub `members.html` updated at commit `1e95d24577cdcbb83de841265416b808b04be273`, changing production course and lesson listing queries to show only matching `cs_live_%` grants, without changing the homepage or prior access records. Sandbox membership test-status panel remains independent.
+- Readbacks verified deployed v16 `verify_jwt=true`, the live-only course filter, and the GitHub live-only course/lesson listing filters. Database count now: 0 live course grants, 2 sandbox course grants; 0 separate lesson grants. **No access records were deleted or modified.**
+- Important: matching a live checkout prefix is an additional segregation guard, **not proof of payment by itself**. Real course grants must continue to be created exclusively by the signed, paid, allowlisted Stripe fulfilment webhook and subject to RLS/service-only write permissions.
+- This change means older sandbox `cs_test_*` lesson grants no longer open the production paid lesson. A separate sandbox-only demonstration with distinct sample content can be built for future QA if required.
+
+### Remaining QA gates
+- A fresh unauthenticated HTTP 401 and authenticated-but-unpaid HTTP 403 test against the deployed endpoint is outstanding; external DNS was unavailable in the runtime, and connected Supabase tools do not support direct HTTP invocation with a test user token.
+- No live payment owner/test account currently has a live course grant, so a positive paid-live end-to-end GET 200 must wait until an authorized, verified live purchase test.
+- Confirm all paid media files, downloadable assets, and future premium courses are served from authenticated server endpoints / private storage and not reachable directly on public GitHub Pages.
+- Supabase Security Advisor still warns leaked-password protection is disabled. Three intentional no-policy RLS email tables remain informational findings.
