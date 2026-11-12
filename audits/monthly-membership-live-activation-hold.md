@@ -288,3 +288,14 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 - No live payment owner/test account currently has a live course grant, so a positive paid-live end-to-end GET 200 must wait until an authorized, verified live purchase test.
 - Confirm all paid media files, downloadable assets, and future premium courses are served from authenticated server endpoints / private storage and not reachable directly on public GitHub Pages.
 - Supabase Security Advisor still warns leaked-password protection is disabled. Three intentional no-policy RLS email tables remain informational findings.
+
+
+## Task 18 — Read-only paid-asset & authentication audit — 12 November 2026
+- Verified Supabase Storage has **zero buckets, zero objects, zero storage policies**. Therefore there are currently no exposed premium video/PDF objects via Supabase Storage. No media bucket or asset was created.
+- Confirmed `paid-lesson-content` v16 JWT + authenticated identity + owner-scoped `course_access` + `cs_live_%` grant guard. No live grants exist, while two sandbox grants remain; these cannot unlock the production lesson.
+- Verified `course_access`, `lesson_access` and `membership_subscriptions` grant/role scope: anonymous has no SELECT, authenticated users have SELECT-only RLS policies, with no INSERT/UPDATE/DELETE privileges.
+- Inspected public repo pages `courses.html`, `tapered-insulation.html`, `purchase-info.html` and draft paid-entitlement SQL. Tapered insulation is presented as a *proposed* £9.99 course with substantive publicly accessible instructional content; retain it as a free preview unless content is moved behind a server entitlement check before charging.
+- Attempted direct unauthenticated GET from the runtime; DNS resolution of the Supabase endpoint failed. An external page-fetch also could not access it. **No HTTP response was obtained; 401/403 live request remains unverified.** Do not falsely mark as passed.
+- Created `audits/task-18-paid-content-security.md` in commit `4ba1c525c0fb90d20a478bb4b18d0b9e4bcad06d` documenting the browser/HTTP 401/403/200 test matrix and private media architecture for future premium assets.
+- No access, account, subscription, cancellation, payment, live billing or homepage changes were made.
+- Follow-up: conduct authenticated/unpaid/cross-user HTTP tests with a controllable client, confirm final premium content boundaries and signed media delivery; leaked-password protection remains a security warning.
