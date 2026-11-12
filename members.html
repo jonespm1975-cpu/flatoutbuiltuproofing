@@ -82,8 +82,8 @@ try {
     const {data:memberActive,error:membershipError} = await supabase.rpc('has_active_membership');
     membershipStatus.textContent = membershipError ? 'Membership status temporarily unavailable. No subscription access has been granted.' : memberActive === true ? 'Your monthly membership is active.' : 'No active monthly membership on this account.';
     const results = await Promise.all([
-      supabase.from('course_access').select('course_id').eq('user_id', user.id),
-      supabase.from('lesson_access').select('lesson_id').eq('user_id', user.id)
+      supabase.from('course_access').select('course_id').eq('user_id', user.id).like('stripe_checkout_session_id','cs_live_%'),
+      supabase.from('lesson_access').select('lesson_id').eq('user_id', user.id).like('stripe_session_id','cs_live_%')
     ]);
     if (results.some(result => result.error)) throw new Error('Could not load lesson access. Please try again.');
     const lessons = new Set(results.flatMap((result, i) => result.data.map(row => i === 0 ? row.course_id : String(row.lesson_id))));
