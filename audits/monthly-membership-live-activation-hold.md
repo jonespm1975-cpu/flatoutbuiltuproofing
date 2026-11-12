@@ -42,3 +42,12 @@ Prepared 2026-11-12. This is a deployment checklist, not an active billing confi
 - Do not enable test fulfilment until signed webhook delivery and canonical subscription checks are verified.
 - Pending: sandbox end-to-end checkout, renewal, cancellation, payment failure, duplicate events, Stripe Customer Portal, Resend delivery and full server-side premium content gates.
 - Live billing remains on hold pending explicit owner approval.
+
+## Further safe technical work — 2026-11-12
+- Deployed membership-test-webhook v4: when canonical Stripe subscription is active but latest invoice is not paid, synchronize sandbox status as past_due (instead of returning 503 without changing stale state). No live subscription affected.
+- Existing live membership access requires livemode=true and status=active; sandbox rows cannot grant live access.
+- Sandbox portal bpc_1Ub5FvKS41qhUQTKmsaYiYKB and authenticated membership-test-portal Edge Function v1 are configured but feature-flag disabled.
+- GitHub members.html has an explicitly test-only management panel accessible via membership_test=manage; its server endpoint remains gated.
+- No evidence yet of successful signed Stripe membership webhook deliveries or completed test purchases; do not mark integration production-ready.
+- Residual risk: parallel checkouts can race before a subscription row exists. Production should use a database checkout-intent lock or Stripe idempotency strategy.
+- Residual risk: failed-payment transitions and cancellation must be verified against Stripe lifecycle test events; no real charges or live activation authorized.
