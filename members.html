@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>My Learning | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="academy-interior.css"></head>
-<body><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Monthly membership</h2><p id="membershipStatus" role="status">Checking subscription status…</p><section id="sandboxMembershipManagement" hidden aria-labelledby="sandboxMembershipTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxMembershipTitle" style="margin-top:0;color:#e8c77b">Subscription management — test environment</h2><p>Manage your £1.99 monthly test subscription securely through Stripe. Cancellation takes effect at the end of the paid billing period.</p><button id="manageSandboxMembership" type="button" style="padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700">Manage test subscription</button><p id="sandboxPortalMessage" role="status" aria-live="polite" style="margin-bottom:0"></p></section><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
+<body><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Monthly membership</h2><p id="membershipStatus" role="status">Checking subscription status…</p><section id="sandboxMembershipManagement" hidden aria-labelledby="sandboxMembershipTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxMembershipTitle" style="margin-top:0;color:#e8c77b">Subscription management — test environment</h2><p>Manage your £1.99 monthly test subscription securely through Stripe. Cancellation takes effect at the end of the paid billing period.</p><button id="manageSandboxMembership" type="button" style="padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700">Manage test subscription</button><p id="sandboxPortalMessage" role="status" aria-live="polite" style="margin-bottom:0"></p></section><section id="sandboxMembershipStatus" hidden aria-labelledby="sandboxStatusTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxStatusTitle" style="margin-top:0;color:#e8c77b">Sandbox membership status — TEST ONLY</h2><p>This test subscription is not a live membership and does not unlock production lessons.</p><p id="sandboxStatusMessage" role="status" aria-live="polite">Checking your test subscription…</p></section><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
 import { supabase, requireUser } from './auth.js';
 const status = document.querySelector('#status');
 const account = document.querySelector('#account');
@@ -59,6 +59,24 @@ try {
           sandboxButton.disabled = false;
         }
       });
+    }
+    // Only expose test subscription status when explicitly requested; never change live entitlements.
+    const testMode = new URLSearchParams(location.search).get('membership_test');
+    if (['status','success','manage'].includes(testMode)) {
+      const sandboxSection = document.querySelector('#sandboxMembershipStatus');
+      const sandboxText = document.querySelector('#sandboxStatusMessage');
+      sandboxSection.hidden = false;
+      const {data:testRows,error:testError} = await supabase.from('membership_subscriptions')
+        .select('status,livemode,current_period_end,cancel_at_period_end')
+        .eq('user_id',user.id).eq('livemode',false)
+        .eq('stripe_price_id','price_1Ub4eYKS41qhUQTK2upRvWY9')
+        .order('updated_at',{ascending:false}).limit(1);
+      if (testError) sandboxText.textContent = 'Sandbox status temporarily unavailable.';
+      else if (!testRows?.length) sandboxText.textContent = 'No sandbox subscription recorded for this account.';
+      else {
+        const m = testRows[0], end = m.current_period_end ? new Date(m.current_period_end).toLocaleString('en-GB',{timeZone:'Europe/London',dateStyle:'medium',timeStyle:'short'}) : 'not available';
+        sandboxText.textContent = 'TEST subscription: '+String(m.status).replaceAll('_',' ')+'; current period ends '+end+(m.cancel_at_period_end?'; cancellation scheduled at the end of the paid period.':'; cancellation not scheduled.')+' No live membership access granted.';
+      }
     }
     const membershipStatus = document.querySelector('#membershipStatus');
     const {data:memberActive,error:membershipError} = await supabase.rpc('has_active_membership');
