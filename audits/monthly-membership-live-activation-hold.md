@@ -310,3 +310,11 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 - Both updated files were fetched back and expected markers independently verified. Live iPhone/browser login/signup/reset behaviour and Supabase email delivery not retested; the GitHub commits are not proof deployment finished.
 - **Remaining:** enable leaked-password protection through dashboard if supported; verify password settings and allowed redirect URLs in Supabase Auth dashboard, confirm email verification and recovery links end-to-end, validate login/signup/recovery on iPhone/Android, review brute-force protection/captcha/MFA options, and rerun security advisor.
 - No changes to Stripe, subscription cancellation, live billing, email secrets, charged amounts, homepage design, paid lesson grants or customer data.
+
+
+## Task 19 owner settings follow-up — 12 November 2026, 23:56 GMT
+- Owner reported "Done" after opening Supabase Authentication settings.
+- Independently reran Supabase Security Advisor: `auth_leaked_password_protection` is **still WARN: disabled** as of 23:56:22 UTC. Do not mark fixed.
+- Verified Supabase current password docs: leaked password protection is configured under **Authentication > Sign In / Providers > Email**, not necessarily the Attack Protection menu; **requires a Supabase Pro plan or above**. URL: https://supabase.com/dashboard/project/fhyhshakmvqwzdyannec/auth/providers?provider=Email.
+- Owner should inspect Email provider's password security section, save the setting if available, and report if the control is plan-restricted; avoid changing other authentication settings.
+- No billing/payment/credential or customer-account changes made.
