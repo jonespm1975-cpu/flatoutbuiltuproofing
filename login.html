@@ -78,7 +78,7 @@
 
       <label for="password">Password</label>
       <input id="password" type="password"
-             minlength="12" autocomplete="current-password"
+             autocomplete="current-password"
              required>
 
       <button id="submitBtn" type="submit">Log In</button>
@@ -122,6 +122,10 @@
       supabase.auth.onAuthStateChange((event) => {
         if (event === "PASSWORD_RECOVERY") {
           recoveryMode = true;
+          signup = false;
+          password.minLength = 12;
+          password.autocomplete = "new-password";
+          switchBtn.hidden = true;
           heading.textContent = "Set New Password";
           submitBtn.textContent = "Save New Password";
           notify("Enter a new password with at least 12 characters.");
@@ -143,7 +147,9 @@
     }
 
     switchBtn.addEventListener("click", () => {
+      if (recoveryMode) return;
       signup = !signup;
+      password.minLength = signup ? 12 : 0;
       heading.textContent = signup ? "Create Account" : "Customer Login";
       submitBtn.textContent = signup ? "Create Account" : "Log In";
       switchBtn.textContent = signup
@@ -172,6 +178,9 @@
           const { error } = await supabase.auth.updateUser({ password: pass });
           if (error) throw error;
           recoveryMode = false;
+          switchBtn.hidden = false;
+          password.minLength = 0;
+          password.autocomplete = "current-password";
           password.value = "";
           heading.textContent = "Customer Login";
           submitBtn.textContent = "Log In";
@@ -204,30 +213,26 @@
     });
 
     resetBtn.addEventListener("click", async () => {
-      if (!supabase) {
-        notify("Password reset is not connected yet.");
+      const emailInput = document.getElementById("email");
+      const email = emailInput.value.trim();
+      if (!email || !emailInput.checkValidity()) {
+        notify("Enter a valid email address first.");
+        emailInput.focus();
         return;
       }
-
-      const email = document.getElementById("email").value.trim();
-
-      if (!email) {
-        notify("Enter your email address first.");
-        return;
+      resetBtn.disabled = true;
+      try {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: "https://flatoutbuiltuproofing.co.uk/login.html"
+        });
+        // Do not reveal whether an address has an account.
+        notify(error ? "Could not request a reset right now. Please try again later." :
+          "If this account exists, check your email for reset instructions.");
+      } catch {
+        notify("Could not request a reset right now. Please try again later.");
+      } finally {
+        resetBtn.disabled = false;
       }
-
-      if (!supabase) return;
-      const { error } = await supabase.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-            "https://flatoutbuiltuproofing.co.uk/login.html"
-        }
-      );
-
-      notify(error
-        ? error.message
-        : "If this account exists, check your email for reset instructions.");
     });
   </script>
 </body>
