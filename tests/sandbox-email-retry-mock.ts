@@ -1,0 +1,22 @@
+// Standalone sandbox-only retry/provider simulation. No network, credentials, or database.
+type Job={status:"pending"|"leased"|"accepted"|"failed";attempts:number;token:string|null;leaseUntil:number;due:number;providerId:string|null};
+const assert=(ok:boolean,message:string)=>{if(!ok)throw Error(message)};
+const job:Job={status:"pending",attempts:0,token:null,leaseUntil:0,due:0,providerId:null};
+let clock=0;let serial=0;const accepted=new Map<string,string>();let providerCalls=0;
+const claim=()=>{if(job.attempts>=5||!(job.status==="pending"&&job.due<=clock||job.status==="leased"&&job.leaseUntil<=clock))return null;
+ job.status="leased";job.attempts++;job.token="token-"+(++serial);job.leaseUntil=clock+300;return {token:job.token,attempt:job.attempts}};
+const finish=(token:string,acceptedResult:boolean,id?:string)=>{if(job.status!=="leased"||job.token!==token||job.leaseUntil<=clock||acceptedResult&&!id)return false;
+ job.status=acceptedResult?"accepted":job.attempts>=5?"failed":"pending";job.providerId=acceptedResult?id!:job.providerId;
+ job.due=acceptedResult?job.due:clock+Math.min(3600,60*2**(job.attempts-1));job.token=null;job.leaseUntil=0;return true};
+const mockSend=(key:string)=>{providerCalls++;if(!accepted.has(key))accepted.set(key,"mock-message-"+accepted.size);return accepted.get(key)!};
+const key="purchase-confirmation:cs_test_mock_only";
+const a=claim();assert(!!a,"first claim");assert(claim()===null,"duplicate claim blocked");
+clock=301;const b=claim();assert(!!b&&a!.token!==b.token&&b.attempt===2,"lease reclaim rotates token");
+assert(!finish(a!.token,true,"bad"),"stale token rejected");
+assert(finish(b!.token,false),"simulated provider failure");assert(claim()===null,"backoff enforced");
+clock=421;const c=claim();assert(!!c&&c.attempt===3,"backoff retry");
+const id=mockSend(key);assert(finish(c!.token,true,id),"provider accepted");
+assert(!finish(c!.token,true,id),"repeat completion rejected");assert(claim()===null,"accepted job not reclaimed");
+assert(mockSend(key)===id&&accepted.size===1,"mock provider idempotent");
+assert(providerCalls===2&&accepted.size===1,"two mock calls one acceptance record");
+console.log("PASS: duplicate claim, lease reclaim, stale token, backoff, acceptance, mock idempotency");
