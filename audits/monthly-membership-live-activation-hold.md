@@ -99,3 +99,13 @@ Do not charge customers, activate live monthly billing, alter live Stripe prices
 
 ## Work-mode handoff instruction
 Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm sandbox Stripe test key and webhook secret exist without revealing them. Set MEMBERSHIP_TEST_CHECKOUT_ENABLED=true and MEMBERSHIP_TEST_FULFILMENT_ENABLED=true; leave MEMBERSHIP_TEST_PORTAL_ENABLED disabled. Do not modify any live Stripe payment settings or charge customers. Then test and report signed sandbox events and access control.
+
+
+## Task 7–8 verification — 2026-11-12, 22:28–22:35 GMT
+- Independently verified the existing Stripe TEST account `acct_1UaPRuKS41qhUQTK` checkout.session.completed event `evt_1UahMZKS41qhUQTK8J1OszL3` from 2026-11-11 at 19:39:19 UTC, session `cs_test_a0caswbXc3HIkD4VZJRQ7ZZ3W6dT5TICnhxcb0PZ0v1gYUOhHT5v00Ssye`.
+- Operator manually retried the failed sandbox delivery in Stripe. Supabase function logs confirm POST 200 to `stripe-test-webhook` at 2026-11-12 22:28:37 UTC. The earlier screenshot showed a prior 503 attempt.
+- The webhook created/confirmed the sandbox course entitlement and purchase confirmation. Supabase `purchase_confirmations.confirmation_email_status=sent`, `confirmation_email_sent_at=2026-11-12 22:28:36.658+00`, `confirmation_email_error=NULL`. This is evidence the Resend API submission succeeded, NOT independent inbox delivery.
+- Gmail search in the connected `jonespm1975@gmail.com` mailbox found no matching TEST ONLY / sandbox confirmation at audit time. Inspect Resend message status (delivered, bounced, rejected, delayed, or spam) before marking recipient delivery successful.
+- The separate `sandbox_email_retry_queue` entry for the same session still reads `pending`, `attempts=0`, `provider_message_id=NULL`. Reconcile/close this stale entry only after checking whether it can trigger duplicate email attempts; do not re-send now.
+- Existing £1.99 membership sandbox functions and price are separate. No subscription event end-to-end test was conducted during this verification. Membership rows were zero at the earlier 22:22 audit. Do NOT infer membership checkout/fulfilment readiness from the successful £9.99 test-course confirmation.
+- No real charge was created, no live Stripe settings were modified, no production email retry was started. Live monthly billing remains on hold.
