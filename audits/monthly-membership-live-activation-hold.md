@@ -223,3 +223,12 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Stripe TEST billing portal configuration `bpc_1Ub5FvKS41qhUQTKmsaYiYKB`: active, livemode=false, subscription_cancel.enabled=true, mode=at_period_end, proration=none.
 - Stripe TEST subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT`: status active, cancel_at_period_end=false. Supabase row agrees active, livemode=false, cancel_at_period_end=false, period end 2026-12-12 22:59:03 GMT.
 - **Next:** user opens existing test management view, chooses Cancel subscription, confirms cancel at period end. Then verify Stripe subscription `cancel_at_period_end=true`, signed `customer.subscription.updated` delivery 200 to membership-test-webhook, matching Supabase flag, and no live changes. Do not create any payments.
+
+
+## Task 15 VERIFIED PASS — sandbox cancellation at paid-period end (12 November 2026)
+- Owner completed cancellation through Stripe TEST customer portal; no new payment was created.
+- Stripe subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` independently retrieved: `livemode=false`, `status=active`, `cancel_at_period_end=true`, `cancel_at=1797116343` (2026-12-12 22:59:03 UTC), `ended_at=null`.
+- Independently verified Supabase record for the same subscription: `status=active`, `livemode=false`, `cancel_at_period_end=true`, `current_period_end=2026-12-12 22:59:03 UTC`, `updated_at=2026-11-12 23:36:52.166192 UTC`.
+- Edge log: dedicated `membership-test-webhook` returned HTTP 200 at `2026-11-12T23:36:52.235Z` after cancellation.
+- **Pass:** cancellation scheduling and verified webhook synchronisation; subscription remains active until its current paid period ends, as configured.
+- **Still untested:** actual post-expiry cancellation transition on 2026-12-12, renewal/failure paths, entitlement checks, and production launch. Keep live recurring billing off.
