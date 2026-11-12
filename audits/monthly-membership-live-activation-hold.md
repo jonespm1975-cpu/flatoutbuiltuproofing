@@ -197,3 +197,11 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Readback of GitHub file confirmed the panel and scoped query. Browser deployment and logged-in UI were not independently tested.
 - Portal Edge Function remains disabled by its separate server-side flag. No cancellation performed and no live payment settings modified.
 - Next: once sandbox portal enabled for controlled testing, test customer-initiated cancellation and signed webhook update; consider stronger concurrency/idempotency protections before production launch.
+
+
+## Task: Prevent rapid duplicate sandbox checkout sessions — 12 November 2026
+- Checkout Edge Function version 8 ACTIVE. Added Stripe request `idempotencyKey: "fobur-sandbox-monthly-v1-"+data.user.id` to the existing TEST-only `stripe.checkout.sessions.create` call. This ensures concurrent requests from the same authenticated user with identical parameters will return the same Stripe API result while Stripe retains the key, reducing duplicate checkout sessions; it does not override or replace the existing DB duplicate-membership check.
+- Verified deployed source retains auth/user verification, UK origin, allowlisted test price, explicit recurring consent, masked test key guard and existing-membership lookup.
+- Read-only DB check confirmed the prior subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains active, sandbox-only, and not scheduled for cancellation.
+- **Limitations:** Stripe idempotency retention is not permanent; after pruning, a session with the same key can be newly created, and the already-existing DB row is the primary barrier once fulfilment synchronizes. Full production-grade protection should use a durable checkout-intent lock with expiry and ownership enforcement, plus cross-customer reconciliation. Also, a stale expired Checkout Session can be returned by idempotency within the retention window; handle this in future iterations.
+- No Checkout Session was created in verification, no payment charged, and no live Stripe changes.
