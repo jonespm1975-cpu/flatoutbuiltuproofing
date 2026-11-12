@@ -136,3 +136,12 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Stripe event inspection returned prior one-off invoice.paid events but no evidence of subscription-created/updated/deleted or invoice.payment_failed lifecycle for the £1.99 membership.
 - No new checkout, real or test purchase, or webhook replay created. Existing sandbox test secrets/flags still cannot be verified through the connected tools; a signed end-to-end checkout and cancellation test is required before declaring readiness.
 - Live subscription activation remains blocked.
+
+
+## Independent safe task completion — 2026-11-12 (after Task 12)
+- **Added new** unlinked, noindex page `membership-sandbox-test.html` to main branch in commit `8f12ae7ddf7a4970157e19f222970ea707a8888e`. Its main features: Supabase account verification; explicit recurring billing, terms and cancellation acknowledgements; request to existing authenticated `membership-test-checkout` Edge Function; validated `test_mode=true` and Stripe Checkout HTTPS URL; no card input stored in page. Homepage and live £9.99 payment files unchanged.
+- **Added** controlled test plan `audits/membership-sandbox-test-plan.md` in commit `3b11fee42081845652c2d94fa4a394bf98c4b3f1`, covering signed webhook delivery, duplicate/out-of-order events, payment failure, cancellation, renewals and go/no-go conditions.
+- **Owner screenshots** confirm the presence (not plaintext values) of `STRIPE_TEST_SECRET_KEY`, `MEMBERSHIP_TEST_WEBHOOK_SECRET`, `MEMBERSHIP_TEST_CHECKOUT_ENABLED` and `MEMBERSHIP_TEST_FULFILMENT_ENABLED` in Supabase Edge Function Secrets. Do not infer the flags are true merely from digest existence.
+- SQL recheck confirmed `anon` and `authenticated` cannot execute privileged `apply_membership_test_event(jsonb)` function.
+- Attempted external live-page reachability check from current runtime, but network DNS resolution was unavailable. GitHub file contents were successfully read back; GitHub Pages deployment and first checkout remain unverified.
+- No test transaction, customer charge, billing configuration change, webhook replay, user entitlement grant, or email was initiated in this action. Keep live monthly billing disabled until final owner approval.
