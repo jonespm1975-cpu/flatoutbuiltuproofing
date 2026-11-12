@@ -6,7 +6,7 @@ export function safeNext(value) {
 }
 export async function requireUser() {
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user) {
+  if (error || !data.user || data.user.is_anonymous) {
     location.replace('login.html?next=members.html');
     return null;
   }
