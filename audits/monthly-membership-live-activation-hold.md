@@ -117,3 +117,13 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Rechecked `public.has_active_membership()`: requires auth.uid(), livemode=true, status=active and current_period_end > now(). Sandbox subscriptions cannot unlock production membership access through this function. Membership subscription row count remains zero.
 - Supabase security advisor: leaked-password protection disabled (WARN); enable using Supabase Auth dashboard settings when supported. Three INFO lint findings for tables with RLS enabled but no policies (`internal.live_purchase_email_outbox`, `public.purchase_confirmations`, `public.sandbox_email_retry_queue`). This is consistent with server-only tables, but privileges and security should be reviewed before modifying any policies.
 - No customer payments, emails, live billing changes, schema migrations, or production function deployments were initiated.
+
+
+## Task 10 — £1.99 membership sandbox static security audit — 2026-11-12
+- Inspected deployed `membership-test-checkout` v3, `membership-test-webhook` v4 and `membership-test-portal` v1. Deployed does not prove functional activation or end-to-end readiness; Edge Function secret names/values and enablement flags cannot be enumerated using current connected tools.
+- Checkout requires approved origin, signed-in non-anonymous user, three explicit consent booleans, exact allowlisted `price_1Ub4eYKS41qhUQTK2upRvWY9`, and attempts to reject users with an existing matching sandbox membership. Concurrent checkout race remains unresolved.
+- Webhook code validates Stripe signature with separate membership test secret, rejects live events, re-fetches canonical subscription and latest paid invoice, validates price/currency/interval/metadata and uses privileged RPC. Implementation has NOT been tested with a signed lifecycle event in this audit.
+- Portal has a disabled-by-default feature gate and validates user identity, test subscription owner, customer and price before creating a portal session. End-to-end cancellation test not completed.
+- SQL verified `membership_subscriptions` SELECT policy restricts authenticated users to `auth.uid()=user_id`. Only SELECT is granted to authenticated. The SECURITY DEFINER `public.apply_membership_test_event(jsonb)` EXECUTE permissions were checked: anon=false, authenticated=false, service_role=true.
+- Server-side comprehensive premium lesson gating and end-to-end sandbox lifecycle (checkout, renewal, failed payment, cancellation, duplication/out-of-order handling) remain blockers to enabling live £1.99 billing.
+- No payment, webhook replay, email, function deployment or live setting change occurred during Task 10.
