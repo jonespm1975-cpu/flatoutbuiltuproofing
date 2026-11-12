@@ -11,6 +11,12 @@
 - Stripe connected-account listing failed with `link_id must identify an eligible linked account`. Therefore live Stripe settings, account readiness and webhook delivery status were not verified.
 - Supabase Edge Function environment secret values/activation flags cannot be read through the available connector. Do not infer current flags.
 
+## Additional verification and tests (12 November 2026)
+- Inspected deployed `stripe-webhook` v26, `stripe-test-webhook` v18 and `purchase-email-retry-worker` v5 directly; live webhook still synchronously sends email and returns 503 on email failure.
+- Sandbox retry completion function `internal.finish_sandbox_email_retry_v3` has been deployed and rollback-tested; sandbox worker is still read-only, and no live outbox/processor is active.
+- Added `tests/email-retry-worker-smoke.mjs` to check 401 rejection and authenticated disabled-state contract. **Test script committed, not yet executed against endpoint**; service-role credentials must only be supplied via protected local/CI environment.
+- No evidence of live Stripe charge or verified email delivery. This gate remains CLOSED.
+
 ## Before switching on
 1. Fix webhook to acknowledge successful entitlement/receipt writes independently of email provider outages, with durable email retry; test signed sandbox event, duplicates, failure and retry.
 2. Verify `STRIPE_LESSON_COURSE_ID` matches `beginner-training-course`, live secret/price/webhook signing secret, `COURSE_UNLOCK_ENABLED`, and live Stripe webhook delivery.
