@@ -1,0 +1,17 @@
+name: Sandbox email worker HTTP smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tests/worker-http-unauthenticated.py"
+      - ".github/workflows/sandbox-email-worker-smoke.yml"
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unauthenticated endpoint checks (no secrets)
+        run: python3 tests/worker-http-unauthenticated.py
