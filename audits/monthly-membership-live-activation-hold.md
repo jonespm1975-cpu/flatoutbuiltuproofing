@@ -51,3 +51,51 @@ Prepared 2026-11-12. This is a deployment checklist, not an active billing confi
 - No evidence yet of successful signed Stripe membership webhook deliveries or completed test purchases; do not mark integration production-ready.
 - Residual risk: parallel checkouts can race before a subscription row exists. Production should use a database checkout-intent lock or Stripe idempotency strategy.
 - Residual risk: failed-payment transitions and cancellation must be verified against Stripe lifecycle test events; no real charges or live activation authorized.
+
+
+---
+
+# Flat Out Built-Up Roofing — Project progress and handover
+**Recorded:** 12 November 2026, 21:24 GMT (Europe/London)
+**Website:** https://flatoutbuiltuproofing.co.uk
+**GitHub:** https://github.com/jonespm1975-cpu/flatoutbuiltuproofing
+**Supabase project:** fhyhshakmvqwzdyannec
+
+## Purpose and scope
+UK training and education in traditional three-layer built-up felt roofing. Roofing lead generation remains deferred. Premium black-and-gold website and mobile-friendly My Learning experience. Planned content includes free introductory training, ten paid lessons, tapered/lay-to-fall insulation, tools and safety, working at height, torch-on fire safety, CSCS revision using original material, sponsor and gallery areas, Q&A and community. App Store/Play Store publication is a future milestone, not verified as completed.
+
+## Historical progress
+- GitHub Pages website deployed on the custom domain, with HTTPS previously confirmed; index.html, manager.html, lessons/introduction.html and members.html developed.
+- Authentication, registration and paid lesson access developed with Supabase. User previously confirmed signing in, opening My Learning and opening a protected paid lesson. This is user-reported, not a fresh production verification.
+- £9.99 one-time lesson checkout and lifetime access model prepared. Existing live Stripe arrangements have not been modified in this work.
+- Resend domain/DNS work carried out. SPF verification was previously pending/partially verified; purchase-confirmation email delivery remains unverified.
+- UK legal pages and consent work drafted/updated historically; final legal and consumer-law review remains outstanding.
+- £1.99 per month, tax-inclusive, cancel-anytime membership chosen to replace an earlier £0.50 weekly proposal. Membership has NOT been enabled for live billing.
+
+## Verified or deployed in this work
+- Stripe sandbox recurring price price_1Ub4eYKS41qhUQTK2upRvWY9: GBP 1.99 monthly, inclusive tax.
+- Stripe sandbox account acct_1UaPRuKS41qhUQTK, webhook we_1Ub4iGKS41qhUQTK172Hv2zX enabled with subscription and invoice events.
+- Sandbox billing portal configuration bpc_1Ub5FvKS41qhUQTKmsaYiYKB, allowing cancellation at period end, payment-method updates and invoice history.
+- Supabase membership-test-checkout Edge Function v3, with authenticated checkout, consent requirements and existing-membership database check; feature-flag gated.
+- Supabase membership-test-webhook Edge Function v4, signature checking, test-mode enforcement, canonical Stripe subscription validation, paid invoice checking and failed-payment past_due mapping; feature-flag gated.
+- Supabase membership-test-portal Edge Function v1, authenticated subscription ownership checks; feature-flag gated.
+- members.html professional black-and-gold test-only management panel added (GitHub commit 3ac4844e7abe1233ff5fcfe344c7d4935e98e1db).
+- Database membership_subscriptions RLS restricts reads to the account owner. apply_membership_test_event EXECUTE privilege only service_role and postgres. Current membership rows: zero (checked 12 November 2026).
+- Sandbox membership rows cannot unlock live membership, since has_active_membership requires livemode=true.
+- The latest webhook update was deployed; no completed sandbox end-to-end purchase or webhook-delivery verification yet.
+
+## Not completed / blockers
+1. In Supabase Edge Function Secrets, set MEMBERSHIP_TEST_CHECKOUT_ENABLED=true and MEMBERSHIP_TEST_FULFILMENT_ENABLED=true for sandbox-only tests. Verify STRIPE_TEST_SECRET_KEY and MEMBERSHIP_TEST_WEBHOOK_SECRET are configured without exposing their values. Keep MEMBERSHIP_TEST_PORTAL_ENABLED disabled until ownership tests pass.
+2. Send and verify signed Stripe sandbox subscription events and inspect Supabase webhook logs; test success, failed payment, renewal, cancellation and duplicate checkout. No real charges.
+3. Resolve concurrent-checkout idempotency/race risk before production.
+4. Integrate server-side membership entitlement with protected content; current membership status does not itself unlock the proposed 90% of learning content.
+5. Verify Resend SPF/DNS, purchase confirmation, subscription email and retry delivery.
+6. Verify UK legal terms, cancellation consent, accessibility, data protection and subscription disclosures.
+7. Perform security/QA checks, production launch readiness and independent approval before any live monthly billing.
+8. Mobile store release, additional courses, images/videos and broader content development remain roadmap items.
+
+## Safety and operational boundaries
+Do not charge customers, activate live monthly billing, alter live Stripe prices or publish sensitive credentials as part of sandbox testing. Existing £9.99 purchases remain separate. Do not claim complete payment fulfilment until tested.
+
+## Work-mode handoff instruction
+Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm sandbox Stripe test key and webhook secret exist without revealing them. Set MEMBERSHIP_TEST_CHECKOUT_ENABLED=true and MEMBERSHIP_TEST_FULFILMENT_ENABLED=true; leave MEMBERSHIP_TEST_PORTAL_ENABLED disabled. Do not modify any live Stripe payment settings or charge customers. Then test and report signed sandbox events and access control.
