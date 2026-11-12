@@ -127,3 +127,12 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - SQL verified `membership_subscriptions` SELECT policy restricts authenticated users to `auth.uid()=user_id`. Only SELECT is granted to authenticated. The SECURITY DEFINER `public.apply_membership_test_event(jsonb)` EXECUTE permissions were checked: anon=false, authenticated=false, service_role=true.
 - Server-side comprehensive premium lesson gating and end-to-end sandbox lifecycle (checkout, renewal, failed payment, cancellation, duplication/out-of-order handling) remain blockers to enabling live £1.99 billing.
 - No payment, webhook replay, email, function deployment or live setting change occurred during Task 10.
+
+
+## Task 11 — Stripe/Supabase monthly subscription reconciliation — 2026-11-12
+- Read-only inspection of Stripe sandbox account `acct_1UaPRuKS41qhUQTK`: `GET /v1/subscriptions?status=all` returned empty list (`has_more=false`), so there are no subscription objects there at this check.
+- Sandbox recurring price `price_1Ub4eYKS41qhUQTK2upRvWY9` retrieved: active, livemode=false, GBP 199 pence, recurring monthly, `tax_behavior=inclusive`.
+- Supabase `public.membership_subscriptions`: zero rows (both test and live).
+- Stripe event inspection returned prior one-off invoice.paid events but no evidence of subscription-created/updated/deleted or invoice.payment_failed lifecycle for the £1.99 membership.
+- No new checkout, real or test purchase, or webhook replay created. Existing sandbox test secrets/flags still cannot be verified through the connected tools; a signed end-to-end checkout and cancellation test is required before declaring readiness.
+- Live subscription activation remains blocked.
