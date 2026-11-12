@@ -180,3 +180,11 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Fixed **only** `membership-test-webhook` Supabase Edge Function: deployed ACTIVE version **8**, replacing the removed invoice boolean check with canonical checks of invoice status, mode, currency, remaining amount, paid amount, total, and out-of-band-paid amount. Retained Stripe signature verification, canonical Stripe subscription lookup, allowlisted price, owner mapping, test fulfilment flag and privileged RPC protections.
 - Read-back verified v8 is ACTIVE and contains the modified guard. **Existing row remains `past_due` until a subsequent valid signed membership event is delivered**. Do not modify the table manually or bypass signed webhook processing.
 - Next safe step: retry the same existing sandbox event only to the membership endpoint (or inspect Stripe's automatic retry) and confirm HTTP 200 plus DB status `active`. Do not create or charge a second subscription; production membership remains disabled.
+
+
+## SUCCESS — first paid sandbox monthly membership fulfilled — 12 November 2026 23:28:33 GMT
+- Stripe dashboard shows retry delivery `200 OK` at **23:28:33 GMT** for existing `customer.subscription.created` event `evt_1Ub6xTKS41qhUQTKOh4fYYQT`, with response `Sandbox membership synchronized`.
+- Independently confirmed Supabase edge log `POST | 200 | /functions/v1/membership-test-webhook` at 23:28:33.749 UTC.
+- Independently queried `public.membership_subscriptions`: existing `sub_1Ub6xSKS41qhUQTKc7GWuQqT` is now `status='active'`, `livemode=false`, `stripe_price_id='price_1Ub4eYKS41qhUQTK2upRvWY9'`, `current_period_end=2026-12-12 22:59:03 GMT`, `updated_at=2026-11-12 23:28:33.668903 GMT`.
+- This proves the first **Stripe TEST subscription paid invoice -> signed webhook -> Supabase sandbox-only membership row** path succeeded, including correcting the prior incorrect `past_due` state. It does not entitle this test account to live-member access, nor certify renewals, cancellations, portal, email or production readiness.
+- Remaining: idempotency under concurrent checkouts, sandbox cancellation and renewal tests, payment failure simulation, portal testing, premium content gating and security/legal launch audit. Keep live billing disabled. Do not create another test subscription without justification.
