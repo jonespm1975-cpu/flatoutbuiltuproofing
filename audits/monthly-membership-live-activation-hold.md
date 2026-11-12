@@ -215,3 +215,11 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Stripe TEST portal configuration previously verified cancellation at period end and no plan changes or pauses. The portal Edge Function remains gated with `MEMBERSHIP_TEST_PORTAL_ENABLED` and was not enabled. No cancellation was scheduled or executed.
 - Remaining controlled tests: enable the **sandbox** portal flag only for a deliberate cancellation test, then cancel the existing TEST subscription and verify the signed `customer.subscription.updated` webhook and database `cancel_at_period_end`; confirm it remains test-only. No further test payment required.
 - No production changes, real payments or live billing activations in this audit.
+
+
+## Task 15 — Portal successfully opened, cancellation pending (12 November 2026, 23:35 GMT)
+- User reported setting `MEMBERSHIP_TEST_PORTAL_ENABLED=true` in Supabase.
+- Independently verified `membership-test-portal` v5 ACTIVE; Supabase edge logs show OPTIONS 204 at 23:35:40.061 UTC and POST 200 at 23:35:40.729 UTC, confirming successful portal session creation (not actual cancellation).
+- Stripe TEST billing portal configuration `bpc_1Ub5FvKS41qhUQTKmsaYiYKB`: active, livemode=false, subscription_cancel.enabled=true, mode=at_period_end, proration=none.
+- Stripe TEST subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT`: status active, cancel_at_period_end=false. Supabase row agrees active, livemode=false, cancel_at_period_end=false, period end 2026-12-12 22:59:03 GMT.
+- **Next:** user opens existing test management view, chooses Cancel subscription, confirms cancel at period end. Then verify Stripe subscription `cancel_at_period_end=true`, signed `customer.subscription.updated` delivery 200 to membership-test-webhook, matching Supabase flag, and no live changes. Do not create any payments.
