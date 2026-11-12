@@ -109,3 +109,11 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - The separate `sandbox_email_retry_queue` entry for the same session still reads `pending`, `attempts=0`, `provider_message_id=NULL`. Reconcile/close this stale entry only after checking whether it can trigger duplicate email attempts; do not re-send now.
 - Existing £1.99 membership sandbox functions and price are separate. No subscription event end-to-end test was conducted during this verification. Membership rows were zero at the earlier 22:22 audit. Do NOT infer membership checkout/fulfilment readiness from the successful £9.99 test-course confirmation.
 - No real charge was created, no live Stripe settings were modified, no production email retry was started. Live monthly billing remains on hold.
+
+
+## Task 9 — Email retry guard and security check — 2026-11-12
+- Read-only SQL join verified the sole sandbox email queue record remains `pending` / zero attempts but its matching purchase confirmation has `confirmation_email_status=sent`; the row is **ineligible** for a send according to the worker's rules. Avoid mutating it until a queue reconciliation procedure is designed and tested.
+- Reviewed deployed `purchase-email-retry-worker` v6: it is a dry-run inspector. It explicitly sets `sending_enabled=false`, `claiming_enabled=false`, and `scheduler_enabled=false`; no duplicate email is dispatched by this worker.
+- Rechecked `public.has_active_membership()`: requires auth.uid(), livemode=true, status=active and current_period_end > now(). Sandbox subscriptions cannot unlock production membership access through this function. Membership subscription row count remains zero.
+- Supabase security advisor: leaked-password protection disabled (WARN); enable using Supabase Auth dashboard settings when supported. Three INFO lint findings for tables with RLS enabled but no policies (`internal.live_purchase_email_outbox`, `public.purchase_confirmations`, `public.sandbox_email_retry_queue`). This is consistent with server-only tables, but privileges and security should be reviewed before modifying any policies.
+- No customer payments, emails, live billing changes, schema migrations, or production function deployments were initiated.
