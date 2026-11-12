@@ -29,3 +29,16 @@ Prepared 2026-11-12. This is a deployment checklist, not an active billing confi
 - Owner confirmed final customer-facing price £1.99 per month inclusive of applicable tax.
 - Created Stripe TEST recurring price `price_1Ub4eYKS41qhUQTK2upRvWY9` on test account `acct_1UaPRuKS41qhUQTK`, GBP 199 pence, monthly, `tax_behavior=inclusive`, verified via read-back. This is not a live price.
 - Live billing remains on hold. Sandbox subscription checkout, webhook signature secret, event processing and full end-to-end tests are not yet complete. No test charge was made.
+
+## Independent continuation audit — 2026-11-12
+- Stripe TEST price: price_1Ub4eYKS41qhUQTK2upRvWY9, 199p GBP, monthly, tax inclusive.
+- Stripe TEST webhook endpoint: we_1Ub4iGKS41qhUQTK172Hv2zX (separate from £9.99 one-off webhook).
+- Supabase membership-test-checkout deployed but gated by MEMBERSHIP_TEST_CHECKOUT_ENABLED=true.
+- Supabase membership-test-webhook v2 deployed but gated by MEMBERSHIP_TEST_WEBHOOK_SECRET and MEMBERSHIP_TEST_FULFILMENT_ENABLED=true.
+- Test membership rows have livemode=false; live has_active_membership() explicitly requires livemode=true, active status and unexpired period.
+- SQL negative test: wrong Stripe price was rejected; membership row count remained 0.
+- Browser members.html displays server-checked membership status, but this does not yet gate the entire premium site.
+- BLOCKED: The connected Supabase tools do not offer setting Edge Function secrets. The Stripe-generated signing secret must be securely added in Supabase project Edge Functions Secrets as MEMBERSHIP_TEST_WEBHOOK_SECRET. Never commit it to GitHub or paste it into chat.
+- Do not enable test fulfilment until signed webhook delivery and canonical subscription checks are verified.
+- Pending: sandbox end-to-end checkout, renewal, cancellation, payment failure, duplicate events, Stripe Customer Portal, Resend delivery and full server-side premium content gates.
+- Live billing remains on hold pending explicit owner approval.
