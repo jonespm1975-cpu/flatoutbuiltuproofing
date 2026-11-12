@@ -145,3 +145,11 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - SQL recheck confirmed `anon` and `authenticated` cannot execute privileged `apply_membership_test_event(jsonb)` function.
 - Attempted external live-page reachability check from current runtime, but network DNS resolution was unavailable. GitHub file contents were successfully read back; GitHub Pages deployment and first checkout remain unverified.
 - No test transaction, customer charge, billing configuration change, webhook replay, user entitlement grant, or email was initiated in this action. Keep live monthly billing disabled until final owner approval.
+
+
+## Sandbox checkout 503 diagnosis and code fix — 2026-11-12, 22:57 GMT onward
+- Operator attempted the new unlisted `membership-sandbox-test.html` page with all three consent checkboxes. The frontend showed `Sandbox checkout unavailable`; no real payment occurred.
+- Supabase function logs for `membership-test-checkout` showed POST 503 at 22:57:00 and 22:57:06 UTC. Stripe's checkout-session API reported: `Invalid line_items[0]: the product tax code is missing`. Stripe Managed Payments was enabled by default on the TEST account and requires an eligible product tax code.
+- As a strictly sandbox-only compatibility fix, redeployed `membership-test-checkout` version 5 adding `managed_payments:{enabled:false}` to its Stripe Checkout Session creation parameters. This is a **session-level test-only override**, not an account setting; it does not modify the Stripe product, recurring price, tax behavior or any live function.
+- Read-back verified version 5 is ACTIVE, contains the override, and retains Supabase authentication and `sk_test_` key checks. Membership row count remained 0 after deployment. No new simulated checkout was initiated by the assistant.
+- Next: operator may retry private test checkout with Stripe's test card. Inspect logs, then verify signed `membership-test-webhook` and Supabase test-only row. If Stripe reports another error, inspect exact error first. Do not activate live billing.
