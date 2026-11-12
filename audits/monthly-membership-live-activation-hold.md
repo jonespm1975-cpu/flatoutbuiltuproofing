@@ -188,3 +188,12 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Independently queried `public.membership_subscriptions`: existing `sub_1Ub6xSKS41qhUQTKc7GWuQqT` is now `status='active'`, `livemode=false`, `stripe_price_id='price_1Ub4eYKS41qhUQTK2upRvWY9'`, `current_period_end=2026-12-12 22:59:03 GMT`, `updated_at=2026-11-12 23:28:33.668903 GMT`.
 - This proves the first **Stripe TEST subscription paid invoice -> signed webhook -> Supabase sandbox-only membership row** path succeeded, including correcting the prior incorrect `past_due` state. It does not entitle this test account to live-member access, nor certify renewals, cancellations, portal, email or production readiness.
 - Remaining: idempotency under concurrent checkouts, sandbox cancellation and renewal tests, payment failure simulation, portal testing, premium content gating and security/legal launch audit. Keep live billing disabled. Do not create another test subscription without justification.
+
+
+## Next task: sandbox status visibility and cancellation readiness — 12 November 2026
+- Read-only Stripe inspection verified dedicated TEST portal configuration `bpc_1Ub5FvKS41qhUQTKmsaYiYKB` is `active=true`, `livemode=false`, subscription cancellation enabled with `mode='at_period_end'`, no proration, payment method update and invoice history enabled, pause and plan updates disabled.
+- Supabase record `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains `active`, `livemode=false`, `cancel_at_period_end=false`, period ends 2026-12-12 22:59:03 GMT. No changes were made to the subscription.
+- Added explicit sandbox status panel to `members.html`, commit `9753b77c4a92ba0461e2d20a72e0b95eda2e5e9d`. When visiting `members.html?membership_test=status` (or success/manage), signed-in user sees their RLS-filtered test status and period-end, always labeled TEST ONLY. The existing live `has_active_membership()` check and paid lesson access are unchanged.
+- Readback of GitHub file confirmed the panel and scoped query. Browser deployment and logged-in UI were not independently tested.
+- Portal Edge Function remains disabled by its separate server-side flag. No cancellation performed and no live payment settings modified.
+- Next: once sandbox portal enabled for controlled testing, test customer-initiated cancellation and signed webhook update; consider stronger concurrency/idempotency protections before production launch.
