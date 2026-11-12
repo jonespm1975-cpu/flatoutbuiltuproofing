@@ -205,3 +205,13 @@ Navigate Supabase project fhyhshakmvqwzdyannec -> Edge Function Secrets. Confirm
 - Read-only DB check confirmed the prior subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains active, sandbox-only, and not scheduled for cancellation.
 - **Limitations:** Stripe idempotency retention is not permanent; after pruning, a session with the same key can be newly created, and the already-existing DB row is the primary barrier once fulfilment synchronizes. Full production-grade protection should use a durable checkout-intent lock with expiry and ownership enforcement, plus cross-customer reconciliation. Also, a stale expired Checkout Session can be returned by idempotency within the retention window; handle this in future iterations.
 - No Checkout Session was created in verification, no payment charged, and no live Stripe changes.
+
+
+## Next audit: cancellation and membership security gates — 12 November 2026, 23:32+ GMT
+- Supabase Security Advisor read-only check returned one WARN: `auth_leaked_password_protection` is disabled. Enable through Supabase Auth security configuration after checking pricing/availability and testing sign-up/reset flows; **not altered** here.
+- Three RLS-with-no-policy INFO findings are for intentionally server-managed purchase email tables; verify service-only grants separately before opening any client access.
+- `public.membership_subscriptions` grants: `authenticated` has `SELECT` only, while `anon` has no listed access. RLS policy `Members view only own subscription` enforces `auth.uid()=user_id`; no client UPDATE/INSERT/DELETE permission.
+- `public.has_active_membership()` explicitly requires the signed-in user, `livemode=true`, `status='active'` and future `current_period_end`. The active sandbox membership cannot grant production membership entitlement.
+- Stripe TEST portal configuration previously verified cancellation at period end and no plan changes or pauses. The portal Edge Function remains gated with `MEMBERSHIP_TEST_PORTAL_ENABLED` and was not enabled. No cancellation was scheduled or executed.
+- Remaining controlled tests: enable the **sandbox** portal flag only for a deliberate cancellation test, then cancel the existing TEST subscription and verify the signed `customer.subscription.updated` webhook and database `cancel_at_period_end`; confirm it remains test-only. No further test payment required.
+- No production changes, real payments or live billing activations in this audit.
