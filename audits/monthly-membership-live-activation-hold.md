@@ -24,3 +24,8 @@ Prepared 2026-11-12. This is a deployment checklist, not an active billing confi
 
 ## Do not do
 - Do not create live subscription checkout links, enable live recurring charges, change existing webhook events or existing £9.99 checkout, or expose premium content until gates pass.
+
+## Sandbox progress — 2026-11-12
+- Owner confirmed final customer-facing price £1.99 per month inclusive of applicable tax.
+- Created Stripe TEST recurring price `price_1Ub4eYKS41qhUQTK2upRvWY9` on test account `acct_1UaPRuKS41qhUQTK`, GBP 199 pence, monthly, `tax_behavior=inclusive`, verified via read-back. This is not a live price.
+- Live billing remains on hold. Sandbox subscription checkout, webhook signature secret, event processing and full end-to-end tests are not yet complete. No test charge was made.
