@@ -1,12 +1,19 @@
 # Purchase-confirmation retry design and test plan
 
-Status: **Design only; not deployed or enabled.** No messages sent and no payment configuration changed.
+Status: **Sandbox database functions and read-only worker deployed; sending, claiming and scheduler remain disabled.** No messages sent and no payment configuration changed.
 
 ## Verified 12 November 2026
 - One purchase confirmation remains `pending` in Supabase.
 - Sandbox Stripe webhook v18 is active; it acknowledges entitlement after successful database writes even if email fails.
 - Production webhook remains unchanged.
 - No proof of Resend sender verification or email delivery.
+
+## Verified implementation progress (12 November 2026)
+- `purchase-email-retry-worker` v5 ACTIVE, service-role authenticated, read-only dry-run, with sandbox purchase/confirmation cross-checks. Endpoint invocation not yet verified; network access was unavailable in the testing environment.
+- `internal.claim_sandbox_email_retry_v2` uses `FOR UPDATE SKIP LOCKED`, a five-minute lease and unique claim tokens.
+- `internal.finish_sandbox_email_retry_v3` atomically updates queue and purchase-confirmation status on accepted/failure completion; service-role execute permission granted and anonymous/authenticated access revoked.
+- SQL transaction tests passed: claim/rollback, simulated failure/backoff, accepted/no-reclaim, invalid token rejection, missing provider ID rejection and duplicate completion rejection. All simulations rolled back; queue remains pending with zero attempts.
+- **Important:** The worker does not yet invoke claim/finish or send email; its function-contract metadata is not an execution path. Resend domain verification and live Stripe webhook decoupling remain unverified/incomplete.
 
 ## Safety requirements for implementation
 1. Separate durable email outbox from entitlement granting.
