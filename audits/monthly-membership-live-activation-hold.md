@@ -365,3 +365,30 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 - No videos or PDFs uploaded, no paid-content page or homepage modified, no subscriptions/payments/charge actions, no changes to £9.99 lifetime access or £1.99 cancellation schedule.
 - **Not yet end-to-end verified:** actual HTTP 401/403/404 status behaviour, secure upload, signed URL expiry and media playback. No recorded live course purchaser, so positive 200 with a live entitlement must wait for controlled authorised production testing.
 - **Production design limit:** links valid for 60 seconds once issued, including if a user signs out during that minute; media players often need range-request and expiry behaviour assessed for large files. For future large videos, adopt an appropriately secured streaming provider or short-lived renewable segment strategy, not a permanently public asset URL. Customer-owned source media and technical/licensing review required before uploads.
+
+
+## Task 22 — Sandbox payment-failure, renewal and expiry read-only test — 13 November 2026
+**Boundary:** read-only TEST Stripe API and Supabase SQL/code inspection; no Stripe objects or new charges created, no subscriptions or records updated, no changes to live billing, existing cancellation, or checkout flags.
+
+### Existing real TEST subscription: verified unchanged
+- Stripe subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` is `active`, `livemode=false`, `cancel_at_period_end=true`, `cancel_at=2026-12-12 22:59:03 GMT`, last invoice `in_1Ub6xPKS41qhUQTKYuPvcjg5` paid exactly 199 GBP pence, no remaining balance.
+- Supabase record matches active/test/cancel-at-period-end/expiry, with event timestamp `1794526609`. No writes.
+- Queried connected Stripe TEST events by type: **zero `invoice.payment_failed`**, **zero `customer.subscription.deleted`** and **one `customer.subscription.updated`** (the verified cancellation). Five `invoice.paid` events were present, but this is **not evidence of a renewal** for the existing membership; no renewal for it was observed.
+
+### Source and database security
+- Inspected active `membership-test-webhook` version 9: authenticated Stripe signature verification and TEST-only livemode gate, exact £1.99 monthly price, canonical Stripe subscription fetch, paid invoice verification, and handler list for `invoice.payment_failed`, `invoice.paid`, `customer.subscription.updated` etc.
+- Inspected `public.has_active_membership()` source: live mode true, active status, correct user, future period end required. Sandbox rows never grant live access.
+- Inspected `public.apply_membership_test_event(jsonb)` source: validates data, rejects mismatched owners/modes, ignores stale event timestamps, uses row lock/upsert. Independently verified execute privileges: `anon=false`, `authenticated=false`, `service_role=true`. No unauthorised client may directly grant membership via RPC.
+
+### Read-only SQL scenario tests
+- **14/14 scenario checks passed** in synthetic SQL predicates derived from deployed webhook's invoice and status checks: valid live current paid invoice; valid sandbox paid invoice (no live entitlement); failed/open invoice; uncollectible invoice; zero amount; wrong currency; partial paid; paid off Stripe; past_due, unpaid, cancelled, paused subscriptions; expired otherwise-active live membership; active subscription with bad invoice. The expected status/allow outcomes matched.
+- **5/5 synthetic event-order checks passed** against source-matched stale-event/owner/mode predicates: older ignored, same timestamp eligible to re-apply idempotently, newer accepted, cross-owner rejected and live-mode existing row rejected.
+- These tests **did not execute the real webhook or database RPC with synthetic events**, and thus are NOT proof of end-to-end renewal/failure/expiry processing.
+
+### Remaining Task 22 end-to-end tests
+1. Use a **separate** test customer/subscription and Stripe Test Clock or controlled isolated fixture to simulate one successful renewal, a failed renewal and subsequent recovery. Confirm signed webhook processing, invoice values, DB status and expiry.
+2. Test Stripe subscription `canceled` transition after the period end, with signed `customer.subscription.deleted` and Supabase synchronisation. The existing TEST subscription should be left untouched until its scheduled 12 December end.
+3. Verify webhook retries/out-of-order recovery with real signed events and live customer access gate using safe test accounts. Do not fabricate Stripe signatures, bypass RLS, or mutate the current member row directly.
+4. Check renewal email and subscriber notification workflow separately before live membership activation. Keep live billing disabled.
+
+Result: **Read-only protections passed; actual failed renewal and post-expiry lifecycle still unverified**.
