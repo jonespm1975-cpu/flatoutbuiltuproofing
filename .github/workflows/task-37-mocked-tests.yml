@@ -1,0 +1,21 @@
+name: Task 37 isolated payment mock tests
+on:
+  push:
+    paths:
+      - 'tests/task-36-actual-source-harness.cjs'
+      - 'tests/task-37-*.cjs'
+      - '.github/workflows/task-37-mocked-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-mocks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - run: node tests/task-36-actual-source-harness.cjs
