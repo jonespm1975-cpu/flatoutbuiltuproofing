@@ -1,0 +1,29 @@
+name: Task 70 actual-source sandbox webhook mock tests
+on:
+  push:
+    branches: [audit/task-67-sandbox-email-claim]
+    paths:
+      - 'tests/task-70-actual-source-webhook.cjs'
+      - 'supabase/functions/stripe-test-webhook/task67-candidate.ts'
+      - '.github/workflows/task-70-actual-source.yml'
+  pull_request:
+    paths:
+      - 'tests/task-70-actual-source-webhook.cjs'
+      - 'supabase/functions/stripe-test-webhook/task67-candidate.ts'
+      - '.github/workflows/task-70-actual-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mocked-actual-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned TypeScript compiler for offline mock execution
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Run webhook actual-source mock regression tests
+        run: node tests/task-70-actual-source-webhook.cjs
