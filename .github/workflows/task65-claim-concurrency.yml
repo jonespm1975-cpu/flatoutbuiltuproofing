@@ -1,0 +1,31 @@
+name: Task 65 isolated claim concurrency
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tests/task65_claim_concurrency.py'
+      - 'proposals/task-59-sandbox-single-session-claim.sql'
+      - '.github/workflows/task65-claim-concurrency.yml'
+jobs:
+  isolated-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: task65_disposable_only
+          POSTGRES_DB: task65_isolated
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d task65_isolated"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:task65_disposable_only@localhost:5432/task65_isolated
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'psycopg[binary]==3.2.3'
+      - run: python tests/task65_claim_concurrency.py
