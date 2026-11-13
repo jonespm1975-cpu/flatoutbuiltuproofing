@@ -318,3 +318,11 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 - Verified Supabase current password docs: leaked password protection is configured under **Authentication > Sign In / Providers > Email**, not necessarily the Attack Protection menu; **requires a Supabase Pro plan or above**. URL: https://supabase.com/dashboard/project/fhyhshakmvqwzdyannec/auth/providers?provider=Email.
 - Owner should inspect Email provider's password security section, save the setting if available, and report if the control is plan-restricted; avoid changing other authentication settings.
 - No billing/payment/credential or customer-account changes made.
+
+
+## Task 19 definitive billing-plan diagnosis — 13 November 2026 00:00 GMT
+- User attempted to enable Supabase Email `Prevent use of leaked passwords`; dashboard returned: `Failed to update auth configuration: Configuring leaked password protection via HaveIBeenPwned.org is available on Pro Plans and up.`
+- Independently inspected connected Supabase project `fhyhshakmvqwzdyannec`, organisation ID `uunjcltfooemvkhvgwsn`, name `Flat Out Built-Up Roofing.`. Connected organisation API conclusively returned `plan=free`, `tier=tier_free`. The project is active and healthy.
+- Security Advisor still warns `auth_leaked_password_protection` disabled at `2026-11-13T00:00:29.403Z`.
+- Root cause **verified**: leaked-password screening is a Supabase Pro feature, and **this specific project is in a Free-plan Supabase organisation**, regardless of a Pro plan on another service/account. Do not repeatedly retry or claim enabled. User may choose to upgrade the organisation in Supabase Billing, but no automatic plan upgrade or billing modification was made.
+- Screenshot showed min password length 12 and require-current-password enabled. Retain safe baseline and continue other auth tests; mark leaked password screening blocked by current organisation plan.
