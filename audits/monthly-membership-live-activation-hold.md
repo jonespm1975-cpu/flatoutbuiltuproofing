@@ -443,3 +443,12 @@ Result: **Read-only protections passed; actual failed renewal and post-expiry li
 3. Run signed live webhook dry/controlled tests and inspect deployment secrets without disclosure; never manufacture a paid grant without Stripe evidence.
 4. Finish UK legal/consumer, terms, privacy, accessibility and pricing review with owner approval.
 5. Verify genuine login, £9.99 course paid access, £1.99 monthly cancellation and renewals, mobile and rollback before lifting live checkout gates.
+
+
+## Task 24 continuation — Isolated live email monitoring function — 13 November 2026
+- Added a separate Edge Function `live-purchase-email-retry-audit`, **v1 ACTIVE**. It is **dry-run only**, not connected to Stripe webhook fulfilment and not scheduled. Existing `purchase-email-retry-worker` remains unchanged and sandbox-only.
+- The new function requires a Bearer token equal to the server-only `SUPABASE_SERVICE_ROLE_KEY` (never echoed or returned). It reads up to 100 live outbox rows, compares to purchase-confirmation `pending` vs `sent` state, and aggregates eligible, blocked, already-sent, active-leased, and exhausted attempts. It returns only counters, not customer emails, session IDs, provider IDs, payment data, tokens or raw rows.
+- Source independently retrieved and inspected after deployment: service-role header check present, `sending_enabled=false`, `claiming_enabled=false`, `scheduler_enabled=false`, no Resend HTTP call and no record `insert/update/upsert`.
+- Supabase SQL readback: `internal.live_purchase_email_outbox` currently **0 rows**, **0 pending**. Sandbox subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains `active`, `livemode=false`, `cancel_at_period_end=true`, expiry **2026-12-12 22:59:03 UTC**.
+- No HTTP call to this function with a privileged token was made, so actual endpoint return/authorization is **not end-to-end tested**; only deployed function source and DB state verified.
+- Important remaining: durable live webhook enqueue and safely-scheduled send worker, safe claim/finish transitions, verified Resend delivery and idempotency, end-to-end paid course fulfilment. Do not enable live checkout, customer emails or new payments until these are verified and approved.
