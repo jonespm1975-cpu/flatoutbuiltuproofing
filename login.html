@@ -202,11 +202,12 @@
               email,
               password: pass
             });
-          if (error) throw error;
+          if (error) { notify("Unable to sign in. Check your email and password, and confirm your email if required."); return; }
+          password.value = "";
           location.replace(safeNext(params.get("next")));
         }
       } catch (error) {
-        notify(error.message || "Something went wrong.");
+        notify(recoveryMode ? "Could not update your password. Confirm your recovery link is valid and try again." : signup ? "Could not create the account. Check the email and password requirements and try again." : "Unable to sign in at the moment. Please try again.");
       } finally {
         submitBtn.disabled = false;
       }
