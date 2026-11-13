@@ -14,7 +14,7 @@ AS $fn$
     JOIN public.purchase_confirmations c
       ON c.stripe_checkout_session_id = q.stripe_checkout_session_id
     WHERE q.stripe_checkout_session_id = p_session
-      AND p_session LIKE 'cs\\_test\\_%' ESCAPE '\\'
+      AND left(p_session, 8) = 'cs_test_'
       AND c.terms_version = 'sandbox-test'
       AND c.confirmation_email_status = 'pending'
       AND q.attempts < 5
