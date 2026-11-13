@@ -26,10 +26,10 @@ Deno.serve(async (req) => {
   const lessonId=Deno.env.get("STRIPE_LESSON_COURSE_ID");
   const expectedLink=Deno.env.get("STRIPE_PAYMENT_LINK_ID");
   const livePrice="price_1UaRJvKeIprRDTKxKDawW6ZG";
-  if (![stripeKey,url,serviceKey,lessonId].every(Boolean)) return new Response("Configuration incomplete",{status:503});
+  if (![stripeKey,url,serviceKey,lessonId,allowedPrice].every(Boolean) || !stripeKey?.startsWith("sk_live_") || allowedPrice!==livePrice || lessonId!=="beginner-training-course") return new Response("Configuration incomplete",{status:503});
   const userId=session.client_reference_id;
   if (!userId || !uuid.test(userId)) return new Response("Customer mapping missing",{status:422});
-  if (event.livemode!==true || session.mode!=="payment" || session.currency!=="gbp" || session.amount_total!==999 || session.metadata?.course_id!==lessonId || session.metadata?.supabase_user_id!==userId || session.metadata?.immediate_access_consent!=="true" || session.metadata?.cancellation_acknowledgement!=="true" || session.metadata?.terms_accepted!=="true" || !session.metadata?.consent_recorded_at || !session.metadata?.terms_version || session.payment_link) return new Response("Checkout mismatch",{status:422});
+  if (event.livemode!==true || session.livemode!==true || typeof session.id!=="string" || !session.id.startsWith("cs_live_") || session.mode!=="payment" || session.currency!=="gbp" || session.amount_total!==999 || session.metadata?.course_id!==lessonId || session.metadata?.supabase_user_id!==userId || session.metadata?.immediate_access_consent!=="true" || session.metadata?.cancellation_acknowledgement!=="true" || session.metadata?.terms_accepted!=="true" || !session.metadata?.consent_recorded_at || !session.metadata?.terms_version || !Number.isFinite(Date.parse(session.metadata.consent_recorded_at)) || session.payment_link) return new Response("Checkout mismatch",{status:422});
   try {
     const stripe=new Stripe(stripeKey!,{apiVersion:"2024-12-18.acacia"});
     const lineItems=await stripe.checkout.sessions.listLineItems(session.id,{limit:20});
@@ -38,7 +38,8 @@ Deno.serve(async (req) => {
     const {data:userResult,error:userError}=await admin.auth.admin.getUserById(userId);
     if (userError || !userResult.user) return new Response("Unknown customer",{status:422});
     const termsVersion=session.metadata?.terms_version;
-    if (!termsVersion || termsVersion==="sandbox-test" || termsVersion.includes("draft")) return new Response("Terms version missing or not approved",{status:422});
+    const approvedTermsVersion=Deno.env.get("APPROVED_TERMS_VERSION");
+    if (!approvedTermsVersion || !termsVersion || termsVersion!==approvedTermsVersion || termsVersion==="sandbox-test" || /draft/i.test(termsVersion)) return new Response("Terms version missing or not approved",{status:422});
     const {data:result,error:fulfilmentError}=await admin.rpc("fulfil_live_course_purchase_v4",{
       p_session:session.id,p_user:userId,p_course:lessonId!,
       p_amount:session.amount_total,p_currency:"gbp",

@@ -1,0 +1,10 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+const checkout=readFileSync(new URL("../audits/task-212-staged-stripe-live-checkout-NOT-DEPLOYED.ts",import.meta.url),"utf8");
+const webhook=readFileSync(new URL("../audits/task-190-proposed-stripe-webhook-v32-NOT-DEPLOYED.ts",import.meta.url),"utf8");
+test("checkout requires approved terms version",()=>{assert.match(checkout,/APPROVED_TERMS_VERSION/);assert.match(checkout,/terms_version:termsVersion/);assert.match(checkout,/draft/i)});
+test("checkout records three explicit consents and customer identity",()=>{for(const field of ["immediate_access_consent","cancellation_acknowledgement","terms_accepted","client_reference_id","supabase_user_id"]) assert.ok(checkout.includes(field),field)});
+test("checkout and webhook agree on price, course, and metadata",()=>{for(const field of ["terms_version","consent_recorded_at","immediate_access_consent","cancellation_acknowledgement","terms_accepted","course_id","supabase_user_id"]) assert.ok(checkout.includes(field)&&webhook.includes(field),field);assert.ok(checkout.includes("price_1UaRJvKeIprRDTKxKDawW6ZG"));assert.ok(webhook.includes("price_1UaRJvKeIprRDTKxKDawW6ZG"));});
+test("webhook verifies signature and does not directly send email",()=>{assert.match(webhook,/constructEventAsync/);assert.match(webhook,/fulfil_live_course_purchase_v4/);assert.doesNotMatch(webhook,/api\.resend\.com\/emails/);});
+test("live checkout and unlock remain gated",()=>{assert.match(checkout,/STRIPE_LIVE_CHECKOUT_ENABLED/);assert.match(webhook,/COURSE_UNLOCK_ENABLED/);});
