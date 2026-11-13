@@ -5,6 +5,10 @@ on:
     paths:
       - 'tests/task-69-*'
       - '.github/workflows/task-69-atomic-claims.yml'
+  pull_request:
+    paths:
+      - 'tests/task-69-*'
+      - '.github/workflows/task-69-atomic-claims.yml'
   workflow_dispatch:
 permissions:
   contents: read
