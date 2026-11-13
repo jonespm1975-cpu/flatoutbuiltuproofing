@@ -23,6 +23,6 @@ Scope: read-only Supabase inspection and rollback-only purchase-flow tests. No c
 5. Historical Stripe records require reconciliation without automatic backfill. The £11.99 test total is explained by tax-exclusive vs tax-inclusive test configuration, but 2 access records lack receipts and 1 receipt lacks access.
 6. Event `evt_1Ub6xTKS41qhUQTKCAsjwHU2` is a TEST subscription checkout with `pending_webhooks=1`; the matching membership row is active and set to cancel at period end. No replay was made; verify the correct destination in Stripe Workbench before any retry.
 7. Resend provider delivery is not independently verified; Supabase's `sent` state does not prove provider delivery or inbox receipt.
-8. No final owner go-live approval has been given for coordinated production activation.
+8. No production activation was performed in these checks. Keep any coordinated live change held until release gates close and the current explicit authorization is confirmed.
 
 No production resources were changed. Do not mark the release gates complete until the outstanding checks above are verified.
