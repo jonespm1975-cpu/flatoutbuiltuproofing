@@ -12,10 +12,11 @@ Purpose: finish the commercial-readiness checks in dependency order, while keepi
 ## Fastest dependency order
 
 ### 1. Owner actions — start these in parallel
-- [ ] Recover Stripe Workbench access with the passkey. Inspect event `evt_1Ub6xTKS41qhUQTKCAsjwHU2` and record its HTTP response. It is a TEST subscription Checkout event. The single pending endpoint is `stripe-test-webhook`; the membership endpoint does not subscribe to this event. Do not retry while the current no-replay instruction stands.
+- [ ] Recover Stripe Workbench access with the passkey. Inspect event `evt_1Ub6xTKS41qhUQTKCAsjwHU2` and record its HTTP response. It is a TEST subscription Checkout event; the only subscribed pending endpoint is `stripe-test-webhook`. Do not retry while the current no-replay instruction stands.
 - [ ] In Supabase Auth security, enable Leaked Password Protection if the setting is available on the Free plan, then verify the warning clears.
-- [ ] Approve the exact legal terms text/version and checkout consent wording. The staged purchase flow requires one approved `APPROVED_TERMS_VERSION`.
-- [ ] In Resend, check the existing message's provider delivery status. Do not resend while its status is unclear.
+- [ ] Complete legal decisions: data-retention/deletion periods, actual processors and transfer safeguards, marketing/cookies/gallery/age policy, compatibility/accessibility/support details, and exact checkout consent wording. The connected Drive search found no FOBUR legal source files.
+- [ ] Approve the final terms text/version. In `main`, terms, privacy, refunds and cookies remain marked DRAFT; privacy has unresolved owner placeholders. The purchase-information page says purchases are closed and its consent checkbox and checkout button are disabled.
+- [ ] In Resend, check the existing message's provider delivery status. Gmail search found no Resend delivery notice. Do not resend while its status is unclear.
 
 ### 2. Code and database work — continue in parallel
 - [ ] Keep the staged webhook change that separates purchase fulfilment from email delivery in review; live webhook v31 still calls Resend directly and can return 503 after access is recorded.
