@@ -1,0 +1,19 @@
+-- Task 155: isolated PostgreSQL concurrency test plan, NOT for production.
+-- Execute ONLY in a disposable clone with synthetic cs_test_ rows and two independent sessions.
+-- Install exact reviewed definitions of internal.claim_sandbox_email_retry_v2 and
+-- internal.finish_sandbox_email_retry_v3 after creating synthetic schema/tables.
+-- Two-session execution requires a real PostgreSQL server, not a single SQL transaction.
+-- Session A: BEGIN; SELECT * FROM internal.claim_sandbox_email_retry_v2(1); -- keep transaction open
+-- Session B (simultaneously): BEGIN; SELECT * FROM internal.claim_sandbox_email_retry_v2(1);
+-- Expected: B skips row locked by A and returns zero rows immediately.
+-- Session A: COMMIT; Session B: COMMIT;
+-- Then both sessions race to claim an eligible different synthetic fixture.
+-- Expected: one winner per row; no duplicate claim tokens.
+-- Test wrong token, expired token, and correct token with provider ID:
+-- SELECT internal.finish_sandbox_email_retry_v3('cs_test_SYNTHETIC', '00000000-0000-4000-8000-000000000001', true, 'email_synthetic');
+-- Assert false for wrong token and no queue or receipt modification.
+-- Assert false for accepted=true with null provider ID.
+-- Assert true once for correct unexpired token; subsequent calls false.
+-- For failed-send retries assert attempts increments and bounded exponential delay;
+-- after 5 attempts status failed; receipt stays pending.
+-- Each test should use BEGIN/ROLLBACK or a fresh disposable DB. NEVER target actual customer rows.
