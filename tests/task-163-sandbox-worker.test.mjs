@@ -1,0 +1,16 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {processClaim} from './task-163-sandbox-worker.mjs';
+const claim={session_id:'cs_test_abc',claim_token:'token'};
+function fixture(overrides={}){let sent=0,finished=[];const db={getReceipt:async()=>({terms_version:'sandbox-test',confirmation_email_status:'pending',...overrides.receipt}),getQueue:async()=>({status:'leased',lease_token:'token',lease_until:new Date(Date.now()+60000).toISOString(),...overrides.queue}),finish:async x=>{finished.push(x);return overrides.finishResult??true}};const resend={send:async()=>{sent++;return overrides.result??{ok:true,body:{id:'re_1234567'}}}};return {db,resend,sent:()=>sent,finished};}
+test('accepted provider ID committed',async()=>{let f=fixture();assert.deepEqual(await processClaim({claim,db:f.db,resend:f.resend}),{status:'accepted',providerId:'re_1234567'});assert.equal(f.finished[0].providerId,'re_1234567')});
+test('missing claim blocked',async()=>{let f=fixture();assert.equal((await processClaim({claim:null,db:f.db,resend:f.resend})).status,'blocked');assert.equal(f.sent(),0)});
+test('non sandbox session blocked',async()=>{let f=fixture();assert.equal((await processClaim({claim:{...claim,session_id:'cs_live_abc'},db:f.db,resend:f.resend})).status,'blocked')});
+test('already sent receipt blocked',async()=>{let f=fixture({receipt:{confirmation_email_status:'sent'}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'blocked');assert.equal(f.sent(),0)});
+test('wrong terms blocked',async()=>{let f=fixture({receipt:{terms_version:'live'}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'blocked')});
+test('wrong lease token blocked',async()=>{let f=fixture({queue:{lease_token:'other'}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'blocked')});
+test('expired lease blocked',async()=>{let f=fixture({queue:{lease_until:'2020-01-01T00:00:00Z'}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'blocked')});
+test('pending queue blocked',async()=>{let f=fixture({queue:{status:'pending'}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'blocked')});
+test('provider rejection finalizes failure',async()=>{let f=fixture({result:{ok:false}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'rejected');assert.equal(f.finished[0].accepted,false)});
+test('timeout requires reconciliation no finish',async()=>{let f=fixture({result:{uncertain:true}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'needs_reconciliation');assert.equal(f.finished.length,0)});
+test('missing provider id requires reconciliation',async()=>{let f=fixture({result:{ok:true,body:{}}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'needs_reconciliation');assert.equal(f.finished.length,0)});
+test('invalid provider id requires reconciliation',async()=>{let f=fixture({result:{ok:true,body:{id:'bad id'}}});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'needs_reconciliation')});
+test('failed DB commit requires reconciliation',async()=>{let f=fixture({finishResult:false});assert.equal((await processClaim({claim,db:f.db,resend:f.resend})).status,'needs_reconciliation')});
