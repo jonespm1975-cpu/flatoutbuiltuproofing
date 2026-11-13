@@ -5,7 +5,7 @@ import pg from "pg";
 import assert from "node:assert/strict";
 const { Client } = pg;
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL required");
-const clients = [new Client({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}}),new Client({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}})];
+const clients = [new Client({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:true}}),new Client({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:true}})];
 const key = "26720261113";
 try {
   await Promise.all(clients.map(c=>c.connect()));
