@@ -38,7 +38,8 @@ Deno.serve(async (req) => {
     const {data:userResult,error:userError}=await admin.auth.admin.getUserById(userId);
     if (userError || !userResult.user) return new Response("Unknown customer",{status:422});
     const termsVersion=session.metadata?.terms_version;
-    if (!termsVersion || termsVersion==="sandbox-test" || /draft/i.test(termsVersion)) return new Response("Terms version missing or not approved",{status:422});
+    const approvedTermsVersion=Deno.env.get("APPROVED_TERMS_VERSION");
+    if (!approvedTermsVersion || !termsVersion || termsVersion!==approvedTermsVersion || termsVersion==="sandbox-test" || /draft/i.test(termsVersion)) return new Response("Terms version missing or not approved",{status:422});
     const {data:result,error:fulfilmentError}=await admin.rpc("fulfil_live_course_purchase_v4",{
       p_session:session.id,p_user:userId,p_course:lessonId!,
       p_amount:session.amount_total,p_currency:"gbp",
