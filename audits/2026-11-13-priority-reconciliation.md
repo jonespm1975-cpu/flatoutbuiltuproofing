@@ -35,3 +35,13 @@ This note records the four requested checks. No Stripe event was retried, no ema
 ## Remaining user action
 
 Approve the Google sign-in prompt on the device (“Yes”, then **72**) so Resend's provider-side message status can be checked. Recover Stripe passkey access separately before opening Workbench delivery details.
+
+## Isolated webhook-path validation — 13 November 2026
+
+- Confirmed deployed live webhook remains v31 and still performs a direct Resend POST; no production function or checkout setting was changed.
+- Read deployed live checkout v12: it does not write `terms_version` into Stripe session metadata. The atomic fulfilment RPC requires that field, so the proposed replacement webhook would reject a real checkout until the checkout and legal-terms version are coordinated.
+- Confirmed database RPC `public.fulfil_live_course_purchase_v4` exists and its receipt INSERT trigger enqueues a pending live outbox row.
+- Ran a rollback-only SQL assertion through the RPC with a unique synthetic `cs_live_` session: it wrote one pending receipt and exactly one pending outbox job inside the transaction, preserved the pre-existing entitlement identifier, and completed without email/provider calls. Rolled back; follow-up query found zero receipt and zero outbox jobs for that synthetic session.
+- Static checks of the proposed, undeployed webhook v32 passed: it contains no Resend key or send endpoint; it calls the atomic RPC, returns 200 after durable fulfilment, and returns retryable 503 when the RPC fails. This validates the source contract plus the database transaction path, not a signed Stripe end-to-end HTTP event.
+- No Supabase development branches exist. None was created because branch creation may incur compute costs and the project is being kept on its Free plan.
+- Remaining gate: resolve how the current published terms version is supplied by checkout, then run the full edge-function test in a genuinely disposable environment before deploying any coordinated live code. The proposed webhook and current live checkout remain unchanged.
