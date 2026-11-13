@@ -404,3 +404,42 @@ Result: **Read-only protections passed; actual failed renewal and post-expiry li
 - Independently verified the existing Stripe TEST subscription record in Supabase stays `active`, `livemode=false`, `cancel_at_period_end=true`, `current_period_end=2026-12-12 22:59:03 UTC`. Its cancellation schedule was not changed.
 - Remaining Task 23: test actual simultaneous requests and recoverable expired leases in a dedicated disposable test account, audit Stripe TEST Checkout Sessions for abandoned/duplicate sessions, reconcile webhook-created subscriptions with Stripe source of truth, and design production-ready cancellation/duplicate remediation without suppressing legitimate Stripe billing records.
 - Nothing changed in LIVE membership checkout, LIVE payment provider settings, £9.99 lifetime courses, homepage, customer accounts or paid entitlement rows.
+
+
+## Priority tasks 24–29 — consolidated audit and safe reconciliation (13 November 2026)
+**User mandate:** complete all safe priority work immediately; preserve live customer billing, no charges or unsolicited email, keep homepage and existing sandbox cancellation. Read-only live Stripe queries and Supabase inspection plus one narrowly scoped sandbox queue reconciliation performed.
+
+### Task 24 — purchase email / Resend and retries
+- Supabase `purchase-email-retry-worker` **v10 ACTIVE** is a *dry-run only* endpoint: `sending_enabled:false`, `claiming_enabled:false`, `scheduler_enabled:false`. It processes no emails; cannot be marked a functioning production retry worker.
+- Existing internal `live_purchase_email_outbox` structure supports status/attempts/lease scheduling/provider ID; it had **zero rows**. `purchase_confirmations` contained **one sandbox receipt, marked `confirmation_email_status='sent'`**, **zero live receipts**.
+- `sandbox_email_retry_queue` contained exactly **one stale `pending` row** for `cs_test_...`, attempts 0 and past due. Its own linked receipt independently reported `sent` and `terms_version='sandbox-test'`. A guarded SQL UPDATE changed only this row's queue status to `accepted` (and cleared no-active lease/error fields); no new email sent, no payments or receipt records modified. Update returned exactly one row, status `accepted`.
+- No direct Resend account connector was available in this check, so `sent` is a **Supabase recorded status**, not an independent Resend delivery verification. Actual inbox receipt and sender credentials remain unverified.
+- **Live webhook v31** requires successful email dispatch and receipt status update before returning HTTP 200, returning HTTP 503 otherwise. Stripe retries can recover transient failures, but independent production retry worker is not yet deployed/verified and provider acceptance can occur before DB receipt status commit. Email outage resilience and exactly-once email delivery remain not launch-ready.
+- Do **not** deploy an untested live webhook flow change or enable automated email sends on unknown accounts. Implement a durable outbox, atomic claims, safe idempotency and verified sender/inbox tests before lifting launch hold.
+
+### Task 25 — live Stripe webhook readiness (read-only)
+- The **live Stripe account** `acct_1UT8NBKeIprRDTKx` returned one enabled webhook event destination subscribing to `checkout.session.completed` and `checkout.session.async_payment_succeeded`. This confirms configuration exists, **not** successful signed-event delivery.
+- All **14 returned live Checkout Sessions** were `expired`, `unpaid`, `livemode=true`. The Stripe response indicated no more sessions for that query. No successful live Checkout was verified. Newest events were expirations, payment-link updates and price creation; not proof of paid fulfilment.
+- Live `stripe-webhook` v31 checks signed Stripe events, `COURSE_UNLOCK_ENABLED` feature gate, `cs_live` mode and £9.99 line item, owner auth mapping, consent and payment status before course access. The gate's actual secret value was **not exposed**, so do not assert enabled/disabled.
+- Existing live webhook has no complete end-to-end verified paid checkout + paid lesson unlock + Resend confirmation flow. Keep commercial activation **on hold** pending explicit controlled test and review.
+
+### Task 26 — UK legal audit
+- Fetched live-repository `terms.html`, `privacy.html` and `refunds.html` and verified they explicitly say **DRAFT / owner review required**. These contain supplied operator identity/contact, training-safety caveats and digital-delivery notices, but privacy retention periods, legal bases, provider processing/transfers, accessibility/compatibility, email consent and final cancellation process remain unresolved.
+- Avoid false claims that legal documentation is final, or that UK cancellation/VAT compliance is automatically guaranteed. Legal reviewer and owner must approve before customer sales.
+
+### Tasks 27–28 — paid live courses and £1.99 live membership
+- `stripe-live-checkout` v12 is deployed but has an explicit `STRIPE_LIVE_CHECKOUT_ENABLED` gate and requires valid account, opt-in delivery/cancellation terms and `sk_live_` when used. The gate's actual value was not verified. No new Checkout Session or customer charge made.
+- Only **TEST** £1.99 recurring checkout/webhook/portal paths have been audited; *not* evidence of production-ready recurring subscription/renewal/refunds/tax/receipts. Do not claim production membership billing enabled or fully tested.
+- Sandbox membership subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` independently remains active, `livemode=false`, `cancel_at_period_end=true`, expires **12 December 2026 at 22:59:03 UTC**. Unchanged.
+
+### Task 29 — final launch hold
+- Security Advisor still shows Free-tier `auth_leaked_password_protection` warning and four `rls_enabled_no_policy` informational findings on service-only tables (do not add customer policies). No newly reported critical advisor finding.
+- Actual mobile browser login/recovery, paid/unpaid HTTP access gates, signed live webhook delivery, live email inbox acceptance, renewal failure and 14-day UK contract confirmation tests remain outstanding. The website may be publicly viewable, but **do not equate this with a verified safe commercial launch**.
+- No homepage redesign, no live Stripe settings mutation, no real payments, and no customer email was sent in these actions.
+
+### Next gated implementation work
+1. Run a controlled Resend sender/recipient email test (with appropriate recipient consent) and verify delivery/status.
+2. Implement and test live email outbox/worker in sandbox or dry-run before any production dispatch, decoupling paid access from mail availability without losing durable confirmation obligation.
+3. Run signed live webhook dry/controlled tests and inspect deployment secrets without disclosure; never manufacture a paid grant without Stripe evidence.
+4. Finish UK legal/consumer, terms, privacy, accessibility and pricing review with owner approval.
+5. Verify genuine login, £9.99 course paid access, £1.99 monthly cancellation and renewals, mobile and rollback before lifting live checkout gates.
