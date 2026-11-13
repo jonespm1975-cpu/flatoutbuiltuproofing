@@ -4,6 +4,13 @@
 import { supabase, requireUser } from './auth.js';
 const status = document.querySelector('#status');
 const account = document.querySelector('#account');
+function concealPaidContent() {
+ const panel=document.querySelector('#paidContent');
+ panel.hidden=true;
+ document.querySelector('#paidTitle').textContent='';
+ document.querySelector('#paidSections').replaceChildren();
+ document.querySelector('#lessons').replaceChildren();
+}
 async function loadPaidLesson() {
  const panel=document.querySelector('#paidContent');
  const {data:sessionData,error:sessionError}=await supabase.auth.getSession();
@@ -21,9 +28,10 @@ async function loadPaidLesson() {
 }
 
 supabase.auth.onAuthStateChange((event) => {
-  if (event === 'SIGNED_OUT') { account.hidden = true; location.replace('login.html'); }
+  if (event === 'SIGNED_OUT') { concealPaidContent(); account.hidden = true; location.replace('login.html'); }
 });
 document.querySelector('#logout').onclick = async () => {
+  concealPaidContent();
   account.hidden = true;
   const { error } = await supabase.auth.signOut();
   if (error) { status.textContent = 'Could not sign out. Please try again.'; account.hidden = false; }
@@ -95,5 +103,5 @@ try {
     account.hidden = false;
   }
 } catch (error) { status.textContent = error.message || 'Unable to check access. Please reload.'; }
-window.addEventListener('pageshow', event => { if (event.persisted) { account.hidden = true; location.reload(); } });
+window.addEventListener('pageshow', event => { if (event.persisted) { concealPaidContent(); account.hidden = true; location.reload(); } });
 </script></body></html>
