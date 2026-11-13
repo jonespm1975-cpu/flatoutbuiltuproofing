@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import {strict as assert} from 'node:assert';
+import {validateCourseConsent as check,CONSENT_VERSION as v,membershipCancellation} from './checkout-consent.mjs';
+const ok={productType:'one_time_digital_course',immediateSupply:true,acknowledgesLoss:true,termsAccepted:true,consentVersion:v};
+test('explicit complete course consent passes',()=>assert.equal(check(ok).allowed,true));
+for(const key of ['immediateSupply','acknowledgesLoss','termsAccepted']) test('unchecked '+key+' blocks',()=>assert.equal(check({...ok,[key]:false}).allowed,false));
+test('wrong product blocks',()=>assert.equal(check({...ok,productType:'membership'}).allowed,false));
+test('stale consent text blocks',()=>assert.equal(check({...ok,consentVersion:'old'}).allowed,false));
+test('missing consent blocks',()=>assert.equal(check({}).allowed,false));
+test('cancellation at paid-period end',()=>assert.deepEqual(membershipCancellation({currentPeriodEnd:1799999999,cancelAtPeriodEnd:true}),{valid:true,accessEndsAt:1799999999}));
+test('immediate cancellation not approved',()=>assert.equal(membershipCancellation({currentPeriodEnd:1799999999,cancelAtPeriodEnd:false}).valid,false));
