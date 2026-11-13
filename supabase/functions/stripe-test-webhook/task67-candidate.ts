@@ -104,7 +104,7 @@ Deno.serve(async (req) => {
       "Terms: https://flatoutbuiltuproofing.co.uk/terms.html",
       "Cancellation information: https://flatoutbuiltuproofing.co.uk/refunds.html",
       "This email is a technical test, not a tax invoice or live purchase receipt."
-    ].join("\\n");
+    ].join("\n");
     try {
       const sent=await fetch("https://api.resend.com/emails",{
         method:"POST",
@@ -132,6 +132,5 @@ Deno.serve(async (req) => {
       console.error("Ambiguous sandbox email transport failure; reconcile before retry",String(e));
       return new Response("Sandbox access granted; email reconciliation pending",{status:200});
     }
-    return new Response("Sandbox access granted and test confirmation processed",{status:200});
   } catch(e) {console.error("Grant processing failed",String(e));return new Response("Temporary failure",{status:503});}
 });
