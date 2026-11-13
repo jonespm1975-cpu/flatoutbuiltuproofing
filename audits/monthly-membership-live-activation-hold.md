@@ -326,3 +326,32 @@ Evaluated the **exact boolean entitlement predicate** using synthetic in-query v
 - Security Advisor still warns `auth_leaked_password_protection` disabled at `2026-11-13T00:00:29.403Z`.
 - Root cause **verified**: leaked-password screening is a Supabase Pro feature, and **this specific project is in a Free-plan Supabase organisation**, regardless of a Pro plan on another service/account. Do not repeatedly retry or claim enabled. User may choose to upgrade the organisation in Supabase Billing, but no automatic plan upgrade or billing modification was made.
 - Screenshot showed min password length 12 and require-current-password enabled. Retain safe baseline and continue other auth tests; mark leaked password screening blocked by current organisation plan.
+
+
+## Task 20 — Non-destructive Auth flow / redirects / session security verification (13 November 2026)
+**Project and billing constraints:** Supabase organisation stays Free. No signup, reset email, password change, session revocation, payment creation, live-billing change, or Stripe test subscription cancellation modification.
+
+### Read-only findings
+- Current website `auth.js` uses the **Supabase publishable** key and `auth.getUser()`, with `requireUser()` excluding anonymous identities. Login uses Supabase Auth `signInWithPassword`, `signUp`, `resetPasswordForEmail`, `PASSWORD_RECOVERY` and `updateUser`, with email/recovery redirects to `https://flatoutbuiltuproofing.co.uk/login.html`.
+- `safeNext()` uses a strict allowlist (`members.html`, `sandbox-checkout.html`), default `members.html`. Reviewed 9 candidate redirects (including external https URL, protocol-relative URL, path traversal, JavaScript URL, query-parameter injection and empty value): all mapped to expected allowed/default destinations in source-based logic tests. **No live browser redirect interaction was executed**.
+- Verified via Supabase SQL: `course_access`, `lesson_access` and `membership_subscriptions` have RLS and authenticated owner-only SELECT policies; anon SELECT denied; authenticated INSERT/UPDATE denied.
+- Supabase Security Advisor continues to warn leaked-password screening disabled; the project organisation is confirmed Free, so Pro-only protection cannot be enabled on its present plan.
+- Attempted a direct unauthenticated GET to `https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/paid-lesson-content` with container curl: DNS resolution failed (HTTP 000, curl 6). **Do not claim the 401/403 endpoint behavior was HTTP-tested**.
+- Supabase sandbox subscription `sub_1Ub6xSKS41qhUQTKc7GWuQqT` remains `active`, `livemode=false`, `cancel_at_period_end=true`, period ends `2026-12-12 22:59:03 UTC`.
+
+### Safe GitHub fixes
+1. `login.html`, commit `060d88ffcc1fd1fc2836a7cf20b37a14485d9914`: generic invalid-sign-in response, non-specific signup/password recovery errors, cleared password field on successful sign-in. Preserved 12-character minimum for new or reset passwords and allowed pre-existing password sign-in.
+2. `members.html`, commit `abeff3a4300b728ae4a8f2fb318038ab60b3053d`: added `concealPaidContent()` to hide/remove previously rendered paid lesson and title/list on signout, on logout request and when page restored from browser history cache. Existing authenticated server-side lesson gating unchanged.
+3. `sandbox-checkout.html`, commit `6596e72c7ca234e8f6b2f1c7d3139b3945612d55`: prohibit anonymous authenticated identities from entering the owner £9.99 sandbox checkout frontend (server protections remain authoritative).
+
+### Verification completed
+- Fetched all updated GitHub files back. Confirmed markers: strict allowlist, signed-in non-anonymous user requirement, signup/recovery password min-length, generic reset response with catch/finally, logout/history paid-content concealment, live-only production lesson listing and sandbox anonymous-user rejection.
+- 9 static/source-based redirect-path scenario checks passed; this was **not** a dynamic browser or production endpoint test.
+- Database membership and RLS permissions independently checked; no record mutations.
+
+### Task 20 still outstanding
+- Real browser login/signup/confirmation/password-recovery tests with a consenting non-production test account and a valid email inbox; validate redirect allowlist on iPhone/Android.
+- Authenticated unpaid and wrong-account paid lesson HTTP 403, no-token/expired-token HTTP denial, signed-in purchaser positive control, and logout re-entry tests. These require a controllable browser/client and appropriate test identities, and must not be bypassed by manually issuing entitlements.
+- Check Supabase Auth Dashboard `URL Configuration`, `Sessions`, `Rate Limits`, `Multi-Factor` and confirmation settings directly; connected tools do not expose these project-level Auth settings. Do not infer defaults from docs.
+- Check email confirmation/password reset delivery without sending unsolicited emails or changing live mail configuration.
+- Leaked-password protection stays an open improvement requiring Supabase Pro; no upgrade without approval.
