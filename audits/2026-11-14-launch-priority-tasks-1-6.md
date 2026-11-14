@@ -99,3 +99,9 @@
 - Current 24-hour Supabase function-edge logs contain no stripe-test-webhook or membership-test-webhook requests, so the new branch has not been runtime-confirmed for this event. No retry was made.
 - The Stripe API read interface exposes event retrieval but no event-redelivery operation. Dashboard access was attempted; after passkey selection, the browser sign-in flow crossed to accounts.google.com. Automatic approval review rejected observation of that separate personal-auth origin because the Stripe task did not authorize Google-account access. No further browser interaction or sign-in workaround was attempted.
 - Next verification remains a single Dashboard resend to stripe-test-webhook only, followed by checking for HTTP 200 and confirming no course grant was created. Do not send this subscription Checkout event to membership-test-webhook; the current routing and course endpoint subscription-ignore branch are the verified intended path.
+
+## Supabase reconciliation for sandbox membership Checkout — 14 November 2026
+
+- Matched the subscription ID embedded in the pending Stripe Test Mode Checkout event to one `public.membership_subscriptions` row using read-only SQL.
+- Supabase records the subscription as `active`, `livemode=false`, on the expected £1.99 test price, with `cancel_at_period_end=true`; its current period ends 12 December 2026 at 22:59 UTC. The row's `last_stripe_event_created` is later than the Checkout event timestamp, consistent with subsequent membership lifecycle processing.
+- This confirms the test subscription exists and its cancellation is scheduled, but it does not acknowledge the still-pending `checkout.session.completed` delivery to `stripe-test-webhook`. No subscription or course-access record was modified.
