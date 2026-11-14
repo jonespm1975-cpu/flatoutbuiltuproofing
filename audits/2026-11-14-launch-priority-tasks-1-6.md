@@ -299,3 +299,18 @@ Read-only follow-up for the six launch items. No payments or Checkout Sessions w
 6. **Controlled live checkout:** not run. Effective enablement cannot be read, no authenticated live session was created, and a completed test requires a user-authorized real payment. Do not treat source review or a test-mode receipt as proof of a live purchase journey.
 
 **Disposition:** keep live sales closed, leave legal pages as drafts, and do not enable the email worker until its protected invocation, secrets and owner-recipient test are verified. Remaining gates require owner-confirmed privacy/tax facts, a complete course/accessibility review, genuine isolated concurrency infrastructure, verified live secrets/flags, and the user's own controlled live payment followed by readback.
+
+
+## Four launch tasks — follow-up review, 14 November 2026
+
+This follow-up was read-only. No emails, retries, payments, checkout sessions, legal publication, or live setting changes were made.
+
+1. **Owner purchase confirmation and retry path:** The latest Supabase read shows the owner-address test receipt is still pending, queue status pending, zero attempts, and no provider message ID or error. It is Test Mode. Sandbox retry worker v10 remains hard-coded dry-run with claiming, sending and scheduling disabled. Resend tools are not exposed in this session, so provider delivery and the retry path cannot be verified end to end. The wife’s delivered test email is not evidence of owner delivery. No retry or email send was performed.
+
+2. **Live Checkout and tax:** Read-only Stripe state confirms the code-referenced live price is an active, one-time GBP 9.99 Price with inclusive tax behavior. Stripe Tax reports active settings with exclusive default behavior, but no tax registrations are listed; checkout source does not enable automatic tax. The live checkout function’s enablement secret cannot be read through the connected tools. This confirms the listed price configuration, not that effective checkout is enabled or that the seller’s tax treatment is compliant. Owner previously stated they are not VAT registered; cross-border digital sales and tax obligations still need qualified confirmation. No settings changed.
+
+3. **Terms, privacy and refunds:** All three pages remain drafts. Privacy still has concrete placeholders and unknowns for retention periods, processors/transfers, lawful bases, age policy, marketing/cookies and security practices. Terms/refunds contain unverified merchant-of-record wording and need final operational/consumer review. These cannot be truthfully completed or published without the missing facts and final review. No pages changed.
+
+4. **Paid content and accessibility:** The production paid-content function v16 requires JWT-authenticated non-anonymous users and a matching live (cs_live_) course-access grant. The served paid lesson currently contains six concise sections and a knowledge check; this source alone does not establish a complete paid course. Tapered-insulation page source contains eight-module curriculum, diagrams, a calculator and a three-question quiz. Static review found semantic landmarks and heading structure, SVG/image alternatives, labels/fieldset legends, visible keyboard-focus rules in the linked stylesheet, and reduced-motion handling. This is a source-level check only; runtime, keyboard, screen-reader, contrast and mobile testing remain unverified.
+
+**Disposition:** These four items are not all cleared for launch. The owner email/retry, effective live checkout state/tax treatment, legal review, and full paid-course/accessibility verification remain open.
