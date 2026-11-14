@@ -76,3 +76,11 @@
 - Stripe lists a second active one-time GBP 9.99 Price for the same product with `tax_behavior=unspecified`. It is not the Price referenced by the current checkout source. No Price was changed or deactivated.
 - Live Stripe Tax settings report `status=active`, default tax behavior `exclusive`, and default tax code `txcd_20060258`; the returned GB head-office address has no postal code, and the account has no tax registrations. The checkout's referenced Price is inclusive, so it overrides the default behavior. Tax settings and registrations were not changed; owner/qualified tax review remains necessary before launch.
 - No live payment, Checkout Session, Price or tax setting was changed.
+
+## Fresh test-mode customer journey source review — 14 November 2026
+
+- Read deployed stripe-test-checkout v24: authenticated non-anonymous account and all three explicit consent values are required; it reserves idempotently, only creates a cs_test_ Session, and avoids replacing a Session whose result is uncertain.
+- Read deployed stripe-test-webhook v29: verifies Stripe signatures, rejects live events, explicitly acknowledges subscription-mode Checkout Sessions without treating them as course purchases, and queues eligible course receipts without calling Resend.
+- Read deployed paid-lesson-content v16, paid-course-media-link v1, and repository members.html: production lesson text, private media links, and My Learning course listings all require cs_live_ grants. A cs_test_ grant deliberately does not unlock production paid content. A separate sandbox lesson-content route was not found in the reviewed page/source.
+- Read-only database counts remain 2 course access rows and 2 sandbox receipts; one sandbox receipt and one actionable email queue row remain pending. These counts do not establish provider delivery or successful current-version signed-webhook processing.
+- No runtime tests, Stripe retries, checkout creation, email sends, access changes, or live configuration changes were performed. A separate non-production demonstration flow is needed to prove sandbox-paid access without weakening the live-only content gate. Resend provider status remains unverified; a Resend connector is not exposed among the available tools in this session.
