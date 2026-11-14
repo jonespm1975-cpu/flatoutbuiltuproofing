@@ -38,6 +38,6 @@ LIMITATIONS (DO NOT CLAIM THESE ARE LIVE):
 - Community public chat needs a connected moderated service and suitable privacy safeguards.
 - Gallery photos must be supplied with permission and manually reviewed. The current email link opens the owner's email client; it is not a server upload form.
 - No real sponsor logos or paid endorsements are present.
-- Legal pages are drafts requiring operator verification.
+- Legal pages were updated on 14 November 2026 to describe the verified site and data flows. No independent solicitor review has been completed; keep the published details current.
 - No £9.99 courses or payment access were changed.
 - Real-world GitHub Pages deployment and all external URLs must be verified after upload.
