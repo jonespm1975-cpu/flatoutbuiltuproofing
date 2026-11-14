@@ -85,3 +85,11 @@
 - It shows a delivery attempt at **12 November 2026 23:58:20 UTC** for `checkout.session.completed`, with delivery status **Failed**, HTTP **422**, and response body **“Checkout mismatch”**. The page reports all delivery attempts failed.
 - The event payload visible in Workbench identifies a paid Test Mode Checkout Session in subscription mode, matching the previously verified £1.99 monthly membership. This confirms at least this specific 422 belongs to the membership event previously misclassified by the course endpoint; it was not a one-time course checkout.
 - This is a historical failed attempt. No resend or new test was performed. The deployed course test webhook includes a subscription-mode ignore branch; successful handling by the current version remains unverified until a later authorized delivery check.
+
+
+## Purchase-confirmation reconciliation — 14 November 2026
+
+- Read-only Supabase query found two sandbox purchase receipts. The recent £11.99 receipt is `pending`; its sandbox queue row is `pending`, attempts **0**, with no provider message ID or error. The older £9.99 receipt says `sent`; its queue row says `accepted`, attempts **0**, also with no provider message ID or error. These database labels do not establish that either message reached the recipient.
+- Gmail search for recent Flat Out Built-Up Roofing purchase/course confirmation returned only a project progress-backup email; no matching purchase confirmation appeared.
+- Resend event/status access is unavailable through the connected tools in this session. Provider acceptance and inbox delivery remain unverified; no email was sent or resent.
+- No database rows or email settings were changed.
