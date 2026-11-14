@@ -123,3 +123,11 @@
 2. Confirm which providers/features are actually active (including analytics, advertising, marketing and cookies), their data locations/transfers, learner age policy and security practices.
 3. Complete final consumer/privacy/tax review, then implement and test the affirmative digital-content consent and durable purchase confirmation before opening sales.
 4. Connect to Resend's provider activity/status view to reconcile the pending receipt before any resend.
+
+
+## Follow-up: pending membership Checkout event — 14 November 2026
+
+- Fresh Test Mode Stripe API retrieval confirms `evt_1Ub6xTKS41qhUQTKCAsjwHU2` remains `pending_webhooks=1`. Its embedded Checkout Session is complete and paid (£1.99 GBP), has `mode=subscription`, and metadata `membership=monthly-learning`, `mode=test`; it is not a course purchase.
+- Stripe API operation discovery returned no event-redelivery/write operation for this endpoint. Stripe's Workbench documentation says sandbox events can be manually retried from the event destination's **Event deliveries** page after automatic retries; the available integration here does not expose that UI action.
+- No retry, payment, checkout, live change, email, or database mutation was performed. The next step requires the Dashboard: Test Mode → Workbench → Webhooks → `stripe-test-webhook` → Event deliveries → find this event → resend to this destination only; then verify HTTP 200 and confirm no course access was granted for this subscription event.
+- Source and prior routing review still show the event belongs on the subscription-ignoring course endpoint only for acknowledgement in this test; do not resend it to the membership endpoint.
