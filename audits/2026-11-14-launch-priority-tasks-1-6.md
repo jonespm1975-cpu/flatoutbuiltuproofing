@@ -188,3 +188,11 @@
 - Privilege readback shows anon and authenticated cannot execute either function; service_role can. No privilege was changed.
 - Supabase lists no development branches for this project. The connected SQL interface cannot establish that concurrent calls used two independent simultaneous database connections, and no real claim/finish calls were made against production queue rows. Therefore genuine concurrency remains unverified despite the source-level locking and privilege checks.
 - No email, payment, queue mutation, function deployment, or database setting change was performed. A genuinely isolated two-connection harness is still required to close this test.
+
+
+## Isolated concurrency test environment check — 14 November 2026
+
+- Read the saved task_176_test_plan.sql. It explicitly requires a disposable Supabase-compatible clone, synthetic auth user, rollback-only fixtures, and two independent terminal sessions; it forbids execution against live Supabase.
+- Supabase currently has no development branches. The available local runtime has no Docker/Podman or PostgreSQL client/server binaries, so this workspace cannot provide the required isolated database or two-session harness.
+- The test plan concerns live purchase-fulfilment RPC behavior; no such SQL was executed against production. No database, queue, payment, email, deployment, or plan setting was changed.
+- The concurrency test remains blocked until an isolated PostgreSQL/Supabase-compatible environment is available. Preserve the Free plan and do not create a billable branch without explicit approval.
