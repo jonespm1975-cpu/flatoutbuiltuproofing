@@ -196,3 +196,26 @@
 - Supabase currently has no development branches. The available local runtime has no Docker/Podman or PostgreSQL client/server binaries, so this workspace cannot provide the required isolated database or two-session harness.
 - The test plan concerns live purchase-fulfilment RPC behavior; no such SQL was executed against production. No database, queue, payment, email, deployment, or plan setting was changed.
 - The concurrency test remains blocked until an isolated PostgreSQL/Supabase-compatible environment is available. Preserve the Free plan and do not create a billable branch without explicit approval.
+
+
+## Ten-priority parallel verification batch — 14 November 2026, 21:xx UTC
+
+Scope: independent read-only checks of the existing launch blockers. No checkout or payment created, no event resent, no email sent, no production setting or subscription changed, and no database writes performed.
+
+1. Stripe Test Mode membership event `evt_1Ub6xTKS41qhUQTKCAsjwHU2`: current API readback now reports `pending_webhooks=0`; existing £1.99 subscription Checkout Session is paid and complete.
+2. Stripe Test Mode course event `evt_1UaR5FKS41qhUQTK9ekgoE4b`: current API readback now reports `pending_webhooks=0`; existing one-time Checkout Session is paid and complete (£9.99 subtotal, £11.99 total including sandbox tax).
+3. Destination routing: enabled `stripe-test-webhook` is subscribed to Checkout completion/async success; `membership-test-webhook` is subscribed to subscription and invoice lifecycle events. No endpoint configuration was changed.
+4. Course fulfilment reconciliation: a read-only exact-session query found one `course_access` row and one `purchase_confirmations` row for the paid course session. No `lesson_access` row is expected from this checkout flow.
+5. Membership isolation: earlier exact-session read found no course/access receipt rows for the subscription-mode session; it is handled by the acknowledged subscription-ignore branch and does not create course access.
+6. Function delivery log: the existing course-event delivery has a matching HTTP 200 at 21:04:55 UTC from deployed `stripe-test-webhook` v29. The membership event’s HTTP 200 at 20:57:11 UTC was already independently recorded above.
+7. Email queue/provider: existing course confirmation remains pending with no provider message ID; Gmail has no matching receipt, and Resend status cannot be queried with the currently connected tools. No send or resend was attempted.
+8. Retry worker and concurrency: sandbox email worker v10 is dry-run only with sending, claiming, and scheduling disabled. Source-level claim uses `FOR UPDATE SKIP LOCKED` with service-role-only execution, but a real isolated two-connection concurrency test remains blocked (no Supabase branch or local Postgres/Docker runtime).
+9. Live/tax safety: Stripe Live tax settings were read only; status is active, default behavior exclusive, and account tax/address information is incomplete in the returned configuration. No live setting or payment was changed; owner/qualified tax review remains required.
+10. Launch/legal/provider readiness: repository legal and purchase pages remain drafts with owner-confirmation/review items. Google Drive had no project legal files; Resend provider status is unavailable. No legal publication or email-provider substitution was made.
+
+### Next blockers
+
+- Reconcile the pending sandbox confirmation in Resend activity before considering any email retry.
+- Run the concurrency plan only in a disposable Supabase-compatible environment with two independent sessions; keep the current Supabase Free plan.
+- Complete owner-confirmed privacy/cookie/consumer terms and qualified tax review before commercial launch.
+- Verify the effective live checkout flag and complete a final consent-to-access journey only after the above launch gates are satisfied; do not enable live billing as part of this audit.
