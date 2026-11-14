@@ -257,3 +257,11 @@ Read-only research to progress the tax and legal gates; no website or payment se
 - ICO small-organisation guidance says a privacy notice should identify collected data, purposes, lawful bases, recipients, retention, rights, and contact details. ICO cookie guidance requires clear information and active consent for non-essential storage/access technologies before they are used. The actual data-retention and cookie/vendor inventory still require confirmation from the owner. [ICO privacy notice guidance](https://ico.org.uk/for-organisations/advice-for-small-organisations/privacy-notices-and-cookies/how-to-write-a-privacy-notice-and-what-goes-in-it); [ICO cookie guidance](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/).
 
 These references clarify the review criteria but do not replace individualized legal/tax advice or the missing operational facts. No legal pages were published, no VAT registration or tax configuration was changed, and no Checkout Session was created.
+
+
+## Resend dashboard evidence matched to sandbox receipt — 14 November 2026
+
+- Read-only inspection of the user's Resend Emails dashboard found a **Delivered** message with subject `[TEST ONLY] Flat Out Built-Up Roofing sandbox course confirmation`. Its message body identifies Checkout Session `cs_test_a0caswbXc3HIkD4VZJRQ7ZZ3W6dT5TICnhxcb0PZ0v1gYUOhHT5v00Ssye` and explicitly labels it a TEST MODE purchase.
+- Read-only Supabase lookup for that exact session confirms one receipt marked `sent` at 2026-11-12 22:28:36 UTC and its queue row `accepted`. This reconciles the older session's provider-delivery discrepancy. The queue row does not store a Resend provider message ID.
+- The separate, newer session `cs_test_a0TY2kMZoZpfg5ceI4lrSvnknG6ihGgkVhrpseYkvr6eHAyOWtnL5PHt5u` remains receipt `pending` / queue `pending`, attempts 0, no provider ID, created 2026-11-14 18:56 UTC. It does not match the Resend message opened above; the screenshot's delivered message is not evidence for this newer receipt.
+- No email was sent or resent; no queue/database row changed. Reconcile the newer session only after its exact message is found in Resend (or establish that no provider submission exists, then follow the already-approved safe process).
