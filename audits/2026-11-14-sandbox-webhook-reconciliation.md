@@ -77,3 +77,11 @@
 - Read-only session reconciliation found zero `course_access`, `purchase_confirmations`, and `sandbox_email_retry_queue` rows keyed to this membership Checkout Session. This is consistent with the event being a subscription checkout rather than a one-time course purchase.
 - Supabase function-edge logs for the checked 13–14 November window returned no `stripe-test-webhook` log rows. A separate POST 200 to `membership-test-webhook` at 14 November 00:04:30 UTC had no event ID and cannot be matched to this Checkout event.
 - No payment, event replay, email send, live setting, subscription, or database record was changed. Workbench delivery status remains unverified; resume after interactive Stripe passkey sign-in.
+
+
+## Stripe Workbench screenshot evidence — 14 November 2026, 20:12 UTC
+
+- The supplied Stripe Sandbox Workbench screenshot is for the correct `stripe-test-webhook` destination and event `evt_1Ub6xTKS41qhUQTKCAsjwHU2`.
+- It shows a delivery attempt at **12 November 2026 23:58:20 UTC** for `checkout.session.completed`, with delivery status **Failed**, HTTP **422**, and response body **“Checkout mismatch”**. The page reports all delivery attempts failed.
+- The event payload visible in Workbench identifies a paid Test Mode Checkout Session in subscription mode, matching the previously verified £1.99 monthly membership. This confirms at least this specific 422 belongs to the membership event previously misclassified by the course endpoint; it was not a one-time course checkout.
+- This is a historical failed attempt. No resend or new test was performed. The deployed course test webhook includes a subscription-mode ignore branch; successful handling by the current version remains unverified until a later authorized delivery check.
