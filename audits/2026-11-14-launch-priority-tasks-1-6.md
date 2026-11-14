@@ -147,3 +147,11 @@
 - Supabase function-edge logs independently confirm a Stripe POST to `/functions/v1/stripe-test-webhook` returned **HTTP 200** at 20:57:11 GMT, handled by deployed function version **29**.
 - Read-only Supabase checks after delivery found zero matching `course_access`, `lesson_access`, and `purchase_confirmations` rows for this Checkout Session. The subscription event was acknowledged without granting course access.
 - No payment was created and no database rows, live settings, or subscription settings were changed. The failed 422 was the earlier historical attempt; the manual retry after v29 deployment succeeded.
+
+
+## Next pending Test Mode course Checkout event — 14 November 2026
+
+- Stripe API readback confirms `evt_1UaR5FKS41qhUQTK9ekgoE4b` remains pending (`pending_webhooks=1`). It is a paid Test Mode one-time course Checkout Session: £9.99 subtotal, £11.99 total (including test tax), for `beginner-training-course`.
+- Supabase currently has one matching course-access row and one purchase receipt for the exact session. Its sandbox email queue row remains pending, attempts 0, with no provider message ID or stored error. No email has been sent.
+- Read deployed `stripe-test-webhook` v29: course access, receipt persistence, and queue creation use conflict-safe idempotent upserts; the handler does not send email. Re-delivery to the subscribed Test Mode `stripe-test-webhook` destination should not duplicate the existing access/receipt, and would only ensure the pending confirmation is queued.
+- The owner previously authorized retrying the existing 11 November course event to `stripe-test-webhook` only. Do not send it to the membership or live endpoint. No retry was made in this step; Dashboard resend is still required.
