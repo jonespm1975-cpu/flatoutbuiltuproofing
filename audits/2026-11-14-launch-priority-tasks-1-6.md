@@ -138,3 +138,12 @@
 - Read-only lookup of the exact Stripe Checkout Session `cs_test_a04ZHXq0Z9NAXC09vZaAkXHgZcpxLDfy56fZLBqYbISkbnyNoAVGnvlhpu` found zero matching rows in `course_access`, `lesson_access`, and `purchase_confirmations`.
 - Its linked sandbox membership row remains active, `livemode=false`, and `cancel_at_period_end=true`, with period end 12 December 2026 22:59 UTC. This is consistent with a paid test subscription and confirms this Checkout Session did not grant a course or create a course purchase confirmation.
 - No database rows were changed. The Stripe delivery itself is still pending; this check does not replace the required Workbench retry/HTTP 200 verification.
+
+
+## Successful manual retry of pending sandbox subscription event — 14 November 2026
+
+- Stripe Workbench shows the manual resend of `evt_1Ub6xTKS41qhUQTKCAsjwHU2` to the Test Mode `stripe-test-webhook` destination as **Delivered**, attempt time 14 November 2026 20:57:11 GMT.
+- Fresh Stripe API read now reports `pending_webhooks=0`. The event is still the paid GBP 1.99 `checkout.session.completed` subscription-mode session; it was not a course purchase.
+- Supabase function-edge logs independently confirm a Stripe POST to `/functions/v1/stripe-test-webhook` returned **HTTP 200** at 20:57:11 GMT, handled by deployed function version **29**.
+- Read-only Supabase checks after delivery found zero matching `course_access`, `lesson_access`, and `purchase_confirmations` rows for this Checkout Session. The subscription event was acknowledged without granting course access.
+- No payment was created and no database rows, live settings, or subscription settings were changed. The failed 422 was the earlier historical attempt; the manual retry after v29 deployment succeeded.
