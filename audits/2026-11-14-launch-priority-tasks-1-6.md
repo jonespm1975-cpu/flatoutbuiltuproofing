@@ -164,3 +164,11 @@
 - Supabase function-edge logs independently confirm HTTP **200** from deployed `stripe-test-webhook` version **29** at 21:04:55 GMT.
 - Post-retry database read confirms exactly one matching course-access row and one receipt. The sandbox email queue remains `pending`, attempts 0, with no provider message ID and no stored error. The webhook did not send email; provider delivery remains unverified.
 - No payment was created and no live settings or subscription state was changed.
+
+
+## Email reconciliation after successful course webhook retry — 14 November 2026
+
+- After Stripe confirmed the existing course event was delivered and Supabase confirmed the single course-access grant and receipt, a read-only check found the receipt's email queue still pending: 0 attempts, no lease, no provider message ID, and no recorded error. The next-attempt time is past.
+- Gmail search found no matching purchase-confirmation message. This does not distinguish a message never submitted from provider acceptance without delivery.
+- Resend provider activity cannot be checked from this session: plugin discovery returned no Resend connector, and no Resend tool is exposed. No substitute mail provider was used.
+- No email was sent or resent, and no queue/database state was changed. Reconcile the existing message in Resend's activity view once that provider connection is available; decide on a retry only after checking for an existing provider message.
