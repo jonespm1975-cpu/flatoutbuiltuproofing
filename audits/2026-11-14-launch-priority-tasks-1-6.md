@@ -180,3 +180,11 @@
 - Read-only queue/receipt join returned two sandbox rows: one pending receipt/queue eligible by sandbox-test terms and cs_test_ prefix, with 0 attempts, no lease, provider ID or error; and one older receipt marked sent with queue status accepted but no provider message ID. The pending row's scheduled attempt time is in the past.
 - The current database state is consistent with no automatic email processing path being active; it does not establish whether Resend accepted either message. The worker's dry-run code cannot deliver or claim queued work, and no scheduler is enabled.
 - No email, queue mutation, live configuration change, or payment was made. To progress safely, first inspect the existing pending item in Resend provider activity; do not enable the sender or retry until the provider connection is available and its message history has been checked.
+
+
+## Read-only sandbox email concurrency source and privilege check — 14 November 2026
+
+- Read the installed definitions of internal.claim_sandbox_email_retry_v2 and internal.finish_sandbox_email_retry_v3. The claim function selects due eligible rows with FOR UPDATE SKIP LOCKED, increments attempts, and applies a five-minute lease. The finish function validates the cs_test_ prefix, matching live lease token, pending sandbox receipt, and requires a provider ID before recording acceptance.
+- Privilege readback shows anon and authenticated cannot execute either function; service_role can. No privilege was changed.
+- Supabase lists no development branches for this project. The connected SQL interface cannot establish that concurrent calls used two independent simultaneous database connections, and no real claim/finish calls were made against production queue rows. Therefore genuine concurrency remains unverified despite the source-level locking and privilege checks.
+- No email, payment, queue mutation, function deployment, or database setting change was performed. A genuinely isolated two-connection harness is still required to close this test.
