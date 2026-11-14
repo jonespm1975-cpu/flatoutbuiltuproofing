@@ -314,3 +314,14 @@ This follow-up was read-only. No emails, retries, payments, checkout sessions, l
 4. **Paid content and accessibility:** The production paid-content function v16 requires JWT-authenticated non-anonymous users and a matching live (cs_live_) course-access grant. The served paid lesson currently contains six concise sections and a knowledge check; this source alone does not establish a complete paid course. Tapered-insulation page source contains eight-module curriculum, diagrams, a calculator and a three-question quiz. Static review found semantic landmarks and heading structure, SVG/image alternatives, labels/fieldset legends, visible keyboard-focus rules in the linked stylesheet, and reduced-motion handling. This is a source-level check only; runtime, keyboard, screen-reader, contrast and mobile testing remain unverified.
 
 **Disposition:** These four items are not all cleared for launch. The owner email/retry, effective live checkout state/tax treatment, legal review, and full paid-course/accessibility verification remain open.
+
+## UK VAT treatment confirmation — 14 November 2026
+
+The owner confirmed that turnover will not exceed £90,000. For this conclusion, that is treated as total taxable turnover across the sole trade, including roofing and course sales, and no expectation of exceeding the threshold in the next 30 days. The owner has previously confirmed they are not VAT registered.
+
+- Customer-facing purchase-info.html already states that the seller is not VAT registered and does not charge VAT. Its wording is consistent with the owner's confirmation for UK domestic sales; no website copy change was needed.
+- Fresh Stripe Live reads show the checkout-referenced £9.99 one-time Price is active and tax-inclusive; Stripe Tax settings are active with an exclusive default, but there are no tax registrations. The deployed live checkout v12 does not enable automatic_tax. With no registration and no automatic calculation, the current checkout does not collect UK VAT.
+- HMRC guidance treats fully automated, self-paced prerecorded learning as an electronically supplied digital service. UK digital services are generally subject to VAT when the seller is required to register; the owner confirms turnover will stay below the stated £90,000 threshold and is not registered.
+- No Stripe price, tax setting, live checkout configuration or customer-facing page was changed. This confirms the current UK domestic approach on the owner-provided turnover assumption. Overseas consumer sales may have separate local VAT obligations and are not confirmed here.
+
+References: HMRC digital services guidance https://www.gov.uk/guidance/the-vat-rules-if-you-supply-digital-services-to-private-consumers and VAT registration threshold https://www.gov.uk/register-for-vat?type=3.
