@@ -67,3 +67,13 @@
 - The outbox currently has **zero rows**. The live webhook still sends through Resend inline after recording access/receipt. On an inline send failure the receipt remains pending and a live outbox item is available for the worker, but webhook acknowledgement still returns 503.
 - The live delivery worker requires both live email feature switches and an authenticated invocation; it has no scheduler. I did not change the webhook or enable the worker. Switching webhook acknowledgement before a verified worker invocation path exists could strand confirmations in the queue.
 - Safe cutover prerequisite: confirm an operational scheduler/worker invocation path and validate it with controlled non-customer data, then deploy the webhook change behind a default-off rollout flag. No live settings, emails, payments, or customer records were changed in this review.
+
+
+## Fresh read-only check — 14 November 2026, 19:57 UTC
+
+- Stripe Test Mode readback retrieved `evt_1Ub6xTKS41qhUQTKCAsjwHU2`: `checkout.session.completed`, `livemode=false`, subscription mode, paid, GBP 199 pence, `pending_webhooks=1`. This read confirms event/session facts, but the API response does not include individual delivery attempts or endpoint response bodies.
+- Stripe Test Mode webhook endpoint readback confirms `stripe-test-webhook` is enabled for Checkout Session completion events. The separate `membership-test-webhook` is enabled for subscription and invoice lifecycle events, not Checkout Session completion. The pending Checkout delivery therefore requires inspection at `stripe-test-webhook`; no retry was performed.
+- Supabase membership readback found the matching subscription as active, Test Mode, and set to cancel at period end, with period end 12 December 2026 22:59:03 UTC.
+- Read-only session reconciliation found zero `course_access`, `purchase_confirmations`, and `sandbox_email_retry_queue` rows keyed to this membership Checkout Session. This is consistent with the event being a subscription checkout rather than a one-time course purchase.
+- Supabase function-edge logs for the checked 13–14 November window returned no `stripe-test-webhook` log rows. A separate POST 200 to `membership-test-webhook` at 14 November 00:04:30 UTC had no event ID and cannot be matched to this Checkout event.
+- No payment, event replay, email send, live setting, subscription, or database record was changed. Workbench delivery status remains unverified; resume after interactive Stripe passkey sign-in.
