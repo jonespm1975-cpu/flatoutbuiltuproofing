@@ -131,3 +131,10 @@
 - Stripe API operation discovery returned no event-redelivery/write operation for this endpoint. Stripe's Workbench documentation says sandbox events can be manually retried from the event destination's **Event deliveries** page after automatic retries; the available integration here does not expose that UI action.
 - No retry, payment, checkout, live change, email, or database mutation was performed. The next step requires the Dashboard: Test Mode → Workbench → Webhooks → `stripe-test-webhook` → Event deliveries → find this event → resend to this destination only; then verify HTTP 200 and confirm no course access was granted for this subscription event.
 - Source and prior routing review still show the event belongs on the subscription-ignoring course endpoint only for acknowledgement in this test; do not resend it to the membership endpoint.
+
+
+## Supabase entitlement check for pending membership event — 14 November 2026
+
+- Read-only lookup of the exact Stripe Checkout Session `cs_test_a04ZHXq0Z9NAXC09vZaAkXHgZcpxLDfy56fZLBqYbISkbnyNoAVGnvlhpu` found zero matching rows in `course_access`, `lesson_access`, and `purchase_confirmations`.
+- Its linked sandbox membership row remains active, `livemode=false`, and `cancel_at_period_end=true`, with period end 12 December 2026 22:59 UTC. This is consistent with a paid test subscription and confirms this Checkout Session did not grant a course or create a course purchase confirmation.
+- No database rows were changed. The Stripe delivery itself is still pending; this check does not replace the required Workbench retry/HTTP 200 verification.
