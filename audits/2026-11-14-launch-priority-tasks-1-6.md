@@ -219,3 +219,18 @@ Scope: independent read-only checks of the existing launch blockers. No checkout
 - Run the concurrency plan only in a disposable Supabase-compatible environment with two independent sessions; keep the current Supabase Free plan.
 - Complete owner-confirmed privacy/cookie/consumer terms and qualified tax review before commercial launch.
 - Verify the effective live checkout flag and complete a final consent-to-access journey only after the above launch gates are satisfied; do not enable live billing as part of this audit.
+
+
+## Five next launch-priority blockers rechecked — 14 November 2026
+
+Read-only follow-up. No payment, Checkout Session, email, database write, live setting change, or deployment was performed.
+
+1. **Sandbox email provider reconciliation — still blocked.** Searched plugin availability for Resend provider activity/status; the results did not expose a Resend connector. The sandbox confirmation remains pending in the prior queue read, so no retry was attempted.
+2. **Isolated concurrency proof — still blocked.** Supabase branch list is empty. No local PostgreSQL/Docker/Podman runtime was available in the earlier environment check. The source-level SKIP LOCKED/privilege review remains evidence of implementation only, not a real two-connection test. No production queue operation was used as a test.
+3. **Legal/customer terms — still draft.** Re-read privacy, terms, and refunds pages. They retain draft/owner-review notices. The privacy notice has remaining operational data-practice details to confirm; checkout/digital-delivery and consumer wording still needs final owner/legal review. No legal wording was invented or published.
+4. **Tax readiness — no safe change available.** The latest verified Stripe Live tax readback remains active with incomplete account tax/address information and no registrations. Qualified review is still required; no tax behavior, registration, or billing setting was changed.
+5. **Live checkout readiness — configuration cannot be proven active.** Re-read deployed `stripe-live-checkout` v12: it denies requests unless `STRIPE_LIVE_CHECKOUT_ENABLED=true`, a live Stripe key and Supabase configuration exist, the user is authenticated, and terms/immediate-access/cancellation consents are affirmative. The connected tools do not expose the effective secret values or provide a safe authenticated end-to-end run here. No Checkout Session was created and no live setting was enabled.
+
+### Disposition
+
+These five gates have been rechecked, but remain open where external provider access, isolated test infrastructure, owner-confirmed facts, or qualified review is required. Keep live launch on hold until they are cleared. Existing sandbox Stripe event deliveries remain resolved as recorded in the prior section.
