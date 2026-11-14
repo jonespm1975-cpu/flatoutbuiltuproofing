@@ -105,3 +105,21 @@
 - Matched the subscription ID embedded in the pending Stripe Test Mode Checkout event to one `public.membership_subscriptions` row using read-only SQL.
 - Supabase records the subscription as `active`, `livemode=false`, on the expected £1.99 test price, with `cancel_at_period_end=true`; its current period ends 12 December 2026 at 22:59 UTC. The row's `last_stripe_event_created` is later than the Checkout event timestamp, consistent with subsequent membership lifecycle processing.
 - This confirms the test subscription exists and its cancellation is scheduled, but it does not acknowledge the still-pending `checkout.session.completed` delivery to `stripe-test-webhook`. No subscription or course-access record was modified.
+
+
+## Cross-plugin legal and purchase-readiness review — 14 November 2026
+
+- Re-read `terms.html`, `refunds.html`, `privacy.html`, `purchase-info.html`, and `cookies.html` from the repository. All five still contain draft/warning or disabled-checkout language. No legal page was published or changed.
+- The customer-facing purchase preview remains £9.99 per lesson, but checkout is explicitly unavailable and its immediate-digital-supply consent control is disabled. This agrees with the earlier sandbox-only/launch-hold record; it is not a live checkout confirmation.
+- Privacy notice retains unresolved owner decisions for data retention, actual processors and transfer safeguards, lawful bases, marketing/cookie practices, age arrangements, and security processes. Cookie notice still requires the actual cookie/vendor inventory and consent controls. Terms/refunds still require final operational, accessibility, delivery and consumer-law review.
+- Google Drive search returned no project legal/purchase documents to reconcile. Sites listed no Sites projects for this account; the website is tracked in this GitHub Pages repository, so no Site deployment was created or changed.
+- Gmail searches found no purchase-confirmation or Resend delivery/status message. The only Resend-origin result was the account welcome email; this does not establish provider acceptance or inbox delivery. No email was sent.
+- Stripe account listing confirms separate Live and Test Mode accounts are available. No Stripe settings or events were changed or retried.
+- This was a read-only review. No website pages, deployments, payment settings, subscriptions, emails or database records were changed.
+
+### Remaining owner / provider inputs
+
+1. Confirm real retention periods and deletion processes for accounts, enquiries/submissions, transaction records and security logs.
+2. Confirm which providers/features are actually active (including analytics, advertising, marketing and cookies), their data locations/transfers, learner age policy and security practices.
+3. Complete final consumer/privacy/tax review, then implement and test the affirmative digital-content consent and durable purchase confirmation before opening sales.
+4. Connect to Resend's provider activity/status view to reconcile the pending receipt before any resend.
