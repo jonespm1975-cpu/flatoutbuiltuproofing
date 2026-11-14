@@ -172,3 +172,11 @@
 - Gmail search found no matching purchase-confirmation message. This does not distinguish a message never submitted from provider acceptance without delivery.
 - Resend provider activity cannot be checked from this session: plugin discovery returned no Resend connector, and no Resend tool is exposed. No substitute mail provider was used.
 - No email was sent or resent, and no queue/database state was changed. Reconcile the existing message in Resend's activity view once that provider connection is available; decide on a retry only after checking for an existing provider message.
+
+
+## Sandbox email worker safety and queue reconciliation — 14 November 2026
+
+- Re-read deployed purchase-email-retry-worker version 10. It explicitly reports mode=sandbox-dry-run, sending_enabled=false, claiming_enabled=false, scheduler_enabled=false, and action=none; it only inspects queue/receipt eligibility. No request was sent to the worker.
+- Read-only queue/receipt join returned two sandbox rows: one pending receipt/queue eligible by sandbox-test terms and cs_test_ prefix, with 0 attempts, no lease, provider ID or error; and one older receipt marked sent with queue status accepted but no provider message ID. The pending row's scheduled attempt time is in the past.
+- The current database state is consistent with no automatic email processing path being active; it does not establish whether Resend accepted either message. The worker's dry-run code cannot deliver or claim queued work, and no scheduler is enabled.
+- No email, queue mutation, live configuration change, or payment was made. To progress safely, first inspect the existing pending item in Resend provider activity; do not enable the sender or retry until the provider connection is available and its message history has been checked.
