@@ -59,3 +59,11 @@
 2. Connect or open Resend so the existing pending sandbox message can be reconciled from provider events before any resend.
 3. Confirm actual customer-data retention, cookie/marketing behavior and age policy for the privacy notice, and obtain final legal/tax review.
 4. Keep live checkout and membership launch on hold until the above checks pass and the owner explicitly approves live billing.
+
+
+## Fresh live email cutover review — 14 November 2026
+
+- Read back deployed `stripe-webhook` **v31** and `live-purchase-email-delivery-worker` **v1**. The live webhook grants course access and records the receipt, then calls Resend inline; provider/configuration failure can still return HTTP 503 after access has been granted.
+- Worker v1 requires the exact service-role bearer authorization and **both** `LIVE_PURCHASE_EMAIL_WORKER_ENABLED=true` and `LIVE_PURCHASE_EMAIL_SENDING_ENABLED=true`. It reports scheduling disabled in its response. I did not invoke it or inspect secret values.
+- Read-only database checks found **zero** live outbox rows, **zero** pending live receipts, `pg_cron` not installed, and no `cron.job` relation. Recent function-edge log query returned no matching live webhook/worker/audit calls; this is not a runtime delivery test.
+- Cutover remains blocked: no verified protected invocation schedule exists, and changing the webhook’s acknowledgement behavior without one could strand confirmations. No live code, secrets, settings, email, payments, or database rows were changed.
