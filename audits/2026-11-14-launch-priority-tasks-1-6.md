@@ -67,3 +67,12 @@
 - Worker v1 requires the exact service-role bearer authorization and **both** `LIVE_PURCHASE_EMAIL_WORKER_ENABLED=true` and `LIVE_PURCHASE_EMAIL_SENDING_ENABLED=true`. It reports scheduling disabled in its response. I did not invoke it or inspect secret values.
 - Read-only database checks found **zero** live outbox rows, **zero** pending live receipts, `pg_cron` not installed, and no `cron.job` relation. Recent function-edge log query returned no matching live webhook/worker/audit calls; this is not a runtime delivery test.
 - Cutover remains blocked: no verified protected invocation schedule exists, and changing the webhook’s acknowledgement behavior without one could strand confirmations. No live code, secrets, settings, email, payments, or database rows were changed.
+
+
+## Fresh live Checkout and price readback — 14 November 2026
+
+- Stripe Live lists an enabled `stripe-webhook` endpoint subscribed to `checkout.session.completed` and `checkout.session.async_payment_succeeded`, targeting the live webhook.
+- `stripe-live-checkout` v12 requires authentication and explicit terms/immediate-access/cancellation consent, and references the intended active one-time GBP 9.99 Price `price_1UaRJvKeIprRDTKxKDawW6ZG` with inclusive tax behavior. The actual `STRIPE_LIVE_CHECKOUT_ENABLED` secret value is not visible through the connected tools, so effective live checkout availability remains unverified. No Checkout Session was created.
+- Stripe lists a second active one-time GBP 9.99 Price for the same product with `tax_behavior=unspecified`. It is not the Price referenced by the current checkout source. No Price was changed or deactivated.
+- Live Stripe Tax settings report `status=active`, default tax behavior `exclusive`, and default tax code `txcd_20060258`; the returned GB head-office address has no postal code, and the account has no tax registrations. The checkout's referenced Price is inclusive, so it overrides the default behavior. Tax settings and registrations were not changed; owner/qualified tax review remains necessary before launch.
+- No live payment, Checkout Session, Price or tax setting was changed.
