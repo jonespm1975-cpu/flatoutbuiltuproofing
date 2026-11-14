@@ -45,9 +45,17 @@
 - `privacy.html` still contains unresolved retention-period placeholders and asks the owner to confirm actual providers, lawful bases, marketing/cookie practices and age arrangements.
 - No legal pages were published or edited. These need accurate owner-confirmed data practices and final consumer/privacy review before commercial launch.
 
+## Follow-up verification — 14 November 2026, 19:21 UTC
+
+- Re-read active Supabase functions: `stripe-webhook` v31, `stripe-test-webhook` v29, sandbox retry worker v10, and live delivery worker v1. The sandbox retry worker is a read-only dry run: sending, claiming and scheduling are disabled. The live delivery worker requires both `LIVE_PURCHASE_EMAIL_WORKER_ENABLED` and `LIVE_PURCHASE_EMAIL_SENDING_ENABLED`, plus service-role authorization; its code reports that scheduling is disabled. No worker was invoked.
+- The live webhook source still performs inline Resend delivery after saving course access and the receipt. No live code was changed because no secured invocation schedule for the separate worker has been verified.
+- Supabase's last-24-hour function-edge log query returned one Stripe POST to `membership-test-webhook` at 00:04:30 UTC with HTTP 200. It contained no event ID, so it cannot be matched to either Checkout event above and does not establish their status.
+- Latest security advisor read reports leaked-password protection disabled and five RLS-enabled tables with no policies. The no-policy findings are `internal.live_purchase_email_outbox`, `internal.membership_test_checkout_leases`, `public.course_checkout_reservations`, `public.purchase_confirmations`, and `public.sandbox_email_retry_queue`. These appear designed for server-only access; no access policy was changed. The Supabase health advisor returned no findings. Security remediation remains an owner-reviewed task because enabling leaked-password protection may affect sign-up behavior.
+- Stripe Dashboard still requires passkey sign-in. This session cannot retry events from the available Stripe API connector. Current event states have not been freshly re-read during this follow-up.
+
 ## Current handoffs
 
-1. Sign in to Stripe Dashboard with the passkey on the browser session, then retry each pending Test Mode Checkout event only to `stripe-test-webhook`; inspect the endpoint response. The subscription event should be ignored with HTTP 200 by that endpoint.
+1. Sign in to Stripe Dashboard with the passkey on the open browser session. Then retry each pending Test Mode Checkout event only to `stripe-test-webhook` and inspect the endpoint response. The subscription-mode Checkout event should be ignored with HTTP 200 by that endpoint.
 2. Connect or open Resend so the existing pending sandbox message can be reconciled from provider events before any resend.
 3. Confirm actual customer-data retention, cookie/marketing behavior and age policy for the privacy notice, and obtain final legal/tax review.
 4. Keep live checkout and membership launch on hold until the above checks pass and the owner explicitly approves live billing.
