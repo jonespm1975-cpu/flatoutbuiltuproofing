@@ -234,3 +234,14 @@ Read-only follow-up. No payment, Checkout Session, email, database write, live s
 ### Disposition
 
 These five gates have been rechecked, but remain open where external provider access, isolated test infrastructure, owner-confirmed facts, or qualified review is required. Keep live launch on hold until they are cleared. Existing sandbox Stripe event deliveries remain resolved as recorded in the prior section.
+
+
+## Follow-up on next five priorities — 14 November 2026
+
+- Exact plugin-directory search for **Resend** returned no matching plugin. The pending sandbox email therefore remains unreconciled; no message was sent or retried.
+- Fresh Supabase branch listing remains empty. A disposable branch/concurrency environment is not available; no production SQL was used as a substitute.
+- Re-read the active `stripe-live-checkout` function v12. It requires the explicit live-enable secret, live Stripe key and Supabase config, authenticated non-anonymous user, and affirmative terms/immediate-delivery/cancellation acknowledgements. Secret values are not exposed by the available Supabase tools; no checkout was created.
+- The current privacy, terms, and refunds repository pages still carry DRAFT/owner-review notices. The privacy and consumer checkout terms still need operational facts/final review; no legal pages were altered or published.
+- Attempted to refresh the Live Stripe account/tax readback; the Stripe account-list tool returned an unknown-tool error in this session. The last successful tax configuration read remains the prior audit entry; it was not treated as a fresh check and nothing was changed.
+
+No payment, email, retry, database write, live setting change, legal publication, or deployment was performed. The five priorities remain open pending provider access, isolated test infrastructure, final owner/legal input, qualified tax review, and an authorized way to inspect effective live configuration.
