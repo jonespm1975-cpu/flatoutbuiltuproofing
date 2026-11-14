@@ -91,3 +91,11 @@
 - The older receipt is marked sent in Supabase and its queue row accepted with 0 attempts; it has no provider message ID. Database status alone cannot prove inbox delivery.
 - Plugin discovery for Resend returned no Resend connector, and no Resend tool is exposed in this session. Provider delivery/status therefore remains unverified; no email was sent or resent.
 - No database rows or retry state were changed. Resume once a Resend provider-status connection is available, inspect existing provider events first, and only then decide whether a resend is appropriate.
+
+## Fresh Test Mode Stripe event readback — 14 November 2026
+
+- Read event evt_1Ub6xTKS41qhUQTKCAsjwHU2 from the Test Mode Stripe account. It remains at pending_webhooks=1 and is a completed, paid GBP 1.99 subscription-mode Checkout Session. It is not a one-time £9.99 course purchase.
+- The supplied Workbench screenshot shows the earlier delivery to stripe-test-webhook returned HTTP 422, response “Checkout mismatch.” That matches the old course-only validation rejecting a subscription Session. Current deployed stripe-test-webhook v29 now returns HTTP 200 for signed subscription-mode Checkout events and does not grant course access on that branch.
+- Current 24-hour Supabase function-edge logs contain no stripe-test-webhook or membership-test-webhook requests, so the new branch has not been runtime-confirmed for this event. No retry was made.
+- The Stripe API read interface exposes event retrieval but no event-redelivery operation. Dashboard access was attempted; after passkey selection, the browser sign-in flow crossed to accounts.google.com. Automatic approval review rejected observation of that separate personal-auth origin because the Stripe task did not authorize Google-account access. No further browser interaction or sign-in workaround was attempted.
+- Next verification remains a single Dashboard resend to stripe-test-webhook only, followed by checking for HTTP 200 and confirming no course grant was created. Do not send this subscription Checkout event to membership-test-webhook; the current routing and course endpoint subscription-ignore branch are the verified intended path.
