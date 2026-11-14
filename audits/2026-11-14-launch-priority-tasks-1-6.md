@@ -84,3 +84,10 @@
 - Read deployed paid-lesson-content v16, paid-course-media-link v1, and repository members.html: production lesson text, private media links, and My Learning course listings all require cs_live_ grants. A cs_test_ grant deliberately does not unlock production paid content. A separate sandbox lesson-content route was not found in the reviewed page/source.
 - Read-only database counts remain 2 course access rows and 2 sandbox receipts; one sandbox receipt and one actionable email queue row remain pending. These counts do not establish provider delivery or successful current-version signed-webhook processing.
 - No runtime tests, Stripe retries, checkout creation, email sends, access changes, or live configuration changes were performed. A separate non-production demonstration flow is needed to prove sandbox-paid access without weakening the live-only content gate. Resend provider status remains unverified; a Resend connector is not exposed among the available tools in this session.
+
+## Fresh sandbox email reconciliation — 14 November 2026
+
+- Read-only Supabase join of sandbox email queue and purchase confirmations returned two records. The newer course receipt is pending; its queue row is pending with 0 attempts, no lease, no provider message ID, no sent timestamp, and no stored error. Its next-attempt time has passed, but this alone does not establish a provider failure or authorize sending.
+- The older receipt is marked sent in Supabase and its queue row accepted with 0 attempts; it has no provider message ID. Database status alone cannot prove inbox delivery.
+- Plugin discovery for Resend returned no Resend connector, and no Resend tool is exposed in this session. Provider delivery/status therefore remains unverified; no email was sent or resent.
+- No database rows or retry state were changed. Resume once a Resend provider-status connection is available, inspect existing provider events first, and only then decide whether a resend is appropriate.
