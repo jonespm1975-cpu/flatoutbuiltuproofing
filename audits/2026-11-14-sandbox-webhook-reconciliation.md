@@ -24,3 +24,14 @@
 - Resend account access is required to verify provider acceptance and recipient delivery.
 - A genuine two-independent-connection database concurrency test remains outstanding; the current connected SQL tool does not provide a safe isolated two-session test harness.
 - Live billing and production Stripe settings were not touched.
+
+
+## Isolated sandbox email/webhook separation — 14 November 2026
+
+- Deployed `stripe-test-webhook` **v26** in Supabase project `fhyhshakmvqwzdyannec`; the handler still rejects live-mode events.
+- Removed the inline Resend request from this **sandbox-only** course webhook. After successful course access and receipt recording, a pending confirmation is ensured in `public.sandbox_email_retry_queue` using an idempotent upsert. Provider-send failure can no longer make this webhook return 503 after access was granted; queue-write failure still returns 503 so Stripe can retry the database operation.
+- Verified existing database trigger enqueues new `cs_test_` receipts only when `terms_version='sandbox-test'` and confirmation status is pending. Verified service-role-only claim/finish function grants and that the deployed `purchase-email-retry-worker` is a read-only dry-run with sending, claiming and scheduling disabled.
+- Deployed-source readback confirms v26 remains test-only, includes the idempotent queue upsert, and has no Resend URL or `RESEND_API_KEY` reference.
+- Post-deployment database readback showed the existing single queue row unchanged: accepted, zero attempts, no provider ID; zero pending sandbox receipts. No test checkout, event replay, email, payment, or live setting change was performed.
+- **Verification limit:** deployment/source and database invariants are verified, but no signed end-to-end course event was replayed or generated. Runtime HTTP handling and new-receipt trigger behavior were not exercised in this turn. Do not infer full end-to-end test readiness.
+- Existing live `stripe-webhook` v31 is unchanged and still sends email inline; this isolated change does not clear the live webhook launch blocker.
