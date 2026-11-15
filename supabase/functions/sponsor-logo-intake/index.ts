@@ -61,6 +61,8 @@ Deno.serve(async(req:Request)=>{
  let notified=false,notificationError:string|null=null;
  if(resendKey&&from){
    try{
+     const {data:reviewFile,error:reviewFileError}=await admin.storage.from("sponsor-logos").createSignedUrl(path,3600);
+     if(reviewFileError||!reviewFile?.signedUrl)throw new Error("Private logo review link could not be prepared.");
      const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{
        "Authorization":"Bearer "+resendKey,"Content-Type":"application/json","Idempotency-Key":"sponsor-review-"+id
      },body:JSON.stringify({
@@ -69,6 +71,7 @@ Deno.serve(async(req:Request)=>{
        text:["A sponsor logo has arrived and is waiting for your review.","",
          "Company: "+company,"Contact: "+email,"Website: "+(website||"Not supplied"),
          "Description: "+description,"Submission: "+id,"Status: pending",
+         "Private logo preview (link expires in one hour): "+reviewFile.signedUrl,
          "The logo has not been published. Review it and approve the design/layout before adding it to the public sponsor wall.",
          "Review queue: https://supabase.com/dashboard/project/fhyhshakmvqwzdyannec/editor/"].join("\n")
      })});
