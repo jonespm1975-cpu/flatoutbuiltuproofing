@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#080706"><meta name="description" content="Private sponsor logo submission for Flat Out Built-Up Roofing."><title>Private Sponsor Logo Submission | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="academy-interior.css">
+<style>
+.intake-shell{max-width:790px;margin:24px auto}
+.intake-hero{padding:clamp(25px,5vw,48px);border:1px solid #c5a05b;border-radius:24px;background:linear-gradient(100deg,#070706ef,#100b05d9),url('assets/premium-roofing-materials.svg') center/cover;box-shadow:0 24px 60px #000b}
+.intake-eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#edc979;font-weight:850}
+.intake-form{display:grid;gap:15px;margin-top:20px}
+.intake-form label{display:grid;gap:7px;color:#f5e4c0;font-weight:750}
+.intake-form input,.intake-form textarea{width:100%;padding:13px;border:1px solid #92733b;border-radius:10px;background:#090807;color:#fff;font:inherit}
+.intake-form textarea{min-height:110px}
+.intake-form input[type=file]{padding:10px}
+.intake-form button{margin-top:6px}
+#intakeStatus{min-height:1.5em}
+#intakeForm[hidden]{display:none}
+</style></head>
+<body><header><div class="brand">FLAT OUT BUILT-UP ROOFING</div><a class="back" href="sponsors.html">← Sponsors</a></header>
+<main class="intake-shell">
+<nav class="academy-topnav" aria-label="Academy sections"><a href="courses.html">Courses</a><a href="gallery.html">Gallery</a><a href="sponsors.html" aria-current="page">Sponsors</a><a href="index.html">Homepage</a></nav>
+<section class="intake-hero"><div class="intake-eyebrow">Private sponsor invitation</div><h1>Submit your company logo</h1><p>This invite-only form accepts one logo image and a short company description. Your files are stored privately for review and will not appear on the website until the owner approves them.</p></section>
+<section class="card"><div id="inviteStatus" role="status" aria-live="polite">Checking your sponsor invitation…</div>
+<form id="intakeForm" class="intake-form" hidden>
+<label for="company">Company name <input id="company" name="company" maxlength="100" autocomplete="organization" required></label>
+<label for="contactEmail">Contact email <input id="contactEmail" name="email" type="email" maxlength="254" autocomplete="email" required></label>
+<label for="website">Company website (optional) <input id="website" name="website" type="url" placeholder="https://example.co.uk"></label>
+<label for="description">Short factual description <textarea id="description" name="description" maxlength="160" required placeholder="Up to 160 characters. Keep it factual and relevant to roofing."></textarea></label>
+<label for="logo">Company logo <input id="logo" name="logo" type="file" accept="image/jpeg,image/png,image/webp" required></label>
+<p class="mini muted">JPEG, PNG or WebP only, up to 3 MB. Do not upload customer photos, personal information or files you do not have permission to share.</p>
+<label><input id="permission" type="checkbox" required> I confirm I am authorised to submit this logo and description for the company, and permit Flat Out Built-Up Roofing to review it for possible display.</label>
+<button id="submitLogo" type="submit">Submit logo for owner review</button>
+</form><p id="intakeMessage" role="status" aria-live="polite"></p>
+</section><p class="mini muted">Submissions are reviewed manually. Approval is not guaranteed; paid placements and other commercial arrangements will be disclosed.</p>
+</main><footer><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></footer>
+<script>
+const invite=new URLSearchParams(location.search).get('invite')||'';
+if(invite)history.replaceState(null,'',location.pathname);
+const form=document.querySelector('#intakeForm'),status=document.querySelector('#inviteStatus'),message=document.querySelector('#intakeMessage'),button=document.querySelector('#submitLogo');
+if(invite.length>=32&&invite.length<=128){status.textContent='Invitation recognised. Complete the company details and select one logo image.';form.hidden=false;}
+else{status.textContent='A valid private sponsor QR invitation is required to submit a logo. Ask the site owner to send you the invitation QR.';}
+form.addEventListener('submit',async e=>{
+ e.preventDefault();message.textContent='';
+ const file=document.querySelector('#logo').files?.[0];
+ if(!document.querySelector('#permission').checked){message.textContent='Please confirm you have permission to submit this logo.';return;}
+ if(!file||file.size>3*1024*1024){message.textContent='Choose one JPEG, PNG or WebP logo up to 3 MB.';return;}
+ const data=new FormData(form);data.append('invite',invite);
+ button.disabled=true;message.textContent='Uploading securely for owner review…';
+ try{
+  const res=await fetch('https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/sponsor-logo-intake',{method:'POST',body:data,cache:'no-store'});
+  const result=await res.json();if(!res.ok)throw new Error(result.error||'Submission failed.');
+  form.reset();form.hidden=true;status.textContent='Submission received.';message.textContent=result.message||'Your logo is waiting for owner review.';
+ }catch(err){message.textContent=err.message||'Could not submit. Please try again.';}
+ finally{button.disabled=false;}
+});
+</script></body></html>
