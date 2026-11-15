@@ -2,10 +2,10 @@
 <html lang="en-GB">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090806"><meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#090806"><meta name="robots" content="noindex,nofollow"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Flat Out Voice"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="Voice-guided learning for eligible Flat Out Built-Up Roofing members and paid course learners.">
 <link rel="manifest" href="learning-app.webmanifest">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/mobile-app-icon-180.png">
 <title>Voice Learning App | Flat Out Built-Up Roofing</title>
 <style>
 :root{color-scheme:dark;--gold:#d7b568;--gold2:#f4d98f;--cream:#f3ead5;--muted:#bdb5a5;--line:#766032;--panel:#14110c}
@@ -75,6 +75,7 @@ h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align
 </main>
 <script type="module">
 import { supabase, requireUser } from "./auth.js";
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{});
 const endpoint="https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/mobile-learning-content";
 const els=Object.fromEntries(["loading","loadingText","gate","gateText","app","errorPanel","errorText","retry","guideTitle","guideIntro","accessBadge","stepCount","progressBar","stepTitle","stepBody","previous","next","repeat","listen","stop","voiceStatus","safetyNote","installPrompt","installText","installButton"].map(id=>[id,document.getElementById(id)]));
 let guide=null,index=0,user=null,recognizer=null,installEvent=null,locked=true,checking=false;
