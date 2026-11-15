@@ -1,16 +1,56 @@
-// Cache public assets only. Never cache authentication or private API responses.
-const CACHE = 'flatout-public-v2';
-const PUBLIC = new Set(['/', '/index.html', '/site.css', '/styles.css', '/approved-homepage.png', '/logo-original.jpeg', '/manifest.webmanifest']);
-self.addEventListener('install', () => self.skipWaiting());
+// Cache public training pages and static assets for offline reading.
+// Excludes sign-in, private member/admin pages, query-token forms, and API responses.
+const CACHE = 'flatout-public-v3';
+const PUBLIC = [
+  '/', '/index.html', '/site.css', '/styles.css', '/academy-interior.css',
+  '/site.js', '/free-sections.js', '/approved-homepage.png', '/logo-original.jpeg',
+  '/manifest.webmanifest', '/academy-roof-illustration.svg',
+  '/assets/premium-roofing-interior.svg', '/assets/premium-roofing-materials.svg',
+  '/courses.html', '/free-hub.html', '/new-to-flat-roofing.html',
+  '/lessons/introduction.html', '/lessons/inspection-and-preparation.html',
+  '/lessons/drainage-and-details.html', '/cscs.html', '/health-safety.html',
+  '/tool-safety.html', '/tapered-insulation.html', '/tapered-animated-lessons.html',
+  '/tapered-falls-practice.html', '/tapered-video-academy.html',
+  '/community.html', '/sponsors.html', '/terms.html', '/privacy.html',
+  '/cookies.html', '/refunds.html'
+];
+const PUBLIC_PATHS = new Set(PUBLIC);
+
+self.addEventListener('install', event => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.allSettled(PUBLIC.map(async path => {
+      try {
+        const request = new Request(new URL(path, self.registration.scope), { cache: 'reload' });
+        const response = await fetch(request);
+        if (response.ok && response.type !== 'opaque') await cache.put(request, response);
+      } catch (_) {
+        // Keep installation available when one optional public resource is offline.
+      }
+    }));
+    await self.skipWaiting();
+  })());
+});
+
 self.addEventListener('activate', event => event.waitUntil((async () => {
-  for (const name of await caches.keys()) if (name !== CACHE) await caches.delete(name);
+  for (const name of await caches.keys()) {
+    if (name.startsWith('flatout-public-') && name !== CACHE) await caches.delete(name);
+  }
   await self.clients.claim();
 })()));
+
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.origin !== self.location.origin || url.search || !PUBLIC.has(url.pathname)) return;
-  event.respondWith(fetch(event.request).then(response => {
-    if (response.ok) { const copy = response.clone(); event.waitUntil(caches.open(CACHE).then(cache => cache.put(event.request, copy))); }
-    return response;
-  }).catch(() => caches.match(event.request)));
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin || url.search || !PUBLIC_PATHS.has(url.pathname)) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    try {
+      const response = await fetch(event.request);
+      if (response.ok && response.type !== 'opaque') await cache.put(event.request, response.clone());
+      return response;
+    } catch (_) {
+      const cached = await cache.match(event.request);
+      return cached || Response.error();
+    }
+  })());
 });
