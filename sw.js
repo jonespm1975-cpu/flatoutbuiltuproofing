@@ -1,6 +1,6 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v4';
+const CACHE = 'flatout-public-v5';
 const PUBLIC = [
   '/', '/index.html', '/site.css', '/styles.css', '/academy-interior.css',
   '/site.js', '/free-sections.js', '/approved-homepage.png', '/logo-original.jpeg',\n  '/assets/flat-out-built-up-roofing-logo.svg',
@@ -45,7 +45,7 @@ self.addEventListener('fetch', event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     try {
-      const response = await fetch(event.request);
+      const response = await fetch(event.request, { cache: 'reload' });
       if (response.ok && response.type !== 'opaque') await cache.put(event.request, response.clone());
       return response;
     } catch (_) {
