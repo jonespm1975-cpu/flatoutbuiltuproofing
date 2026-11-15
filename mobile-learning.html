@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#090806"><meta name="robots" content="noindex,nofollow"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Flat Out Voice"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="Voice-guided learning for eligible Flat Out Built-Up Roofing members and paid course learners.">
 <link rel="manifest" href="learning-app.webmanifest">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/mobile-app-icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/mobile-app-icon-180.png?v=2">
 <title>Voice Learning App | Flat Out Built-Up Roofing</title>
 <style>
 :root{color-scheme:dark;--gold:#d7b568;--gold2:#f4d98f;--cream:#f3ead5;--muted:#bdb5a5;--line:#766032;--panel:#14110c}
@@ -18,7 +18,9 @@ main{padding:22px 0 34px}.eyebrow{text-align:center;color:var(--gold2);font-size
 h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align:center;letter-spacing:-.03em;margin:10px 0 11px}
 .lead{text-align:center;color:#c8c0b2;max-width:590px;margin:0 auto 20px}
 .hero{position:relative;overflow:hidden;height:clamp(180px,48vw,270px);border:1px solid #d7b568;border-radius:18px;background:#0a0a09 url("approved-homepage.png") center 18%/185% auto no-repeat;box-shadow:0 14px 34px #000b,inset 0 0 0 1px #f4dc9a66}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#08070599,#08070510 58%,#08070577),linear-gradient(0deg,#080806f2,transparent 65%)}
+.hero:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#08070599,#08070510 58%,#08070577),linear-gradient(0deg,#080806f2,transparent 65%)}
+.hero:after{content:"";position:absolute;inset:34% 24% 8%;z-index:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;transform-origin:50% 100%;background:radial-gradient(ellipse 28% 42% at 51% 74%,#ff8a22a8 0%,#ff6b1670 25%,transparent 72%),radial-gradient(ellipse 12% 38% at 47% 70%,#ffe58a99 0%,#ff9b2e88 26%,transparent 72%),radial-gradient(ellipse 11% 34% at 55% 67%,#ffbf4c99 0%,#ff751c77 28%,transparent 74%);filter:blur(5px) saturate(1.25);animation:heroFlameFlicker 1.08s steps(6,end) infinite alternate}
+@keyframes heroFlameFlicker{0%{opacity:.35;filter:blur(6px) saturate(1.1) brightness(.88);transform:scaleX(.94) scaleY(.98)}38%{opacity:.7;filter:blur(4px) saturate(1.45) brightness(1.12);transform:scaleX(1.035) scaleY(1.025)}72%{opacity:.46;filter:blur(5px) saturate(1.2) brightness(.96);transform:scaleX(.98) scaleY(1.01)}100%{opacity:.76;filter:blur(4px) saturate(1.55) brightness(1.18);transform:scaleX(1.06) scaleY(1.03)}}
 .hero-copy{position:absolute;z-index:1;left:20px;bottom:17px;max-width:90%}.hero-copy strong{display:block;font:italic 800 clamp(20px,6vw,32px)/1.02 Georgia,serif;color:#f2cf70;text-shadow:0 2px 12px #000}.hero-copy span{display:block;color:#f8f1e2;font-size:13px;margin-top:5px}
 .panel{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(150deg,#211a0f,#0c0b09 72%);padding:20px;box-shadow:0 14px 32px #0006}
 [hidden]{display:none!important}.status{color:#e7d9b8;margin:0}.error{color:#ffc0ad}.lock-title{font:500 30px Georgia,serif;margin:0 0 8px}.gold-btn,.control{border:1px solid #d8b663;border-radius:11px;background:linear-gradient(115deg,#f0d88c,#bd8d3b);color:#140f05;font-weight:800;padding:13px 17px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}.secondary{background:#110f0c;color:#f4e5bd;border-color:#9a7c43}
