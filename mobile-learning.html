@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090806"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Voice-guided learning for eligible Flat Out Built-Up Roofing members and paid course learners.">
+<link rel="manifest" href="learning-app.webmanifest">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<title>Voice Learning App | Flat Out Built-Up Roofing</title>
+<style>
+:root{color-scheme:dark;--gold:#d7b568;--gold2:#f4d98f;--cream:#f3ead5;--muted:#bdb5a5;--line:#766032;--panel:#14110c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#33240f,#0b0a08 54%,#060606);color:var(--cream);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh;padding-bottom:calc(22px + env(safe-area-inset-bottom))}
+a{color:var(--gold2)}button{font:inherit}.shell{width:min(760px,100%);margin:auto;padding:0 16px}
+header{position:sticky;top:0;z-index:10;background:#080807ed;border-bottom:1px solid #c59e4f55;backdrop-filter:blur(14px);padding-top:env(safe-area-inset-top)}
+.head{height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:154px;height:54px;object-fit:contain;object-position:left center}.home-link{font-size:13px;color:#e8d7b4;text-decoration:none;white-space:nowrap}
+main{padding:22px 0 34px}.eyebrow{text-align:center;color:var(--gold2);font-size:11px;font-weight:850;letter-spacing:.22em;text-transform:uppercase}
+h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align:center;letter-spacing:-.03em;margin:10px 0 11px}
+.lead{text-align:center;color:#c8c0b2;max-width:590px;margin:0 auto 20px}
+.hero{position:relative;overflow:hidden;height:clamp(180px,48vw,270px);border:1px solid #d7b568;border-radius:18px;background:#0a0a09 url("approved-homepage.png") center 18%/185% auto no-repeat;box-shadow:0 14px 34px #000b,inset 0 0 0 1px #f4dc9a66}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#08070599,#08070510 58%,#08070577),linear-gradient(0deg,#080806f2,transparent 65%)}
+.hero-copy{position:absolute;z-index:1;left:20px;bottom:17px;max-width:90%}.hero-copy strong{display:block;font:italic 800 clamp(20px,6vw,32px)/1.02 Georgia,serif;color:#f2cf70;text-shadow:0 2px 12px #000}.hero-copy span{display:block;color:#f8f1e2;font-size:13px;margin-top:5px}
+.panel{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(150deg,#211a0f,#0c0b09 72%);padding:20px;box-shadow:0 14px 32px #0006}
+[hidden]{display:none!important}.status{color:#e7d9b8;margin:0}.error{color:#ffc0ad}.lock-title{font:500 30px Georgia,serif;margin:0 0 8px}.gold-btn,.control{border:1px solid #d8b663;border-radius:11px;background:linear-gradient(115deg,#f0d88c,#bd8d3b);color:#140f05;font-weight:800;padding:13px 17px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}.secondary{background:#110f0c;color:#f4e5bd;border-color:#9a7c43}
+.notice{border-left:3px solid var(--gold);background:#0a0907;padding:13px 14px;color:#c9c0ae;font-size:13px;margin-top:17px}
+.installBox{margin-top:14px;padding:14px;border:1px solid #6e592e;border-radius:12px;background:#0c0b08;color:#d7c9ab;font-size:14px}.installBox h3{color:#f0d792;margin:0 0 6px;font-size:16px}
+.guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.badge{border:1px solid #806638;border-radius:999px;padding:5px 9px;color:#eedcae;font-size:11px;white-space:nowrap}
+.progress{height:5px;background:#342a19;border-radius:5px;margin:16px 0 19px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#b88332,#ffe8a0);transition:width .25s}
+.step-count{color:#dfc889;font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800}.step-title{font:500 clamp(26px,6vw,36px)/1.1 Georgia,serif;margin:8px 0 10px}.step-body{font-size:17px;color:#ded6c7;margin:0;white-space:pre-line}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.controls .wide{grid-column:1/-1}.control{background:#15120c;color:#f6e7c1;font-weight:750;min-height:50px;cursor:pointer}.control:hover,.control:focus-visible{background:#30230f;outline:2px solid #e5c576}.control.primary{background:linear-gradient(115deg,#efd78d,#ba8737);color:#171004}
+.voice-row{display:flex;gap:9px;margin-top:12px}.voice-row .control{flex:1}.mic{font-size:20px}.voice-note{font-size:12px;color:#a9a08f;margin:10px 0 0}
+.bottomnav{display:flex;justify-content:space-around;gap:6px;position:sticky;bottom:0;z-index:5;margin:18px -16px 0;padding:11px 8px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #8a6a31;background:#0a0908ed;backdrop-filter:blur(14px)}
+.bottomnav a{font-size:12px;text-align:center;text-decoration:none;color:#d8cba9;padding:4px 8px}.bottomnav a.active{color:#f2cf70}
+.foot{color:#9d9587;text-align:center;font-size:12px;padding:20px 8px}
+@media(min-width:640px){.shell{padding:0 24px}.panel{padding:25px}.bottomnav{margin-left:-24px;margin-right:-24px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="shell head"><a class="brand" href="index.html" aria-label="Flat Out Built-Up Roofing home"><img src="assets/flat-out-built-up-roofing-logo.svg" alt="Flat Out Built-Up Roofing"></a><a class="home-link" href="members.html">My Learning</a></div></header>
+<main class="shell">
+<div class="eyebrow">Voice-guided Roofing Academy</div>
+<h1>Learn one step at a time</h1>
+<p class="lead">Listen to the learning guide, move through each project stage, and use voice commands when your device supports them.</p>
+<div class="hero" role="img" aria-label="Built-up felt roofing roll being installed on a roof"><div class="hero-copy"><strong>REAL SKILLS. LASTING ROOFS.</strong><span>Practical training · safety · real roofing</span></div></div>
+
+<section id="loading" class="panel" aria-live="polite"><p id="loadingText" class="status">Checking your account and paid learning access…</p></section>
+<section id="gate" class="panel" hidden>
+  <div class="eyebrow" style="text-align:left">Learning App Access</div>
+  <h2 class="lock-title">Sign in to unlock the app</h2>
+  <p id="gateText">Voice learning is available with an active £1.99 monthly Learning Pass or a paid course on your account.</p>
+  <p><a class="gold-btn" href="courses.html">View courses and membership</a> <a class="gold-btn secondary" href="members.html">My Learning</a></p>
+  <div class="notice">If your subscription has ended, access closes after its paid period. A paid course on your account keeps your learning access available.</div>
+</section>
+
+<section id="app" hidden>
+  <section class="panel">
+    <div class="guide-head"><div><div class="eyebrow" style="text-align:left">Your learning session</div><h2 class="lock-title" id="guideTitle">Guided learning</h2></div><span class="badge" id="accessBadge">Access active</span></div>
+    <p id="guideIntro" class="status"></p>
+    <div class="installBox" id="installPrompt" hidden><h3>Install on your phone</h3><p id="installText" style="margin:0 0 10px"></p><button id="installButton" class="gold-btn" type="button" hidden>Install app</button></div>
+  </section>
+  <section class="panel" aria-live="polite" aria-atomic="true">
+    <div class="step-count" id="stepCount">Step 1 of 8</div><div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+    <h2 class="step-title" id="stepTitle"></h2><p class="step-body" id="stepBody"></p>
+    <div class="controls"><button class="control" id="previous" type="button">← Previous</button><button class="control primary" id="next" type="button">Next step →</button><button class="control wide" id="repeat" type="button">▶ Read this step aloud</button></div>
+    <div class="voice-row"><button class="control primary" id="listen" type="button"><span class="mic">🎙</span> Voice commands</button><button class="control" id="stop" type="button">Stop audio</button></div>
+    <p class="voice-note" id="voiceStatus" role="status">Say “next step”, “go back”, “repeat” or “stop”. You can always use the buttons.</p>
+  </section>
+  <section class="notice" id="safetyNote"></section>
+  <div class="bottomnav"><a href="index.html">⌂<br>Home</a><a href="free-hub.html">▤<br>Learn</a><a class="active" href="mobile-learning.html">◉<br>Voice Guide</a><a href="members.html">♙<br>Account</a></div>
+</section>
+
+<section id="errorPanel" class="panel" hidden><p id="errorText" class="status error"></p><button class="control secondary" id="retry" type="button">Check access again</button></section>
+<p class="foot">Learning access is checked online when you open or return to the app. Your guide and voice recording are not saved on this device. Browser voice recognition may send audio to your device or browser speech service; use the buttons if microphone access is unavailable.</p>
+</main>
+<script type="module">
+import { supabase, requireUser } from "./auth.js";
+const endpoint="https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/mobile-learning-content";
+const els=Object.fromEntries(["loading","loadingText","gate","gateText","app","errorPanel","errorText","retry","guideTitle","guideIntro","accessBadge","stepCount","progressBar","stepTitle","stepBody","previous","next","repeat","listen","stop","voiceStatus","safetyNote","installPrompt","installText","installButton"].map(id=>[id,document.getElementById(id)]));
+let guide=null,index=0,user=null,recognizer=null,installEvent=null,locked=true,checking=false;
+function stopVoice(){try{recognizer?.stop()}catch{};if("speechSynthesis"in window)speechSynthesis.cancel()}
+function clearGuide(){stopVoice();guide=null;locked=true;els.app.hidden=true}
+function showGate(message){clearGuide();els.loading.hidden=true;els.errorPanel.hidden=true;els.gate.hidden=false;if(message)els.gateText.textContent=message}
+function showError(message){clearGuide();els.loading.hidden=true;els.gate.hidden=true;els.errorPanel.hidden=false;els.errorText.textContent=message}
+function renderStep(){if(!guide||locked)return;const s=guide.sections[index];els.stepCount.textContent="STEP "+(index+1)+" OF "+guide.sections.length;els.progressBar.style.width=((index+1)/guide.sections.length*100)+"%";els.stepTitle.textContent=s.heading;els.stepBody.textContent=s.body;els.previous.disabled=index===0;els.next.disabled=index===guide.sections.length-1;els.previous.style.opacity=index===0?".5":"1";els.next.style.opacity=index===guide.sections.length-1?".5":"1";}
+function speakCurrent(){if(!guide||locked)return;if(!("speechSynthesis"in window)){els.voiceStatus.textContent="Spoken guidance is unavailable in this browser. Read the step and use the navigation buttons.";return;}stopVoice();const s=guide.sections[index];const u=new SpeechSynthesisUtterance(s.heading+". "+s.body);u.lang="en-GB";u.rate=.94;u.pitch=1;u.onend=()=>els.voiceStatus.textContent="Step read aloud. Say “next step”, “go back” or “repeat”, or tap a button.";speechSynthesis.speak(u);els.voiceStatus.textContent="Reading this step aloud…";}
+function findStep(query){const words=query.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>3);let best=index,score=0;guide.sections.forEach((s,i)=>{const text=(s.heading+" "+s.body).toLowerCase();const n=words.reduce((sum,w)=>sum+(text.includes(w)?1:0),0);if(n>score){score=n;best=i;}});return score?best:-1;}
+function handleVoice(raw){if(!guide||locked)return;const text=raw.toLowerCase();if(/\b(next|continue|forward)\b/.test(text)){index=Math.min(index+1,guide.sections.length-1);renderStep();speakCurrent();return;}if(/\b(back|previous|go back)\b/.test(text)){index=Math.max(index-1,0);renderStep();speakCurrent();return;}if(/\b(repeat|again|read this)\b/.test(text)){speakCurrent();return;}if(/\b(stop|quiet|pause)\b/.test(text)){stopVoice();els.voiceStatus.textContent="Audio stopped.";return;}const match=findStep(text);if(match>=0){index=match;renderStep();els.voiceStatus.textContent="Showing the closest matching guide step.";speakCurrent();}else els.voiceStatus.textContent="I couldn’t match that to this guide. Try saying “next step”, “repeat”, or a topic such as drainage or inspection.";}
+function startListening(){const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;if(!Speech){els.voiceStatus.textContent="Voice recognition is not supported in this browser. Use the buttons; spoken guidance may still work.";return;}stopVoice();recognizer=new Speech();recognizer.lang="en-GB";recognizer.continuous=false;recognizer.interimResults=false;recognizer.maxAlternatives=1;recognizer.onstart=()=>els.voiceStatus.textContent="Listening… say a command or guide topic.";recognizer.onerror=e=>els.voiceStatus.textContent=e.error==="not-allowed"?"Microphone permission was denied. Use the buttons or allow microphone access in browser settings.":"Couldn’t hear that clearly. Tap Voice commands and try again.";recognizer.onresult=e=>{const phrase=e.results?.[0]?.[0]?.transcript||"";els.voiceStatus.textContent="Heard: “"+phrase+"”";handleVoice(phrase);};recognizer.onend=()=>{if(!locked&&els.voiceStatus.textContent==="Listening… say a command or guide topic.")els.voiceStatus.textContent="Listening ended. Tap Voice commands to try again.";};try{recognizer.start()}catch{els.voiceStatus.textContent="Voice recognition could not start. Use the buttons instead.";}}
+async function loadGuide(silent=false){if(checking)return;checking=true;if(!silent){els.gate.hidden=true;els.errorPanel.hidden=true;els.loading.hidden=false;els.loadingText.textContent="Checking your account and paid learning access…";}
+try{const {data,error}=await supabase.auth.getSession();if(error||!data.session){await supabase.auth.signOut();location.replace("login.html?next=mobile-learning.html");return;}const response=await fetch(endpoint,{method:"GET",headers:{Authorization:"Bearer "+data.session.access_token,apikey:"sb_publishable_U5QORbnSzGR4j1_8hrmCGg_GOeQ5jwu"},cache:"no-store"});const result=await response.json().catch(()=>({}));if(response.status===401){await supabase.auth.signOut();location.replace("login.html?next=mobile-learning.html");return;}if(response.status===403&&result.code==="ACCESS_REQUIRED"){showGate(result.error);return;}if(!response.ok)throw new Error(result.error||"Could not verify your access.");guide=result.guide;locked=false;index=Math.min(index,guide.sections.length-1);els.loading.hidden=true;els.gate.hidden=true;els.errorPanel.hidden=true;els.app.hidden=false;els.guideTitle.textContent=guide.title;els.guideIntro.textContent=guide.description;els.accessBadge.textContent=result.access==="subscription"?"Learning Pass active":"Paid course access";els.safetyNote.textContent=guide.safety;renderStep();showInstallInstructions();}catch(e){showError((e instanceof Error?e.message:"Access check failed")+" Your protected guide is hidden until access can be checked online.");}finally{checking=false;}}
+function showInstallInstructions(){const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;if(standalone){els.installPrompt.hidden=true;return;}els.installPrompt.hidden=false;const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);if(ios){els.installText.textContent="In Safari, tap Share, then Add to Home Screen to create the app icon.";els.installButton.hidden=true;}else{els.installText.textContent="On Android, use Chrome’s menu and choose Install app or Add to Home screen. Your icon uses the Flat Out logo.";els.installButton.hidden=!installEvent;}}
+els.previous.onclick=()=>{if(index>0){index--;renderStep();}};els.next.onclick=()=>{if(index<guide.sections.length-1){index++;renderStep();}};els.repeat.onclick=speakCurrent;els.listen.onclick=startListening;els.stop.onclick=stopVoice;els.retry.onclick=()=>loadGuide();document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")loadGuide(true);else stopVoice();});window.addEventListener("focus",()=>loadGuide(true));window.addEventListener("pageshow",()=>loadGuide(true));window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvent=e;if(!els.app.hidden)showInstallInstructions();});els.installButton.onclick=async()=>{if(!installEvent)return;installEvent.prompt();await installEvent.userChoice;installEvent=null;showInstallInstructions();};
+supabase.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"){clearGuide();location.replace("login.html");}});
+user=await requireUser("mobile-learning.html");if(user){await loadGuide();}
+setInterval(()=>{if(document.visibilityState==="visible")loadGuide(true);},300000);
+</script>
+</body></html>
