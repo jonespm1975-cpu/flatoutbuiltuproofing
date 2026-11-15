@@ -30,3 +30,10 @@ Scope: UK-only launch. No charge, Checkout Session, email, or live setting was c
 ## Actions taken
 - Re-read current deployed Supabase function source and deployment versions for the live checkout and email workers, checked current project status and security/health advisories, and reviewed Stripe/Supabase capabilities.
 - No live payments, payment settings, Edge Function secrets, customer entitlements, emails, database records, or website source were changed.
+
+## Follow-up recheck — 2026-11-15
+- Stripe live Checkout Session v12 still omits `automatic_tax` and has no billing-country gate. Stripe confirms Checkout Sessions cannot restrict billing-address countries directly; Stripe documents Radar custom rules as the supported path for country-based blocking. The Stripe API does not expose Radar rules, so no UK rule could be added or verified through the connected API.
+- Fresh Stripe Tax read: account tax settings are `active`, UK head-office country `GB`, default behavior `exclusive`, configured product tax code `txcd_20060258`; there are no tax registrations. The inactive live Payment Link has automatic tax enabled. With no registration, Stripe Tax does not collect tax in a jurisdiction; however, the existing live Checkout Session code and the Payment Link are configured differently. The checkout tax setting and product tax-code suitability still need review before activation.
+- Owner receipt check: Supabase has one test receipt for the owner account, status `pending`, no email timestamp; its sandbox retry queue job is `pending`, attempt count 0. A Gmail search for the exact purchase-confirmation subject to the owner returned no result. This does not verify delivery; no email was sent.
+- The sandbox retry worker v10 is read-only dry-run with sending, claiming, and scheduling all disabled. The live email worker v2 requires an authorized cron token plus two runtime switches. Connected tools cannot read those secret values, set them, invoke the worker, or verify a Resend recipient delivery.
+- No Radar rule, tax setting, live checkout, Edge Function, secret, scheduler, email, payment, or database record was changed during this follow-up.
