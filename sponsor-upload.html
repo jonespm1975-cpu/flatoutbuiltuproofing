@@ -27,7 +27,7 @@ button{width:100%;border:0;border-radius:10px;padding:15px;background:linear-gra
 <label for="website">Website <span class="hint">(optional, HTTPS link)</span></label><input id="website" name="website" type="url" maxlength="300" placeholder="https://example.co.uk">
 <label for="description">Short company description</label><textarea id="description" name="description" maxlength="160" required placeholder="Up to 160 characters"></textarea><p class="hint"><span id="count">0</span>/160 characters</p>
 <label for="logo">Logo file</label><input id="logo" name="logo" type="file" accept="image/jpeg,image/png,image/webp" required><p class="hint">JPEG, PNG or WebP · maximum 3 MB</p>
-<div class="confirm"><input id="approval" type="checkbox" required><label for="approval">I confirm I’m authorised to submit this logo. I understand it will remain private and will not appear on the sponsor wall unless Paul Jones approves the logo design and layout.</label></div>
+<div class="confirm"><input id="approval" name="approval" value="yes" type="checkbox" required><label for="approval">I confirm I’m authorised to submit this logo. I understand it will remain private and will not appear on the sponsor wall unless Paul Jones approves the logo design and layout.</label></div>
 <button id="submit" type="submit">Send logo for approval</button><p id="status" class="status" role="status" aria-live="polite"></p>
 </form>
 <div class="notice">This invitation accepts one logo submission. Logo files are stored privately for review. If you need to replace a file or have questions, contact <a href="mailto:jonespm1975@gmail.com">Paul Jones</a>.</div>
