@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090807"><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow">
+<title>Submit a Sponsor Logo | Flat Out Built-Up Roofing</title>
+<style>
+:root{color-scheme:dark;--gold:#d7b568;--cream:#f3ead5;--muted:#bcb5a7}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 0,#292016,#0b0b0c 52%,#070708);color:var(--cream);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+header{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100vw - 1040px)/2));border-bottom:1px solid #ffffff18;background:#080808c9}
+.brand{display:flex;align-items:center;gap:12px;letter-spacing:.13em;text-transform:uppercase;font-size:12px;font-weight:800}.mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font:700 18px Georgia,serif}
+a{color:var(--gold)}main{width:min(640px,calc(100% - 28px));margin:46px auto 64px}.eyebrow{color:#f4df9e;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:800;text-align:center}
+h1{font:500 clamp(34px,7vw,52px)/1.1 Georgia,"Times New Roman",serif;text-align:center;margin:12px 0 14px}p{color:#c6c0b5}.intro{text-align:center;max-width:540px;margin:0 auto 26px}
+form{padding:clamp(20px,5vw,34px);border:1px solid #8a6b32;border-radius:18px;background:linear-gradient(145deg,#20190f,#0c0b0a 70%);box-shadow:0 20px 60px #0009}
+label{display:block;font-weight:700;color:#e7dcc4;margin:16px 0 7px}input,textarea{display:block;width:100%;padding:13px 14px;border:1px solid #655331;border-radius:9px;background:#080808;color:#f8f3e8;font:inherit}input:focus,textarea:focus{outline:2px solid #d7b568;outline-offset:2px}input[type=file]{padding:10px}textarea{min-height:104px;resize:vertical}.hint{font-size:13px;color:var(--muted);margin:6px 0 0}.confirm{display:flex;align-items:flex-start;gap:10px;margin:19px 0}.confirm input{width:18px;height:18px;margin:4px 0;flex:none}.confirm label{font-weight:500;font-size:14px;margin:0;color:#d6cebf}
+button{width:100%;border:0;border-radius:10px;padding:15px;background:linear-gradient(110deg,#f0d98d,#c3913c);color:#0c0903;font:800 16px/1.3 system-ui,-apple-system,sans-serif;cursor:pointer}button:disabled{opacity:.55;cursor:wait}
+.status{min-height:26px;margin:14px 0 0;font-weight:650}.status.error{color:#ffb3a8}.status.ok{color:#e6d28e}.notice{margin-top:20px;padding:14px 16px;border-left:3px solid var(--gold);background:#0b0907;color:#c9c0ae;font-size:14px}.foot{text-align:center;color:#9d9689;font-size:13px;margin-top:22px}
+@media(max-width:520px){header{height:60px}.brand{font-size:10px;letter-spacing:.1em}.mark{width:32px;height:32px}main{margin-top:30px}}
+</style></head>
+<body>
+<header><div class="brand"><span class="mark">F</span><span>Flat Out Built-Up Roofing</span></div><a href="/sponsors.html">Sponsor wall</a></header>
+<main>
+<div class="eyebrow">Invited Sponsor Upload</div><h1>Submit your company logo</h1>
+<p class="intro">Use this private invitation to send your logo and company details to Paul Jones for review.</p>
+<form id="uploadForm">
+<label for="company">Company name</label><input id="company" name="company" maxlength="100" autocomplete="organization" required>
+<label for="email">Contact email</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" required>
+<label for="website">Website <span class="hint">(optional, HTTPS link)</span></label><input id="website" name="website" type="url" maxlength="300" placeholder="https://example.co.uk">
+<label for="description">Short company description</label><textarea id="description" name="description" maxlength="160" required placeholder="Up to 160 characters"></textarea><p class="hint"><span id="count">0</span>/160 characters</p>
+<label for="logo">Logo file</label><input id="logo" name="logo" type="file" accept="image/jpeg,image/png,image/webp" required><p class="hint">JPEG, PNG or WebP · maximum 3 MB</p>
+<div class="confirm"><input id="approval" type="checkbox" required><label for="approval">I confirm I’m authorised to submit this logo. I understand it will remain private and will not appear on the sponsor wall unless Paul Jones approves the logo design and layout.</label></div>
+<button id="submit" type="submit">Send logo for approval</button><p id="status" class="status" role="status" aria-live="polite"></p>
+</form>
+<div class="notice">This invitation accepts one logo submission. Logo files are stored privately for review. If you need to replace a file or have questions, contact <a href="mailto:jonespm1975@gmail.com">Paul Jones</a>.</div>
+<p class="foot">Flat Out Built-Up Roofing · Sponsor submissions are reviewed before publication.</p>
+</main>
+<script>
+(()=>{const form=document.querySelector("#uploadForm"),status=document.querySelector("#status"),button=document.querySelector("#submit"),desc=document.querySelector("#description"),count=document.querySelector("#count"),token=new URLSearchParams(location.search).get("invite")||"";
+desc.addEventListener("input",()=>count.textContent=desc.value.length);
+if(!/^[a-f0-9]{64}$/.test(token)){form.querySelectorAll("input,textarea,button").forEach(x=>x.disabled=true);status.textContent="This invitation link is missing or invalid. Please ask Paul Jones for a current sponsor invitation.";status.className="status error";}
+form.addEventListener("submit",async event=>{event.preventDefault();status.textContent="Sending your logo securely…";status.className="status";button.disabled=true;
+const data=new FormData(form);data.append("invite",token);
+try{const response=await fetch("https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/sponsor-logo-intake",{method:"POST",body:data,credentials:"omit"});const result=await response.json().catch(()=>({}));
+if(!response.ok)throw new Error(result.error||"The logo could not be submitted. Please try again.");
+form.reset();count.textContent="0";status.textContent="Your logo is safely queued for Paul’s review. It has not been published to the sponsor wall.";status.className="status ok";
+}catch(error){status.textContent=error instanceof Error?error.message:"The upload failed. Please try again.";status.className="status error";button.disabled=false;}
+});
+})();
+</script></body></html>
