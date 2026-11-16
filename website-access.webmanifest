@@ -1,0 +1,26 @@
+{
+  "name": "Flat Out Built-Up Roofing",
+  "short_name": "Flat Out Roofing",
+  "description": "Open the Flat Out Built-Up Roofing website.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050505",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "/assets/website-access-icon-192.png?v=1",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/website-access-icon-512.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
