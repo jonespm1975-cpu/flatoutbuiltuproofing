@@ -1,7 +1,7 @@
 {
-  "name": "Flat Out Built-Up Roofing · Voice Learning",
-  "short_name": "Flat Out Voice",
-  "description": "Voice-guided built-up felt roofing learning for eligible course learners and members.",
+  "name": "Flat Out Built-Up Roofing Mobile App",
+  "short_name": "Flat Out Roofing",
+  "description": "Flat Out Built-Up Roofing mobile learning app.",
   "id": "/mobile-learning.html",
   "start_url": "/mobile-learning.html",
   "scope": "/",
