@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080705">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Five animation concepts for the Flat Out Built-Up Roofing homepage.">
+<title>Homepage Animation Previews | Flat Out Built-Up Roofing</title>
+<style>
+:root{color-scheme:dark;--gold:#f5c451;--gold2:#fff0bd;--muted:#c9bea7;--ink:#050505;--line:#9f7228}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -6%,#39240c 0,#100c07 38%,#040404 80%);color:#fff4df;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{width:min(1250px,100% - 32px);margin:auto}
+header{padding:34px 0 22px;text-align:center}
+.eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:12px;font-weight:850;color:#f1cc72}
+h1{font:500 clamp(32px,6vw,54px)/1.06 Georgia,serif;margin:9px 0;color:#fff0ce;text-shadow:0 0 22px #e6ad4c55}
+.intro{max-width:760px;margin:0 auto;color:var(--muted)}
+.controls{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:24px 0 14px}
+.option{cursor:pointer;color:#f6dfa8;background:linear-gradient(145deg,#211606,#090807);border:1px solid #b88735;border-radius:12px;padding:12px 10px;text-align:left;box-shadow:inset 0 1px #ffecb438;transition:all .2s}
+.option b{display:block;color:#ffdf8b;font-size:12px;letter-spacing:.12em}
+.option span{display:block;font-weight:750;margin-top:3px}
+.option[aria-pressed=true]{background:linear-gradient(145deg,#47300b,#100a03);border-color:#ffe18c;box-shadow:0 0 20px #d99d3d66,inset 0 1px #fff3ca88;color:white}
+.option:focus-visible{outline:3px solid #fff2c7;outline-offset:3px}
+.mode-copy{min-height:49px;text-align:center;color:#ddd0b4;margin:0 0 14px}
+.frame{position:relative;overflow:hidden;border:2px solid #d4a548;border-radius:18px;background:#050505;box-shadow:0 0 24px #c68a2e3d,0 22px 48px #000b}
+.frame img{display:block;width:100%;height:auto}
+.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fx:before,.fx:after{content:"";position:absolute;pointer-events:none}
+.logo{position:absolute;left:1.5%;top:1%;width:26%;height:14%;overflow:hidden;filter:drop-shadow(0 0 3px #e2a83e55)}
+.logo:after{content:"";position:absolute;inset:-40% -55%;background:linear-gradient(105deg,transparent 38%,#fff0a022 46%,#fffbd3cc 50%,#ffc54755 53%,transparent 61%);transform:translateX(-130%);opacity:0}
+.star{position:absolute;left:3%;top:57%;width:20%;height:10%;border-radius:50%;filter:drop-shadow(0 0 0 transparent)}
+.star:before{content:"";position:absolute;left:30%;top:-24%;width:40%;height:145%;border:2px solid #ffe69a;border-radius:50%;transform:rotate(-24deg);opacity:0;box-shadow:0 0 9px #ffd45b}
+.star:after{content:"";position:absolute;left:15%;right:15%;top:42%;height:14%;background:radial-gradient(ellipse,#fff5c4 0, #ffc63c55 35%,transparent 72%);opacity:0}
+.torch{position:absolute;left:53%;top:32%;width:28%;height:13%;transform-origin:58% 23%;opacity:.86}
+.torch .beam{position:absolute;left:35%;top:18%;width:54%;height:76%;clip-path:polygon(5% 0,100% 36%,5% 100%);background:linear-gradient(90deg,#d1faff66 0%,#47bcffba 22%,#7565ffcc 50%,#ff9635e8 77%,#fff1a5 100%);filter:blur(3px);transform-origin:5% 50%}
+.torch .flame{position:absolute;left:28%;top:43%;width:70%;height:44%;border-radius:70% 8% 65% 25%;transform:rotate(-9deg);background:radial-gradient(ellipse at 12% 52%,#fffbe3 0 5%,#fff384 9%,#ffad31 23%,#fb4b0a 48%,#ef740000 72%),linear-gradient(90deg,#ffe88d,#ff6b11bb,transparent);filter:blur(3px) drop-shadow(0 0 16px #ff7711);mix-blend-mode:screen}
+.torch .nozzle{position:absolute;left:4%;top:16%;width:41%;height:22%;border-radius:20px 7px 7px 20px;border:2px solid #ddb358;background:linear-gradient(#7b6c51,#111 43%,#8d713f 55%,#17130c);box-shadow:0 0 8px #f6b53f88}
+.course{position:absolute;left:77%;top:81%;width:22%;height:17%;border-radius:50%;box-shadow:0 0 0 0 #ffd26800;opacity:.9}
+.course:before{content:"";position:absolute;inset:2%;border:2px solid #ffe197;border-radius:50%;opacity:0}
+.course:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#fff5bd;left:15%;top:20%;box-shadow:0 0 14px 6px #ffc345}
+[data-mode="one"] .logo:after{opacity:.9;animation:logoSweep 4.8s ease-in-out infinite}
+[data-mode="one"] .star:after{opacity:.7;animation:starBreathe 3.8s ease-in-out infinite}
+[data-mode="one"] .torch{animation:torchEasy 5s ease-in-out infinite}
+[data-mode="one"] .torch .flame{animation:flameFlicker .18s steps(2,end) infinite alternate}
+[data-mode="one"] .course{animation:badgeGlow 3.8s ease-in-out infinite}
+[data-mode="two"] .logo:after{opacity:.6;animation:logoSweep 3.4s ease-in-out infinite}
+[data-mode="two"] .star:before{opacity:.95;animation:orbit 4s linear infinite}
+[data-mode="two"] .star:after{opacity:1;animation:starBreathe 2.1s ease-in-out infinite}
+[data-mode="two"] .torch{animation:torchMedium 3.9s ease-in-out infinite}
+[data-mode="two"] .torch .flame{animation:flameFlicker .12s steps(2,end) infinite alternate}
+[data-mode="two"] .course:before{opacity:.7;animation:badgeGlow 3s ease-in-out infinite}
+[data-mode="three"] .logo:after{opacity:.5;animation:logoSweep 5.2s ease-in-out infinite}
+[data-mode="three"] .star:after{opacity:.5;animation:starBreathe 4s ease-in-out infinite}
+[data-mode="three"] .torch{animation:torchCinematic 2.8s cubic-bezier(.4,0,.2,1) infinite}
+[data-mode="three"] .torch .beam{animation:beamPulse .24s ease-in-out infinite alternate}
+[data-mode="three"] .torch .flame{animation:flameFlicker .09s steps(2,end) infinite alternate}
+[data-mode="three"] .course{animation:badgeGlow 4s ease-in-out infinite}
+[data-mode="four"] .logo:after{opacity:.75;animation:logoSweep 3.2s ease-in-out infinite}
+[data-mode="four"] .star:before{opacity:.56;animation:orbit 9s linear infinite}
+[data-mode="four"] .torch{animation:torchEasy 6s ease-in-out infinite}
+[data-mode="four"] .torch .flame{animation:flameFlicker .16s steps(2,end) infinite alternate}
+[data-mode="four"] .course:before{opacity:1;animation:badgeGlow 1.9s ease-in-out infinite}
+[data-mode="four"] .course{animation:courseLift 2.8s ease-in-out infinite}
+[data-mode="five"] .logo:after{opacity:.9;animation:logoSweep 3.6s ease-in-out infinite}
+[data-mode="five"] .star:before{opacity:.85;animation:orbit 6s linear infinite}
+[data-mode="five"] .star:after{opacity:.9;animation:starBreathe 2.8s ease-in-out infinite}
+[data-mode="five"] .torch{animation:torchCinematic 3.4s ease-in-out infinite}
+[data-mode="five"] .torch .flame{animation:flameFlicker .11s steps(2,end) infinite alternate}
+[data-mode="five"] .course:before{opacity:.82;animation:badgeGlow 2.5s ease-in-out infinite}
+[data-mode="five"] .course{animation:courseLift 3.2s ease-in-out infinite}
+@keyframes logoSweep{0%,15%{transform:translateX(-130%)}55%,100%{transform:translateX(130%)}}
+@keyframes starBreathe{0%,100%{transform:scale(.85);opacity:.35}50%{transform:scale(1.15);opacity:1}}
+@keyframes orbit{to{transform:rotate(336deg)}}
+@keyframes torchEasy{0%,100%{transform:translateX(-1%) rotate(-1deg)}50%{transform:translateX(2%) rotate(1deg)}}
+@keyframes torchMedium{0%,100%{transform:translateX(-3%) rotate(-2deg)}50%{transform:translateX(5%) rotate(2deg)}}
+@keyframes torchCinematic{0%,100%{transform:translateX(-6%) rotate(-3deg)}50%{transform:translateX(8%) rotate(3deg)}}
+@keyframes beamPulse{from{opacity:.72;filter:blur(4px)}to{opacity:1;filter:blur(1px)}}
+@keyframes flameFlicker{from{transform:rotate(-7deg) scale(.84,.9);filter:blur(2px) drop-shadow(0 0 10px #ff8115)}to{transform:rotate(-12deg) scale(1.12,1.18);filter:blur(4px) drop-shadow(0 0 24px #ff8a12)}}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 0 0 #ffd26800}50%{box-shadow:0 0 34px 12px #ffc43d88}}
+@keyframes courseLift{0%,100%{transform:scale(.98)}50%{transform:scale(1.025)}}
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 30px}
+.info div{border:1px solid #6f501f;border-radius:10px;padding:11px;background:#0c0905;color:#ddcfb2;font-size:13px}
+.info b{display:block;color:#f6d888;margin-bottom:3px}
+footer{text-align:center;padding:0 0 32px;color:#b8a987;font-size:13px}
+@media(max-width:760px){.wrap{width:min(100% - 22px,600px)}header{padding-top:24px}.controls{grid-template-columns:repeat(2,1fr)}.option:last-child{grid-column:1/-1}.info{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<div class="eyebrow">Flat Out Built-Up Roofing · Design review</div>
+<h1>Five homepage animation concepts</h1>
+<p class="intro">Choose an option to preview motion over your current black-and-gold homepage artwork. The four focus areas are the Flat Out logo, the “new to roofing” star, the torch-and-flame hero, and the £9.99 paid-course badge. This review page does not change your live homepage.</p>
+</header>
+<nav class="controls" aria-label="Choose an animation concept">
+<button class="option" type="button" data-select="one" aria-pressed="true"><b>OPTION 01</b><span>Quiet Gold Sweep</span></button>
+<button class="option" type="button" data-select="two" aria-pressed="false"><b>OPTION 02</b><span>Orbiting Star</span></button>
+<button class="option" type="button" data-select="three" aria-pressed="false"><b>OPTION 03</b><span>Cinematic Torch</span></button>
+<button class="option" type="button" data-select="four" aria-pressed="false"><b>OPTION 04</b><span>Course Spotlight</span></button>
+<button class="option" type="button" data-select="five" aria-pressed="false"><b>OPTION 05</b><span>Signature Sequence</span></button>
+</nav>
+<p class="mode-copy" id="mode-copy" aria-live="polite"><strong>Quiet Gold Sweep:</strong> a restrained logo glint, gentle beginner-star glow, measured torch sweep and subtle paid-course halo.</p>
+<section class="frame" id="preview" data-mode="one" aria-label="Animated homepage preview">
+<img src="/approved-homepage.png" alt="Current Flat Out Built-Up Roofing homepage artwork, including the logo, new-to-roofing star, torch-on felt hero and paid-course badge">
+<div class="fx" aria-hidden="true">
+<div class="logo"></div><div class="star"></div>
+<div class="torch"><span class="nozzle"></span><span class="beam"></span><span class="flame"></span></div>
+<div class="course"></div>
+</div>
+</section>
+<section class="info" aria-label="Animation focus areas">
+<div><b>Logo</b>Short moving gold highlight along the top-left brand mark.</div>
+<div><b>Beginner star</b>Different halo or orbit treatment around the “new to roofing” offer.</div>
+<div><b>Hero flame</b>Layered flame flicker and small side-to-side torch sweep over the hero scene.</div>
+<div><b>Paid courses</b>Gold ring, glow or pulse around the £9.99 training badge.</div>
+</section>
+<footer>Concept previews only. Choose an option and tell me its number; I’ll wait for your approval before applying it to the live homepage.</footer>
+</main>
+<script>
+const descriptions={
+one:"<strong>Quiet Gold Sweep:</strong> a restrained logo glint, gentle beginner-star glow, measured torch sweep and subtle paid-course halo.",
+two:"<strong>Orbiting Star:</strong> the beginner badge gets a visible gold orbit, with a brighter but still controlled flame flicker.",
+three:"<strong>Cinematic Torch:</strong> the torch and flame get the strongest side-to-side motion and flame intensity, with quieter supporting accents.",
+four:"<strong>Course Spotlight:</strong> the £9.99 badge leads with a polished pulse; the hero flame and logo stay understated.",
+five:"<strong>Signature Sequence:</strong> a balanced branded combination of sweeping logo light, orbiting star, energetic flame and glowing course badge."
+};
+document.querySelectorAll("[data-select]").forEach(button=>button.addEventListener("click",()=>{
+ const mode=button.dataset.select;
+ document.querySelector("#preview").dataset.mode=mode;
+ document.querySelector("#mode-copy").innerHTML=descriptions[mode];
+ document.querySelectorAll("[data-select]").forEach(b=>b.setAttribute("aria-pressed",String(b===button)));
+}));
+</script>
+</body>
+</html>
