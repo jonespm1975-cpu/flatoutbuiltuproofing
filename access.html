@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080705">
+  <meta name="description" content="Choose the Flat Out Built-Up Roofing website or mobile learning app.">
+  <title>Open Flat Out Roofing</title>
+  <style>
+    :root{color-scheme:dark;--gold:#f3c45b;--cream:#fff5df;--muted:#d4c5a5;--line:#a9792b}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#30200d 0,#100c07 38%,#050505 75%);color:var(--cream);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom)}
+    main{width:min(880px,100%);margin:0 auto;padding:48px 0}
+    header{text-align:center;margin-bottom:32px}
+    .eyebrow{color:#f6d888;text-transform:uppercase;letter-spacing:.23em;font-size:12px;font-weight:800}
+    h1{font:500 clamp(34px,8vw,58px)/1.05 Georgia,serif;margin:12px 0;color:#fff2d4;text-shadow:0 0 22px #e5ad4c55}
+    .intro{color:var(--muted);max-width:590px;margin:0 auto}
+    .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px}
+    .card{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:inherit;padding:24px 22px;border:1px solid #c99942;border-radius:20px;background:linear-gradient(145deg,#221707,#0b0906 58%,#050505);box-shadow:0 0 0 1px #593d17,0 12px 32px #000a,inset 0 1px 0 #ffe7a044;transition:transform .18s ease,box-shadow .18s ease}
+    .card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 1px #e7bd60,0 0 28px #cf953b66,0 14px 36px #000c,inset 0 1px 0 #fff0b077;outline:none}
+    .icon{display:block;width:min(62vw,230px);height:auto;aspect-ratio:1;object-fit:contain;border-radius:26px;box-shadow:0 0 25px #c991393b;margin-bottom:20px}
+    .title{font:500 28px/1.15 Georgia,serif;color:#ffe9b2}
+    .detail{color:#cfc2a7;margin:8px 0 18px}
+    .button{display:inline-block;border:1px solid #ffe18c;border-radius:999px;padding:11px 20px;background:linear-gradient(110deg,#ffefad,#dfaa3e 55%,#9a621c);color:#170e02;font-weight:850}
+    .note{margin:22px auto 0;max-width:650px;color:#b5a98f;text-align:center;font-size:13px}
+    a:focus-visible{outline:3px solid #ffe18c;outline-offset:4px}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Flat Out Built-Up Roofing</div>
+      <h1>Choose where to go</h1>
+      <p class="intro">Tap an icon to open the live website or the mobile learning app.</p>
+    </header>
+    <nav class="choices" aria-label="Website and mobile learning links">
+      <a class="card" href="/" aria-label="Open the Flat Out Built-Up Roofing website">
+        <img class="icon" src="/assets/website-access-icon-512.png" alt="Flat Out Built-Up Roofing website icon">
+        <span class="title">Main website</span>
+        <span class="detail">Open the live Flat Out Built-Up Roofing site.</span>
+        <span class="button">Open website</span>
+      </a>
+      <a class="card" href="/mobile-learning.html" aria-label="Open Flat Out Voice mobile learning">
+        <img class="icon" src="/assets/mobile-learning-voice-icon-512.png" alt="Flat Out Voice mobile learning app icon">
+        <span class="title">Mobile learning app</span>
+        <span class="detail">Open voice-guided roofing lessons. Sign-in and eligible paid-learning access are required.</span>
+        <span class="button">Open mobile learning</span>
+      </a>
+    </nav>
+    <p class="note">To add an icon to your phone, open its destination in Safari on iPhone or Chrome on Android, then use the browser’s <strong>Add to Home Screen</strong> or <strong>Install app</strong> option. The mobile learning icon opens the gated learning app, not a public download.</p>
+  </main>
+</body>
+</html>
