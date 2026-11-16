@@ -18,10 +18,11 @@ main{padding:22px 0 34px}.eyebrow{text-align:center;color:var(--gold2);font-size
 h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align:center;letter-spacing:-.03em;margin:10px 0 11px}
 .lead{text-align:center;color:#c8c0b2;max-width:590px;margin:0 auto 20px}
 .hero{position:relative;overflow:hidden;height:clamp(180px,48vw,270px);border:1px solid #d7b568;border-radius:18px;background:#0a0a09 url("approved-homepage.png") center 18%/185% auto no-repeat;box-shadow:0 14px 34px #000b,inset 0 0 0 1px #f4dc9a66}
-.hero:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#08070599,#08070510 58%,#08070577),linear-gradient(0deg,#080806f2,transparent 65%)}
-.hero:after{content:"";position:absolute;inset:25% 8% 1%;z-index:0;pointer-events:none;opacity:.78;mix-blend-mode:screen;transform-origin:50% 100%;background:radial-gradient(ellipse 38% 48% at 50% 78%,#ff6500d9 0%,#ff8a22a8 24%,#f2a52870 45%,transparent 72%),radial-gradient(ellipse 16% 54% at 45% 73%,#fff0a6 0%,#ffd34eec 18%,#ff8229c7 42%,transparent 76%),radial-gradient(ellipse 14% 49% at 54% 69%,#fff2a8 0%,#ffc347ef 19%,#ff6a22c4 43%,transparent 76%),radial-gradient(ellipse 12% 42% at 39% 77%,#ffd66bd9 0%,#ff7a20bb 30%,transparent 74%),radial-gradient(ellipse 13% 46% at 60% 75%,#ffe27bd9 0%,#ff751bbd 30%,transparent 75%);filter:blur(2px) saturate(1.6);animation:heroFlameFlicker .62s steps(5,end) infinite alternate}
-@keyframes heroFlameFlicker{0%{opacity:.55;transform:translate3d(0,1%,0) scaleX(.88) scaleY(.9)}24%{opacity:.93;transform:translate3d(-1%,0,0) scaleX(1.08) scaleY(1.08)}51%{opacity:.68;transform:translate3d(1%,-1%,0) scaleX(.95) scaleY(.98)}76%{opacity:1;transform:translate3d(-.5%,0,0) scaleX(1.1) scaleY(1.12)}100%{opacity:.72;transform:translate3d(.7%,-1%,0) scaleX(.98) scaleY(1.03)}}
-.hero-copy{position:absolute;z-index:1;left:20px;bottom:17px;max-width:90%}.hero-copy strong{display:block;font:italic 800 clamp(20px,6vw,32px)/1.02 Georgia,serif;color:#f2cf70;text-shadow:0 2px 12px #000}.hero-copy span{display:block;color:#f8f1e2;font-size:13px;margin-top:5px}
+.hero:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#08070599,#08070510 58%,#08070577),linear-gradient(0deg,#080806f2,transparent 65%)}
+.hero:after{display:none}
+.hero-motion{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:58% 56%;pointer-events:none}
+
+.hero-copy{position:absolute;z-index:2;left:20px;bottom:17px;max-width:90%}.hero-copy strong{display:block;font:italic 800 clamp(20px,6vw,32px)/1.02 Georgia,serif;color:#f2cf70;text-shadow:0 2px 12px #000}.hero-copy span{display:block;color:#f8f1e2;font-size:13px;margin-top:5px}
 .panel{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(150deg,#211a0f,#0c0b09 72%);padding:20px;box-shadow:0 14px 32px #0006}
 [hidden]{display:none!important}.status{color:#e7d9b8;margin:0}.error{color:#ffc0ad}.lock-title{font:500 30px Georgia,serif;margin:0 0 8px}.gold-btn,.control{border:1px solid #d8b663;border-radius:11px;background:linear-gradient(115deg,#f0d88c,#bd8d3b);color:#140f05;font-weight:800;padding:13px 17px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}.secondary{background:#110f0c;color:#f4e5bd;border-color:#9a7c43}
 .notice{border-left:3px solid var(--gold);background:#0a0907;padding:13px 14px;color:#c9c0ae;font-size:13px;margin-top:17px}
@@ -35,7 +36,7 @@ h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align
 .bottomnav a{font-size:12px;text-align:center;text-decoration:none;color:#d8cba9;padding:4px 8px}.bottomnav a.active{color:#f2cf70}
 .foot{color:#9d9587;text-align:center;font-size:12px;padding:20px 8px}
 @media(min-width:640px){.shell{padding:0 24px}.panel{padding:25px}.bottomnav{margin-left:-24px;margin-right:-24px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}.hero:after{animation:none;opacity:.78}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}.hero-motion{display:none!important}}
 </style>
 </head>
 <body>
@@ -44,7 +45,7 @@ h1{font:500 clamp(34px,8vw,52px)/1.04 Georgia,"Times New Roman",serif;text-align
 <div class="eyebrow">Voice-guided Roofing Academy</div>
 <h1>Learn one step at a time</h1>
 <p class="lead">Listen to the learning guide, move through each project stage, and use voice commands when your device supports them.</p>
-<div class="hero" role="img" aria-label="Built-up felt roofing roll being installed on a roof"><div class="hero-copy"><strong>REAL SKILLS. LASTING ROOFS.</strong><span>Practical training · safety · real roofing</span></div></div>
+<div class="hero" role="img" aria-label="Built-up felt roofing roll being installed on a roof"><video class="hero-motion" autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="approved-homepage.png"><source src="assets/hero-flame-loop.mp4" type="video/mp4"></video><div class="hero-copy"><strong>REAL SKILLS. LASTING ROOFS.</strong><span>Practical training · safety · real roofing</span></div></div>
 
 <section id="loading" class="panel" aria-live="polite"><p id="loadingText" class="status">Checking your account and paid learning access…</p></section>
 <section id="gate" class="panel" hidden>
