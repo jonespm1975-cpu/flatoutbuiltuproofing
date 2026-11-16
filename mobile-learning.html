@@ -59,7 +59,7 @@ main{padding:6px 0 18px}.head{height:90px;justify-content:center}.brand{justify-
 <body>
 <header><div class="shell head"><a class="brand" href="index.html" aria-label="Flat Out Built-Up Roofing home"><img src="assets/flat-out-built-up-roofing-logo.svg" alt="Flat Out Built-Up Roofing"></a><a class="home-link" href="members.html">My Learning</a></div></header>
 <main class="shell">
-<div class="hero" role="img" aria-label="Built-up felt roofing roll being installed on a roof"><video class="hero-motion" autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="approved-homepage.png"><source src="assets/hero-scene-motion.mp4" type="video/mp4"><source src="assets/hero-flame-loop.mp4" type="video/mp4"></video><div class="hero-copy"><strong>REAL SKILLS. LASTING ROOFS.</strong><span>Practical training · safety · real roofing</span></div></div>
+<div class="hero" role="img" aria-label="Built-up felt roofing roll being installed on a roof"><video id="heroMotion" class="hero-motion" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true" poster="approved-homepage.png"><source src="assets/hero-scene-motion.mp4" type="video/mp4"></video><div class="hero-copy"><strong>REAL SKILLS. LASTING ROOFS.</strong><span>Practical training · safety · real roofing</span></div></div>
 
 <section class="app-home" aria-label="Mobile app home">
   <h1>REAL SKILLS.<br><span>LASTING ROOFS.</span></h1>
@@ -116,6 +116,9 @@ main{padding:6px 0 18px}.head{height:90px;justify-content:center}.brand{justify-
 </main>
 <script type="module">
 import { supabase } from "./auth.js";
+const heroMotion=document.getElementById("heroMotion");
+async function playHeroMotion(){if(!heroMotion||document.visibilityState!=="visible")return;heroMotion.muted=true;try{await heroMotion.play()}catch{}}
+if(heroMotion){heroMotion.addEventListener("loadeddata",playHeroMotion,{once:true});window.addEventListener("pageshow",playHeroMotion);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")playHeroMotion();else heroMotion.pause()});}
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{});
 const endpoint="https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/mobile-learning-content";
 const els=Object.fromEntries(["loading","loadingText","gate","gateText","app","errorPanel","errorText","retry","guideTitle","guideIntro","accessBadge","stepCount","progressBar","stepTitle","stepBody","previous","next","repeat","listen","stop","voiceStatus","safetyNote","installPrompt","installText","installButton"].map(id=>[id,document.getElementById(id)]));
