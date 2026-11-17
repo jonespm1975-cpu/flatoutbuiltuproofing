@@ -1,9 +1,9 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v6';
+const CACHE = 'flatout-public-v7';
 const PUBLIC = [
   '/', '/index.html', '/site.css', '/styles.css', '/academy-interior.css',
-  '/site.js', '/free-sections.js', '/approved-homepage.png', '/logo-original.jpeg',
+  '/site.js', '/free-sections.js', '/approved-homepage.png', '/assets/homepage-reference.jpg', '/logo-original.jpeg',
   '/assets/flat-out-built-up-roofing-logo.svg',
   '/manifest.webmanifest', '/academy-roof-illustration.svg',
   '/assets/premium-roofing-interior.svg', '/assets/premium-roofing-materials.svg',
