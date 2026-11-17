@@ -159,8 +159,23 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   display: block;
   pointer-events: none;
 }
+.hero-motion-control { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  .hero-action { display: none; }
+  main:not(.hero-motion-enabled) .hero-action { display: none; }
+  .hero-motion-control {
+    display: block;
+    position: absolute;
+    top: 8%;
+    right: 2%;
+    z-index: 7;
+    border: 1px solid #dfb34f;
+    border-radius: 99px;
+    padding: 5px 9px;
+    background: #100e0a;
+    color: #ffe7aa;
+    font: 600 clamp(10px, 1.3vw, 14px)/1.2 system-ui, sans-serif;
+    cursor: pointer;
+  }
 }
 .hero-motion{position:absolute;z-index:6;display:block;pointer-events:none;overflow:hidden;border-radius:50%;mix-blend-mode:screen}
 .hero-sparks{left:43%;top:7.5%;width:55%;height:14%;border-radius:45%;--spark-delay:-1.4s}
@@ -178,7 +193,15 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
 <img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
-<img class="hero-action" src="assets/roofing-hero-full-sweep.webp" alt="" decoding="async">
+<img class="hero-action" src="assets/roofing-hero-cinematic.webp" alt="" decoding="async">
+<button class="hero-motion-control" type="button">Play animation</button>
+<script>
+  const motionControl = document.querySelector('.hero-motion-control');
+  motionControl.addEventListener('click', () => {
+    const playing = motionControl.closest('main').classList.toggle('hero-motion-enabled');
+    motionControl.textContent = playing ? 'Stop animation' : 'Play animation';
+  });
+</script>
 
 <span class="sparkle-zone zone-logo" aria-hidden="true"></span>
 <span class="sparkle-zone zone-handbook" aria-hidden="true"></span>
