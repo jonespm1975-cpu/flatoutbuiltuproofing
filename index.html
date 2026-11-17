@@ -54,7 +54,28 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 .gallery-bottom{left:1.5%;top:81.2%;width:31%;height:10%}
 .sponsors-bottom{left:32.5%;top:81.2%;width:30%;height:10%}
 .support-bottom{left:62.5%;top:81.2%;width:36%;height:10%}
-.support-qr{position:absolute;z-index:4;right:3.3%;top:83%;width:9.5%;height:auto;aspect-ratio:1/1;max-width:30%;margin:0;padding:2px;border:1px solid #e8bd50;border-radius:6px;background:#08141d;box-shadow:0 0 8px rgba(239,190,77,.38);line-height:0;cursor:zoom-in;display:block;appearance:none;-webkit-appearance:none}.support-qr img{display:block;width:100%;height:100%;object-fit:contain;border-radius:5px}.support-qr img{display:block;width:100%;height:100%;object-fit:contain;border-radius:5px}.support-qr-dialog{max-width:90vw;width:max-content;max-height:90vh;padding:24px;border:2px solid #e8bd50;border-radius:22px;background:linear-gradient(145deg,#15110a,#050505 70%);color:#f7edcf;text-align:center;box-shadow:0 0 35px rgba(239,190,77,.45)}.support-qr-dialog::backdrop{background:rgba(0,0,0,.86);backdrop-filter:blur(5px)}.support-qr-large{display:block;width:min(72vw,460px);max-height:68vh;object-fit:contain;margin:18px auto;background:#08141d;border-radius:12px}.support-qr-dialog p{margin:0 0 16px;color:#d5c8ad}.support-qr-close{border:1px solid #ffe39b;border-radius:24px;padding:10px 22px;background:linear-gradient(100deg,#ffe78a,#bd7712);color:#171006;font-weight:800;cursor:pointer}
+.support-qr {
+  position: absolute;
+  z-index: 4;
+  right: 3.3%;
+  top: 82.4%;
+  width: 10%;
+  height: 6.73%;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #e8bd50;
+  border-radius: clamp(3px, 1vw, 8px);
+  background: #101a23;
+  cursor: zoom-in;
+}
+.support-qr img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.support-qr-dialog{max-width:90vw;width:max-content;max-height:90vh;padding:24px;border:2px solid #e8bd50;border-radius:22px;background:linear-gradient(145deg,#15110a,#050505 70%);color:#f7edcf;text-align:center;box-shadow:0 0 35px rgba(239,190,77,.45)}.support-qr-dialog::backdrop{background:rgba(0,0,0,.86);backdrop-filter:blur(5px)}.support-qr-large{display:block;width:min(72vw,460px);max-height:68vh;object-fit:contain;margin:18px auto;background:#08141d;border-radius:12px}.support-qr-dialog p{margin:0 0 16px;color:#d5c8ad}.support-qr-close{border:1px solid #ffe39b;border-radius:24px;padding:10px 22px;background:linear-gradient(100deg,#ffe78a,#bd7712);color:#171006;font-weight:800;cursor:pointer}
 .sparkle-zone {
   position: absolute;
   z-index: 5;
@@ -127,15 +148,24 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   35% { opacity: .72; }
   70% { opacity: .39; transform: translate(1%, -6%); }
 }
+.hero-action {
+  position: absolute;
+  z-index: 1;
+  left: 34.402%;
+  top: 6.741%;
+  width: 65.598%;
+  height: 17.343%;
+  object-fit: fill;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-action[data-playing] { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-action { display: none; }
+}
 .hero-motion{position:absolute;z-index:6;display:block;pointer-events:none;overflow:hidden;border-radius:50%;mix-blend-mode:screen}
-.hero-torch-glow{left:43%;top:9.5%;width:27%;height:9%;background:radial-gradient(ellipse at 63% 86%,rgba(255,250,196,.62) 0 6%,rgba(66,185,255,.38) 17%,rgba(255,174,33,.18) 43%,transparent 72%);filter:blur(3px);opacity:.28;animation:torchGlow 1.35s ease-in-out infinite}
-.hero-roll-fire{left:39%;top:15%;width:57%;height:6.5%;border-radius:50%;background:linear-gradient(100deg,transparent 0 6%,rgba(255,91,10,.18) 15%,rgba(255,214,57,.62) 29%,rgba(255,252,173,.84) 36%,rgba(255,90,8,.48) 45%,rgba(255,225,82,.66) 60%,rgba(255,74,4,.34) 70%,transparent 88%);background-size:220% 100%;filter:blur(2.5px);opacity:.3;transform-origin:left center;animation:roofFireSweep 3s cubic-bezier(.45,0,.3,1) infinite}
 .hero-sparks{left:43%;top:7.5%;width:55%;height:14%;border-radius:45%;--spark-delay:-1.4s}
-.hero-worker-shimmer{left:76%;top:7%;width:22%;height:14%;border-radius:35%;background:linear-gradient(110deg,transparent 30%,rgba(255,241,145,.26) 46%,transparent 56%);background-size:220% 100%;filter:blur(4px);opacity:.12;animation:workerSheen 4.2s ease-in-out infinite}
-@keyframes torchGlow{0%,100%{transform:translate(-1%,1%) scale(.94);opacity:.18;filter:blur(4px) brightness(1)}45%{transform:translate(2%,-3%) scale(1.08);opacity:.68;filter:blur(2px) brightness(1.5)}}
-@keyframes roofFireSweep{0%{background-position:140% 50%;opacity:.18;transform:scaleY(.78)}42%{opacity:.66;transform:scaleY(1.08)}100%{background-position:-40% 50%;opacity:.26;transform:scaleY(.86)}}
-@keyframes workerSheen{0%,100%{background-position:140% 0;opacity:.06}50%{background-position:-40% 0;opacity:.24}}
-@media(max-width:520px){a.hotspot{border-radius:2px}.support-qr{right:3.3%;top:83%;width:9.5%;height:auto;padding:2px}.support-qr-dialog{padding:18px}.support-qr-large{width:min(76vw,400px)}}
+@media(max-width:520px){a.hotspot{border-radius:2px}.support-qr-dialog{padding:18px}.support-qr-large{width:min(76vw,400px)}}
 @media (prefers-reduced-motion: reduce) {
   .hero-motion { animation: none; opacity: .4; }
   .hero-sparks { opacity: 1; }
@@ -149,6 +179,26 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
 <img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
+<video class="hero-action" muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture>
+  <source src="assets/roofing-hero-motion.mp4" type="video/mp4">
+</video>
+<script>
+  const heroAction = document.querySelector('.hero-action');
+  const reduceHeroMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function updateHeroPlayback() {
+    if (reduceHeroMotion.matches) {
+      heroAction.pause();
+      heroAction.removeAttribute('data-playing');
+    } else {
+      heroAction.play().catch(() => {});
+    }
+  }
+
+  heroAction.addEventListener('playing', () => heroAction.setAttribute('data-playing', ''));
+  reduceHeroMotion.addEventListener('change', updateHeroPlayback);
+  updateHeroPlayback();
+</script>
 
 <span class="sparkle-zone zone-logo" aria-hidden="true"></span>
 <span class="sparkle-zone zone-handbook" aria-hidden="true"></span>
@@ -158,10 +208,7 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 <span class="sparkle-zone zone-paid" aria-hidden="true"></span>
 <span class="sparkle-zone zone-stripe-left" aria-hidden="true"></span>
 <span class="sparkle-zone zone-stripe-right" aria-hidden="true"></span>
-<span class="hero-motion hero-torch-glow" aria-hidden="true"></span>
-<span class="hero-motion hero-roll-fire" aria-hidden="true"></span>
 <span class="hero-motion hero-sparks" aria-hidden="true"></span>
-<span class="hero-motion hero-worker-shimmer" aria-hidden="true"></span>
 <a class="hotspot logo" href="#top" aria-label="Flat Out Built-Up Roofing home" id="top"></a>
 <a class="hotspot nav-home" href="#top" aria-label="Home"></a>
 <a class="hotspot nav-learn" href="lessons/introduction.html" aria-label="Learn"></a>
