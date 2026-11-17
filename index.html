@@ -156,10 +156,9 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   width: 65.598%;
   height: 17.343%;
   object-fit: fill;
-  opacity: 0;
+  display: block;
   pointer-events: none;
 }
-.hero-action[data-playing] { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .hero-action { display: none; }
 }
@@ -179,26 +178,7 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
 <img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
-<video class="hero-action" muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture>
-  <source src="assets/roofing-hero-motion.mp4" type="video/mp4">
-</video>
-<script>
-  const heroAction = document.querySelector('.hero-action');
-  const reduceHeroMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  function updateHeroPlayback() {
-    if (reduceHeroMotion.matches) {
-      heroAction.pause();
-      heroAction.removeAttribute('data-playing');
-    } else {
-      heroAction.play().catch(() => {});
-    }
-  }
-
-  heroAction.addEventListener('playing', () => heroAction.setAttribute('data-playing', ''));
-  reduceHeroMotion.addEventListener('change', updateHeroPlayback);
-  updateHeroPlayback();
-</script>
+<img class="hero-action" src="assets/roofing-hero-inline.webp" alt="" decoding="async">
 
 <span class="sparkle-zone zone-logo" aria-hidden="true"></span>
 <span class="sparkle-zone zone-handbook" aria-hidden="true"></span>
