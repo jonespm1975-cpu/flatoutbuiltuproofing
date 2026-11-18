@@ -89,6 +89,22 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   mask-image: linear-gradient(to bottom, #000 0%, #000 99%, transparent);
 }
 .homepage-preview-still { z-index: 0; }
+.homepage-torch-video {
+  position: absolute;
+  z-index: 1;
+  top: 6.74%;
+  left: 43%;
+  width: 57%;
+  height: 17.25%;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+  visibility: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 11%),
+              linear-gradient(to bottom, transparent, #000 4%, #000 97%, transparent);
+  mask-composite: intersect;
+}
+.homepage-torch-video.is-playing { visibility: visible; }
 .hero-motion-control { display: none; }
 @media (prefers-reduced-motion: reduce) {
   main:not(.hero-motion-enabled) .homepage-preview-animation { display: none; }
@@ -182,13 +198,32 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 <img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
 <img class="homepage-preview-layer homepage-preview-still" src="assets/homepage-refined-hero-still.jpg" alt="" width="800" height="614">
 <img class="homepage-preview-layer homepage-preview-animation" src="assets/homepage-refined-hero.webp" alt="" width="800" height="614" decoding="async">
+<video class="homepage-torch-video" src="assets/homepage-torch-sweep.mp4"
+  muted loop playsinline preload="none" aria-hidden="true"></video>
 <button class="hero-motion-control" type="button">Play animation</button>
 <script>
   const motionControl = document.querySelector('.hero-motion-control');
+  const homepage = motionControl.closest('main');
+  const torchVideo = homepage.querySelector('.homepage-torch-video');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+  function updateTorchPlayback() {
+    if (reducedMotion.matches && !homepage.classList.contains('hero-motion-enabled')) {
+      torchVideo.pause();
+      torchVideo.classList.remove('is-playing');
+      return;
+    }
+    torchVideo.play().catch(() => torchVideo.classList.remove('is-playing'));
+  }
+
+  torchVideo.addEventListener('playing', () => torchVideo.classList.add('is-playing'));
   motionControl.addEventListener('click', () => {
-    const playing = motionControl.closest('main').classList.toggle('hero-motion-enabled');
+    const playing = homepage.classList.toggle('hero-motion-enabled');
     motionControl.textContent = playing ? 'Stop animation' : 'Play animation';
+    updateTorchPlayback();
   });
+  reducedMotion.addEventListener('change', updateTorchPlayback);
+  updateTorchPlayback();
 </script>
 
 <a class="hotspot logo" href="#top" aria-label="Flat Out Built-Up Roofing home" id="top"></a>
