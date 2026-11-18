@@ -1,0 +1,16 @@
+plugins {
+    id 'com.android.application' version '8.10.1'
+}
+
+android {
+    namespace 'uk.co.flatoutbuiltuproofing.mobile'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'uk.co.flatoutbuiltuproofing.mobile'
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName '1.0.0'
+    }
+}

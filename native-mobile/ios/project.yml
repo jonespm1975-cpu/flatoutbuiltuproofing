@@ -1,0 +1,19 @@
+name: FlatOutRoofing
+options:
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  FlatOutRoofing:
+    type: application
+    platform: iOS
+    sources: [FlatOut]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: uk.co.flatoutbuiltuproofing.mobile
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Flat Out Roofing
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
