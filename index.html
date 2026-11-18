@@ -76,92 +76,22 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   object-fit: cover;
 }
 .support-qr-dialog{max-width:90vw;width:max-content;max-height:90vh;padding:24px;border:2px solid #e8bd50;border-radius:22px;background:linear-gradient(145deg,#15110a,#050505 70%);color:#f7edcf;text-align:center;box-shadow:0 0 35px rgba(239,190,77,.45)}.support-qr-dialog::backdrop{background:rgba(0,0,0,.86);backdrop-filter:blur(5px)}.support-qr-large{display:block;width:min(72vw,460px);max-height:68vh;object-fit:contain;margin:18px auto;background:#08141d;border-radius:12px}.support-qr-dialog p{margin:0 0 16px;color:#d5c8ad}.support-qr-close{border:1px solid #ffe39b;border-radius:24px;padding:10px 22px;background:linear-gradient(100deg,#ffe78a,#bd7712);color:#171006;font-weight:800;cursor:pointer}
-.sparkle-zone {
-  position: absolute;
-  z-index: 5;
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: 12px;
-}
-.sparkle-zone::before,
-.sparkle-zone::after,
-.hero-sparks::before,
-.hero-sparks::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  animation: fobur-dust 4.8s ease-in-out infinite;
-  animation-delay: var(--spark-delay, 0s);
-}
-.sparkle-zone::before,
-.hero-sparks::before {
-  background:
-    radial-gradient(circle at 9% 25%, #ffe391 0.37px, transparent 0.91px),
-    radial-gradient(circle at 16% 64%, #ffbf41 0.28px, transparent 0.75px),
-    radial-gradient(circle at 21% 18%, #fff0ba 0.49px, transparent 1.14px),
-    radial-gradient(circle at 26% 40%, #ffe391 0.31px, transparent 0.82px),
-    radial-gradient(circle at 30% 79%, #ffbf41 0.37px, transparent 0.91px),
-    radial-gradient(circle at 35% 31%, #fff0ba 0.28px, transparent 0.75px),
-    radial-gradient(circle at 42% 61%, #ffe391 0.49px, transparent 1.14px),
-    radial-gradient(circle at 48% 19%, #ffbf41 0.31px, transparent 0.82px),
-    radial-gradient(circle at 54% 73%, #fff0ba 0.37px, transparent 0.91px),
-    radial-gradient(circle at 59% 43%, #ffe391 0.28px, transparent 0.75px),
-    radial-gradient(circle at 65% 23%, #ffbf41 0.49px, transparent 1.14px),
-    radial-gradient(circle at 70% 62%, #fff0ba 0.31px, transparent 0.82px),
-    radial-gradient(circle at 77% 36%, #ffe391 0.37px, transparent 0.91px),
-    radial-gradient(circle at 82% 75%, #ffbf41 0.28px, transparent 0.75px),
-    radial-gradient(circle at 88% 23%, #fff0ba 0.49px, transparent 1.14px),
-    radial-gradient(circle at 92% 51%, #ffe391 0.31px, transparent 0.82px);
-}
-.sparkle-zone::after,
-.hero-sparks::after {
-  background:
-    radial-gradient(circle at 8% 51%, #ffe391 0.37px, transparent 0.91px),
-    radial-gradient(circle at 13% 73%, #ffbf41 0.28px, transparent 0.75px),
-    radial-gradient(circle at 18% 39%, #fff0ba 0.49px, transparent 1.14px),
-    radial-gradient(circle at 24% 58%, #ffe391 0.31px, transparent 0.82px),
-    radial-gradient(circle at 29% 25%, #ffbf41 0.37px, transparent 0.91px),
-    radial-gradient(circle at 34% 67%, #fff0ba 0.28px, transparent 0.75px),
-    radial-gradient(circle at 39% 19%, #ffe391 0.49px, transparent 1.14px),
-    radial-gradient(circle at 46% 47%, #ffbf41 0.31px, transparent 0.82px),
-    radial-gradient(circle at 51% 78%, #fff0ba 0.37px, transparent 0.91px),
-    radial-gradient(circle at 57% 30%, #ffe391 0.28px, transparent 0.75px),
-    radial-gradient(circle at 63% 63%, #ffbf41 0.49px, transparent 1.14px),
-    radial-gradient(circle at 68% 46%, #fff0ba 0.31px, transparent 0.82px),
-    radial-gradient(circle at 73% 79%, #ffe391 0.37px, transparent 0.91px),
-    radial-gradient(circle at 79% 20%, #ffbf41 0.28px, transparent 0.75px),
-    radial-gradient(circle at 85% 56%, #fff0ba 0.49px, transparent 1.14px),
-    radial-gradient(circle at 91% 32%, #ffe391 0.31px, transparent 0.82px);
-  animation-duration: 5.7s;
-  animation-delay: calc(var(--spark-delay, 0s) - 2.6s);
-}
-.zone-logo{left:0;top:0;width:27%;height:9%;border-radius:50%}
-.zone-handbook{left:2%;top:24%;width:25%;height:6.3%;--spark-delay:.25s}
-.zone-free-badge{left:1.5%;top:30.4%;width:15%;height:6%;--spark-delay:.7s}
-.zone-tools{left:2%;top:36.5%;width:15%;height:6.8%;--spark-delay:1.1s}
-.zone-maintenance{left:82.5%;top:36.5%;width:16%;height:6.8%;--spark-delay:.5s}
-.zone-paid{left:80.5%;top:43.7%;width:19%;height:7.7%;--spark-delay:.95s}
-.zone-stripe-left{left:1.5%;top:52.3%;width:8%;height:3%;border-radius:4px;--spark-delay:.35s}
-.zone-stripe-right{left:90.5%;top:52.3%;width:8%;height:3%;border-radius:4px;--spark-delay:1.3s}
-@keyframes fobur-dust {
-  0%, 100% { opacity: .13; transform: translate(-1%, 5%); }
-  35% { opacity: .72; }
-  70% { opacity: .39; transform: translate(1%, -6%); }
-}
-.hero-action {
+.homepage-preview-layer {
   position: absolute;
   z-index: 1;
-  left: 34.402%;
-  top: 6.734%;
-  width: 65.598%;
-  height: 17.374%;
-  object-fit: fill;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 51.717%;
   display: block;
+  object-fit: fill;
   pointer-events: none;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 99%, transparent);
 }
+.homepage-preview-still { z-index: 0; }
 .hero-motion-control { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  main:not(.hero-motion-enabled) .hero-action { display: none; }
+  main:not(.hero-motion-enabled) .homepage-preview-animation { display: none; }
   .hero-motion-control {
     display: block;
     position: absolute;
@@ -177,23 +107,14 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
     cursor: pointer;
   }
 }
-.hero-motion{position:absolute;z-index:6;display:block;pointer-events:none;overflow:hidden;border-radius:50%;mix-blend-mode:screen}
-.hero-sparks{left:43%;top:7.5%;width:55%;height:14%;border-radius:45%;--spark-delay:-1.4s}
 @media(max-width:520px){a.hotspot{border-radius:2px}.support-qr-dialog{padding:18px}.support-qr-large{width:min(76vw,400px)}}
-@media (prefers-reduced-motion: reduce) {
-  .hero-motion { animation: none; opacity: .4; }
-  .hero-sparks { opacity: 1; }
-  .sparkle-zone::before,
-  .sparkle-zone::after,
-  .hero-sparks::before,
-  .hero-sparks::after { animation: none; opacity: .36; }
-}
 </style>
 </head>
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
 <img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
-<img class="hero-action" src="assets/roofing-hero-cinematic.webp" alt="" decoding="async">
+<img class="homepage-preview-layer homepage-preview-still" src="assets/homepage-green-arrow-still.jpg" alt="" width="1000" height="768">
+<img class="homepage-preview-layer homepage-preview-animation" src="assets/homepage-green-arrow.webp" alt="" width="800" height="614" decoding="async">
 <button class="hero-motion-control" type="button">Play animation</button>
 <script>
   const motionControl = document.querySelector('.hero-motion-control');
@@ -203,15 +124,6 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   });
 </script>
 
-<span class="sparkle-zone zone-logo" aria-hidden="true"></span>
-<span class="sparkle-zone zone-handbook" aria-hidden="true"></span>
-<span class="sparkle-zone zone-free-badge" aria-hidden="true"></span>
-<span class="sparkle-zone zone-tools" aria-hidden="true"></span>
-<span class="sparkle-zone zone-maintenance" aria-hidden="true"></span>
-<span class="sparkle-zone zone-paid" aria-hidden="true"></span>
-<span class="sparkle-zone zone-stripe-left" aria-hidden="true"></span>
-<span class="sparkle-zone zone-stripe-right" aria-hidden="true"></span>
-<span class="hero-motion hero-sparks" aria-hidden="true"></span>
 <a class="hotspot logo" href="#top" aria-label="Flat Out Built-Up Roofing home" id="top"></a>
 <a class="hotspot nav-home" href="#top" aria-label="Home"></a>
 <a class="hotspot nav-learn" href="lessons/introduction.html" aria-label="Learn"></a>
