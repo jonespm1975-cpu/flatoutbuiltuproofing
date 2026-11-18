@@ -113,6 +113,27 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   .support-qr-dialog { padding: 18px; }
   .support-qr-large { width: min(76vw, 400px); }
 }
+
+/* Fill the usable portrait screen when launched from a phone's home screen. */
+@media (display-mode: standalone) and (max-width: 600px) and (orientation: portrait) {
+  body {
+    --app-top-inset: max(4px, env(safe-area-inset-top));
+    --app-bottom-inset: env(safe-area-inset-bottom);
+    padding-top: var(--app-top-inset);
+    padding-bottom: var(--app-bottom-inset);
+  }
+  .poster {
+    height: max(calc(100vw * 1528 / 1029), calc(100dvh - var(--app-top-inset) - var(--app-bottom-inset)));
+    object-fit: fill;
+  }
+  .support-qr {
+    top: 85.765%;
+    height: auto;
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+  }
+  .support-qr img { object-fit: contain; }
+}
 </style>
 </head>
 <body>
