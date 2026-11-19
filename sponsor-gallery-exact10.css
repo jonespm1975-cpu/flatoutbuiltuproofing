@@ -9,9 +9,9 @@ a{color:#f9d68d}
 a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline-offset:2px}
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
 .approved-artwork{position:relative;width:min(100%,1247px);margin:0 auto;isolation:isolate;line-height:0}
-.approved-artwork>img{display:block;width:100%;height:auto;aspect-ratio:1247/1261;object-fit:contain}
+.approved-artwork>img:first-child{display:block;width:100%;height:auto;aspect-ratio:1247/1261;object-fit:contain}
 /* The approved image is unmodified. Cover only its printed, non-scannable QR with the live SVG. */
-.working-qr-overlay{position:absolute;z-index:1;left:64.5%;top:85%;width:11.8%;height:11.1%;display:block;object-fit:contain;background:#fff;pointer-events:none;}
+.approved-artwork>img.working-qr-overlay{position:absolute;z-index:1;left:64.5%;top:85%;width:11.8%;height:11.1%;display:block;max-width:11.8%;max-height:11.1%;aspect-ratio:1/1;object-fit:contain;background:#fff;pointer-events:none;}
 .art-hotspot{position:absolute;display:block;z-index:2;cursor:pointer;background:transparent;border:0;padding:0;margin:0;font:inherit;appearance:none;text-decoration:none;touch-action:manipulation}
 .art-hotspot:focus-visible{outline:3px solid #fff3c8!important;outline-offset:-4px;box-shadow:0 0 16px #ffd37c}
 /* Transparent menu hotspot in the approved artwork opens a usable mobile navigation panel. */
@@ -24,7 +24,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 #sponsor-menu-dialog button{margin-top:18px;padding:11px 19px;background:linear-gradient(#fce5a0,#b9812d);border:2px solid #fff0bc;border-radius:9px;color:#221508;font-weight:800;cursor:pointer}
 #sponsor-qr-dialog{max-width:min(92vw,380px);border:3px solid #efc575;border-radius:16px;background:linear-gradient(145deg,#2a1d0d,#080909);color:#fbe6b8;padding:18px;box-shadow:0 24px 70px #000d,0 0 35px #e6b15144;text-align:center}
 #sponsor-qr-dialog::backdrop{background:#020202d9}
-#sponsor-qr-dialog img{display:block;margin:14px auto 12px;width:min(74vw,260px);height:auto;padding:9px;background:#fff}
+#sponsor-qr-dialog img{display:block;margin:14px auto 12px;width:min(66vw,210px);max-width:100%;height:auto;padding:8px;background:#fff}
 #sponsor-qr-dialog h2{font:750 1.45rem/1.3 Georgia,serif;color:#ffdb95;margin:10px auto}
 #sponsor-qr-dialog p{line-height:1.45}
 #sponsor-qr-dialog button{padding:11px 19px;background:linear-gradient(#fce5a0,#b9812d);border:2px solid #fff0bc;border-radius:9px;color:#221508;font-weight:800;cursor:pointer}
