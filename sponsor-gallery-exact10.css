@@ -14,6 +14,14 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 .working-qr-overlay{position:absolute;z-index:1;left:64.5%;top:85%;width:11.8%;height:11.1%;display:block;object-fit:contain;background:#fff;pointer-events:none;}
 .art-hotspot{position:absolute;display:block;z-index:2;cursor:pointer;background:transparent;border:0;padding:0;margin:0;font:inherit;appearance:none;text-decoration:none;touch-action:manipulation}
 .art-hotspot:focus-visible{outline:3px solid #fff3c8!important;outline-offset:-4px;box-shadow:0 0 16px #ffd37c}
+/* Transparent menu hotspot in the approved artwork opens a usable mobile navigation panel. */
+#sponsor-menu-dialog{max-width:min(92vw,440px);width:100%;border:3px solid #efc575;border-radius:16px;background:linear-gradient(145deg,#2a1d0d,#080909);color:#fbe6b8;padding:20px;box-shadow:0 24px 70px #000d,0 0 35px #e6b15144;text-align:center}
+#sponsor-menu-dialog::backdrop{background:#020202dd}
+#sponsor-menu-dialog h2{font:750 1.5rem/1.25 Georgia,serif;color:#ffdb95;margin:6px auto 17px}
+.sponsor-menu-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.sponsor-menu-links a{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 7px;text-decoration:none;border:1px solid #bd8c41;border-radius:8px;background:#1c150c;color:#ffe1a2;font-weight:750;font-size:.9rem}
+.sponsor-menu-links a[aria-current=page]{border-color:#fff0b8;background:#4a2e0c}
+#sponsor-menu-dialog button{margin-top:18px;padding:11px 19px;background:linear-gradient(#fce5a0,#b9812d);border:2px solid #fff0bc;border-radius:9px;color:#221508;font-weight:800;cursor:pointer}
 #sponsor-qr-dialog{max-width:min(92vw,380px);border:3px solid #efc575;border-radius:16px;background:linear-gradient(145deg,#2a1d0d,#080909);color:#fbe6b8;padding:18px;box-shadow:0 24px 70px #000d,0 0 35px #e6b15144;text-align:center}
 #sponsor-qr-dialog::backdrop{background:#020202d9}
 #sponsor-qr-dialog img{display:block;margin:14px auto 12px;width:min(74vw,260px);height:auto;padding:9px;background:#fff}
