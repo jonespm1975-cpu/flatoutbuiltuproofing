@@ -327,3 +327,159 @@ html body .access{
   background:linear-gradient(145deg,#2e2519,#0a0a0b 66%,#1d1409)!important;
   box-shadow:inset 0 1px 0 #ffedbf80,inset 0 0 0 2px #a37e3450,0 18px 35px #000b,0 0 22px #dbad4b33!important;
 }
+
+/* DESIGN 4 — BOLD BEVELLED METALLIC GOLD | approved 19 Nov 2026
+   Presentation only; all original text, diagram SVG, media, animation and form logic remain.
+   Loaded exclusively by interior pages. Homepage index.html never imports this CSS. */
+:root{
+  --d4-foil:linear-gradient(120deg,#76501c 0%,#fff0be 9%,#d7a54a 22%,#f8d78b 43%,#92621f 64%,#f4cc77 86%,#ffefb9 100%);
+  --d4-plate:linear-gradient(145deg,#292117,#0e0e10 35%,#080809 70%,#20170d 100%);
+  --d4-edge:#eec677;
+}
+html body{
+  background-color:#080808!important;
+  background-image:
+   radial-gradient(ellipse at 94% 2%,#bd842c28,transparent 37%),
+   repeating-linear-gradient(135deg,#fff1c509 0px 1px,transparent 1px 5px),
+   repeating-linear-gradient(45deg,#ffffff06 0px 1px,transparent 1px 5px),
+   linear-gradient(165deg,#161719 0%,#050607 53%,#0b0907 100%)!important;
+}
+html body :is(.card,.academy-panel,.academy-tile,.notice,.panel,.receipt,section.topic,.academy-detail-grid article,.course-card,.test-card,.info-box){
+  border:2px solid var(--d4-edge)!important;
+  border-radius:14px!important;
+  background:var(--d4-plate)!important;
+  box-shadow:
+    0 1px 0 #fff6d4aa inset,
+    0 0 0 3px #332411 inset,
+    0 0 0 4px #8f662d70 inset,
+    0 -2px 0 #8d5b28 inset,
+    0 0 0 1px #5b3b1c,
+    0 15px 33px #000b,
+    0 0 19px #d8a44a26!important;
+}
+html body :is(.card,.academy-panel,.academy-tile,.notice,.panel,.receipt,section.topic,.academy-detail-grid article,.course-card,.test-card,.info-box):hover{
+  border-color:#ffdc8f!important;
+}
+html body :is(.academy-feature,.academy-hero,.hero:not(.hero-visual)){
+  border:2px solid #e7ba67!important;
+  box-shadow:inset 0 0 0 2px #f9d48944,0 0 0 1px #4b331b,0 17px 40px #000a,0 0 15px #dfaa5040!important;
+}
+html body :is(h1,h2,h3){
+  color:#ffdd97!important;
+  text-shadow:0 1px 0 #70471b,0 3px 13px #000b!important;
+}
+html body :is(.academy-sectionlabel,.eyebrow,.academy-eyebrow,.tag){
+  letter-spacing:.17em!important;
+  color:#f6ca75!important;
+  font-weight:850;
+}
+html body :is(.card,.academy-panel,section.topic)>.eyebrow,
+html body #animation>.eyebrow{
+  display:inline-block!important;
+  max-width:100%;
+  border:2px solid #ffe4a4!important;
+  border-bottom:2px solid #996721!important;
+  border-radius:0!important;
+  clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px);
+  background:var(--d4-foil)!important;
+  color:#171006!important;
+  padding:10px 18px!important;
+  font:850 clamp(.7rem,1.7vw,.88rem)/1.3 ui-sans-serif,system-ui,"Segoe UI",sans-serif!important;
+  text-transform:uppercase;
+  letter-spacing:.15em!important;
+  overflow-wrap:anywhere;
+}
+html body :is(.diagram,.visual,.figure,.frame){
+  border:3px solid #e9b857!important;
+  border-radius:14px!important;
+  background:linear-gradient(145deg,#1e1b15,#070809 40%,#110d08)!important;
+  box-shadow:
+   inset 0 0 0 2px #ffe5a283,
+   inset 0 0 0 5px #3b2812,
+   inset 0 3px 15px #0009,
+   0 0 0 1px #95672b,
+   0 14px 32px #000b,
+   0 0 22px #e6ae4c44!important;
+  padding:clamp(12px,2vw,20px)!important;
+}
+html body :is(.diagram,.visual,.figure) svg{
+  width:100%;height:auto;max-width:100%;filter:drop-shadow(0 3px 5px #000a)
+}
+html body .steps button,
+html body .buttons[role="group"] button{
+  border:2px solid #fff0b7!important;
+  border-radius:0!important;
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px);
+  background:var(--d4-foil)!important;
+  box-shadow:inset 0 2px 0 #fff9e7,inset 0 -3px 0 #72481d,0 5px 13px #000a!important;
+  color:#170f05!important;
+  font:850 clamp(.83rem,1.5vw,1.06rem)/1.24 ui-sans-serif,system-ui,"Segoe UI",sans-serif!important;
+  min-height:58px;
+  padding:14px 12px!important;
+  text-shadow:0 1px 0 #fff4d188;
+}
+html body .steps button[aria-pressed="true"],
+html body .buttons[role="group"] button[aria-pressed="true"]{
+  background:linear-gradient(140deg,#fff5d8,#ffd985 45%,#c68e38 100%)!important;
+  border-color:#fff7d6!important;
+  filter:brightness(1.04);
+}
+html body #stageText{
+  border:2px solid #f0c36c!important;
+  border-radius:13px!important;
+  background:var(--d4-plate)!important;
+  color:#f9f0e0!important;
+  padding:clamp(22px,3vw,34px)!important;
+  box-shadow:inset 0 1px 0 #fff3c5c9,inset 0 0 0 3px #30200e,0 15px 33px #000b,0 0 13px #cf9b3633!important;
+  font:500 clamp(1.12rem,2vw,1.4rem)/1.57 Georgia,"Palatino Linotype",serif!important;
+}
+html body #stageText::before{
+  content:"TECHNICAL STAGE";
+  display:block;width:max-content;max-width:100%;
+  margin:0 0 14px;
+  padding:5px 12px;
+  background:var(--d4-foil);
+  color:#17110b;
+  font:850 .73rem/1.2 ui-sans-serif,system-ui,sans-serif;
+  letter-spacing:.15em;
+}
+html body :is(.back,.button,.btn,.academy-btn,.academy-outline,.links a){
+  border:2px solid #e9c276!important;
+  box-shadow:inset 0 1px 0 #fff6d5a6,0 5px 14px #000a!important;
+}
+html body :is(.academy-topnav a,.links a){border-radius:10px!important}
+html body .academy-topnav a[aria-current="page"]{
+  background:var(--d4-foil)!important;
+  color:#180e04!important;
+  border-color:#ffe7a8!important;
+}
+html body :is(.filter,.gold-button):not(:disabled){
+  background:var(--d4-foil)!important;
+  color:#170f06!important;
+  border:2px solid #fce2a3!important;
+  box-shadow:inset 0 1px 0 #fff8d9,0 5px 14px #000b!important;
+}
+html body .project-card{
+  border:3px solid #e9c16d!important;
+  box-shadow:inset 0 0 0 2px #2d1c0b,0 0 0 1px #745021,0 11px 25px #000c,0 0 18px #c993344c!important;
+}
+html body .access{
+  border:3px solid #e5bb68!important;
+  box-shadow:inset 0 0 0 3px #35230e,0 0 0 1px #8c5f29,0 15px 31px #000c,0 0 18px #d59d3b44!important;
+}
+/* Leave interactive SVG shapes, sponsor curtains, burst canvas, video and lesson events unstyled. */
+@media(max-width:650px){
+  html body .steps button,html body .buttons[role="group"] button{
+    min-height:52px;padding:12px 8px!important;
+    clip-path:polygon(9px 0,calc(100% - 9px) 0,100% 9px,100% calc(100% - 9px),calc(100% - 9px) 100%,9px 100%,0 calc(100% - 9px),0 9px);
+    font-size:clamp(.76rem,2.8vw,.91rem)!important
+  }
+  html body :is(.diagram,.visual,.figure){padding:9px!important}
+  html body :is(.card,.academy-panel,.notice,.panel,.receipt){border-radius:12px!important}
+}
+@media print{
+  html body :is(.card,.academy-panel,.notice,.panel,.receipt,.diagram,.visual,.figure),html body #stageText{
+    border:1px solid #666!important;background:#fff!important;color:#111!important;box-shadow:none!important
+  }
+  html body #stageText::before{display:none}
+}
