@@ -82,3 +82,7 @@ body.design-ten .stage.d10-stage{aspect-ratio:1.18!important;width:min(1100px,10
 @media(max-width:520px){body.design-ten main{width:calc(100% - 14px)!important}.d10-stage .d10-mini-tile{font-size:clamp(.34rem,1.6vw,.55rem)}.d10-stage .d10-mini-tier:before{font-size:.51rem}.d10-plaques{grid-template-columns:repeat(2,minmax(0,1fr))!important}.d10-plaque{aspect-ratio:1.9}.d10-enquiry{grid-template-columns:1fr;text-align:center}.d10-qr{width:min(210px,100%);justify-self:center;grid-row:1}.d10-enquiry p{margin-left:auto;margin-right:auto}.d10-benefits-grid{grid-template-columns:repeat(2,1fr)}.d10-benefit:nth-child(3){border-right:1px solid #c79843}.d10-benefit:nth-child(even){border-right:0}.d10-crest img{width:56px}}
 @media(prefers-reduced-motion:reduce){.d10-stage .d10-curtain{transition:none!important;display:none!important}.d10-plaque:after{animation:none!important;display:none!important}}
 @media print{.d10-stage{display:none!important}.d10-showcase,.d10-tier,.d10-enquiry{box-shadow:none!important;color:#111!important;background:#fff!important}.d10-plaque{box-shadow:none!important}}
+
+/* Accessible stage descriptions must not interrupt the miniature composition. */
+.d10-stage .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;clip-path:inset(50%)!important}
+.d10-plaque:focus-within{outline:3px solid #fff1be;outline-offset:3px}
