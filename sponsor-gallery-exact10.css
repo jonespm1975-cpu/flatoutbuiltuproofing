@@ -35,3 +35,12 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 @media(min-width:1247px){.approved-artwork{border-left:1px solid #b0803866;border-right:1px solid #b0803866}}
 @media(max-width:520px){.sponsor-info{font-size:.81rem;padding:0 3px}.footer{gap:12px}}
 @media print{.art-hotspot{display:none}.approved-artwork{max-width:100%}.sponsor-info,.footer{color:#111}}
+
+
+/* Exact Design 10: only the baked illustration's QR square is replaced by a
+   functional QR. The approved artwork and every other pixel remain unchanged. */
+.working-sponsor-qr{
+  position:absolute;left:64.72%;top:85.02%;width:11.32%;height:auto;
+  aspect-ratio:1/1;object-fit:fill;z-index:1;pointer-events:none;
+  background:#fff;image-rendering:auto;box-shadow:none;
+}
