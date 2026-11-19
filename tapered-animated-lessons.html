@@ -8,4 +8,5 @@ const lessons=[
 ];
 let current=0;function show(i){current=i;const l=lessons[i];document.querySelectorAll('[data-i]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.i)===i)));for(const id of ['heading','intro','detail','question','answer'])document.getElementById(id).textContent=l[id];document.getElementById('diagramLabel').textContent=l.label;const ul=document.getElementById('checks');ul.replaceChildren();for(const t of l.checks){const li=document.createElement('li');li.textContent=t;ul.append(li)}document.getElementById('boards').setAttribute('opacity',i===1||i===2?'1':'0');document.getElementById('water').setAttribute('opacity',i===3?'1':'.12');document.getElementById('check').setAttribute('opacity',i===4?'1':'0');document.getElementById('zones').setAttribute('opacity',i===2?'.25':'1');document.querySelector('details').open=false}
 document.querySelectorAll('[data-i]').forEach(b=>b.addEventListener('click',()=>show(Number(b.dataset.i))));document.getElementById('next').addEventListener('click',()=>show((current+1)%5));show(0);
-</script></body></html>
+</script><script type="module" src="site-tracking.js"></script>
+</body></html>

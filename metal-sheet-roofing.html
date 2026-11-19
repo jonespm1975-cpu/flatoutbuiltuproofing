@@ -49,4 +49,5 @@ a:hover .block{filter:brightness(1.08)}.small-focus:focus-visible{outline:4px so
 <script>
 function scalePage(){const art=document.getElementById('art'),screen=document.getElementById('screen');const scale=Math.min(1,window.innerWidth/920);art.style.transform='scale('+scale+')';screen.style.width=(920*scale)+'px';screen.style.height=Math.ceil(art.scrollHeight*scale)+'px'}
 window.addEventListener('resize',scalePage,{passive:true});window.addEventListener('load',scalePage);scalePage();
-</script></body></html>
+</script><script type="module" src="site-tracking.js"></script>
+</body></html>
