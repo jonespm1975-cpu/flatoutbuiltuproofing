@@ -37,7 +37,7 @@ Campaign values are stored only if they use a safe lower-case prefix (`qr_`, `so
 
 The four stages have **different denominators and cannot be divided into a user-level conversion rate**. A true cohort funnel would require separately designed, consent-aware linking and validation, which is not implemented.
 
-Acquisition breakdown uses distinct opted-in tab sessions by first-touch channel. QR campaigns count distinct tagged sessions, **not physical scans**. The coverage note reports known-source, unknown and pre-attribution page-view counts.
+Acquisition breakdown uses distinct opted-in tab sessions by first-touch channel. **QR versus Search versus Social comparisons are paused until all three have at least one attributed consented session.** QR campaigns count distinct tagged sessions, **not physical scans**. The coverage note reports known-source, unknown and pre-attribution page-view counts.
 
 ## Checks performed
 - Inspected GitHub tracker imports across homepage, course catalogue, free lessons, gallery, sponsor hall, specialist lessons and other training pages.
