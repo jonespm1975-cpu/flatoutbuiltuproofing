@@ -12,7 +12,8 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 .approved-artwork>img:first-child{display:block;width:100%;height:auto;aspect-ratio:1247/1261;object-fit:contain}
 /* Single contained QR: avoids the previously duplicated, unbounded image elements. */
 .approved-artwork>.sponsor-qr-contained{position:absolute;left:64.5%;top:85%;width:11.8%;max-width:11.8%;aspect-ratio:1/1;overflow:hidden;z-index:1;pointer-events:none;background:#fff}
-.approved-artwork>.sponsor-qr-contained>img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:fill;margin:0;padding:0;border:0}
+/* QR is a background layer, not an IMG tag: it cannot stretch beyond the art frame. */
+.approved-artwork>.sponsor-qr-contained{height:11.1%;max-height:11.1%;contain:layout paint;background:#fff url('assets/sponsor-invitation-request-qr.svg') center / 100% 100% no-repeat}
 .art-hotspot{position:absolute;display:block;z-index:2;cursor:pointer;background:transparent;border:0;padding:0;margin:0;font:inherit;appearance:none;text-decoration:none;touch-action:manipulation}
 .art-hotspot:focus-visible{outline:3px solid #fff3c8!important;outline-offset:-4px;box-shadow:0 0 16px #ffd37c}
 /* Transparent menu hotspot in the approved artwork opens a usable mobile navigation panel. */
@@ -38,3 +39,6 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 @media print{.art-hotspot{display:none}.approved-artwork{max-width:100%}.sponsor-info,.footer{color:#111}}
 
 
+
+/* Hide closed QR and navigation dialogs even if browser default dialog styles are overridden. */
+dialog:not([open]){display:none!important}
