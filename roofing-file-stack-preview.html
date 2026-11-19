@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#090a0d">
+<title>Roofing Pages — File Stack Preview | Flat Out Roofing</title>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#fff8e5;background:#030306;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:radial-gradient(ellipse 75% 22% at 50% 7%,#55421a55,transparent 70%),#030306;overflow-x:hidden}
+header{max-width:1030px;margin:0 auto;padding:22px 15px 15px}
+.eyebrow{color:#ffce4e;font-size:12px;font-weight:900;letter-spacing:.15em}
+h1{font-size:clamp(23px,5vw,36px);letter-spacing:-.035em;line-height:1.1;margin:9px 0 5px;color:#ffdc69}
+header p{margin:0;font-size:13px;color:#e3d5bb}
+.selector{max-width:1030px;padding:0 15px 8px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.file-tab{min-height:67px;border:2px solid #d1a53c;border-radius:13px 13px 7px 7px;background:linear-gradient(155deg,#161d2e,#05080d 80%);color:#f5eacf;padding:9px 5px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;font-weight:850;font-size:clamp(10px,2.1vw,14px);cursor:pointer;text-align:center;box-shadow:inset 0 1px #ffffff3a,0 0 11px #e1aa3254}
+.file-tab .topline{font-size:clamp(10px,1.8vw,12px);letter-spacing:.09em;color:#f9f7f0}
+.file-tab .trade{font-weight:950;letter-spacing:-.015em;line-height:1.08}
+.file-tab.built{--accent:#ffcf44}
+.file-tab.tile{--accent:#eb423b}
+.file-tab.metal{--accent:#d8e7f4}
+.file-tab .trade{color:var(--accent);text-shadow:0 0 8px var(--accent)}
+.file-tab[aria-selected=true]{border-color:var(--accent);background:linear-gradient(150deg,#2b2e38,#081121);transform:translateY(3px);box-shadow:0 0 16px var(--accent),inset 0 0 16px #ffffff10;position:relative;z-index:3}
+.file-tab:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.stage{max-width:1030px;padding:0 15px 14px;margin:0 auto}
+.stage-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding:9px 4px;color:#f4dfaf}
+.stage-caption strong{color:#ffe08b}
+.stage-caption a{padding:7px 10px;background:#1a263c;color:#ffe5a0;border:1px solid #c99b38;border-radius:8px;text-decoration:none;font-weight:750}
+.file-stack{position:relative;padding-right:27px;padding-top:8px;isolation:isolate}
+.file-edge{position:absolute;top:22px;bottom:0;border:2px solid var(--accent);border-radius:16px;background:linear-gradient(90deg,#121626,#07090f);box-shadow:0 0 17px var(--accent);pointer-events:none}
+.edge-middle{--accent:#ef463f;left:11px;right:13px;z-index:1}
+.edge-back{--accent:#d9e9f7;left:22px;right:0;z-index:0}
+.page-file{position:relative;z-index:2;width:100%;background:#000;border:3px solid #ffce4a;border-radius:16px;overflow:hidden;box-shadow:0 0 22px #ffc84f70,0 20px 70px #000b}
+.page-file[data-trade=tile]{border-color:#f45144;box-shadow:0 0 23px #fe4e4e73,0 20px 70px #000b}
+.page-file[data-trade=metal]{border-color:#dbeaf9;box-shadow:0 0 23px #dce7fe7a,0 20px 70px #000b}
+.file-header{display:flex;justify-content:space-between;align-items:center;gap:8px;background:linear-gradient(90deg,#151724,#07090e);border-bottom:1px solid #9a803b;padding:8px 11px}
+.file-header strong{font-size:12px;color:#fff1c0}
+.file-header span{color:#b9c7d8;font-size:11px}
+.page-frame{width:100%;display:block;border:0;min-height:400px;background:#000;overflow:hidden}
+.file-footer{border-top:1px solid #be9438;padding:9px 13px;font-size:11px;color:#d7c8a0;background:#0b0d11;text-align:center}
+.foot{max-width:1030px;margin:0 auto;padding:5px 16px 35px;color:#aaafbc;font-size:12px;line-height:1.5}
+.foot a{color:#f9d47b}
+@media(max-width:430px){header{padding-top:18px}.file-stack{padding-right:20px}.edge-middle{left:8px;right:10px}.edge-back{left:16px;right:0}.stage{padding-left:8px;padding-right:8px}.selector{padding-left:8px;padding-right:8px;gap:5px}.file-header{padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">◆ FLAT OUT ROOFING · DESIGN PREVIEW</div><h1>Three roofing files</h1><p>Choose a file to bring its complete roofing page to the front. Each page keeps the same layout with its own training content.</p></header>
+<nav class="selector" role="tablist" aria-label="Select a roofing page file">
+<button class="file-tab built" type="button" role="tab" aria-selected="true" aria-controls="file-viewer" data-trade="built"><span class="topline">FILE 1</span><span class="trade">BUILT-UP<br>ROOFING</span></button>
+<button class="file-tab tile" type="button" role="tab" aria-selected="false" aria-controls="file-viewer" data-trade="tile"><span class="topline">FILE 2</span><span class="trade">TILE &amp; SLATE<br>ROOFING</span></button>
+<button class="file-tab metal" type="button" role="tab" aria-selected="false" aria-controls="file-viewer" data-trade="metal"><span class="topline">FILE 3</span><span class="trade">METAL &amp; SHEET<br>ROOFING</span></button>
+</nav>
+<main class="stage">
+<div class="stage-caption"><div><strong id="selected-name">Built-Up Flat Roofing</strong><span> · file currently in front</span></div><a id="full-link" href="built-up-roofing.html">Open full page</a></div>
+<div class="file-stack" id="stack">
+<div class="file-edge edge-back" aria-hidden="true"></div>
+<div class="file-edge edge-middle" aria-hidden="true"></div>
+<section class="page-file" data-trade="built" id="file-viewer" role="tabpanel" aria-label="Built-Up Roofing file">
+<div class="file-header"><strong id="file-title">◆ FLAT OUT BUILT-UP ROOFING</strong><span>FILE 1 OF 3</span></div>
+<iframe class="page-frame" id="page-frame" src="built-up-roofing.html" title="Built-Up Roofing complete training page" loading="eager" scrolling="no"></iframe>
+<div class="file-footer">Preview only · the approved main homepage and payment settings are not changed</div>
+</section>
+</div>
+</main>
+<div class="foot">This is a separate interactive file-stack preview. Select any of the three tabs, or use <strong>Open full page</strong> to view each standalone roofing page. <a href="index.html">Return to original homepage</a>.</div>
+<script>
+const files={
+built:{name:"Built-Up Flat Roofing",title:"FLAT OUT BUILT-UP ROOFING",src:"built-up-roofing.html",shade:"#ffd34b"},
+tile:{name:"Tile & Slate Roofing",title:"FLAT OUT TILE & SLATE ROOFING",src:"tile-slate-roofing.html",shade:"#f34540"},
+metal:{name:"Metal & Sheet Roofing",title:"FLAT OUT METAL & SHEET ROOFING",src:"metal-sheet-roofing.html",shade:"#e4efff"}
+};
+const frame=document.getElementById("page-frame"),viewer=document.getElementById("file-viewer"),tabs=[...document.querySelectorAll(".file-tab")];
+function adjustHeight(){
+ try{
+  const doc=frame.contentDocument;if(!doc)return;
+  const panel=doc.getElementById("screen");
+  const height=panel?panel.getBoundingClientRect().height:doc.documentElement.scrollHeight;
+  if(height>100&&height<8000){frame.style.height=Math.ceil(height+8)+"px"}
+ }catch{frame.style.height="1000px"}
+}
+frame.addEventListener("load",()=>{adjustHeight();setTimeout(adjustHeight,150);setTimeout(adjustHeight,800)});
+window.addEventListener("resize",()=>{try{frame.contentWindow.dispatchEvent(new Event("resize"))}catch{}setTimeout(adjustHeight,100)},{passive:true});
+function openFile(trade){
+ const entry=files[trade];if(!entry)return;
+ tabs.forEach(tab=>tab.setAttribute("aria-selected",tab.dataset.trade===trade?"true":"false"));
+ viewer.dataset.trade=trade;viewer.setAttribute("aria-label",entry.name+" file");
+ document.getElementById("file-title").textContent="◆ "+entry.title;
+ document.getElementById("selected-name").textContent=entry.name;
+ document.getElementById("full-link").href=entry.src;
+ frame.style.height="450px";
+ frame.src=entry.src;
+ frame.title=entry.name+" complete training page";
+}
+tabs.forEach((tab,i)=>{tab.addEventListener("click",()=>openFile(tab.dataset.trade));tab.addEventListener("keydown",e=>{if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;e.preventDefault();const next=tabs[(i+(e.key==="ArrowRight"?1:tabs.length-1))%tabs.length];next.focus();openFile(next.dataset.trade)})});
+</script>
+</body>
+</html>
