@@ -110,3 +110,20 @@ html body ::selection{background:#d9af60;color:#101010}
   html body :is(.card,.notice,.academy-panel,.panel,.receipt){background:#fff!important;color:#111!important;box-shadow:none!important;border-color:#777!important}
   html body :is(h1,h2,h3,p,li,a){color:#111!important;text-shadow:none!important}
 }
+
+/* First-design finishing details for standalone account and owner test pages. */
+html body:has(#owned) main>section,
+html body:has(#authForm) main,
+html body:has(#pay) main{
+  background:linear-gradient(148deg,rgba(32,31,29,.97),rgba(10,10,11,.98) 64%,rgba(27,22,15,.97))!important;
+  border:1px solid #cfa85c!important;
+  border-radius:19px!important;
+  box-shadow:inset 0 1px 0 #ffe7a329,0 18px 38px #0009,0 0 0 1px #a77b3520!important;
+}
+html body:has(#owned) main>section{padding:clamp(20px,4vw,30px)!important}
+html body:has(#authForm) button.link{
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  color:#ffe0a0!important;text-decoration:underline;text-underline-offset:4px;
+}
+html body:has(#authForm) header h1{font-size:clamp(1.35rem,3vw,2rem)!important}
+html body:has(#owned) .warning{border-left:3px solid #e8c477;padding:12px 16px;background:rgba(35,29,17,.76)}
