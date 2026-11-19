@@ -1,0 +1,121 @@
+/* Sponsors Gallery — approved mobile-first Preview 1.
+   The entire approved composition lives in a single responsive image with no
+   mock iPhone bezel or browser chrome. Effects and links are independent layers.
+   No homepage selectors, sponsor approval, payment or private upload changes. */
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html { background: #030303; }
+body.sponsor-preview-one {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 10%, #bd812827, transparent 40%),
+    repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 6px),
+    #040403;
+  color: #f6e5c0;
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+.sr-only { position: absolute !important; width:1px !important; height:1px !important;
+  padding:0 !important; margin:-1px !important; overflow:hidden !important;
+  clip:rect(0,0,0,0) !important; clip-path:inset(50%) !important;
+  white-space:nowrap !important; border:0 !important; }
+a { color: #ffe4a6; }
+a:focus-visible, button:focus-visible { outline:3px solid #fff3c3; outline-offset:2px; }
+.sponsor-scene {
+  width:min(100%,851px); margin:0 auto; position:relative; overflow:hidden;
+  isolation:isolate; line-height:0;
+  border-left:1px solid #e3a94866; border-right:1px solid #e3a94866;
+  box-shadow:0 0 38px #e7ac4036,0 15px 60px #000;
+}
+.sponsor-scene > img.sponsor-scene-image {
+  display:block; width:100%; height:auto; aspect-ratio:851 / 1463; object-fit:contain;
+}
+/* Moving lights are decorative and never block the real page controls. */
+.sponsor-scene .effect-layer {position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;}
+.sponsor-scene .effect-layer .light-sweep {
+  position:absolute; top:-17%; left:-43%; width:18%; height:136%;
+  transform:translateX(-150%) rotate(17deg);
+  background:linear-gradient(90deg,transparent,#fff8cb08 12%,#fff7d52e 46%,#fffce950 50%,#fff0a618 55%,transparent 100%);
+  filter:blur(8px); mix-blend-mode:screen;
+  animation:sponsor-light-pass 13s cubic-bezier(.27,.04,.71,.96) infinite;
+}
+.sponsor-scene .effect-layer .light-sweep:nth-child(2){animation-delay:-6.5s;animation-duration:17s;opacity:.6;width:12%}
+.sponsor-scene .effect-layer .star {
+ position:absolute;width:clamp(12px,3vw,31px);aspect-ratio:1;
+ background:radial-gradient(circle,#fffbe9 0 6%,#ffdb7d 10% 17%,#ffd97180 21%,transparent 65%);
+ filter:drop-shadow(0 0 7px #ffe5ab);
+ mix-blend-mode:screen;animation:sponsor-star-twinkle 3.8s ease-in-out infinite;
+}
+.sponsor-scene .effect-layer .star::after,.sponsor-scene .effect-layer .star::before {
+  content:"";position:absolute;inset:44% -45%;background:linear-gradient(90deg,transparent,#fff6d1,transparent);
+}
+.sponsor-scene .effect-layer .star::before{transform:rotate(90deg)}
+.sponsor-scene .effect-layer .star.a{left:18%;top:18%;animation-delay:-1.6s}
+.sponsor-scene .effect-layer .star.b{left:82%;top:17%;animation-delay:-.4s}
+.sponsor-scene .effect-layer .star.c{left:48%;top:72%;animation-delay:-2.3s;opacity:.6}
+.sponsor-scene .effect-layer .star.d{left:71%;top:42%;animation-delay:-.9s;opacity:.8}
+@keyframes sponsor-light-pass {
+ 0%,14%{transform:translateX(-180%) rotate(17deg);opacity:0}
+ 20%{opacity:.45}44%{opacity:.6}
+ 57%,100%{transform:translateX(980%) rotate(17deg);opacity:0}
+}
+@keyframes sponsor-star-twinkle {
+ 0%,100%{transform:scale(.38);opacity:.16}
+ 25%{transform:scale(1);opacity:.83}
+ 45%{transform:scale(.57);opacity:.25}
+ 66%{transform:scale(.82);opacity:.5}
+}
+/* Hotspots follow percentages of the approved artwork; no duplicate UI text. */
+.sponsor-scene .hotspot {
+ position:absolute;z-index:4;display:block;cursor:pointer;border:0;padding:0;margin:0;
+ background:transparent;appearance:none;text-decoration:none;font:inherit;touch-action:manipulation;
+}
+.sponsor-scene .hotspot:focus-visible {
+ outline:3px solid #fff2b9;outline-offset:-4px;box-shadow:inset 0 0 12px #ffe6a799;
+}
+/* The original concept QR is illustrative. Only these pixels are replaced by a
+   live scannable graphic, constrained to the exact white inset of the gold frame.
+   A CSS background cannot grow like an unbounded IMG element. */
+.sponsor-scene .live-qr-inset {
+ position:absolute;left:78.6%;top:87.4%;width:16.4%;height:9.65%;
+ z-index:2;overflow:hidden;pointer-events:none;contain:layout paint;
+ background:#fff url("assets/sponsor-invitation-request-qr.svg") center / 100% 100% no-repeat;
+}
+.sponsor-info {margin:0 auto;padding:17px 18px 8px;max-width:851px;text-align:center;
+ color:#d4c0a0;font-size:.86rem;line-height:1.55;}
+.sponsor-info p{margin:0 auto 10px;max-width:85ch}
+.sponsor-info a {font-weight:800;text-decoration-thickness:1px;text-underline-offset:3px}
+.sponsor-footer {display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
+ max-width:851px;margin:14px auto 0;padding:14px 10px 22px;
+ border-top:1px solid #74562d;color:#cfba91;text-align:center;font-size:.8rem;}
+.sponsor-footer a{color:#f7d690}
+dialog:not([open]) {display:none !important;}
+dialog#sponsor-qr-dialog,dialog#sponsor-menu-dialog {
+ width:min(92vw,390px);max-height:88dvh;overflow:auto;
+ border:3px solid #e9be70;border-radius:16px;
+ color:#f8dfae;background:linear-gradient(135deg,#30230f,#060607 63%,#281b0c);
+ padding:19px;box-shadow:0 24px 70px #000e,0 0 27px #e4af5c55;text-align:center;
+}
+dialog::backdrop{background:#020202d8}
+dialog h2{font:800 clamp(1.4rem,5vw,1.8rem)/1.2 Georgia,serif;color:#ffdd96;margin:5px 0 13px}
+dialog p{line-height:1.5;margin:9px 0}
+dialog#sponsor-qr-dialog img.qr-large{
+ display:block;width:min(64vw,210px);max-width:100%;height:auto;aspect-ratio:1;
+ margin:11px auto;padding:8px;border:2px solid #dbb061;background:#fff;
+}
+dialog button {padding:11px 20px;margin-top:12px;border:2px solid #fff0c4;
+ border-radius:9px;background:linear-gradient(135deg,#ffedb2,#cf9340 57%,#fbd783);
+ color:#241608;font-weight:850;cursor:pointer;}
+.sponsor-menu-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.sponsor-menu-links a{display:flex;align-items:center;justify-content:center;min-height:46px;
+ border:1px solid #ce9e4c;border-radius:8px;background:#211606;padding:10px 6px;
+ color:#ffe6b1;font-size:.87rem;text-decoration:none;font-weight:700;}
+.sponsor-menu-links a[aria-current="page"]{background:#4c310c;border-color:#ffe5a4;}
+@media (max-width:520px){
+ .sponsor-scene{border:0;box-shadow:none}
+ .sponsor-info{font-size:.79rem;padding:12px 13px 4px}
+ .sponsor-footer{gap:11px;padding:13px 9px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .sponsor-scene .effect-layer .light-sweep,.sponsor-scene .effect-layer .star{animation:none;display:none}
+}
+@media print{body.sponsor-preview-one{background:white}.sponsor-scene .effect-layer,.sponsor-scene .hotspot{display:none}.sponsor-info,.sponsor-footer{color:#161616}}
