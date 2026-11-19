@@ -1,10 +1,10 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v14';
+const CACHE = 'flatout-public-v15';
 const PUBLIC = [
-  '/', '/index.html', '/site.css', '/styles.css', '/academy-interior.css', '/carbon-gold-interior.css', '/design4-specialty.css', '/luxury-artwork-detail.css', '/sponsor-hall-v5.css', '/sponsor-design10.css', '/assets/homepage-refined-hero-still.jpg', '/interior-preview-four.css', '/assets/sponsor-invitation-request-qr.svg',
+  '/', '/index.html', '/site.css', '/styles.css', '/academy-interior.css', '/carbon-gold-interior.css', '/design4-specialty.css', '/luxury-artwork-detail.css', '/sponsor-gallery-approved10.css', '/assets/homepage-refined-hero-still.jpg', '/interior-preview-four.css', '/assets/sponsor-invitation-request-qr.svg',
   '/site.js', '/free-sections.js', '/approved-homepage.png', '/assets/homepage-reference.jpg', '/assets/homepage-reference-sharpened.jpg', '/logo-original.jpeg',
-  '/assets/flat-out-built-up-roofing-logo.svg',
+  '/assets/flat-out-built-up-roofing-logo.svg', '/assets/gallery/pjones-city-roof-at-dusk.jpeg', '/assets/gallery/pjones-roof-field-west.jpeg', '/assets/roofing-hero-cinematic.webp', '/assets/tapered-roof-cutaway-3d.svg',
   '/manifest.webmanifest', '/academy-roof-illustration.svg',
   '/assets/premium-roofing-interior.svg', '/assets/premium-roofing-materials.svg',
   '/courses.html', '/free-hub.html', '/new-to-flat-roofing.html',
