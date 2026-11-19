@@ -10,8 +10,9 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
 .approved-artwork{position:relative;width:min(100%,1247px);margin:0 auto;isolation:isolate;line-height:0}
 .approved-artwork>img:first-child{display:block;width:100%;height:auto;aspect-ratio:1247/1261;object-fit:contain}
-/* The approved image is unmodified. Cover only its printed, non-scannable QR with the live SVG. */
-.approved-artwork>img.working-qr-overlay{position:absolute;z-index:1;left:64.5%;top:85%;width:11.8%;height:11.1%;display:block;max-width:11.8%;max-height:11.1%;aspect-ratio:1/1;object-fit:contain;background:#fff;pointer-events:none;}
+/* Single contained QR: avoids the previously duplicated, unbounded image elements. */
+.approved-artwork>.sponsor-qr-contained{position:absolute;left:64.5%;top:85%;width:11.8%;max-width:11.8%;aspect-ratio:1/1;overflow:hidden;z-index:1;pointer-events:none;background:#fff}
+.approved-artwork>.sponsor-qr-contained>img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:fill;margin:0;padding:0;border:0}
 .art-hotspot{position:absolute;display:block;z-index:2;cursor:pointer;background:transparent;border:0;padding:0;margin:0;font:inherit;appearance:none;text-decoration:none;touch-action:manipulation}
 .art-hotspot:focus-visible{outline:3px solid #fff3c8!important;outline-offset:-4px;box-shadow:0 0 16px #ffd37c}
 /* Transparent menu hotspot in the approved artwork opens a usable mobile navigation panel. */
@@ -37,10 +38,3 @@ a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline
 @media print{.art-hotspot{display:none}.approved-artwork{max-width:100%}.sponsor-info,.footer{color:#111}}
 
 
-/* Exact Design 10: only the baked illustration's QR square is replaced by a
-   functional QR. The approved artwork and every other pixel remain unchanged. */
-.working-sponsor-qr{
-  position:absolute;left:64.72%;top:85.02%;width:11.32%;height:auto;
-  aspect-ratio:1/1;object-fit:fill;z-index:1;pointer-events:none;
-  background:#fff;image-rendering:auto;box-shadow:none;
-}
