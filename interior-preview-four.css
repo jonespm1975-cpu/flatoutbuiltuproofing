@@ -148,6 +148,12 @@ body.p4-interior .p4-technical-visual img{
 body.p4-interior .p4-technical-visual figcaption{
  color:#e7d4af;font-size:.85rem;line-height:1.6;margin:10px 5px 2px;
 }
+
+/* Editorial illustration on the course catalogue: preserve its 16:9 composition. */
+body.p4-interior .p4-editorial img{
+ aspect-ratio:16/9!important;max-height:470px;object-fit:cover;
+}
+body.p4-interior .p4-editorial{max-width:1050px}
 /* Never touch the artwork-led sub-homepage imagery, logo colors, video players
    or invisible links that make the mobile version interactive. */
 body.p4-interior:has(.branch-nav) .screen .page .block{
