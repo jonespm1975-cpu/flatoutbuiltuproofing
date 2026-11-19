@@ -1,0 +1,112 @@
+/* Flat Out Built-Up Roofing — executive carbon-fibre & metallic gold interior theme.
+   Interior pages only. Never load this stylesheet from index.html or artwork-led landing pages.
+   Purely visual: does not change payment, auth, consent, content, navigation or event handlers. */
+:root{--cf-gold:#e5bd67;--cf-gold-light:#ffe5a2;--cf-ink:#08090a;--cf-cream:#f4eee1;color-scheme:dark}
+html body{
+  background-color:#070809!important;
+  background-image:
+    radial-gradient(ellipse at 55% -12%,rgba(173,119,39,.15),transparent 40%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.038) 0 1px,transparent 1px 5px),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.023) 0 1px,transparent 1px 5px),
+    linear-gradient(160deg,#101112 0%,#050606 55%,#090909 100%)!important;
+  background-attachment:fixed!important;
+  color:var(--cf-cream)!important;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;
+  font-weight:400;
+  line-height:1.68;
+  -webkit-font-smoothing:antialiased;
+}
+html body header{
+  background:linear-gradient(110deg,rgba(10,10,11,.98),rgba(31,26,18,.95) 52%,rgba(7,8,9,.98))!important;
+  border-bottom:1px solid #d4ab58!important;
+  box-shadow:0 1px 0 #fff0c530,0 8px 28px #0008!important;
+}
+html body header .brand,html body header strong{
+  color:var(--cf-gold-light)!important;
+  letter-spacing:.065em!important;
+  text-shadow:0 1px 0 #483013,0 0 18px #ba85302b;
+}
+html body h1,html body h2,html body h3{
+  font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif!important;
+  font-weight:700!important;
+  color:#f6d38b!important;
+  letter-spacing:-.018em;
+  line-height:1.2!important;
+  text-shadow:0 1px 0 #4a3215,0 3px 18px #0009!important;
+  overflow-wrap:break-word;
+}
+html body h1{font-size:clamp(2rem,4.4vw,3.35rem)!important}
+html body h2{font-size:clamp(1.45rem,3vw,2.1rem)!important}
+html body h3{font-size:clamp(1.16rem,2vw,1.55rem)!important}
+html body p,html body li,html body label,html body summary{line-height:1.7}
+html body a{color:#ffe1a0!important;text-decoration-color:#c7a052;text-underline-offset:3px}
+html body a:hover{color:#fff1c5!important;text-decoration-color:#ffe1a0}
+html body :is(.card,.notice,.academy-panel,.academy-tile,.panel,.receipt,section.topic,.course-card,.info-box,.test-card){
+  background:linear-gradient(145deg,rgba(33,32,29,.98),rgba(12,12,13,.98) 56%,rgba(22,18,14,.97))!important;
+  border:1px solid #caa455!important;
+  border-radius:17px!important;
+  box-shadow:0 0 0 1px #ffe4a412 inset,0 14px 34px #000a,0 2px 10px #d8a34b12!important;
+}
+html body :is(.card,.notice,.academy-panel,.academy-tile,.panel,.receipt,section.topic,.course-card,.info-box,.test-card)>:first-child{margin-top:0}
+html body .academy-grid .academy-tile,
+html body .academy-detail-grid article{
+  background:linear-gradient(150deg,#24211c,#0b0c0d 68%)!important;
+  border-color:#b8924d!important;
+  box-shadow:0 6px 22px #0008!important;
+}
+html body .academy-topnav{
+  border-bottom-color:#8b6c35!important;
+}
+html body .academy-topnav a{
+  background:linear-gradient(145deg,#25211a,#111212)!important;
+  color:#f4dfb5!important;
+  border:1px solid #9e7d42!important;
+  border-radius:12px!important;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  font-weight:650;
+}
+html body .academy-topnav a[aria-current="page"]{
+  background:linear-gradient(#ffe6a3,#c8953e)!important;
+  color:#140f07!important;
+  border-color:#ffe1a0!important;
+}
+html body :is(.back,.button,.btn,.academy-btn,button:not(.plain)):not(:disabled){
+  background:linear-gradient(160deg,#ffeab6 0%,#e6bc61 40%,#b67a27 100%)!important;
+  color:#181109!important;
+  border:1px solid #f8d994!important;
+  border-radius:12px;
+  box-shadow:inset 0 1px 0 #fff7d1a6,0 5px 15px #0008!important;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-weight:800;
+}
+html body :is(button,input,select,textarea,.btn,.button):focus-visible,
+html body a:focus-visible{outline:3px solid #ffe5a2!important;outline-offset:3px!important}
+html body :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select){
+  background:#0d0e10!important;color:#fff1d4!important;border:1px solid #b18b47!important;
+  border-radius:9px!important;
+}
+html body input[type="checkbox"],html body input[type="radio"]{accent-color:#e9bc62}
+html body :is(.tag,.pill,.academy-pill,.academy-eyebrow,.eyebrow){
+  color:#f3ca78!important;
+}
+html body :is(details,fieldset){
+  border-color:#a58349!important;
+  background:rgba(10,10,10,.44);
+}
+html body summary{color:#ffdb92!important}
+html body footer{border-top-color:#896938!important;color:#d6c7aa!important}
+html body hr{border:0;border-top:1px solid #9d7b43}
+html body :is(.warning,.academy-note){border-left:4px solid #f3cb7c!important}
+html body ::selection{background:#d9af60;color:#101010}
+@media(max-width:640px){
+  html body{background-attachment:scroll!important;font-size:16px}
+  html body :is(.card,.notice,.academy-panel,.panel,.receipt,section.topic){border-radius:15px!important}
+  html body h1{font-size:clamp(1.85rem,7vw,2.45rem)!important}
+  html body h2{font-size:clamp(1.35rem,5.5vw,1.85rem)!important}
+}
+@media(prefers-reduced-motion:reduce){html body *{scroll-behavior:auto!important;animation-duration:.01ms!important}}
+@media print{
+  html body{background:#fff!important;color:#111!important}
+  html body :is(.card,.notice,.academy-panel,.panel,.receipt){background:#fff!important;color:#111!important;box-shadow:none!important;border-color:#777!important}
+  html body :is(h1,h2,h3,p,li,a){color:#111!important;text-shadow:none!important}
+}
