@@ -24,12 +24,19 @@
 <a class="art-hotspot" href="community.html" aria-label="Community" style="left:60%;top:0%;width:10%;height:8%"><span class="sr-only">Community</span></a>
 <a class="art-hotspot" href="sponsors.html" aria-label="Sponsors gallery" style="left:70%;top:0%;width:10%;height:8%"><span class="sr-only">Sponsors gallery</span></a>
 <a class="art-hotspot" href="members.html" aria-label="My learning" style="left:80%;top:0%;width:11%;height:8%"><span class="sr-only">My learning</span></a>
+<button id="open-sponsor-menu" class="art-hotspot" type="button" aria-label="Open website navigation" style="left:91%;top:0%;width:9%;height:8%"><span class="sr-only">Open website navigation</span></button>
 <a class="art-hotspot" href="mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship" aria-label="Sponsorship enquiry by email" style="left:28%;top:90.7%;width:30%;height:5.7%"><span class="sr-only">Sponsorship enquiry by email</span></a>
 </nav>
 <button id="open-sponsor-qr" class="art-hotspot" style="left:61%;top:80.7%;width:16%;height:17%" type="button" aria-label="Enlarge the working sponsorship enquiry QR code"><span class="sr-only">Show working sponsorship QR</span></button>
 </div>
 <p class="sponsor-info">This gallery is a static, exact-image presentation of the approved Design 10 artwork. Logo positions are available placeholders, not endorsements or confirmed paid sponsors. <a href="mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship">Enquire about sponsorship</a>; private logo submissions remain subject to owner approval.</p>
 </main>
+<dialog id="sponsor-menu-dialog" aria-labelledby="sponsor-menu-title">
+<h2 id="sponsor-menu-title">Explore Flat Out Built-Up Roofing</h2>
+<nav class="sponsor-menu-links" aria-label="Website pages">
+<a href="index.html">Home</a><a href="courses.html">Courses</a><a href="cscs.html">CSCS Revision</a><a href="health-safety.html">Health &amp; Safety</a><a href="gallery.html">Project Gallery</a><a href="community.html">Community</a><a href="sponsors.html" aria-current="page">Sponsors</a><a href="members.html">My Learning</a>
+</nav><form method="dialog"><button type="submit">Close menu</button></form>
+</dialog>
 <dialog id="sponsor-qr-dialog" aria-labelledby="sponsor-qr-title">
   <h2 id="sponsor-qr-title">Sponsor Enquiry</h2>
   <p>Scan this working code with another device, or select the email link.</p>
@@ -40,6 +47,12 @@
 <footer class="footer">Flat Out Built-Up Roofing <a href="index.html">Homepage</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refunds.html">Refunds</a></footer>
 <script>
 (()=>{
+const menu=document.getElementById('sponsor-menu-dialog');
+document.getElementById('open-sponsor-menu').addEventListener('click',()=>{
+ if(typeof menu.showModal==='function')menu.showModal();
+ else window.location.href='index.html';
+});
+menu.addEventListener('click',event=>{if(event.target===menu)menu.close()});
 const dialog=document.getElementById('sponsor-qr-dialog');
 document.getElementById('open-sponsor-qr').addEventListener('click',()=>{
  if(typeof dialog.showModal==='function')dialog.showModal();
