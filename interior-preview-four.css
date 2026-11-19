@@ -1,0 +1,207 @@
+/* FLAT OUT BUILT-UP ROOFING
+   Approved Preview Four | luxury bevelled-gold interior system | 19 Nov 2026
+   Only pages explicitly marked .p4-interior load this stylesheet.
+   index.html is deliberately excluded. Visual-only: do not modify lesson data,
+   safety warnings, video controls, consent, Stripe, Supabase or member state. */
+:root{
+  --p4-edge:#eac16b;--p4-edge-bright:#fff0b6;--p4-text:#f7efdd;
+  --p4-bronze:#9d6927;
+  --p4-metal:linear-gradient(122deg,#84581e 0%,#ffedb2 9%,#d6a34c 25%,#f6d993 46%,#95641e 67%,#ffedb9 86%,#b17a2d 100%);
+  --p4-panel:linear-gradient(152deg,#29221a 0%,#121212 32%,#07090a 66%,#25190d 100%);
+  --p4-weave:repeating-linear-gradient(135deg,#ffffff09 0 1px,transparent 1px 6px),
+             repeating-linear-gradient(45deg,#ffffff05 0 1px,transparent 1px 6px);
+}
+html body.p4-interior{
+  background-color:#08090a;
+  background-image:radial-gradient(ellipse at 80% -10%,#e4a44328 0%,transparent 42%),var(--p4-weave),linear-gradient(160deg,#151719,#060607 62%,#100d09);
+  color:var(--p4-text);
+  -webkit-font-smoothing:antialiased;
+}
+body.p4-interior :is(h1,h2,h3){
+ color:#fce0a4;text-shadow:0 1px 0 #674117,0 3px 16px #000b;
+ line-height:1.2;overflow-wrap:break-word;
+}
+body.p4-interior :is(.eyebrow,.academy-eyebrow,.academy-sectionlabel,.intake-eyebrow){
+ color:#f6ce7d;letter-spacing:.13em;font-weight:850;
+}
+body.p4-interior :is(.academy-feature,.academy-hero,.hero:not(.hero-visual):not(.d5-hall .hero)){
+ position:relative;border:2px solid #e9c478!important;border-radius:18px;
+ background-image:radial-gradient(ellipse at 92% 5%,#f7d0842a,transparent 36%),var(--p4-weave),linear-gradient(130deg,#24201b,#0b0c0f 75%,#221609)!important;
+ box-shadow:inset 0 2px #fff0c7aa,inset 0 0 0 3px #513615,0 0 0 1px #704c20,0 19px 36px #000a,0 0 19px #d7aa4b38!important;
+}
+body.p4-interior :is(.academy-feature,.academy-hero)::after{
+ content:"";position:absolute;left:4%;right:4%;bottom:0;height:3px;pointer-events:none;
+ background:linear-gradient(90deg,transparent,#98621a 14%,#fff1bf 50%,#99651d 86%,transparent);
+ box-shadow:0 0 10px #efbf6388;
+}
+/* The beveled metallic shells from the chosen reference, without replacing
+   the actual courses or their imagery. */
+body.p4-interior :is(.card,.panel,.academy-panel,.academy-tile,.course-box,.course-card,.test-card,.intake-hero,.intake-shell>.card,.topic,.project-card,.receipt,.installBox){
+ border:2px solid #e6bb68!important;
+ border-radius:15px!important;
+ background:var(--p4-panel)!important;
+ box-shadow:
+  inset 0 1px 0 #fff1beae,inset 0 0 0 3px #3b280f,
+  inset 0 -1px 0 #ab792e79,0 0 0 1px #65431c,
+  0 15px 30px #000b,0 0 19px #dcab4a26!important;
+}
+body.p4-interior :is(.card,.panel,.academy-panel,.academy-tile,.course-box,.project-card):is(:hover,:focus-within){
+ border-color:#ffe3a4!important;
+ box-shadow:inset 0 1px 0 #fff1beae,inset 0 0 0 3px #4b351a,
+  0 16px 33px #000b,0 0 22px #e2b45949!important;
+}
+body.p4-interior :is(.notice,.academy-note,.warning,.warn){
+ border-left:4px solid #f1c879!important;
+ background:linear-gradient(110deg,#241d14,#101113 60%,#1b1510)!important;
+ box-shadow:inset 0 1px #fff0bd42,0 4px 16px #0008!important;
+ color:#f3e7d3;
+}
+/* Detailed gold borders with no fake 3D labels added to technical content. */
+body.p4-interior :is(.diagram,.visual,.figure,.frame,.academy-photo){
+ border:3px solid #edc574!important;border-radius:15px!important;
+ background:linear-gradient(145deg,#272019,#090a0b 60%,#17110b)!important;
+ box-shadow:inset 0 0 0 2px #ffebae82,inset 0 0 0 5px #392611,
+  0 10px 26px #000b,0 0 20px #e4b04e42!important;
+ overflow:hidden;
+}
+body.p4-interior :is(.diagram,.visual,.figure,.frame) svg,
+body.p4-interior :is(.diagram,.visual,.figure,.frame) img{
+ display:block;max-width:100%;height:auto;object-fit:contain;
+}
+body.p4-interior .diagram-note{
+ color:#e8d8b4!important;border-left:3px solid #d8b36a;
+ padding:8px 13px;line-height:1.55;
+}
+/* Functional buttons are still real links/buttons, and their states survive. */
+body.p4-interior :is(.btn,.button,.academy-btn,.gold-btn,.gold-button,.back,.email,.p4-action),
+body.p4-interior :is(.steps button,.buttons[role="group"] button){
+ border:2px solid #fff0b4!important;border-radius:12px!important;
+ background:var(--p4-metal)!important;color:#1b1308!important;
+ font-weight:850;
+ text-shadow:0 1px #fff2c16e;
+ box-shadow:inset 0 2px #fffce6dd,inset 0 -2px #714716a8,0 6px 15px #000b!important;
+ text-decoration:none;
+}
+body.p4-interior :is(.btn,.button,.academy-btn,.gold-btn,.gold-button,.back,.email,.p4-action,.steps button,.buttons[role="group"] button):where(:hover,:focus-visible){
+ filter:brightness(1.055);
+}
+body.p4-interior button:disabled,body.p4-interior [aria-disabled="true"]{
+ filter:saturate(.45)!important;opacity:.65;cursor:not-allowed!important;
+}
+body.p4-interior .academy-topnav{
+ border-bottom:2px solid #a77b36;
+ background:linear-gradient(120deg,#13100c,#090a0d 60%,#22190e);
+ border-radius:13px;
+ padding:8px;box-shadow:inset 0 1px #ffdf956b,0 8px 17px #0006;
+}
+body.p4-interior .academy-topnav a{
+ border:1px solid #ac8546!important;border-radius:10px!important;
+ background:linear-gradient(145deg,#282016,#101113)!important;
+ color:#f9e5b9!important;
+}
+body.p4-interior .academy-topnav a[aria-current="page"]{
+ border-color:#ffe4a6!important;background:var(--p4-metal)!important;
+ color:#171006!important;box-shadow:inset 0 1px #fffbe5,0 0 12px #e8ba6259!important;
+}
+body.p4-interior :is(.academy-pill,.pill,.tag,.academy-chips span):not(.badge){
+ border-color:#bc9650!important;
+ background:linear-gradient(120deg,#312412,#100f0e)!important;
+ color:#f9d995!important;
+}
+body.p4-interior :is(.academy-grid,.academy-detail-grid,.grid,.gallery-grid) > *{
+ min-width:0;
+}
+/* Structured digital-workspace look of the approved preview four. */
+body.p4-interior :is(.academy-panel,.academy-tile,.panel,.card) :is(h2,h3){
+ border-bottom:1px solid #b38a4266;padding-bottom:.28em;
+}
+body.p4-interior :is(input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),select,textarea){
+ background:#0c0d0f!important;color:#f9efd8!important;
+ border:1.5px solid #bd9650!important;border-radius:9px!important;
+ box-shadow:inset 0 2px 8px #0008!important;
+ font:inherit;
+}
+body.p4-interior :is(input,select,textarea,button,a,summary):focus-visible{
+ outline:3px solid #ffe8ad!important;outline-offset:3px!important;
+}
+body.p4-interior :is(input[type="checkbox"],input[type="radio"]){accent-color:#e6b458}
+body.p4-interior :is(details,fieldset){
+ border-color:#bd954d!important;border-radius:12px!important;
+ background:linear-gradient(130deg,#191712,#0b0c0d)!important;
+}
+body.p4-interior summary{color:#ffe5b0}
+body.p4-interior :is(table,th,td){border-color:#88652f}
+body.p4-interior th{background:#272016;color:#f9d99b}
+body.p4-interior hr{border:0;border-top:1px solid #a47b3e}
+body.p4-interior footer{border-top-color:#916f3c;color:#dbcba7}
+/* Technical learning illustrations are displayed rather than graphically manipulated. */
+body.p4-interior .p4-technical-visual{
+ max-width:940px;margin:20px auto 25px;padding:clamp(8px,1.8vw,16px);
+ border:3px solid #ebc477;border-radius:16px;
+ background:linear-gradient(145deg,#242018,#090a0b 70%);
+ box-shadow:inset 0 0 0 3px #3c2712,0 15px 29px #000b,0 0 21px #d9a64c47;
+}
+body.p4-interior .p4-technical-visual img{
+ display:block;width:100%;height:auto;aspect-ratio:1120/740;object-fit:contain;
+ border-radius:8px;
+}
+body.p4-interior .p4-technical-visual figcaption{
+ color:#e7d4af;font-size:.85rem;line-height:1.6;margin:10px 5px 2px;
+}
+/* Never touch the artwork-led sub-homepage imagery, logo colors, video players
+   or invisible links that make the mobile version interactive. */
+body.p4-interior:has(.branch-nav) .screen .page .block{
+ border:3px solid #edc678!important;
+ box-shadow:inset 0 1px #fff2bdad,inset 0 0 0 3px #443016,
+  0 9px 22px #000b,0 0 16px #edbc5f42!important;
+}
+body.p4-interior:has(.branch-nav) .screen .page .hero-visual{
+ border:3px solid #f0d18c!important;
+ box-shadow:inset 0 0 0 2px #ffe6ab77,0 0 0 1px #a97b37,
+  0 12px 28px #000a,0 0 18px #ddb05a77!important;
+}
+/* Preserve the exact promotional/sponsor theatrical scene and its fireworks. */
+body.p4-interior.sponsor-hall-v5 .d5-hall{
+ box-shadow:inset 0 2px #fff3caa8,inset 0 0 0 4px #39260f,
+  0 0 0 1px #7c5428,0 22px 54px #000c,0 0 32px #dfad563b!important;
+}
+body.p4-interior.sponsor-hall-v5 .d5-stage-scene{pointer-events:none}
+/* The owner analytics artboard and app reference image remain at original scale. */
+body.p4-interior:has(#dashboardCanvas) #dashboardCanvas .metric,
+body.p4-interior:has(#dashboardCanvas) #dashboardCanvas .panel{
+ border-color:#f1ca7a!important;
+ box-shadow:inset 0 1px #fff2c0ba,inset 0 0 0 3px #382612,
+  0 9px 19px #000c,0 0 16px #e7b65d48!important;
+}
+body.p4-interior:has(.app-art) .shell :is(.panel,.installBox){
+ border:2px solid #edc579!important;
+ box-shadow:inset 0 1px #fff4d0a9,inset 0 0 0 3px #483015,
+  0 11px 25px #000a,0 0 17px #dba64c37!important;
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ body.p4-interior :is(.card,.panel,.academy-tile,.project-card){transition:border-color .18s ease,box-shadow .18s ease}
+}
+@media(max-width:700px){
+ html body.p4-interior{background-attachment:scroll}
+ body.p4-interior :is(.academy-feature,.academy-hero){border-radius:14px}
+ body.p4-interior :is(.card,.panel,.academy-panel,.academy-tile,.course-box,.topic){
+  border-radius:12px!important
+ }
+ body.p4-interior :is(.diagram,.visual,.figure,.frame){padding:9px!important}
+ body.p4-interior .p4-technical-visual{padding:7px}
+ body.p4-interior .academy-topnav{padding:6px}
+ body.p4-interior :is(.steps button,.buttons[role="group"] button){min-width:0;font-size:clamp(.79rem,3vw,.96rem)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.p4-interior *,body.p4-interior *::before,body.p4-interior *::after{
+  scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important
+ }
+}
+@media print{
+ html body.p4-interior{color:#111!important;background:#fff!important}
+ body.p4-interior :is(.card,.panel,.academy-panel,.academy-tile,.diagram,.visual,.figure,.frame){
+  color:#111!important;background:#fff!important;border:1px solid #888!important;box-shadow:none!important
+ }
+ body.p4-interior :is(h1,h2,h3,p,li){color:#111!important;text-shadow:none!important}
+ body.p4-interior .p4-technical-visual{box-shadow:none}
+}
