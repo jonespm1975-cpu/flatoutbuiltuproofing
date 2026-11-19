@@ -144,3 +144,157 @@ html body .cf-brandbar-back{
   background:linear-gradient(130deg,#242018,#0e0e0e);
 }
 @media(max-width:480px){html body .cf-brandbar{min-height:70px;padding:10px 14px}html body .cf-brandbar-back{padding:8px 11px;font-size:.82rem}}
+
+
+/* PREMIUM TECHNICAL DETAIL SYSTEM — 19 NOV 2026
+   Visual refinement of the approved carbon-fibre + polished gold preview.
+   Applies to interior learning, legal, account, gallery and sponsors pages only.
+   The homepage index.html never loads this file. No JS or technical SVG is modified. */
+:root{
+  --cf-gold:#e8b759;--cf-gold-light:#ffebbb;--cf-gold-edge:#fce2a2;
+  --cf-metal:linear-gradient(116deg,#916321 0%,#fae8aa 14%,#e3b45b 36%,#a96b1f 58%,#ffe2a1 79%,#bd822c 100%);
+  --cf-panel:linear-gradient(138deg,#2d2922 0%,#131311 28%,#090a0b 70%,#1b150f 100%);
+}
+/* The weave sits behind real artwork, rather than replacing diagrams or photography. */
+html body{
+  background-image:
+    radial-gradient(ellipse at 85% 0%,#99621d26 0%,transparent 30%),
+    repeating-linear-gradient(135deg,#ffffff09 0 1px,transparent 1px 5px),
+    repeating-linear-gradient(45deg,#ffffff06 0 1px,transparent 1px 5px),
+    linear-gradient(165deg,#17191a 0%,#070808 45%,#0a0908 100%)!important;
+  color:#f5eee0!important;
+}
+html body main>h1,html body main>h2{position:relative}
+html body :is(.card,.academy-panel,.academy-tile,.notice,.panel,.receipt,section.topic,.academy-detail-grid article,.course-card,.test-card){
+  border:1.5px solid #e1b75e!important;
+  border-radius:19px!important;
+  background:var(--cf-panel)!important;
+  box-shadow:
+    0 1px 0 #fff2c26e inset,
+    0 0 0 2px #2a1d0b inset,
+    0 -1px 0 #a67a35a0 inset,
+    0 9px 30px #000a,
+    0 0 16px #e2a64319!important;
+}
+html body :is(.card,.academy-panel,.academy-tile,.panel,.receipt,section.topic,.academy-detail-grid article,.course-card,.test-card):hover{
+  border-color:#f3cf85!important;
+}
+html body :is(.eyebrow,.academy-eyebrow,.academy-sectionlabel,.tag):not(.badge){
+  color:#f4cd7f!important;
+  letter-spacing:.15em!important;
+  font-size:clamp(.73rem,1.5vw,.84rem);
+  line-height:1.5;
+  text-transform:uppercase;
+  font-weight:800;
+}
+html body h1,html body h2,html body h3{
+  color:#f7d58e!important;
+  text-shadow:0 1px 0 #8c5c1a,0 4px 14px #000b!important;
+}
+html body :is(.card,.academy-panel,.panel,section.topic) h2{
+  border-bottom:1px solid #a47c3b70;
+  padding-bottom:.38em;
+}
+html body :is(.pill,.academy-pill,.academy-chips span){
+  border:1px solid #bd954c!important;
+  border-radius:99px!important;
+  background:linear-gradient(150deg,#2d2315,#100e0c)!important;
+  color:#f7d995!important;
+  box-shadow:inset 0 1px #ffe3a52a!important;
+}
+html body :is(.diagram,.visual,.figure,.frame){
+  position:relative;
+  max-width:100%;
+  background:linear-gradient(155deg,#151617,#060707 65%,#1a120b)!important;
+  border:1.5px solid #e3b85f!important;
+  border-radius:20px!important;
+  padding:clamp(10px,2vw,18px)!important;
+  box-shadow:inset 0 0 0 1px #ffe9ba26,0 0 0 3px #2f211255,0 10px 30px #000a,0 0 20px #d69e2e25!important;
+  overflow:hidden;
+}
+html body :is(.diagram,.visual,.figure) svg{
+  display:block;max-width:100%;height:auto;filter:drop-shadow(0 2px 5px #0009);
+}
+html body :is(.diagram,.visual,.figure) figcaption{
+  color:#e5d2a8!important;
+}
+html body .steps,
+html body .buttons[role="group"]{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:clamp(9px,1.8vw,16px)!important;
+  margin:20px 0 26px!important;
+}
+html body .steps button,
+html body .buttons[role="group"] button{
+  display:inline-flex!important;
+  align-items:center;justify-content:center;
+  min-width:0;min-height:55px;
+  padding:13px clamp(10px,2.1vw,18px)!important;
+  border:1.5px solid #fff0b8!important;
+  border-radius:18px!important;
+  background:linear-gradient(160deg,#fff1bf 0%,#efc675 28%,#d8a04a 65%,#b67b2b 100%)!important;
+  color:#161009!important;
+  box-shadow:inset 0 1px 0 #fffbe4e0,inset 0 -2px 0 #7e501e80,0 5px 13px #000a,0 0 12px #e8b34d22!important;
+  font:800 clamp(.83rem,1.55vw,1.04rem)/1.25 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  text-align:center;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  cursor:pointer;
+}
+html body .steps button[aria-pressed="true"],
+html body .buttons[role="group"] button[aria-pressed="true"]{
+  background:linear-gradient(165deg,#fff8dc 0%,#f9de96 37%,#e6ad4a 100%)!important;
+  outline:2px solid #ffecc1;outline-offset:2px;
+  box-shadow:inset 0 1px 0 #fffdf0,0 0 20px #f5c66e55,0 7px 18px #000b!important;
+}
+html body .steps button:focus-visible,
+html body .buttons[role="group"] button:focus-visible{outline:3px solid #fff2bf!important;outline-offset:3px!important}
+html body #stageText{
+  display:block;
+  margin:22px 0 0!important;
+  padding:clamp(18px,3vw,29px)!important;
+  color:#f6efe0!important;
+  font:500 clamp(1.12rem,2vw,1.42rem)/1.55 Georgia,"Iowan Old Style",serif!important;
+  border:1.5px solid #e9c06d;
+  border-radius:18px;
+  background:linear-gradient(145deg,#30271b 0%,#131314 37%,#080909 100%);
+  box-shadow:inset 0 1px 0 #fff4c55e,inset 0 -1px 0 #9c6c31,0 10px 24px #0009;
+}
+html body #animation>.eyebrow,
+html body .card>.eyebrow{
+  display:inline-block;
+  border-bottom:1px solid #c09a5d;
+  padding-bottom:7px;
+  margin-bottom:5px;
+}
+html body .academy-feature,
+html body .academy-hero{
+  border:2px solid #e0b25b!important;
+  box-shadow:inset 0 0 0 1px #ffedc53a,0 22px 48px #000a,0 0 20px #d8a64426!important;
+}
+html body :is(.academy-btn,.academy-outline,.back,.btn,.button){
+  border:1.5px solid #f4d78c!important;
+  box-shadow:inset 0 1px 0 #fff3c4a0,0 5px 15px #0009!important;
+}
+html body .academy-topnav a[aria-current="page"]{
+  background:linear-gradient(150deg,#fff0bc,#d29a43)!important;
+  border-color:#f8df9f!important;
+  color:#1b1208!important;
+}
+/* Preserve original illustrations, video and sponsor reveal/canvas motion. */
+html body :is(video,canvas,svg){max-width:100%}
+@media(max-width:650px){
+  html body :is(.diagram,.visual,.figure){border-radius:16px!important;padding:9px!important}
+  html body .steps button,html body .buttons[role="group"] button{
+    min-height:49px;padding:11px 8px!important;border-radius:15px!important;font-size:.79rem!important
+  }
+  html body #stageText{font-size:1.08rem!important;padding:17px!important}
+  html body :is(.card,.academy-panel,.notice,.panel){border-radius:16px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .steps button,html body .buttons[role="group"] button{transition:none!important}
+}
+@media print{
+  html body #stageText{background:#fff!important;color:#111!important;box-shadow:none!important;border:1px solid #555!important}
+}
