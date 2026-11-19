@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 690" role="img" aria-labelledby="title desc">
+<title id="title">Illustrated three-dimensional tapered-insulation roof cutaway</title>
+<desc id="desc">Conceptual exploded perspective showing a brick upstand, built-up waterproofing, tapered insulation board wedges, vapour control layer and profiled steel roof deck, with a roof outlet at the low point. Educational schematic, not to scale.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#202023"/><stop offset=".55" stop-color="#090a0c"/><stop offset="1" stop-color="#151008"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#b7853d" stop-opacity=".24"/><stop offset="1" stop-color="#0a0b0d" stop-opacity="0"/></radialGradient>
+<linearGradient id="steel" x2=".2" y2="1"><stop stop-color="#ccd2d5"/><stop offset=".4" stop-color="#7e8c95"/><stop offset=".75" stop-color="#4b565f"/><stop offset="1" stop-color="#18222b"/></linearGradient>
+<linearGradient id="goldfoam" x1=".1" x2=".8" y2="1"><stop stop-color="#fff1cb"/><stop offset=".3" stop-color="#f1ddb4"/><stop offset=".72" stop-color="#d9b77f"/><stop offset="1" stop-color="#bc9760"/></linearGradient>
+<linearGradient id="edgefoam" x1="0" x2=".9" y2="1"><stop stop-color="#f7dcb1"/><stop offset=".65" stop-color="#d6b27c"/><stop offset="1" stop-color="#a77d44"/></linearGradient>
+<linearGradient id="cover" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#6b7075"/><stop offset=".4" stop-color="#3a3e43"/><stop offset="1" stop-color="#171b20"/></linearGradient>
+<pattern id="grit" width="14" height="13" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#f6f6f6" opacity=".13"/><circle cx="9" cy="10" r=".8" fill="#e0e0e0" opacity=".11"/></pattern>
+<pattern id="brick" width="80" height="28" patternUnits="userSpaceOnUse"><path d="M0 0H80 M0 27H80 M40 0V27" stroke="#f5c6a2" stroke-width="2" opacity=".3"/></pattern>
+<filter id="shadow" x="-25%" y="-35%" width="155%" height="175%"><feDropShadow dx="0" dy="17" stdDeviation="15" flood-color="#000" flood-opacity=".85"/></filter>
+<marker id="arr" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="#42d4ef"/></marker>
+</defs>
+<rect width="1120" height="690" rx="16" fill="url(#bg)"/><ellipse cx="720" cy="355" rx="540" ry="310" fill="url(#halo)"/>
+<path d="M0 614H1120" stroke="#c9984f" opacity=".35" stroke-width="2"/>
+<!-- brick parapet, upstand and capping -->
+<g filter="url(#shadow)"><polygon points="145,160 298,175 322,460 151,451" fill="#743d31" stroke="#dab48a" stroke-width="4"/><g><rect x="162" y="179" width="76" height="28" fill="#a95232" stroke="#e7ae7b" stroke-width="1.6"/><rect x="236" y="179" width="73" height="28" fill="#c5764e" stroke="#e7ae7b" stroke-width="1.6"/><rect x="180" y="210" width="76" height="28" fill="#c5764e" stroke="#e7ae7b" stroke-width="1.6"/><rect x="254" y="210" width="73" height="28" fill="#994b32" stroke="#e7ae7b" stroke-width="1.6"/><rect x="162" y="241" width="76" height="28" fill="#994b32" stroke="#e7ae7b" stroke-width="1.6"/><rect x="236" y="241" width="73" height="28" fill="#a95232" stroke="#e7ae7b" stroke-width="1.6"/><rect x="180" y="272" width="76" height="28" fill="#a95232" stroke="#e7ae7b" stroke-width="1.6"/><rect x="254" y="272" width="73" height="28" fill="#c5764e" stroke="#e7ae7b" stroke-width="1.6"/><rect x="162" y="303" width="76" height="28" fill="#c5764e" stroke="#e7ae7b" stroke-width="1.6"/><rect x="236" y="303" width="73" height="28" fill="#994b32" stroke="#e7ae7b" stroke-width="1.6"/><rect x="180" y="334" width="76" height="28" fill="#994b32" stroke="#e7ae7b" stroke-width="1.6"/><rect x="254" y="334" width="73" height="28" fill="#a95232" stroke="#e7ae7b" stroke-width="1.6"/><rect x="162" y="365" width="76" height="28" fill="#a95232" stroke="#e7ae7b" stroke-width="1.6"/><rect x="236" y="365" width="73" height="28" fill="#c5764e" stroke="#e7ae7b" stroke-width="1.6"/></g>
+<polygon points="130,144 289,158 315,176 150,163" fill="#aeb4b9" stroke="#f3dfbd" stroke-width="4"/><polygon points="130,144 150,163 150,176 130,161" fill="#6d7a84"/>
+<path d="M310 268L331 277L329 405" stroke="#e7ca95" stroke-width="9"/><path d="M303 267L339 271" stroke="#292c31" stroke-width="14"/>
+</g>
+<!-- dimensionally shaded steel roof deck -->
+<g filter="url(#shadow)"><polygon points="230,475 854,512 1030,353 404,319" fill="url(#steel)" stroke="#d7dfe3" stroke-width="5"/>
+<polygon points="230,475 854,512 855,554 230,517" fill="#53616b" stroke="#c5cdd2" stroke-width="4"/>
+<polygon points="854,512 1030,353 1030,401 855,554" fill="#25323e" stroke="#8d9eab" stroke-width="4"/>
+<g><path d="M248 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M285 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M322 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M359 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M396 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M433 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M470 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M507 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M544 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M581 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M618 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M655 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M692 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M729 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M766 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/><path d="M803 510 l19 2 9 28 -19 -2 z" fill="#78848c" stroke="#b7c1c6" stroke-width="1.4"/><path d="M840 510 l19 2 9 28 -19 -2 z" fill="#46515a" stroke="#b7c1c6" stroke-width="1.4"/></g><path d="M230 475L854 512L1030 353" fill="none" stroke="#f2f2eb" stroke-width="6" opacity=".8"/></g>
+<!-- the VCL always remains visible, as it is checked at stage one -->
+<polygon points="232,452 852,489 1029,330 407,293" fill="#d1d5d8" stroke="#ffc879" stroke-width="4"/>
+<path d="M238 451L851 488L1024 335" fill="none" stroke="#ffcc72" stroke-width="6" opacity=".95"/>
+<!-- the tapered board layer is independently stage-controlled by the existing JS -->
+<g id="board" class="animboard" opacity=".18" transform="translate(0,-36)">
+<polygon points="234,385 852,429 1022,278 403,235" fill="url(#goldfoam)" stroke="#fff0c0" stroke-width="4"/>
+<polygon points="234,385 852,429 852,483 234,444" fill="url(#edgefoam)" stroke="#f7dba9" stroke-width="3"/>
+<polygon points="852,429 1022,278 1022,334 852,483" fill="#a98755" stroke="#e9c69a" stroke-width="3"/>
+<path d="M330 393l170 -153" stroke="#fff2d2" stroke-opacity=".6" stroke-width="2"/><path d="M330 393v55" stroke="#956e41" stroke-width="2"/><path d="M435 400l170 -153" stroke="#fff2d2" stroke-opacity=".6" stroke-width="2"/><path d="M435 400v55" stroke="#956e41" stroke-width="2"/><path d="M540 407l170 -153" stroke="#fff2d2" stroke-opacity=".6" stroke-width="2"/><path d="M540 407v55" stroke="#956e41" stroke-width="2"/><path d="M645 414l170 -153" stroke="#fff2d2" stroke-opacity=".6" stroke-width="2"/><path d="M645 414v55" stroke="#956e41" stroke-width="2"/><path d="M750 421l170 -153" stroke="#fff2d2" stroke-opacity=".6" stroke-width="2"/><path d="M750 421v55" stroke="#956e41" stroke-width="2"/>
+<path d="M238 387L851 430L1021 279" fill="none" stroke="#fff7e1" stroke-width="5" opacity=".8"/>
+</g>
+<!-- compatible waterproofing: stage 3 reveals this layer -->
+<g id="membrane" opacity="0"><polygon points="235,350 855,395 1021,247 403,207" fill="url(#cover)" stroke="#aeb5b9" stroke-width="4"/>
+<polygon points="235,350 855,395 855,421 235,376" fill="#242a2f" stroke="#6d777b" stroke-width="3"/>
+<polygon points="855,395 1021,247 1021,271 855,421" fill="#1b2227" stroke="#717a7c" stroke-width="3"/>
+<polygon points="235,350 855,395 1021,247 403,207" fill="url(#grit)" opacity=".8"/>
+<path d="M410 222L410 359 M550 231L550 366 M688 243L688 377 M827 251L827 389" stroke="#868f96" stroke-width="3" opacity=".45"/>
+<path d="M238 351L854 395L1021 248" stroke="#d6dfe1" stroke-width="3" opacity=".8"/></g>
+<!-- gutter / designed outlet and directional arrows stage 4 -->
+<g id="drain" opacity="0"><ellipse cx="805" cy="330" rx="42" ry="15" fill="#12161a" stroke="#d4dce2" stroke-width="6"/>
+<ellipse cx="805" cy="328" rx="25" ry="10" fill="#2c343a" stroke="#f2d69c" stroke-width="3"/>
+<path d="M778 328L780 308L787 291L796 283L814 283L825 293L833 326" fill="#20272e" stroke="#aebac1" stroke-width="4"/>
+<path d="M781 318L790 290" stroke="#86959c" stroke-width="2"/><path d="M787 318L794 290" stroke="#86959c" stroke-width="2"/><path d="M793 318L798 290" stroke="#86959c" stroke-width="2"/><path d="M799 318L802 290" stroke="#86959c" stroke-width="2"/><path d="M805 318L806 290" stroke="#86959c" stroke-width="2"/><path d="M811 318L810 290" stroke="#86959c" stroke-width="2"/><path d="M817 318L814 290" stroke="#86959c" stroke-width="2"/><path d="M823 318L818 290" stroke="#86959c" stroke-width="2"/>
+<path class="fall-arrow" d="M490 285L705 310 M980 258L855 308" stroke="#46d1ed" stroke-width="9" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+<circle cx="805" cy="330" r="48" stroke="#eed28e" stroke-width="2" fill="none" opacity=".36"/></g>
+<!-- legend / simplified labels -->
+<g font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700" fill="#fff0d0">
+<text x="36" y="48" fill="#f5d48d" letter-spacing="4">TAPERED INSULATION · 3D CUTAWAY</text>
+<text x="39" y="104" font-size="24">Built-up roof covering</text>
+<path d="M293 100L464 223" stroke="#f3cc78" stroke-width="3"/><circle cx="464" cy="223" r="6" fill="#ffc560"/>
+<text x="730" y="115" font-size="24">Drainage low point</text>
+<path d="M846 126L805 278" stroke="#f3cc78" stroke-width="3"/>
+<text x="40" y="565" font-size="26">Profiled steel deck</text>
+<path d="M298 547L430 506" stroke="#f3cc78" stroke-width="3"/><circle cx="430" cy="506" r="6" fill="#ffc560"/>
+<text x="40" y="616" font-size="25">Vapour control layer (VCL)</text>
+<path d="M405 598L526 468" stroke="#f3cc78" stroke-width="3"/><circle cx="526" cy="468" r="6" fill="#ffc560"/>
+<text x="708" y="623" font-size="24">Tapered insulation boards</text>
+<path d="M851 593L804 447" stroke="#f3cc78" stroke-width="3"/><circle cx="804" cy="447" r="6" fill="#ffc560"/>
+</g>
+<text x="558" y="666" text-anchor="middle" font="20px Arial,sans-serif" fill="#c7b797">Illustrative concept only · Not a construction drawing or approved specification</text>
+</svg>
