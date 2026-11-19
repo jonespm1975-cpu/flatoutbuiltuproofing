@@ -1,25 +1,28 @@
-# Critical payment release: additional schema/trigger verification
+# Critical payment release: schema and trigger verification
 Date: 2026-11-13
-Read-only Supabase inspection. No customer operations.
+Scope: read-only Supabase inspection and rollback-only purchase-flow tests. No customer operations.
 
-Verified purchase_confirmations has NOT NULL terms_version with default '2026-11-11', but relying on the default is insufficient evidence of actual consent to that specific text.
-Verified triggers:
-- enqueue_live_purchase_confirmation_email_on_receipt: AFTER INSERT OR UPDATE OF confirmation_email_status, calls internal.enqueue_live_purchase_confirmation_email().
-- trg_enqueue_sandbox_purchase_confirmation: AFTER INSERT, calls internal.enqueue_sandbox_purchase_confirmation().
-Read installed trigger functions:
-- live enqueues cs_live_% records with pending confirmation_email_status, ON CONFLICT DO NOTHING in internal.live_purchase_email_outbox.
-- sandbox enqueues only terms_version='sandbox-test' AND cs_test_% AND pending, ON CONFLICT DO NOTHING in public.sandbox_email_retry_queue.
-Both are SECURITY DEFINER with empty search_path.
-Two triggers do not imply two external email sends; the duplicate-sender risk comes from live webhook v31 direct Resend POST plus separately deployable worker.
-Prior staged webhook v32 source removed direct Resend and calls RPC v4. Prior staged checkout v13 deliberately includes draft-review-required terms_version and cannot be deployed until legal text approved and consistent version selected.
+## Verified schema and trigger behavior
+- `purchase_confirmations.terms_version` is NOT NULL with default `2026-11-11`; relying on the default is not evidence that a customer consented to that exact terms text.
+- `enqueue_live_purchase_confirmation_email_on_receipt` runs AFTER INSERT OR UPDATE OF email status and calls `internal.enqueue_live_purchase_confirmation_email()`.
+- `trg_enqueue_sandbox_purchase_confirmation` runs AFTER INSERT and calls `internal.enqueue_sandbox_purchase_confirmation()`.
+- Live enqueues only `cs_live_%` receipts in pending state into the internal live outbox. Sandbox enqueues only `sandbox-test` / `cs_test_%` pending receipts into the public sandbox queue. Both enqueue functions use SECURITY DEFINER and an empty search_path.
+- The duplicate-sender risk is the direct Resend POST in live webhook v31 plus the separately gated worker; two queue triggers do not create two external email sends by themselves.
 
-Release blockers:
-1. No disposable PostgreSQL environment, so two-connection concurrency/rollback tests not performed.
-2. RPC v4 not installed and webhook v32 not deployed.
-3. Actual checkout consent UI remains disabled; legal pages DRAFT and privacy placeholders unresolved.
-4. Worker retry/idempotency provider behavior unverified; do not enable worker.
-5. Supabase leaked-password protection warning remains outstanding.
-6. Historical Stripe 422 and Resend provider delivery not independently reconciled.
-7. No final owner go-live approval for coordinated production activation.
+## Corrections from Tasks 274–283
+- `public.fulfil_live_course_purchase_v4` **is installed**. Its verified signature accepts session, user, course, amount, currency, consent timestamp, and terms version. It has an empty search_path, is SECURITY INVOKER, and execute permission is restricted to `service_role`.
+- Rollback-only integration verified fulfilment, duplicate idempotency, pending receipt/outbox creation, preservation of any existing entitlement, and removal of synthetic test rows after rollback.
+- The candidate webhook v32 remains staged and undeployed. The offline contract tests passed, but they do not replace signed HTTP tests or true database concurrency tests.
+- The current synthetic test suite did not change the data baseline: 2 sandbox access rows, 1 sandbox receipt, 0 live outbox rows, and 1 sandbox retry row.
 
-All production resources unchanged by this verification. Do not claim critical tasks complete.
+## Release blockers
+1. Genuine simultaneous two-connection testing of the installed live email claim/lease functions remains unproven.
+2. Live webhook v31 still sends directly through Resend and can return 503 after access has already been granted. The separate email worker is gated; its live secret values were not inspected.
+3. Legal pages/terms version and checkout consent UI require final owner/legal review before deployment.
+4. Supabase security advisor still reports Leaked Password Protection disabled. Enable it if the setting is available, then recheck.
+5. Historical Stripe records require reconciliation without automatic backfill. The £11.99 test total is explained by tax-exclusive vs tax-inclusive test configuration, but 2 access records lack receipts and 1 receipt lacks access.
+6. Event `evt_1Ub6xTKS41qhUQTKCAsjwHU2` is a TEST subscription checkout with `pending_webhooks=1`; the matching membership row is active and set to cancel at period end. No replay was made; verify the correct destination in Stripe Workbench before any retry.
+7. Resend provider delivery is not independently verified; Supabase's `sent` state does not prove provider delivery or inbox receipt.
+8. No production activation was performed in these checks. Keep any coordinated live change held until release gates close and the current explicit authorization is confirmed.
+
+No production resources were changed. Do not mark the release gates complete until the outstanding checks above are verified.
