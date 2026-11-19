@@ -20,7 +20,7 @@ function attribution(){
  const saved=read(sessionStorage,ATTR);
  const medium=clean(params.get("utm_medium"),32),tag=clean(params.get("utm_source"),48);
  const rawCampaign=clean(params.get("utm_campaign"),64);
- const campaign=rawCampaign&&/^(?:qr|fobur|social|search|sponsor|course|homepage|site|promo)_[a-z0-9_-]{1,56}$/.test(rawCampaign)?rawCampaign:null;
+ const campaign=rawCampaign&&/^(?:qr|fobur|social|search|sponsor|course|homepage|site|promo)_[a-z0-9_-]{1,56}$/.test(rawCampaign)?rawCampaign:tag?.startsWith("qr_")&&/^qr_[a-z0-9_-]{1,56}$/.test(tag)?tag:null;
  if(saved){try{const prior=JSON.parse(saved);if(prior&&prior.source_category)return prior}catch{}}
  let host="";try{host=new URL(document.referrer).hostname.toLowerCase().replace(/^www\./,"")}catch{}
  const own=location.hostname.toLowerCase().replace(/^www\./,"");
@@ -31,8 +31,8 @@ function attribution(){
  const socialTags=["instagram","facebook","tiktok","linkedin","youtube","pinterest","twitter","x","threads"];
  let category="Direct",detail=null;
  if(medium==="qr"||tag==="qr"||tag?.startsWith("qr_")||campaign?.startsWith("qr_"))category="QR";
- else if(["organic","search","paid_search","cpc","ppc"].includes(medium)||searchTags.includes(tag)||searchHosts.test(host))category="Search";
- else if(["social","paid_social","social_media"].includes(medium)||socialTags.includes(tag)||socialHosts.test(host))category="Social";
+ else if(["organic","search","paid_search","cpc","ppc"].includes(medium)||searchTags.includes(tag)||searchHosts.test(host)||campaign?.startsWith("search_"))category="Search";
+ else if(["social","paid_social","social_media"].includes(medium)||socialTags.includes(tag)||socialHosts.test(host)||campaign?.startsWith("social_"))category="Social";
  else if(medium||tag||host)category="Referral";
  if(category==="QR")detail="qr";
  else if(category==="Search")detail=searchTags.find(x=>tag===x||host.includes(x))||"search";
