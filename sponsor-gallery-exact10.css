@@ -1,0 +1,27 @@
+/* Exact approved Design 10 sponsor illustration.
+   No substitute CSS-rendered stage, duplicate header, reveal animation or fake sponsor logos.
+   The full-scene image is served unchanged from /assets/sponsor-design-10-exact.webp. */
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+html{background:#050505}
+body{margin:0;background:#050505;color:#f9e5b4;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+a{color:#f9d68d}
+a:focus-visible,button:focus-visible{outline:3px solid #fff3c8!important;outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
+.approved-artwork{position:relative;width:min(100%,1247px);margin:0 auto;isolation:isolate;line-height:0}
+.approved-artwork>img{display:block;width:100%;height:auto;aspect-ratio:1247/1261;object-fit:contain}
+.art-hotspot{position:absolute;display:block;z-index:2;cursor:pointer;background:transparent;border:0;padding:0;margin:0;font:inherit;appearance:none;text-decoration:none;touch-action:manipulation}
+.art-hotspot:focus-visible{outline:3px solid #fff3c8!important;outline-offset:-4px;box-shadow:0 0 16px #ffd37c}
+#sponsor-qr-dialog{max-width:min(92vw,380px);border:3px solid #efc575;border-radius:16px;background:linear-gradient(145deg,#2a1d0d,#080909);color:#fbe6b8;padding:18px;box-shadow:0 24px 70px #000d,0 0 35px #e6b15144;text-align:center}
+#sponsor-qr-dialog::backdrop{background:#020202d9}
+#sponsor-qr-dialog img{display:block;margin:14px auto 12px;width:min(74vw,260px);height:auto;padding:9px;background:#fff}
+#sponsor-qr-dialog h2{font:750 1.45rem/1.3 Georgia,serif;color:#ffdb95;margin:10px auto}
+#sponsor-qr-dialog p{line-height:1.45}
+#sponsor-qr-dialog button{padding:11px 19px;background:linear-gradient(#fce5a0,#b9812d);border:2px solid #fff0bc;border-radius:9px;color:#221508;font-weight:800;cursor:pointer}
+.sponsor-info{width:min(100% - 32px,960px);margin:16px auto 22px;text-align:center;color:#d8c49d;font-size:.86rem;line-height:1.6}
+.sponsor-info a{font-weight:750}
+.footer{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:25px auto 0;padding:20px 14px 28px;border-top:1px solid #725326;color:#dfcba7;font-size:.8rem;text-align:center}
+.footer a{color:#f1d498;text-underline-offset:3px}
+@media(min-width:1247px){.approved-artwork{border-left:1px solid #b0803866;border-right:1px solid #b0803866}}
+@media(max-width:520px){.sponsor-info{font-size:.81rem;padding:0 3px}.footer{gap:12px}}
+@media print{.art-hotspot{display:none}.approved-artwork{max-width:100%}.sponsor-info,.footer{color:#111}}
