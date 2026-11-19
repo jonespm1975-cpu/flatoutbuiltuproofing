@@ -225,10 +225,30 @@ function renderSections(pages,total){
  });
 }
 function renderDevices(devices,total){const div=$('deviceList');div.replaceChildren();const keys=Object.entries(devices||{}).sort((a,b)=>b[1]-a[1]);if(!keys.length){div.append(node('p','No device data yet','muted'));return}keys.forEach(([key,n])=>{const r=node('div','','device-row');r.append(node('span',key==='Mobile'?'📱 Mobile':key==='Desktop'?'▣ Desktop':key==='Tablet'?'▤ Tablet':key),node('strong',pct(n,total)+'% ('+fmt(n)+')'));div.append(r)})}
-function renderSources(d){const src=d.source_sessions||d.sources||null;
-const entries=src?Object.entries(src).filter(([,n])=>Number(n)>0).sort((a,b)=>b[1]-a[1]):[];const box=$('sourcesList');box.replaceChildren();const donut=$('sourceDonut');if(!entries.length){donut.style.background='#34435d';donut.querySelector('span').textContent='Not tracked';box.append(node('p','Not tracked yet. Sources need consent-aware attribution tracking.','muted'));return}
-const colors=['#f1c86a','#45aff1','#aa90ed','#6dcaad','#bbc7d8'];const total=entries.reduce((s,e)=>s+Number(e[1]),0);let offset=0;const stops=entries.map(([,n],i)=>{let start=offset;offset+=Number(n)/total*100;return colors[i%colors.length]+' '+start+'% '+offset+'%'});donut.style.background='conic-gradient('+stops.join(',')+')';donut.querySelector('span').textContent=fmt(total)+' sessions';entries.forEach(([name,n],i)=>{const r=node('div','','source-row');let a=node('span','● '+name);a.style.color=colors[i%colors.length];r.append(a,node('strong',pct(n,total)+'%'));box.append(r)});
-if((d.qr_campaigns||[]).length){box.append(node('strong','QR campaign arrivals:'));for(const q of d.qr_campaigns.slice(0,8)){const r=node('div','','source-row');r.append(node('span',q.name.replace(/_/g,' ')),node('strong',fmt(q.views)+' sessions'));box.append(r)}}}
+function renderSources(d){
+ const src=d.source_sessions||d.sources||{};
+ const box=$('sourcesList');box.replaceChildren();const donut=$('sourceDonut');
+ const channels=['QR','Search','Social'];
+ const missing=channels.filter(name=>!(Number(src[name])>0));
+ if(missing.length){
+  donut.style.background='#34435d';donut.querySelector('span').textContent='Awaiting channels';
+  box.append(node('p','Comparisons paused: no consented source sessions yet from '+missing.join(', ')+'.','muted'));
+  for(const name of channels){const row=node('div','','source-row');row.append(node('span',name),node('strong',fmt(src[name]||0)+' sessions'));box.append(row)}
+  return;
+ }
+ const entries=Object.entries(src).filter(([,n])=>Number(n)>0).sort((a,b)=>Number(b[1])-Number(a[1]));
+ const colors=['#f1c86a','#45aff1','#aa90ed','#6dcaad','#bbc7d8'];
+ const total=entries.reduce((sum,[,n])=>sum+Number(n),0);
+ let offset=0;
+ const stops=entries.map(([,n],i)=>{const start=offset;offset+=Number(n)/total*100;return colors[i%colors.length]+' '+start+'% '+offset+'%'});
+ donut.style.background='conic-gradient('+stops.join(',')+')';
+ donut.querySelector('span').textContent=fmt(total)+' sessions';
+ entries.forEach(([name,n],i)=>{const row=node('div','','source-row');const title=node('span','● '+name);title.style.color=colors[i%colors.length];row.append(title,node('strong',pct(n,total)+'%'));box.append(row)});
+ if((d.qr_campaigns||[]).length){
+  box.append(node('strong','QR campaign arrivals:'));
+  for(const q of d.qr_campaigns.slice(0,8)){const row=node('div','','source-row');row.append(node('span',q.name.replace(/_/g,' ')),node('strong',fmt(q.views)+' sessions'));box.append(row)}
+ }
+}
 function renderInsights(d,days){const box=$('insightList');box.replaceChildren();const pages=d.pages||[];if(!d.views){box.append(li('No activity has been recorded in the selected period yet.'));box.append(li('Check that tracking is installed on the pages you want to compare.'));return}
 const best=pages[0];box.append(li('Most visited page: '+label(best.page)+' — '+fmt(best.views)+' views ('+pct(best.views,d.views)+'% of recorded page loads).'));
 box.append(li('Recorded reach: '+fmt(d.visitors)+' tracked browser sessions across '+fmt(d.views)+' page loads.'));
