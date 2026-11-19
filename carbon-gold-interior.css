@@ -298,3 +298,32 @@ html body :is(video,canvas,svg){max-width:100%}
 @media print{
   html body #stageText{background:#fff!important;color:#111!important;box-shadow:none!important;border:1px solid #555!important}
 }
+
+
+/* Premium frames on the real-work gallery; leave photos, artwork and sparkles intact. */
+html body .project-card{
+  border:2px solid #e4b85f!important;
+  border-radius:15px!important;
+  background:#070809!important;
+  box-shadow:0 1px 0 #fff2c4a6 inset,0 0 0 2px #523413,0 7px 18px #000b,0 0 15px #e6b14f70!important;
+}
+html body .project-copy{background:linear-gradient(145deg,#262018,#0a0a0b 70%)!important}
+html body .project-meta,html body .project-credit{color:#e9d7b2!important}
+html body .filter{
+  border:1.5px solid #ffebad!important;
+  border-radius:13px!important;
+  background:linear-gradient(135deg,#fff0bc,#e6b75c 42%,#b67d30 100%)!important;
+  color:#1a1308!important;
+  box-shadow:inset 0 1px 0 #fffae0,0 4px 12px #000a!important;
+}
+html body .filter[aria-pressed="true"],html body .filter.active{
+  box-shadow:0 0 0 2px #fff2c0,inset 0 1px 0 #fff9d0,0 0 16px #f1c56f99!important;
+}
+/* Sponsor showcase is intentionally a bespoke animated stage: decorate only its
+   information / submission card, never the curtains, particle canvas or plaques. */
+html body .access{
+  border:1.5px solid #e5bc70!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#2e2519,#0a0a0b 66%,#1d1409)!important;
+  box-shadow:inset 0 1px 0 #ffedbf80,inset 0 0 0 2px #a37e3450,0 18px 35px #000b,0 0 22px #dbad4b33!important;
+}
