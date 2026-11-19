@@ -1,0 +1,77 @@
+/* Design 4: safe surface treatment for standalone interior experiences.
+   Does not change artwork sizes, SVG paths, videos, navigation hit areas,
+   JS, payment logic, session state, or the homepage. */
+/* The three roofing category interiors retain their red/silver/gold logos and hero scenes. */
+body:has(.branch-nav) .art{
+ background-image:
+   repeating-linear-gradient(135deg,#ffffff0b 0 1px,transparent 1px 5px),
+   repeating-linear-gradient(45deg,#ffffff06 0 1px,transparent 1px 5px),
+   linear-gradient(160deg,#141516,#050506 62%,#0b0805)!important;
+}
+body:has(.branch-nav) .branch-nav{
+ border:3px solid #eac475!important;border-radius:13px!important;
+ box-shadow:inset 0 0 0 2px #3f2a12,0 6px 18px #000c,0 0 16px #e6b25845!important;
+ background:linear-gradient(140deg,#27231c,#080b0f 60%,#1e1710)!important;
+}
+body:has(.branch-nav) .block{
+ border:3px solid #eac16c!important;border-radius:12px!important;
+ background:linear-gradient(145deg,#252017,#090b0d 58%,#17100a)!important;
+ box-shadow:inset 0 1px #fff7d6a8,inset 0 0 0 3px #38260f,0 0 0 1px #6e4b22,0 9px 20px #000b,0 0 14px #d69f3c35!important;
+}
+body:has(.branch-nav) .hero-visual{
+ border:3px solid #eec778!important;
+ box-shadow:inset 0 0 0 2px #fff0be6b,0 0 0 1px #895b26,0 8px 23px #000b,0 0 18px #d7a54b55!important;
+}
+body:has(.branch-nav) .button,
+body:has(.branch-nav) .strip a{
+ border:2px solid #fff0b9!important;border-radius:0!important;
+ clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);
+ background:linear-gradient(120deg,#fce7ae,#cb9040 43%,#fce4a5 73%,#ab7126)!important;
+ color:#160e05!important;
+ box-shadow:inset 0 2px 0 #fff9e9,inset 0 -2px 0 #85571f,0 5px 12px #000a!important;
+}
+body:has(.branch-nav) .stripe-title{
+ border-top:3px solid #ffe29a!important;
+ border-bottom:3px solid #ad7c34!important;
+ color:#ffdc95!important;
+ text-shadow:0 2px 8px #000b!important;
+}
+body:has(.branch-nav) .branch-nav a[aria-current="page"]{
+ border-color:var(--brand)!important;
+ box-shadow:inset 0 0 0 1px #ffe5ad,0 0 13px var(--brand)!important;
+}
+/* Owner dashboard: retain all data graphics, labels, dimensions and actions. */
+body:has(#dashboardCanvas) #dashboardCanvas{
+ background-image:
+ radial-gradient(ellipse at 78% 0%,#bd82321c,transparent 29%),
+ repeating-linear-gradient(135deg,#ffffff07 0 1px,transparent 1px 5px),
+ linear-gradient(175deg,#15181c,#05080b 65%,#080808)!important;
+}
+body:has(#dashboardCanvas) :is(.metric,.panel,.statusbox,.lock){
+ border:3px solid #e9c278!important;border-radius:12px!important;
+ background:linear-gradient(145deg,#211f1c,#0a0e13 68%,#21160c)!important;
+ box-shadow:inset 0 1px 0 #fff7d5a8,inset 0 0 0 3px #36240f,0 0 0 1px #815922,0 8px 22px #000b,0 0 15px #dcb04f3b!important;
+}
+body:has(#dashboardCanvas) .controls select{
+ border:2px solid #f0ca81!important;
+ box-shadow:inset 0 1px 0 #fff5d4,0 0 13px #edc16955!important;
+}
+/* Mobile learning: ONLY below the app/home artwork; keep the hero, art and hotspots as-is. */
+body:has(.app-art) :is(.panel,.installBox){
+ border:3px solid #eac373!important;border-radius:13px!important;
+ background:linear-gradient(145deg,#272019,#0b0b0d 66%,#191009)!important;
+ box-shadow:inset 0 1px 0 #fff4d3ad,inset 0 0 0 3px #372511,0 12px 26px #000b,0 0 14px #d6a24945!important;
+}
+body:has(.app-art) :is(.gold-btn,.control){
+ border:2px solid #f7dfa0!important;
+ box-shadow:inset 0 1px 0 #fff6d1,0 5px 16px #000b!important;
+}
+body:has(.app-art) .step-title{color:#ffe0a2!important}
+@media(prefers-reduced-motion:reduce){
+ body:has(.branch-nav) .button{transition:none!important}
+}
+@media print{
+ body:has(#dashboardCanvas) :is(.metric,.panel,.statusbox),
+ body:has(.app-art) :is(.panel,.installBox),
+ body:has(.branch-nav) .block{box-shadow:none!important}
+}
