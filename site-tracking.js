@@ -21,7 +21,7 @@ function attribution(){
  const medium=clean(params.get("utm_medium"),32),tag=clean(params.get("utm_source"),48);
  const rawCampaign=clean(params.get("utm_campaign"),64);
  const campaign=rawCampaign&&/^(?:qr|fobur|social|search|sponsor|course|homepage|site|promo)_[a-z0-9_-]{1,56}$/.test(rawCampaign)?rawCampaign:null;
- if(!medium&&!tag&&!campaign&&saved){try{const prior=JSON.parse(saved);if(prior&&prior.source_category)return prior}catch{}}
+ if(saved){try{const prior=JSON.parse(saved);if(prior&&prior.source_category)return prior}catch{}}
  let host="";try{host=new URL(document.referrer).hostname.toLowerCase().replace(/^www\./,"")}catch{}
  const own=location.hostname.toLowerCase().replace(/^www\./,"");
  if(host===own)host="";
