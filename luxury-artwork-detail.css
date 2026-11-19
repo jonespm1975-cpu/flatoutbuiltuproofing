@@ -1,0 +1,78 @@
+/* Luxury detail finish for illustrated training branches, the mobile learning
+   subpage and the owner analytics interior. Intentionally does not alter hero art,
+   roofing videos, app homepage artwork, SVG data, sizing or JavaScript. */
+:root{
+  --detail-gold:#eac170;
+  --detail-light:#ffebba;
+  --detail-shadow:0 1px 0 #fff0bf9b inset,0 -1px 0 #ac7d32c9 inset,0 0 0 1px #5d3a18 inset,0 10px 24px #000a,0 0 16px #e0ad532c;
+}
+/* Training branch pages: keep the black/gold, red/grey and silver logos intact. */
+html body .screen .branch-nav{
+  background:repeating-linear-gradient(135deg,#ffffff09 0 1px,transparent 1px 6px),linear-gradient(135deg,#222326,#08090b 70%)!important;
+  border:2px solid #e1b565!important;
+  border-radius:15px!important;
+  box-shadow:var(--detail-shadow)!important;
+}
+html body .screen .branch-nav a{
+  border:1px solid #ab8746!important;
+  background:linear-gradient(140deg,#26231d,#0a0b0e 75%)!important;
+  color:#ffebc0!important;
+  box-shadow:inset 0 1px 0 #ffebbd33!important;
+}
+html body .screen .branch-nav a[aria-current="page"]{
+  border-color:#fff0b9!important;
+  background:linear-gradient(140deg,#503b19,#1d1711 58%,#090b0d)!important;
+  color:#fff1cd!important;
+  box-shadow:0 0 0 1px #e0b56580 inset,0 0 15px #dbaa4b77!important;
+}
+html body .screen .page .block{
+  border:2px solid #e3bb70!important;
+  border-radius:17px!important;
+  background:linear-gradient(145deg,#2d2b26,#111214 50%,#0a0b0d 78%,#251d12)!important;
+  box-shadow:var(--detail-shadow)!important;
+}
+html body .screen .page .topic-card strong{
+  color:#fff0c9!important;
+  text-shadow:0 1px 1px #000,0 0 12px #eac16e55;
+}
+html body .screen .page .strip h2{color:#f8d691!important}
+html body .screen .page .hero-visual{
+  border-color:#e3b865!important;
+  box-shadow:0 0 0 1px #fff0c44f,0 0 22px #e5b35662!important;
+}
+/* Mobile learning: preserve the approved homepage reference artwork above. */
+html body .shell .panel{
+  border:1.5px solid #e5b965!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#30291d,#101112 50%,#090a0c 76%,#21180c)!important;
+  box-shadow:var(--detail-shadow)!important;
+}
+html body .shell .panel h2,html body .shell .lock-title{
+  color:#f8d891!important;
+  text-shadow:0 1px 0 #4b3518,0 3px 16px #000b;
+}
+html body .shell .guide-zone .notice{
+  border-left-color:#e8be65!important;
+  background:linear-gradient(145deg,#292317,#0d0e0f)!important;
+}
+html body .shell :is(.gold-btn,.control):not(.secondary){
+  border:1.5px solid #fff2be!important;
+  background:linear-gradient(140deg,#fff3c9,#e8bc65 44%,#b98230 100%)!important;
+  box-shadow:inset 0 1px 0 #fff8df,0 4px 14px #000a!important;
+}
+/* Owner analytics: keep existing verified metrics and fixed dashboard geometry. */
+html body #dashboardCanvas .panel,
+html body #dashboardCanvas .lock{
+  border-color:#e9bd6e!important;
+  background:linear-gradient(140deg,#272b2c,#10151c 50%,#090a0d 80%,#302111)!important;
+  box-shadow:var(--detail-shadow)!important;
+}
+html body #dashboardCanvas .metric{
+  border-color:#f1ca7a!important;
+}
+html body #dashboardCanvas .controls button{
+  border:1px solid #fff0b7!important;
+  background:linear-gradient(145deg,#fff0be,#e5bb64 50%,#ad792b)!important;
+  color:#1a1106!important;
+}
+@media(prefers-reduced-motion:reduce){html body .screen .page .block{transition:none!important}}
