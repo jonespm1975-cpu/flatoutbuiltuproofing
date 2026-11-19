@@ -16,22 +16,30 @@ const courseLinks=new Set(["/courses.html","/tapered-insulation.html","/purchase
 let sent=false;
 function opted(){return !blocked&&read(localStorage,CONSENT)==="yes";}
 function attribution(){
- const saved=read(sessionStorage,ATTR),medium=clean(params.get("utm_medium"),32),tag=clean(params.get("utm_source"),48),campaign=clean(params.get("utm_campaign"),64);
- const tagged=Boolean(medium||tag||campaign);
- if(!tagged&&saved){try{return JSON.parse(saved)}catch{}}
- let host="";try{host=new URL(document.referrer).hostname.toLowerCase()}catch{}
- const social=/^(instagram\.com|www\.instagram\.com|facebook\.com|www\.facebook\.com|m\.facebook\.com|l\.facebook\.com|t\.co|twitter\.com|x\.com|www\.tiktok\.com|tiktok\.com|linkedin\.com|www\.linkedin\.com|youtube\.com|www\.youtube\.com|pinterest\.com|www\.pinterest\.com)$/;
- const search=/(^|\.)google\.|(^|\.)bing\.com$|(^|\.)duckduckgo\.com$|(^|\.)yahoo\./;
- let category="Direct",detail=tag||null;
- if(medium==="qr"||tag==="qr"||tag?.startsWith("qr_"))category="QR";
- else if(medium==="organic"||medium==="search"||medium==="cpc"||search.test(tag||"")||search.test(host))category="Search";
- else if(["social","paid_social","social_media"].includes(medium||"")||social.test(tag||"")||social.test(host))category="Social";
- else if(medium||tag)category="Referral";
- else if(host&&host!==location.hostname&&host!=="www."+location.hostname)category="Referral";
- if(!detail){if(category==="Search")detail=host.includes("bing")?"bing":host.includes("google")?"google":"search";
- else if(category==="Social")detail=host.includes("instagram")?"instagram":host.includes("facebook")?"facebook":host.includes("tiktok")?"tiktok":"social";}
- const a={source_category:category,source_detail:detail,campaign};
- write(sessionStorage,ATTR,JSON.stringify(a));return a;
+ // First-touch source within a consented browser-tab session. No raw URLs or PII.
+ const saved=read(sessionStorage,ATTR);
+ const medium=clean(params.get("utm_medium"),32),tag=clean(params.get("utm_source"),48);
+ const rawCampaign=clean(params.get("utm_campaign"),64);
+ const campaign=rawCampaign&&/^(?:qr|fobur|social|search|sponsor|course|homepage|site|promo)_[a-z0-9_-]{1,56}$/.test(rawCampaign)?rawCampaign:null;
+ if(!medium&&!tag&&!campaign&&saved){try{const prior=JSON.parse(saved);if(prior&&prior.source_category)return prior}catch{}}
+ let host="";try{host=new URL(document.referrer).hostname.toLowerCase().replace(/^www\./,"")}catch{}
+ const own=location.hostname.toLowerCase().replace(/^www\./,"");
+ if(host===own)host="";
+ const searchHosts=/(^|\.)(google\.[a-z.]+|bing\.com|duckduckgo\.com|yahoo\.[a-z.]+)$/;
+ const socialHosts=/(^|\.)(instagram\.com|facebook\.com|tiktok\.com|linkedin\.com|youtube\.com|pinterest\.com|twitter\.com|x\.com|t\.co)$/;
+ const searchTags=["google","bing","duckduckgo","yahoo"];
+ const socialTags=["instagram","facebook","tiktok","linkedin","youtube","pinterest","twitter","x","threads"];
+ let category="Direct",detail=null;
+ if(medium==="qr"||tag==="qr"||tag?.startsWith("qr_")||campaign?.startsWith("qr_"))category="QR";
+ else if(["organic","search","paid_search","cpc","ppc"].includes(medium)||searchTags.includes(tag)||searchHosts.test(host))category="Search";
+ else if(["social","paid_social","social_media"].includes(medium)||socialTags.includes(tag)||socialHosts.test(host))category="Social";
+ else if(medium||tag||host)category="Referral";
+ if(category==="QR")detail="qr";
+ else if(category==="Search")detail=searchTags.find(x=>tag===x||host.includes(x))||"search";
+ else if(category==="Social")detail=socialTags.find(x=>tag===x||host.includes(x))||"social";
+ else if(category==="Referral")detail="external";
+ const value={source_category:category,source_detail:detail,campaign};
+ write(sessionStorage,ATTR,JSON.stringify(value));return value;
 }
 function visitor(){
  let v=read(sessionStorage,VISITOR);
@@ -47,7 +55,16 @@ function pageView(){if(!sent){sent=true;record("page_view",page);}}
 document.addEventListener("click",event=>{
  if(!opted())return;
  const a=event.target.closest?.("a[href]");if(!a)return;
- try{const u=new URL(a.href,location.href);if(u.origin===location.origin&&courseLinks.has(u.pathname))record("course_interest",u.pathname)}catch{}
+ try{
+  const u=new URL(a.href,location.href);
+  if(u.origin!==location.origin||!courseLinks.has(u.pathname))return;
+  // Course CTAs only: ordinary menu navigation is a page view, not purchase intent.
+  const marked=a.hasAttribute("data-course-interest");
+  const cardCTA=a.classList.contains("btn")&&Boolean(a.closest(".card, .academy-feature"));
+  const homeCTA=(page==="/"||page==="/index.html")&&a.classList.contains("hotspot")&&
+    ["paid-top","specialist-course","feature-academy"].some(x=>a.classList.contains(x));
+  if(marked||cardCTA||homeCTA)record("course_interest",u.pathname);
+ }catch{}
 },{capture:true});
 let notice;
 function hide(){notice?.remove();notice=null;}
