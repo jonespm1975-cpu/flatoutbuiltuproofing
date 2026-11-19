@@ -127,3 +127,20 @@ html body:has(#authForm) button.link{
 }
 html body:has(#authForm) header h1{font-size:clamp(1.35rem,3vw,2rem)!important}
 html body:has(#owned) .warning{border-left:3px solid #e8c477;padding:12px 16px;background:rgba(35,29,17,.76)}
+
+/* Shared slim brand bar for standalone sandbox screens (never the homepage). */
+html body .cf-brandbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:82px;padding:12px max(18px,calc((100% - 1060px)/2));
+  background:linear-gradient(115deg,#090a0bee,#282219ed,#090a0bee)!important;
+  border-bottom:1px solid #d2a352!important;
+  box-shadow:0 4px 25px #0009!important;
+}
+html body .cf-brandbar-logo{display:inline-flex;align-items:center;min-height:48px}
+html body .cf-brandbar-logo img{display:block;width:min(270px,56vw);height:auto;max-height:58px;object-fit:contain}
+html body .cf-brandbar-back{
+  border:1px solid #b99249;border-radius:10px;padding:9px 15px;
+  text-decoration:none;font-weight:700;white-space:nowrap;
+  background:linear-gradient(130deg,#242018,#0e0e0e);
+}
+@media(max-width:480px){html body .cf-brandbar{min-height:70px;padding:10px 14px}html body .cf-brandbar-back{padding:8px 11px;font-size:.82rem}}
