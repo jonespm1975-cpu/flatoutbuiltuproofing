@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="Flat Out Built-Up Roofing — premium sponsorship gallery and brand exposure. Explore available positions and enquire privately about showcasing your business.">
+<title>Sponsors Gallery | Flat Out Built-Up Roofing</title>
+<style>/* Sponsors Gallery — approved mobile-first Preview 1.
+   The entire approved composition lives in a single responsive image with no
+   mock iPhone bezel or browser chrome. Effects and links are independent layers.
+   No homepage selectors, sponsor approval, payment or private upload changes. */
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html { background: #030303; }
+body.sponsor-preview-one {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 10%, #bd812827, transparent 40%),
+    repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 6px),
+    #040403;
+  color: #f6e5c0;
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+.sr-only { position: absolute !important; width:1px !important; height:1px !important;
+  padding:0 !important; margin:-1px !important; overflow:hidden !important;
+  clip:rect(0,0,0,0) !important; clip-path:inset(50%) !important;
+  white-space:nowrap !important; border:0 !important; }
+a { color: #ffe4a6; }
+a:focus-visible, button:focus-visible { outline:3px solid #fff3c3; outline-offset:2px; }
+.sponsor-scene {
+  width:min(100%,851px); margin:0 auto; position:relative; overflow:hidden;
+  isolation:isolate; line-height:0;
+  border-left:1px solid #e3a94866; border-right:1px solid #e3a94866;
+  box-shadow:0 0 38px #e7ac4036,0 15px 60px #000;
+}
+.sponsor-scene > img.sponsor-scene-image {
+  display:block; width:100%; height:auto; aspect-ratio:851 / 1463; object-fit:contain;
+}
+/* Moving lights are decorative and never block the real page controls. */
+.sponsor-scene .effect-layer {position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;}
+.sponsor-scene .effect-layer .light-sweep {
+  position:absolute; top:-17%; left:-43%; width:18%; height:136%;
+  transform:translateX(-150%) rotate(17deg);
+  background:linear-gradient(90deg,transparent,#fff8cb08 12%,#fff7d52e 46%,#fffce950 50%,#fff0a618 55%,transparent 100%);
+  filter:blur(8px); mix-blend-mode:screen;
+  animation:sponsor-light-pass 13s cubic-bezier(.27,.04,.71,.96) infinite;
+}
+.sponsor-scene .effect-layer .light-sweep:nth-child(2){animation-delay:-6.5s;animation-duration:17s;opacity:.6;width:12%}
+.sponsor-scene .effect-layer .star {
+ position:absolute;width:clamp(12px,3vw,31px);aspect-ratio:1;
+ background:radial-gradient(circle,#fffbe9 0 6%,#ffdb7d 10% 17%,#ffd97180 21%,transparent 65%);
+ filter:drop-shadow(0 0 7px #ffe5ab);
+ mix-blend-mode:screen;animation:sponsor-star-twinkle 3.8s ease-in-out infinite;
+}
+.sponsor-scene .effect-layer .star::after,.sponsor-scene .effect-layer .star::before {
+  content:"";position:absolute;inset:44% -45%;background:linear-gradient(90deg,transparent,#fff6d1,transparent);
+}
+.sponsor-scene .effect-layer .star::before{transform:rotate(90deg)}
+.sponsor-scene .effect-layer .star.a{left:18%;top:18%;animation-delay:-1.6s}
+.sponsor-scene .effect-layer .star.b{left:82%;top:17%;animation-delay:-.4s}
+.sponsor-scene .effect-layer .star.c{left:48%;top:72%;animation-delay:-2.3s;opacity:.6}
+.sponsor-scene .effect-layer .star.d{left:71%;top:42%;animation-delay:-.9s;opacity:.8}
+@keyframes sponsor-light-pass {
+ 0%,14%{transform:translateX(-180%) rotate(17deg);opacity:0}
+ 20%{opacity:.45}44%{opacity:.6}
+ 57%,100%{transform:translateX(980%) rotate(17deg);opacity:0}
+}
+@keyframes sponsor-star-twinkle {
+ 0%,100%{transform:scale(.38);opacity:.16}
+ 25%{transform:scale(1);opacity:.83}
+ 45%{transform:scale(.57);opacity:.25}
+ 66%{transform:scale(.82);opacity:.5}
+}
+/* Hotspots follow percentages of the approved artwork; no duplicate UI text. */
+.sponsor-scene .hotspot {
+ position:absolute;z-index:4;display:block;cursor:pointer;border:0;padding:0;margin:0;
+ background:transparent;appearance:none;text-decoration:none;font:inherit;touch-action:manipulation;
+}
+.sponsor-scene .hotspot:focus-visible {
+ outline:3px solid #fff2b9;outline-offset:-4px;box-shadow:inset 0 0 12px #ffe6a799;
+}
+/* The original concept QR is illustrative. Only these pixels are replaced by a
+   live scannable graphic, constrained to the exact white inset of the gold frame.
+   A CSS background cannot grow like an unbounded IMG element. */
+.sponsor-scene .live-qr-inset {
+ position:absolute;left:78.6%;top:87.4%;width:16.4%;height:9.65%;
+ z-index:2;overflow:hidden;pointer-events:none;contain:layout paint;
+ background:#fff url("assets/sponsor-invitation-request-qr.svg") center / 100% 100% no-repeat;
+}
+.sponsor-info {margin:0 auto;padding:17px 18px 8px;max-width:851px;text-align:center;
+ color:#d4c0a0;font-size:.86rem;line-height:1.55;}
+.sponsor-info p{margin:0 auto 10px;max-width:85ch}
+.sponsor-info a {font-weight:800;text-decoration-thickness:1px;text-underline-offset:3px}
+.sponsor-footer {display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
+ max-width:851px;margin:14px auto 0;padding:14px 10px 22px;
+ border-top:1px solid #74562d;color:#cfba91;text-align:center;font-size:.8rem;}
+.sponsor-footer a{color:#f7d690}
+dialog:not([open]) {display:none !important;}
+dialog#sponsor-qr-dialog,dialog#sponsor-menu-dialog {
+ width:min(92vw,390px);max-height:88dvh;overflow:auto;
+ border:3px solid #e9be70;border-radius:16px;
+ color:#f8dfae;background:linear-gradient(135deg,#30230f,#060607 63%,#281b0c);
+ padding:19px;box-shadow:0 24px 70px #000e,0 0 27px #e4af5c55;text-align:center;
+}
+dialog::backdrop{background:#020202d8}
+dialog h2{font:800 clamp(1.4rem,5vw,1.8rem)/1.2 Georgia,serif;color:#ffdd96;margin:5px 0 13px}
+dialog p{line-height:1.5;margin:9px 0}
+dialog#sponsor-qr-dialog img.qr-large{
+ display:block;width:min(64vw,210px);max-width:100%;height:auto;aspect-ratio:1;
+ margin:11px auto;padding:8px;border:2px solid #dbb061;background:#fff;
+}
+dialog button {padding:11px 20px;margin-top:12px;border:2px solid #fff0c4;
+ border-radius:9px;background:linear-gradient(135deg,#ffedb2,#cf9340 57%,#fbd783);
+ color:#241608;font-weight:850;cursor:pointer;}
+.sponsor-menu-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.sponsor-menu-links a{display:flex;align-items:center;justify-content:center;min-height:46px;
+ border:1px solid #ce9e4c;border-radius:8px;background:#211606;padding:10px 6px;
+ color:#ffe6b1;font-size:.87rem;text-decoration:none;font-weight:700;}
+.sponsor-menu-links a[aria-current="page"]{background:#4c310c;border-color:#ffe5a4;}
+@media (max-width:520px){
+ .sponsor-scene{border:0;box-shadow:none}
+ .sponsor-info{font-size:.79rem;padding:12px 13px 4px}
+ .sponsor-footer{gap:11px;padding:13px 9px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .sponsor-scene .effect-layer .light-sweep,.sponsor-scene .effect-layer .star{animation:none;display:none}
+}
+@media print{body.sponsor-preview-one{background:white}.sponsor-scene .effect-layer,.sponsor-scene .hotspot{display:none}.sponsor-info,.sponsor-footer{color:#161616}}</style>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://flatoutbuiltuproofing.co.uk/sponsors.html">
+</head>
+<body class="sponsor-preview-one" data-gallery-version="preview1-mobile-24">
+<main id="main-content">
+<h1 class="sr-only">Flat Out Built-Up Roofing — Luxury Sponsors Gallery</h1>
+<section class="sponsor-scene" aria-label="Premium Flat Out Built-Up Roofing sponsorship showcase">
+ <img class="sponsor-scene-image" src="assets/sponsor-preview1-mobile-fullbleed.webp?mobile1-24" width="851" height="1463" fetchpriority="high" decoding="async" alt="Gold-lit Flat Out Built-Up Roofing Sponsor Gallery. Three platinum, four gold and five silver available sponsor placements, roofing imagery, brand-exposure opportunities and sponsor enquiry. No sponsors are represented as confirmed.">
+ <div class="effect-layer" aria-hidden="true"><span class="light-sweep"></span><span class="light-sweep"></span><span class="star a"></span><span class="star b"></span><span class="star c"></span><span class="star d"></span></div>
+ <div class="live-qr-inset" aria-hidden="true"></div>
+ <nav aria-label="Sponsor gallery navigation">
+  <a class="hotspot" href="index.html" aria-label="Flat Out Built-Up Roofing homepage" style="left:0%;top:0%;width:29%;height:7.4%"><span class="sr-only">Home</span></a>
+  <a class="hotspot" href="index.html" aria-label="Home" style="left:29%;top:0%;width:11%;height:7.4%"><span class="sr-only">Home</span></a>
+  <a class="hotspot" href="courses.html" aria-label="Courses" style="left:40%;top:0%;width:12%;height:7.4%"><span class="sr-only">Courses</span></a>
+  <a class="hotspot" href="health-safety.html" aria-label="Health and safety" style="left:52%;top:0%;width:12%;height:7.4%"><span class="sr-only">Health and safety</span></a>
+  <a class="hotspot" href="sponsors-preview1-iphone.html" aria-label="Sponsors Gallery, current page" aria-current="page" style="left:64%;top:0%;width:13%;height:7.4%"><span class="sr-only">Sponsors</span></a>
+  <a class="hotspot" href="gallery.html" aria-label="Project gallery" style="left:77%;top:0%;width:12%;height:7.4%"><span class="sr-only">Gallery</span></a>
+  <button id="open-sponsor-menu" class="hotspot" type="button" aria-label="Open all website sections" style="left:89%;top:0%;width:11%;height:7.4%"><span class="sr-only">Open menu</span></button>
+  <a class="hotspot" href="#sponsor-information" aria-label="Enquire about platinum sponsorship" style="left:14%;top:43.3%;width:73%;height:6.5%"><span class="sr-only">Platinum placements</span></a>
+  <a class="hotspot" href="#sponsor-information" aria-label="Enquire about gold sponsorship" style="left:10%;top:54.1%;width:82%;height:5.9%"><span class="sr-only">Gold placements</span></a>
+  <a class="hotspot" href="#sponsor-information" aria-label="Enquire about silver sponsorship" style="left:10%;top:63.2%;width:82%;height:5.7%"><span class="sr-only">Silver placements</span></a>
+  <a class="hotspot" href="mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship" aria-label="Email Flat Out Built-Up Roofing about sponsoring" style="left:27%;top:93.3%;width:46%;height:5.0%"><span class="sr-only">Enquire now</span></a>
+ </nav>
+ <button id="open-sponsor-qr" class="hotspot" type="button" aria-label="Enlarge the sponsor enquiry QR code" style="left:76%;top:86.4%;width:20%;height:12%"><span class="sr-only">Enlarge QR</span></button>
+</section>
+<section id="sponsor-information" class="sponsor-info" aria-label="Sponsor information">
+ <p>The logo positions shown are <strong>available display examples</strong>, not confirmed sponsors. Logo submissions remain private until reviewed and approved by the site owner.</p>
+ <p><a href="mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship">Contact us about sponsorship and brand exposure</a>.</p>
+</section>
+</main>
+<dialog id="sponsor-menu-dialog" aria-labelledby="sponsor-menu-title">
+ <h2 id="sponsor-menu-title">Explore Flat Out Built-Up Roofing</h2>
+ <nav class="sponsor-menu-links" aria-label="All website pages">
+  <a href="index.html">Home</a><a href="courses.html">Courses</a><a href="cscs.html">CSCS Revision</a><a href="health-safety.html">Health &amp; Safety</a><a href="gallery.html">Project Gallery</a><a href="community.html">Community</a><a href="sponsors-preview1-iphone.html" aria-current="page">Sponsors</a><a href="members.html">My Learning</a>
+ </nav>
+ <form method="dialog"><button type="submit">Close menu</button></form>
+</dialog>
+<dialog id="sponsor-qr-dialog" aria-labelledby="sponsor-qr-title">
+ <h2 id="sponsor-qr-title">Sponsor Enquiry</h2>
+ <p>Scan the code with another device, or use the email link.</p>
+ <img class="qr-large" src="assets/sponsor-invitation-request-qr.svg?mobile1-24" width="210" height="210" alt="Working QR code to enquire about sponsorship by email">
+ <p><a href="mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship">Send a sponsorship enquiry</a></p>
+ <form method="dialog"><button type="submit">Close</button></form>
+</dialog>
+<footer class="sponsor-footer">Flat Out Built-Up Roofing <a href="index.html">Homepage</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refunds.html">Refunds</a></footer>
+<script>
+(()=>{
+ const menu=document.getElementById('sponsor-menu-dialog');
+ const qr=document.getElementById('sponsor-qr-dialog');
+ document.getElementById('open-sponsor-menu').addEventListener('click',()=>{
+  if(typeof menu.showModal==='function')menu.showModal(); else window.location.href='index.html';
+ });
+ document.getElementById('open-sponsor-qr').addEventListener('click',()=>{
+  if(typeof qr.showModal==='function')qr.showModal(); else window.location.href='mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship';
+ });
+ for(const dialog of [menu,qr])dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+})();
+</script>
+<script type="module" src="site-tracking.js"></script>
+</body>
+</html>
