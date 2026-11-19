@@ -24,7 +24,7 @@ body.p4-interior :is(h1,h2,h3){
 body.p4-interior :is(.eyebrow,.academy-eyebrow,.academy-sectionlabel,.intake-eyebrow){
  color:#f6ce7d;letter-spacing:.13em;font-weight:850;
 }
-body.p4-interior :is(.academy-feature,.academy-hero,.hero:not(.hero-visual):not(.d5-hall .hero)){
+body.p4-interior :is(.academy-feature,.academy-hero){
  position:relative;border:2px solid #e9c478!important;border-radius:18px;
  background-image:radial-gradient(ellipse at 92% 5%,#f7d0842a,transparent 36%),var(--p4-weave),linear-gradient(130deg,#24201b,#0b0c0f 75%,#221609)!important;
  box-shadow:inset 0 2px #fff0c7aa,inset 0 0 0 3px #513615,0 0 0 1px #704c20,0 19px 36px #000a,0 0 19px #d7aa4b38!important;
