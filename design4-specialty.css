@@ -75,3 +75,39 @@ body:has(.app-art) .step-title{color:#ffe0a2!important}
  body:has(.app-art) :is(.panel,.installBox),
  body:has(.branch-nav) .block{box-shadow:none!important}
 }
+
+/* Design 4 precedence refinements: these out-rank the earlier luxury-detail layer.
+   Only frames and finishes are overridden; artwork and page geometry are untouched. */
+html body:has(.branch-nav) .screen .branch-nav{
+ border:3px solid #eac475!important;border-radius:12px!important;
+ background:linear-gradient(145deg,#29221b,#090a0c 60%,#19130c)!important;
+ box-shadow:inset 0 0 0 2px #4b3012,0 7px 17px #000c,0 0 17px #dbaa4e45!important;
+}
+html body:has(.branch-nav) .screen .page .block{
+ border:3px solid #eac16c!important;border-radius:12px!important;
+ background:linear-gradient(145deg,#252017,#090b0d 58%,#17100a)!important;
+ box-shadow:inset 0 1px 0 #fff7d6a8,inset 0 0 0 3px #38260f,0 0 0 1px #6e4b22,0 9px 20px #000b,0 0 14px #d69f3c35!important;
+}
+html body:has(.branch-nav) .screen .page .hero-visual{
+ border:3px solid #eec778!important;
+ box-shadow:inset 0 0 0 2px #fff0be6b,0 0 0 1px #895b26,0 8px 23px #000b,0 0 18px #d7a54b55!important;
+}
+html body:has(.branch-nav) .screen .branch-nav a[aria-current="page"]{
+ border-color:var(--brand)!important;
+ box-shadow:inset 0 0 0 1px #ffe5ad,0 0 13px var(--brand)!important;
+}
+html body:has(.app-art) .shell .panel,
+html body:has(.app-art) .shell .installBox{
+ border:3px solid #eac373!important;border-radius:13px!important;
+ background:linear-gradient(145deg,#272019,#0b0b0d 66%,#191009)!important;
+ box-shadow:inset 0 1px 0 #fff4d3ad,inset 0 0 0 3px #372511,0 12px 26px #000b,0 0 14px #d6a24945!important;
+}
+html body:has(.app-art) .shell :is(.gold-btn,.control){
+ border:2px solid #f7dfa0!important;
+ box-shadow:inset 0 1px 0 #fff6d1,0 5px 16px #000b!important;
+}
+html body:has(#dashboardCanvas) #dashboardCanvas :is(.metric,.panel,.statusbox,.lock){
+ border:3px solid #e9c278!important;border-radius:12px!important;
+ background:linear-gradient(145deg,#211f1c,#0a0e13 68%,#21160c)!important;
+ box-shadow:inset 0 1px 0 #fff7d5a8,inset 0 0 0 3px #36240f,0 0 0 1px #815922,0 8px 22px #000b,0 0 15px #dcb04f3b!important;
+}
