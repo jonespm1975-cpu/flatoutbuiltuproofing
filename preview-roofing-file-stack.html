@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070c">
+<title>Roofing Pages | Three Movable Files — Preview</title>
+<meta name="description" content="Interactive preview of three separate roofing training pages, arranged like movable files.">
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#f5ebce;color-scheme:dark;background:#020306}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 50% 4%,#152139,#05070d 50%,#000);overflow-x:hidden}
+header{max-width:1100px;margin:auto;padding:20px 14px 9px}
+.eyebrow{color:#ffdc7a;letter-spacing:.2em;font-size:11px;font-weight:900}
+h1{font:italic 800 clamp(23px,5vw,36px)/1.1 Georgia,serif;margin:8px 0;color:#ffe29a;text-shadow:0 0 14px #efae31a3}
+.lead{font-size:14px;line-height:1.5;color:#d8dce8;margin:8px 0 15px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:1050px}
+.tab{display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:64px;padding:8px 4px;border-radius:12px;background:linear-gradient(145deg,#1b2333,#060911);border:2px solid var(--accent);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 50%,transparent);color:#fff;cursor:pointer;font-size:clamp(10px,2.8vw,16px);font-weight:900;line-height:1.22;text-align:center}
+.tab small{font-size:10px;font-weight:700;letter-spacing:.05em;color:#ddd7c7;margin-top:4px}
+.tab[aria-pressed="true"]{background:linear-gradient(145deg,#34303a,#0c1019);box-shadow:0 0 23px var(--accent),inset 0 0 14px #fff1}
+.built{--accent:#ffca42}.tile{--accent:#e5453c}.metal{--accent:#c5e6ff}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;max-width:1100px;margin:13px auto;padding:0 14px}
+.toolbar p{margin:0;color:#d4d9e4;font-size:13px}
+.toolbar button,.toolbar a{background:linear-gradient(#242c40,#0d111b);border:1px solid #c8a45a;border-radius:12px;color:#ffedc1;padding:10px 14px;font-weight:800;font-size:13px;cursor:pointer;text-decoration:none}
+.workspace{position:relative;max-width:1100px;margin:0 auto 20px;padding:0;overflow:visible;isolation:isolate;touch-action:pan-y}
+.sheet{position:absolute;top:0;left:0;width:920px;height:1690px;transform-origin:top left;border:4px solid var(--accent);border-radius:17px;background:#020203;box-shadow:0 0 26px color-mix(in srgb,var(--accent) 62%,transparent),0 20px 40px #000b;overflow:hidden;will-change:transform}
+.sheet:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;border-radius:12px;box-shadow:inset 0 0 18px color-mix(in srgb,var(--accent) 45%,transparent)}
+.grip{height:62px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 23px;background:linear-gradient(100deg,#151a28,#090b12 60%,#202333);border-bottom:3px solid var(--accent);touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.grip:active{cursor:grabbing}
+.grip strong{font:italic 900 24px Georgia,serif;color:var(--accent)}
+.grip span{font-size:16px;font-weight:800;color:#fff2d3}
+.grip .handle{border:2px solid #eee9c4;padding:6px 13px;border-radius:30px;color:#fff}
+.sheet iframe{display:block;width:920px;height:1628px;border:0;background:#000;pointer-events:auto}
+.sheet:not(.front) iframe{pointer-events:none}
+.note{max-width:1100px;margin:0 auto 30px;padding:14px 17px;border:1px solid #8e7338;border-radius:12px;background:#0c111a;color:#d4d7e1;font-size:13px;line-height:1.55}
+.note strong{color:#ffe1a1}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.links a{display:inline-block;border:1px solid #b69b5d;border-radius:8px;padding:8px 11px;color:#fff0c8;text-decoration:none}
+@media(max-width:550px){header{padding-top:13px}.lead{font-size:13px}.toolbar{margin:10px auto}.sheet{box-shadow:0 0 14px color-mix(in srgb,var(--accent) 55%,transparent)}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">◆ FLAT OUT ROOFING · DESIGN PREVIEW</div>
+<h1>Three separate roofing files</h1>
+<p class="lead">Just like three individual files stacked slightly behind each other. Tap a file name to bring its complete page to the front, or drag its gold/red/silver top handle to position it.</p>
+<nav class="tabs" aria-label="Choose the front file">
+<button type="button" class="tab built" data-open="built" aria-pressed="true">1 · BUILT-UP ROOFING<small>GOLD & BLACK</small></button>
+<button type="button" class="tab tile" data-open="tile" aria-pressed="false">2 · TILE & SLATE<small>RED & SLATE GREY</small></button>
+<button type="button" class="tab metal" data-open="metal" aria-pressed="false">3 · METAL & SHEET<small>METALLIC SILVER</small></button>
+</nav>
+</header>
+<div class="toolbar"><p id="status" role="status">File 1 is at the front · Drag the top bar to move it.</p><button type="button" id="reset">Reset file positions</button></div>
+<div id="workspace" class="workspace" aria-label="Movable stack of three roofing pages">
+<section class="sheet metal" data-file="metal" aria-label="Metal and Sheet Roofing file">
+<div class="grip" data-grip="metal"><strong>FILE 3 · METAL & SHEET ROOFING</strong><span class="handle">⠿ MOVE FILE</span></div>
+<iframe title="Metal and Sheet Roofing page" src="metal-sheet-roofing.html" loading="lazy"></iframe>
+</section>
+<section class="sheet tile" data-file="tile" aria-label="Tile and Slate Roofing file">
+<div class="grip" data-grip="tile"><strong>FILE 2 · TILE & SLATE ROOFING</strong><span class="handle">⠿ MOVE FILE</span></div>
+<iframe title="Tile and Slate Roofing page" src="tile-slate-roofing.html" loading="lazy"></iframe>
+</section>
+<section class="sheet built front" data-file="built" aria-label="Built-Up Roofing file">
+<div class="grip" data-grip="built"><strong>FILE 1 · BUILT-UP ROOFING</strong><span class="handle">⠿ MOVE FILE</span></div>
+<iframe title="Built-Up Roofing page" src="built-up-roofing.html"></iframe>
+</section>
+</div>
+<div class="note">
+<strong>Preview only:</strong> Each is a separate existing roofing page, displayed inside its own movable file. Moving or selecting a file does not change the approved live homepage, its design or any payments. Your positions are remembered on this device.
+<div class="links">
+<a href="built-up-roofing.html">Open Built-Up full page</a>
+<a href="tile-slate-roofing.html">Open Tile & Slate full page</a>
+<a href="metal-sheet-roofing.html">Open Metal & Sheet full page</a>
+</div>
+</div>
+<script>
+(function(){
+'use strict';
+const keys=['built','tile','metal'];
+const names={built:'Built-Up Roofing',tile:'Tile & Slate Roofing',metal:'Metal & Sheet Roofing'};
+const workspace=document.getElementById('workspace');
+const sheets=Object.fromEntries(keys.map(k=>[k,document.querySelector('.sheet[data-file="'+k+'"]')]));
+const buttons=Object.fromEntries(keys.map(k=>[k,document.querySelector('.tab[data-open="'+k+'"]')]));
+const store='fobur-roofing-files-preview-v1';
+let front='built',scale=1;
+const defaults={built:{x:0,y:0,z:3},tile:{x:14,y:15,z:2},metal:{x:28,y:30,z:1}};
+let positions=structuredClone(defaults);
+try{const saved=JSON.parse(localStorage.getItem(store));if(saved&&keys.every(k=>saved[k]&&Number.isFinite(saved[k].x)&&Number.isFinite(saved[k].y)&&Number.isFinite(saved[k].z))){positions=saved;front=saved.front&&keys.includes(saved.front)?saved.front:'built'}}catch(e){}
+function persist(){try{localStorage.setItem(store,JSON.stringify({...positions,front}))}catch(e){}}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
+function draw(){
+const width=workspace.clientWidth||window.innerWidth;
+scale=Math.min(1,Math.max(.25,(width-44)/920));
+workspace.style.height=Math.ceil(1690*scale+115)+'px';
+keys.forEach(k=>{
+const p=positions[k],el=sheets[k];
+el.style.transform='translate('+p.x+'px,'+p.y+'px) scale('+scale+')';
+el.style.zIndex=p.z;
+el.classList.toggle('front',k===front);
+buttons[k].setAttribute('aria-pressed',String(k===front));
+});
+document.getElementById('status').textContent=names[front]+' is at the front · Drag the top bar to move the file.';
+}
+function bringForward(k){
+const high=Math.max(...keys.map(id=>positions[id].z));
+positions[k].z=high+1;front=k;
+if(high>500){keys.sort((a,b)=>positions[a].z-positions[b].z).forEach((id,i)=>positions[id].z=i+1)}
+draw();persist();
+}
+keys.forEach(k=>buttons[k].addEventListener('click',()=>bringForward(k)));
+document.getElementById('reset').addEventListener('click',()=>{positions=structuredClone(defaults);front='built';draw();persist()});
+let active=null;
+keys.forEach(k=>{
+const grip=document.querySelector('[data-grip="'+k+'"]');
+grip.addEventListener('pointerdown',e=>{
+if(e.button!==0)return;
+bringForward(k);
+active={id:k,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,x:positions[k].x,y:positions[k].y};
+grip.setPointerCapture(e.pointerId);e.preventDefault();
+});
+grip.addEventListener('pointermove',e=>{
+if(!active||active.id!==k||active.pointerId!==e.pointerId)return;
+positions[k].x=clamp(active.x+(e.clientX-active.startX),-85,Math.max(85,workspace.clientWidth-920*scale+55));
+positions[k].y=clamp(active.y+(e.clientY-active.startY),-70,115);
+draw();
+});
+function finish(e){if(active&&active.id===k&&active.pointerId===e.pointerId){active=null;persist()}}
+grip.addEventListener('pointerup',finish);
+grip.addEventListener('pointercancel',finish);
+});
+window.addEventListener('resize',draw,{passive:true});
+draw();
+})();
+</script>
+</body>
+</html>
