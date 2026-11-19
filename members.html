@@ -105,4 +105,5 @@ try {
   }
 } catch (error) { status.textContent = error.message || 'Unable to check access. Please reload.'; }
 window.addEventListener('pageshow', event => { if (event.persisted) { concealPaidContent(); account.hidden = true; location.reload(); } });
-</script></body></html>
+</script><script type="module" src="site-tracking.js"></script>
+</body></html>

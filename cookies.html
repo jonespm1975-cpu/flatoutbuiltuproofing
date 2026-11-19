@@ -9,10 +9,12 @@
 <body class="p4-interior">
   <a href="index.html">← Website</a>
   <h1>Cookie and Browser Storage Notice</h1>
-  <p><strong>Last updated: 14 November 2026</strong></p>
-  <p>The public website code does not currently include analytics or advertising trackers. The sign-in feature uses browser storage to keep the Supabase authentication session so that account and member pages work. This storage is used only for the account service requested by the user. Signing out removes the active session; clearing site data in your browser also removes locally stored session information.</p>
+  <p><strong>Last updated: 19 November 2026</strong></p>
+  <p>The sign-in feature uses browser storage for your Supabase authentication session. Separately, optional first-party site analytics run only after you choose “Allow optional analytics”. They count page views and course-link clicks with broad device and QR/search/social attribution. If allowed, a random browser-tab session ID and coarse attribution are kept in sessionStorage; a yes/no consent choice is kept in localStorage so we can honour your preference. No advertising trackers are installed by this site.</p>
   <p>The sign-in page loads the Supabase JavaScript library from jsDelivr. The providers operating sign-in, hosting or payment services may use their own strictly necessary technologies under their published notices. If a Stripe checkout page is presented, Stripe's own cookie and privacy information applies there.</p>
-  <p>If we introduce analytics, personalised advertising or another non-essential storage or access technology, we will update this notice and obtain any consent required before it is used. See the <a href="privacy.html">Privacy Notice</a> for other information about personal data.</p>
+  <p>You can reject or withdraw optional analytics without losing access to free lessons. Click below to choose again. Turning analytics off stops new tracking and clears the site analytics session values from this browser tab. Analytics events are automatically deleted after 90 days. See the <a href="privacy.html">Privacy Notice</a> for further details.</p>
+  <p><button type="button" onclick="window.foburOpenAnalyticsPreferences?.()" style="border:1px solid #d4ab4e;border-radius:8px;background:#1b170c;color:#ffdf8b;padding:12px 16px;font:inherit;cursor:pointer">Change optional analytics choice</button></p>
   <p>For questions, contact <a href="mailto:jonespm1975@gmail.com">jonespm1975@gmail.com</a>.</p>
+<script type="module" src="site-tracking.js"></script>
 </body>
 </html>

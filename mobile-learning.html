@@ -134,4 +134,5 @@ els.previous.onclick=()=>{if(index>0){index--;renderStep();}};els.next.onclick=(
 supabase.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"){clearGuide();location.replace("login.html");}});
 setInterval(()=>{if(document.visibilityState==="visible"&&guideStarted)loadGuide(true);},60000);
 </script>
+<script type="module" src="site-tracking.js"></script>
 </body></html>
