@@ -119,3 +119,12 @@ dialog button {padding:11px 20px;margin-top:12px;border:2px solid #fff0c4;
  .sponsor-scene .effect-layer .light-sweep,.sponsor-scene .effect-layer .star{animation:none;display:none}
 }
 @media print{body.sponsor-preview-one{background:white}.sponsor-scene .effect-layer,.sponsor-scene .hotspot{display:none}.sponsor-info,.sponsor-footer{color:#161616}}
+/* Approved wording: actual responsive gold type, masked over the poster's old headline only. */
+.sponsor-scene .sponsor-title-rebrand{
+  position:absolute;left:24%;top:20.35%;width:52%;height:8.7%;
+  z-index:3;pointer-events:none;display:grid;place-items:center;line-height:0;
+  background:linear-gradient(90deg,#150d06 0%,#0a0604 12%,#090605 85%,#160c04 100%);
+}
+.sponsor-scene .sponsor-title-rebrand svg{
+  display:block;width:100%;height:100%;overflow:visible;
+}
