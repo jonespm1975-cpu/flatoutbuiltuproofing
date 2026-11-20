@@ -1,0 +1,217 @@
+/* Onyx & Antique Gold for the seven approved public interior pages. */
+html body.onyx-interior {
+  --onyx-back: #100e0c;
+  --onyx-panel: linear-gradient(145deg, #242016, #17140f 74%);
+  --onyx-line: #665338;
+  --onyx-gold: #cba569;
+  --onyx-light: #ecd4a5;
+  --onyx-ivory: #fff1dc;
+  --onyx-muted: #d0c3b2;
+  --onyx-action: linear-gradient(115deg, #e4c58f, #bd9558);
+  background: radial-gradient(ellipse at 84% 0%, #251f15, #100e0c 53%, #0d0b09);
+  color: var(--onyx-ivory);
+}
+body.onyx-interior :is(h1,h2,h3) {
+  color: var(--onyx-ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -.025em;
+  text-shadow: none;
+}
+body.onyx-interior h1 { line-height: 1.06; }
+body.onyx-interior h1 em,
+body.onyx-interior .gallery-hero h1 span {
+  color: var(--onyx-light);
+  font-style: italic;
+  font-weight: 400;
+}
+body.onyx-interior :is(.eyebrow,.academy-eyebrow,.academy-sectionlabel,.gold-label,.onyx-kicker) {
+  color: var(--onyx-light);
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+body.onyx-interior .onyx-kicker {
+  margin: 0 0 .6rem;
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+body.onyx-interior :is(.academy-feature,.academy-hero,.onyx-hero,.gallery-hero) {
+  border: 1px solid var(--onyx-line) !important;
+  border-radius: 9px !important;
+  background: radial-gradient(ellipse at 91% 5%, #43321e, #18140f 71%) !important;
+  box-shadow: 0 12px 30px #0005 !important;
+}
+body.onyx-interior :is(.academy-feature,.academy-hero)::after {
+  content: none;
+}
+body.onyx-interior :is(.onyx-lesson .onyx-hero,.onyx-catalogue .academy-feature,.onyx-safety .academy-feature,.onyx-community .onyx-hero) {
+  background:
+    linear-gradient(90deg, #100d09f4, #100d09c9 50%, #100d0957),
+    var(--onyx-hero-photo) center / cover !important;
+}
+.onyx-lesson { --onyx-hero-photo: url("assets/onyx-interior-torch.webp"); }
+.onyx-catalogue, .onyx-safety { --onyx-hero-photo: url("assets/gallery/pjones-roof-field-east.jpeg"); }
+.onyx-community { --onyx-hero-photo: url("assets/gallery/pjones-city-roof-at-dusk.jpeg"); }
+body.onyx-interior :is(.academy-feature,.onyx-hero) {
+  padding: clamp(20px, 4vw, 43px);
+  margin-block: 16px 22px;
+}
+body.onyx-interior :is(.academy-feature,.onyx-hero) h1 {
+  margin: .25em 0;
+  max-width: 19ch;
+  font-size: clamp(2.25rem, 6vw, 4.35rem);
+}
+body.onyx-interior :is(.academy-feature,.onyx-hero) p {
+  color: var(--onyx-ivory);
+  max-width: 58ch;
+}
+body.onyx-interior :is(.card,.panel,.academy-panel,.academy-tile,.course-box,.course-card,.test-card,.topic,.project-card,.receipt) {
+  border: 1px solid var(--onyx-line) !important;
+  border-radius: 8px !important;
+  background: var(--onyx-panel) !important;
+  box-shadow: 0 8px 21px #0005 !important;
+}
+body.onyx-interior :is(.card,.panel,.academy-panel,.academy-tile,.course-box,.project-card):is(:hover,:focus-within) {
+  border-color: var(--onyx-gold) !important;
+  box-shadow: 0 10px 24px #0007 !important;
+}
+body.onyx-interior :is(.card,.panel,.academy-panel,.academy-tile) :is(h2,h3) {
+  border-bottom-color: #66533880;
+}
+body.onyx-interior :is(.diagram,.visual,.figure,.frame,.academy-photo,.p4-technical-visual) {
+  border: 1px solid var(--onyx-line) !important;
+  border-radius: 8px !important;
+  background: var(--onyx-panel) !important;
+  box-shadow: 0 8px 17px #0006 !important;
+}
+body.onyx-interior :is(.notice,.academy-note,.warning,.warn) {
+  border-left: 3px solid var(--onyx-gold) !important;
+  background: #211b13 !important;
+  box-shadow: none !important;
+  color: var(--onyx-ivory);
+}
+body.onyx-interior .academy-topnav {
+  border: 1px solid #544430;
+  border-radius: 6px;
+  background: #15110d;
+  box-shadow: none;
+}
+body.onyx-interior .academy-topnav a {
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  color: var(--onyx-muted) !important;
+}
+body.onyx-interior .academy-topnav a:is(:hover,[aria-current="page"]) {
+  border-color: var(--onyx-line) !important;
+  background: #281f14 !important;
+  color: var(--onyx-light) !important;
+  box-shadow: none !important;
+}
+body.onyx-interior :is(.btn,.button,.academy-btn,.gold-btn,.gold-button,.back,.email,.p4-action,.steps button,.buttons[role="group"] button,#submitBtn) {
+  border: 1px solid var(--onyx-gold) !important;
+  border-radius: 5px !important;
+  background: var(--onyx-action) !important;
+  color: #211508 !important;
+  font-weight: 750;
+  text-shadow: none;
+  box-shadow: none !important;
+}
+body.onyx-interior :is(.academy-btn.academy-outline,.project-open,.filter,.link) {
+  border: 1px solid var(--onyx-line) !important;
+  border-radius: 5px !important;
+  background: #201910 !important;
+  color: var(--onyx-light) !important;
+  box-shadow: none !important;
+}
+body.onyx-interior .filter[aria-pressed="true"] {
+  border-color: var(--onyx-gold) !important;
+  background: var(--onyx-action) !important;
+  color: #211508 !important;
+}
+body.onyx-interior :is(.academy-pill,.pill,.tag,.academy-chips span,.project-tag,.archive-pill):not(.badge) {
+  border-color: var(--onyx-line) !important;
+  background: #261e14 !important;
+  color: var(--onyx-light) !important;
+  box-shadow: none !important;
+}
+body.onyx-interior :is(details,fieldset) {
+  background: #1c1710 !important;
+  border-color: var(--onyx-line) !important;
+  border-radius: 6px !important;
+}
+body.onyx-interior summary { color: var(--onyx-light); }
+body.onyx-interior :is(input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),select,textarea) {
+  background: #140f0b !important;
+  border: 1px solid var(--onyx-line) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  color: var(--onyx-ivory) !important;
+}
+body.onyx-interior :is(a,button,input,summary,textarea,select):focus-visible {
+  outline-color: var(--onyx-light) !important;
+}
+body.onyx-interior .onyx-logo {
+  display: block;
+  width: 128px;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+body.onyx-interior .site-header {
+  border-bottom: 1px solid var(--onyx-line);
+  box-shadow: none;
+}
+body.onyx-interior .gallery-hero .hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+  transform: none;
+  filter: none;
+}
+body.onyx-interior .gallery-hero::after {
+  background: linear-gradient(90deg,#100d09ee,#100d0990 66%,#100d0940),
+              linear-gradient(0deg,#100d09a8,transparent);
+}
+body.onyx-interior .gallery-hero h1 {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-style: normal;
+  text-transform: none;
+}
+body.onyx-interior .gallery-hero h1 span {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+}
+body.onyx-interior .project-card::before { content: none; }
+body.onyx-interior .project-credit,
+body.onyx-interior .section-note { color: var(--onyx-muted); }
+body.onyx-interior .ornament::before,
+body.onyx-interior .ornament::after { opacity: .45; filter: none; }
+body.onyx-interior .lightbox-head,
+body.onyx-interior .lightbox-copy { color: var(--onyx-ivory); }
+body.onyx-interior.onyx-login header {
+  background: #15110d;
+  border-color: var(--onyx-line);
+}
+body.onyx-interior.onyx-login header h1 { margin-top: 10px; }
+body.onyx-interior.onyx-login main {
+  width: min(100% - 28px, 452px);
+  margin: clamp(18px, 5vw, 42px) auto;
+  background: var(--onyx-panel);
+  border: 1px solid var(--onyx-line);
+  border-radius: 8px;
+  box-shadow: 0 16px 35px #0006;
+}
+body.onyx-interior.onyx-login main h2 { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+body.onyx-interior.onyx-login a { color: var(--onyx-light); }
+@media print {
+  html body.onyx-interior { background: white !important; color: black !important; }
+  body.onyx-interior :is(.onyx-hero,.academy-feature,.academy-hero,.gallery-hero,.card,.panel) {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+  body.onyx-interior :is(h1,h2,h3,h1 em,p) { color: black !important; }
+}
