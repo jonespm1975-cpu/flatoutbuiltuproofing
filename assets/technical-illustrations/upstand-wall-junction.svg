@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative built-up felt roof upstand at a wall</title>
+  <desc id="desc">A cutaway shows roof layers turning up at a vertical wall junction. The flashing and termination are conceptual; no dimensions or installation instructions are provided.</desc>
+  <defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#171716"/><stop offset="1" stop-color="#0b0b0a"/></linearGradient><linearGradient id="wall" x2="1" y2="1"><stop stop-color="#a98759"/><stop offset="1" stop-color="#59452e"/></linearGradient><linearGradient id="deck" x2="0" y2="1"><stop stop-color="#c3a572"/><stop offset="1" stop-color="#6a5131"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#f4d99b"/><stop offset="1" stop-color="#a67d38"/></linearGradient><pattern id="brick" width="116" height="55" patternUnits="userSpaceOnUse"><path d="M0 0h116M0 27h116M58 27v28M0 0v27M116 0v27" stroke="#d9bd8d" stroke-opacity=".26" stroke-width="3"/></pattern><filter id="shadow"><feGaussianBlur stdDeviation="13"/></filter></defs>
+  <rect width="1200" height="620" rx="28" fill="url(#bg)"/><rect x="1.5" y="1.5" width="1197" height="617" rx="27" fill="none" stroke="#987746" stroke-opacity=".65" stroke-width="3"/><text x="58" y="44" fill="#e4c783" font-family="Arial,sans-serif" font-size="18" letter-spacing="4">ROOF DETAIL · UPSTAND AT WALL</text>
+  <ellipse cx="540" cy="497" rx="435" ry="43" fill="#000" opacity=".5" filter="url(#shadow)"/>
+  <!-- substrate and wall -->
+  <path d="M115 391H708V436H115Z" fill="url(#deck)" stroke="#d4b578" stroke-width="3"/><path d="M115 436H708V466H115Z" fill="#47351f" stroke="#8d7040" stroke-width="2"/>
+  <rect x="703" y="101" width="205" height="335" rx="4" fill="url(#wall)" stroke="#d3b477" stroke-width="3"/><rect x="703" y="101" width="205" height="335" fill="url(#brick)"/>
+  <!-- layers rise at junction in parallel -->
+  <path d="M115 382H651Q683 382 683 350V157" fill="none" stroke="#51402b" stroke-width="36" stroke-linejoin="round"/>
+  <path d="M115 369H651Q670 369 670 350V157" fill="none" stroke="#a8874e" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M115 357H651Q658 357 658 350V157" fill="none" stroke="#30251a" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M115 344H651Q646 344 646 350V157" fill="none" stroke="url(#gold)" stroke-width="13" stroke-linejoin="round"/>
+  <path d="M624 166V143Q624 131 638 131H730" fill="none" stroke="#e9d09b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M646 151V130" stroke="#f6dfa7" stroke-width="4"/><path d="M621 130h113" stroke="#f6dfa7" stroke-width="4"/>
+  <!-- callouts -->
+  <g font-family="Arial,sans-serif"><text x="74" y="273" fill="#f1dfb9" font-size="23" font-weight="700">Roof field</text><path d="M184 280 318 351" stroke="#e6c47c" stroke-width="2"/><circle cx="318" cy="351" r="5" fill="#efd28e"/>
+  <text x="80" y="118" fill="#f1dfb9" font-size="22" font-weight="700">Waterproofing turns up</text><text x="80" y="147" fill="#aaa08e" font-size="17">Conceptual layer path</text><path d="M350 153 627 264" stroke="#e6c47c" stroke-width="2"/><circle cx="627" cy="264" r="5" fill="#efd28e"/>
+  <text x="930" y="183" fill="#f1dfb9" font-size="23" font-weight="700">Wall</text><path d="M925 190 866 211" stroke="#e6c47c" stroke-width="2"/><circle cx="866" cy="211" r="5" fill="#efd28e"/>
+  <text x="930" y="310" fill="#f1dfb9" font-size="21" font-weight="700">Termination zone</text><path d="M923 302 726 147" stroke="#e6c47c" stroke-width="2"/><circle cx="726" cy="147" r="5" fill="#efd28e"/></g>
+  <path d="M58 515h1084" stroke="#987746" stroke-opacity=".45"/><text x="58" y="554" fill="#c7baa0" font-family="Arial,sans-serif" font-size="17">Concept only · Heights, flashings, fire precautions and terminations must follow the approved project specification.</text>
+</svg>

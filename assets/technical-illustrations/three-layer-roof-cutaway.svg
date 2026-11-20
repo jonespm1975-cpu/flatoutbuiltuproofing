@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Exploded cutaway of a three-layer felt roof</title>
+  <desc id="desc">An illustrative isometric stack showing a mineral-finished cap sheet, intermediate underlay, base underlay and roof deck. Layers are separated for clarity and are not to scale.</desc>
+  <defs>
+    <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#171716"/><stop offset="1" stop-color="#0b0b0a"/></linearGradient>
+    <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#f4d99b"/><stop offset=".44" stop-color="#bd9855"/><stop offset="1" stop-color="#705328"/></linearGradient>
+    <linearGradient id="membrane" x2="0" y2="1"><stop stop-color="#363635"/><stop offset="1" stop-color="#171717"/></linearGradient>
+    <linearGradient id="underlay" x2="0" y2="1"><stop stop-color="#74604a"/><stop offset="1" stop-color="#392c20"/></linearGradient>
+    <linearGradient id="deck" x2="0" y2="1"><stop stop-color="#c9ac78"/><stop offset="1" stop-color="#725735"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.8"><feGaussianBlur stdDeviation="13"/></filter>
+    <pattern id="granules" width="22" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="1.4" fill="#d3c9b2" opacity=".48"/><circle cx="15" cy="12" r="1.2" fill="#a59a83" opacity=".55"/><circle cx="21" cy="3" r=".8" fill="#eee2c6" opacity=".4"/></pattern>
+    <pattern id="grain" width="40" height="20" patternUnits="userSpaceOnUse"><path d="M0 5h40M4 14h28" stroke="#f2dcaf" stroke-opacity=".14" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1200" height="620" rx="28" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="1197" height="617" rx="27" fill="none" stroke="#987746" stroke-opacity=".65" stroke-width="3"/>
+  <path d="M44 56h1112" stroke="url(#gold)" stroke-opacity=".55"/>
+  <text x="58" y="42" fill="#e4c783" font-family="Arial,sans-serif" font-size="18" letter-spacing="4">BUILT-UP FELT · CONCEPTUAL ROOF ASSEMBLY</text>
+  <ellipse cx="470" cy="490" rx="360" ry="50" fill="#000" opacity=".55" filter="url(#shadow)"/>
+  <!-- roof deck -->
+  <path d="M126 414 446 286 804 379 483 511Z" fill="url(#deck)" stroke="#ead4a8" stroke-width="3"/>
+  <path d="M126 414 483 511 483 543 126 447Z" fill="#59452c" stroke="#b8975e" stroke-width="2"/>
+  <path d="M483 511 804 379 804 411 483 543Z" fill="#6d5430" stroke="#b8975e" stroke-width="2"/>
+  <path d="M126 414 446 286 804 379 483 511Z" fill="url(#grain)" opacity=".9"/>
+  <!-- base underlay -->
+  <path d="M126 330 446 202 804 295 483 427Z" fill="url(#underlay)" stroke="#c5a260" stroke-width="3"/>
+  <path d="M126 330 483 427 483 449 126 352Z" fill="#2e241a" stroke="#a4864e" stroke-width="2"/>
+  <path d="M483 427 804 295 804 317 483 449Z" fill="#443321" stroke="#a4864e" stroke-width="2"/>
+  <path d="M150 331 445 214 770 298" fill="none" stroke="#d4ba83" stroke-opacity=".5" stroke-width="2" stroke-dasharray="8 10"/>
+  <!-- intermediate underlay -->
+  <path d="M126 246 446 118 804 211 483 343Z" fill="url(#membrane)" stroke="#9d8050" stroke-width="3"/>
+  <path d="M126 246 483 343 483 365 126 268Z" fill="#151515" stroke="#866b42" stroke-width="2"/>
+  <path d="M483 343 804 211 804 233 483 365Z" fill="#252524" stroke="#866b42" stroke-width="2"/>
+  <path d="M160 246 445 132 770 215" fill="none" stroke="#d6bf8d" stroke-opacity=".55" stroke-width="2" stroke-dasharray="8 10"/>
+  <!-- cap sheet -->
+  <path d="M126 162 446 34 804 127 483 259Z" fill="url(#membrane)" stroke="url(#gold)" stroke-width="4"/>
+  <path d="M126 162 483 259 483 281 126 184Z" fill="#141414" stroke="#9c7d43" stroke-width="2"/>
+  <path d="M483 259 804 127 804 149 483 281Z" fill="#262523" stroke="#9c7d43" stroke-width="2"/>
+  <path d="M126 162 446 34 804 127 483 259Z" fill="url(#granules)" opacity=".82"/>
+  <!-- layer spacers and callouts -->
+  <g stroke="#c8a760" stroke-width="2" stroke-dasharray="6 8" opacity=".75"><path d="M840 141v15M840 226v15M840 310v15M840 394v15"/></g>
+  <g font-family="Arial,sans-serif">
+    <path d="M803 111h60" stroke="#e6c47c" stroke-width="2"/><circle cx="803" cy="111" r="5" fill="#efd28e"/><text x="880" y="105" fill="#f1dfb9" font-size="24" font-weight="700">Mineral-finished cap sheet</text><text x="880" y="135" fill="#aaa08e" font-size="17">Exposed weathering surface</text>
+    <path d="M804 204h59" stroke="#c2a365" stroke-width="2"/><circle cx="804" cy="204" r="5" fill="#d1b375"/><text x="880" y="198" fill="#f1dfb9" font-size="24" font-weight="700">Intermediate underlay</text><text x="880" y="228" fill="#aaa08e" font-size="17">System-specific membrane layer</text>
+    <path d="M804 288h59" stroke="#c2a365" stroke-width="2"/><circle cx="804" cy="288" r="5" fill="#d1b375"/><text x="880" y="282" fill="#f1dfb9" font-size="24" font-weight="700">Base underlay</text><text x="880" y="312" fill="#aaa08e" font-size="17">Prepared substrate interface</text>
+    <path d="M804 372h59" stroke="#c2a365" stroke-width="2"/><circle cx="804" cy="372" r="5" fill="#d1b375"/><text x="880" y="366" fill="#f1dfb9" font-size="24" font-weight="700">Supporting roof deck</text><text x="880" y="396" fill="#aaa08e" font-size="17">Design and suitability vary</text>
+  </g>
+  <text x="58" y="580" fill="#c7baa0" font-family="Arial,sans-serif" font-size="17">Illustrative only · Layer count, products, bonding and build-up must follow the approved system specification.</text>
+</svg>

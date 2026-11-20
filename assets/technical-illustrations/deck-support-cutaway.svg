@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative roof deck sheets and joist supports</title>
+  <desc id="desc">An isometric cutaway shows roof deck sheets above supporting joists, with a sheet joint positioned above support as an example only. Structural design determines actual requirements.</desc>
+  <defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#171716"/><stop offset="1" stop-color="#0b0b0a"/></linearGradient><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#d9bd88"/><stop offset="1" stop-color="#85643b"/></linearGradient><linearGradient id="joist" x2="0" y2="1"><stop stop-color="#876545"/><stop offset="1" stop-color="#39291d"/></linearGradient><pattern id="grain" width="44" height="26" patternUnits="userSpaceOnUse"><path d="M0 8h44M7 19h26" stroke="#fff0cc" stroke-opacity=".15"/></pattern><filter id="shadow"><feGaussianBlur stdDeviation="13"/></filter></defs>
+  <rect width="1200" height="620" rx="28" fill="url(#bg)"/><rect x="1.5" y="1.5" width="1197" height="617" rx="27" fill="none" stroke="#987746" stroke-opacity=".65" stroke-width="3"/><text x="58" y="44" fill="#e4c783" font-family="Arial,sans-serif" font-size="18" letter-spacing="4">DECK PREPARATION · SUPPORT CONCEPT</text>
+  <ellipse cx="500" cy="502" rx="400" ry="45" fill="#000" opacity=".55" filter="url(#shadow)"/>
+  <!-- joists -->
+  <g stroke="#b3935b" stroke-width="3"><path d="M198 343 198 474 253 494 253 362Z" fill="url(#joist)"/><path d="M430 250 430 386 485 406 485 272Z" fill="url(#joist)"/><path d="M663 314 663 449 718 468 718 336Z" fill="url(#joist)"/><path d="M895 222 895 358 950 377 950 244Z" fill="url(#joist)"/></g>
+  <path d="M198 343 430 250 485 272 253 362ZM430 250 663 314 718 336 485 272ZM663 314 895 222 950 244 718 336Z" fill="#9e7a4e" opacity=".55"/>
+  <!-- deck sheets, separate planes -->
+  <path d="M119 269 349 177 582 242 352 336Z" fill="url(#wood)" stroke="#efd5a2" stroke-width="3"/><path d="M119 269 352 336 352 355 119 288Z" fill="#654b2e" stroke="#ae8a51" stroke-width="2"/><path d="M119 269 349 177 582 242 352 336Z" fill="url(#grain)"/>
+  <path d="M352 336 582 242 816 307 586 401Z" fill="url(#wood)" stroke="#efd5a2" stroke-width="3"/><path d="M352 336 586 401 586 420 352 355Z" fill="#654b2e" stroke="#ae8a51" stroke-width="2"/><path d="M352 336 582 242 816 307 586 401Z" fill="url(#grain)"/>
+  <path d="M586 401 816 307 1049 372 819 466Z" fill="url(#wood)" stroke="#efd5a2" stroke-width="3"/><path d="M586 401 819 466 819 485 586 420Z" fill="#654b2e" stroke="#ae8a51" stroke-width="2"/><path d="M586 401 816 307 1049 372 819 466Z" fill="url(#grain)"/>
+  <!-- sheet joint and support markers -->
+  <path d="M352 336 582 242" stroke="#f9e8c2" stroke-width="4" stroke-dasharray="9 8"/><circle cx="466" cy="289" r="9" fill="#edcb83" stroke="#211a10" stroke-width="4"/>
+  <g font-family="Arial,sans-serif" font-size="22"><path d="M174 207 260 233" stroke="#e5c47d" stroke-width="2"/><circle cx="260" cy="233" r="5" fill="#edcb83"/><text x="62" y="193" fill="#f0ddb4" font-weight="700">Deck sheets</text><text x="62" y="221" fill="#a99b83" font-size="17">Example arrangement</text>
+  <path d="M466 289 548 171" stroke="#e5c47d" stroke-width="2"/><circle cx="466" cy="289" r="5" fill="#edcb83"/><text x="553" y="163" fill="#f0ddb4" font-weight="700">Sheet joint</text><text x="553" y="190" fill="#a99b83" font-size="17">Support shown beneath</text>
+  <path d="M743 403 833 530" stroke="#e5c47d" stroke-width="2"/><circle cx="743" cy="403" r="5" fill="#edcb83"/><text x="845" y="531" fill="#f0ddb4" font-weight="700">Supporting joists</text></g>
+  <path d="M58 555h1084" stroke="#987746" stroke-opacity=".45"/><text x="58" y="587" fill="#c7baa0" font-family="Arial,sans-serif" font-size="17">Concept only · Board type, thickness, spans, fixings and support must follow structural design and the approved roofing system.</text>
+</svg>
