@@ -1,0 +1,22 @@
+
+/* Responsive visual system for roofing learning pages. */
+.learning-visual{margin:24px 0 30px;border:1px solid #88672f;border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#1b1710,#090909 72%);box-shadow:0 12px 30px #0008,0 0 0 1px #d4af6944}
+.learning-visual img{display:block;width:100%;height:auto;max-height:550px;object-fit:cover;background:#101010}
+.learning-visual.photo img{aspect-ratio:16/9;object-fit:cover}
+.learning-visual figcaption{padding:13px 16px;color:#dfd0b4;font-size:15px;line-height:1.55}
+.learning-visual-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.learning-visual-grid .learning-visual{margin:0;height:100%}
+.learning-visual-grid .learning-visual img{height:210px;object-fit:cover}
+.tool-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:20px 0}
+.tool-card{background:linear-gradient(145deg,#21190d,#101010 75%);border:1px solid #8b6b36;border-radius:17px;padding:18px;box-shadow:0 8px 24px #0006}
+.tool-card h3{color:#f0cb7e;margin-top:4px}
+.tool-card img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:12px;border:1px solid #73572c}
+.tool-card figcaption{font-size:14px;color:#d8c9ad;line-height:1.5;margin-top:10px}
+.tool-card ul{padding-left:20px}
+.safety-sequence{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0;padding:0;list-style:none}
+.safety-sequence li{margin:0;padding:14px;border:1px solid #765b30;border-radius:14px;background:#17140f;min-height:115px}
+.safety-sequence strong{display:block;color:#f4d28c;font-size:17px;margin-bottom:5px}
+.site-photo-strip{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin:22px 0}
+.site-photo-strip img{width:100%;height:250px;object-fit:cover;border-radius:14px;border:1px solid #88672f}
+.site-photo-strip img.crop-close{object-position:center 63%;transform:scale(1.08)}
+@media(max-width:700px){.learning-visual-grid,.tool-card-grid{grid-template-columns:1fr}.safety-sequence{grid-template-columns:repeat(2,minmax(0,1fr))}.learning-visual-grid .learning-visual img{height:230px}.site-photo-strip{grid-template-columns:1fr}.site-photo-strip img{height:240px}}
