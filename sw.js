@@ -1,7 +1,20 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v31';
+const CACHE = 'flatout-public-v32';
 const PUBLIC = [
+  '/assets/roofing-photography/rooflight-round.webp',
+  '/assets/roofing-photography/roof-field-sunlit.webp',
+  '/assets/roofing-photography/parapet-training.webp',
+  '/assets/roofing-photography/commercial-roof-tapered.webp',
+  '/assets/roofing-photography/parapet-detail.webp',
+  '/assets/roofing-photography/commercial-roof-wide.webp',
+  '/assets/roofing-photography/commercial-roof-falls.webp',
+  '/assets/roofing-photography/rooflight-square.webp',
+  '/assets/roofing-photography/urban-roof-field.webp',
+  '/assets/roofing-photography/roof-field-golden.webp',
+  '/assets/roofing-photography/felt-lap-macro.webp',
+  '/assets/roofing-photography/rooflight-round-editorial.webp',
+  '/assets/roofing-photography/commercial-roof-editorial.webp',
   '/training-3d.css',
   '/assets/training-3d/felt-roof-assembly.webp',
   '/assets/training-3d/deck-support.webp',
