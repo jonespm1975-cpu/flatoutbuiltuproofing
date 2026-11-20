@@ -1,7 +1,19 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v30';
+const CACHE = 'flatout-public-v31';
 const PUBLIC = [
+  '/training-3d.css',
+  '/assets/training-3d/felt-roof-assembly.webp',
+  '/assets/training-3d/deck-support.webp',
+  '/assets/training-3d/roof-drainage.webp',
+  '/assets/training-3d/upstand-detail.webp',
+  '/assets/training-3d/tapered-board-plan.webp',
+  '/assets/training-3d/tools-and-ppe.webp',
+  '/assets/training-3d/tapered-roof-build-up.webp',
+  '/assets/training-3d/roof-safety-controls.webp',
+  '/assets/training-3d/cscs-revision.webp',
+  '/assets/training-3d/tile-and-slate.webp',
+  '/assets/training-3d/standing-seam-metal.webp',
   '/', '/index.html', '/onyx-antique-gold-interior.css', '/assets/onyx-interior-torch.webp', '/assets/homepage-onyx-antique-gold.webp', '/site.css', '/styles.css', '/academy-interior.css', '/carbon-gold-interior.css', '/design4-specialty.css', '/luxury-artwork-detail.css', '/sponsor-mobile-preview1.css', '/assets/sponsor-moonlit-london-heading.webp', '/assets/sponsor-design-10-exact.webp', '/assets/homepage-refined-hero-still.jpg', '/interior-preview-four.css', '/assets/sponsor-invitation-request-qr.svg',
   '/site.js', '/free-sections.js', '/approved-homepage.png', '/assets/homepage-reference.jpg', '/assets/homepage-reference-sharpened.jpg', '/logo-original.jpeg',
   '/assets/flat-out-built-up-roofing-logo.svg', '/assets/gallery/pjones-city-roof-at-dusk.jpeg', '/assets/gallery/pjones-roof-field-west.jpeg', '/assets/roofing-hero-cinematic.webp', '/assets/tapered-roof-cutaway-3d.svg',

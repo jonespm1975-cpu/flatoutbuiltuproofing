@@ -1,0 +1,28 @@
+/* Shared premium 3D artwork framing for subject pages. */
+.training-3d-figure{
+  margin:22px 0;padding:12px;overflow:hidden;border:2px solid #d2ad68;border-radius:18px;
+  background:linear-gradient(145deg,#201a13,#08090b 68%);
+  box-shadow:inset 0 0 0 2px #f5dfac55,0 14px 34px #000b,0 0 20px #d9ab5540;
+}
+.training-3d-figure img{display:block;width:100%;height:auto;max-width:100%;object-fit:cover;border-radius:10px}
+.training-3d-figure figcaption{padding:12px 5px 3px;color:#dfd0b1;font-size:.92rem;line-height:1.55}
+.training-3d-figure--cover img{aspect-ratio:16/9;object-fit:cover}
+.training-3d-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0}
+.training-3d-pair .training-3d-figure{margin:0}
+.training-3d-break{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);align-items:center;gap:22px;margin:26px 0;padding:18px;border:1px solid #957341;border-radius:18px;background:linear-gradient(135deg,#211a12,#090a0c 70%)}
+.training-3d-break img{display:block;width:100%;height:auto;border:1px solid #c6a368;border-radius:13px;box-shadow:0 12px 30px #000a}
+.training-3d-break h2,.training-3d-break h3{color:#f0d08c}
+.training-3d-break p,.training-3d-break li{color:#e1d7c4}
+.training-3d-break ul{padding-left:20px}
+body.fobur-tools .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706d0 45%,#09080732 100%),url('/assets/training-3d/tools-and-ppe.webp')!important}
+body.fobur-health-safety .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706d0 45%,#09080728 100%),url('/assets/training-3d/roof-safety-controls.webp')!important}
+body.fobur-cscs .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706d0 45%,#09080728 100%),url('/assets/training-3d/cscs-revision.webp')!important}
+body.fobur-courses .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706c4 45%,#09080724 100%),url('/assets/training-3d/felt-roof-assembly.webp')!important}
+body.fobur-tapered .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706c4 45%,#09080724 100%),url('/assets/training-3d/tapered-board-plan.webp')!important}
+body.fobur-tapered-video .academy-feature{background-image:linear-gradient(90deg,#050505f4 0%,#080706c4 45%,#09080724 100%),url('/assets/training-3d/tapered-roof-build-up.webp')!important}
+.hero-visual img{display:block;width:100%;height:auto;max-width:100%;object-fit:cover;border-radius:12px}
+.premium-roof-visual{display:block;width:100%;height:auto;border:2px solid #d3b06e;border-radius:16px;box-shadow:0 14px 34px #000a}
+.premium-frame{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid #c9a767;border-radius:14px;background:#090909;box-shadow:0 8px 22px #000a}
+.premium-frame img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+.premium-frame span{position:absolute;left:12px;bottom:12px;padding:8px 12px;border:1px solid #d7b56f;border-radius:30px;background:#090807dd;color:#f4ddb0;font-weight:800;backdrop-filter:blur(6px)}
+@media(max-width:680px){.training-3d-pair,.training-3d-break{grid-template-columns:1fr}.training-3d-figure{padding:8px}.training-3d-break{padding:12px}}
