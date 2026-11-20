@@ -4,14 +4,11 @@
    No homepage selectors, sponsor approval, payment or private upload changes. */
 :root { color-scheme: dark; }
 * { box-sizing: border-box; }
-html { background: #030303; }
+html { background: #100e0c; }
 body.sponsor-preview-one {
   margin: 0;
-  background:
-    radial-gradient(ellipse at 50% 10%, #bd812827, transparent 40%),
-    repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 6px),
-    #040403;
-  color: #f6e5c0;
+  background: #100e0c;
+  color: #ecd4a5;
   font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 .sr-only { position: absolute !important; width:1px !important; height:1px !important;
@@ -23,8 +20,8 @@ a:focus-visible, button:focus-visible { outline:3px solid #fff3c3; outline-offse
 .sponsor-scene {
   width:min(100%,851px); margin:0 auto; position:relative; overflow:hidden;
   isolation:isolate; line-height:0;
-  border-left:1px solid #e3a94866; border-right:1px solid #e3a94866;
-  box-shadow:0 0 38px #e7ac4036,0 15px 60px #000;
+  border-left:1px solid #66533888; border-right:1px solid #66533888;
+  box-shadow:0 0 38px #ab874326,0 15px 60px #000;
 }
 .sponsor-scene > img.sponsor-scene-image {
   display:block; width:100%; height:auto; aspect-ratio:851 / 1463; object-fit:contain;
@@ -81,12 +78,12 @@ a:focus-visible, button:focus-visible { outline:3px solid #fff3c3; outline-offse
  background:#fff url("assets/sponsor-invitation-request-qr.svg") center / 100% 100% no-repeat;
 }
 .sponsor-info {margin:0 auto;padding:17px 18px 8px;max-width:851px;text-align:center;
- color:#d4c0a0;font-size:.86rem;line-height:1.55;}
+ color:#d0c3b2;font-size:.86rem;line-height:1.55;}
 .sponsor-info p{margin:0 auto 10px;max-width:85ch}
 .sponsor-info a {font-weight:800;text-decoration-thickness:1px;text-underline-offset:3px}
 .sponsor-footer {display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
  max-width:851px;margin:14px auto 0;padding:14px 10px 22px;
- border-top:1px solid #74562d;color:#cfba91;text-align:center;font-size:.8rem;}
+ border-top:1px solid #665338;color:#ecd4a5;text-align:center;font-size:.8rem;}
 .sponsor-footer a{color:#f7d690}
 dialog:not([open]) {display:none !important;}
 dialog#sponsor-qr-dialog,dialog#sponsor-menu-dialog {
@@ -123,8 +120,28 @@ dialog button {padding:11px 20px;margin-top:12px;border:2px solid #fff0c4;
 .sponsor-scene .sponsor-title-rebrand{
   position:absolute;left:24%;top:20.35%;width:52%;height:8.7%;
   z-index:3;pointer-events:none;display:grid;place-items:center;line-height:0;
-  background:linear-gradient(90deg,#150d06 0%,#0a0604 12%,#090605 85%,#160c04 100%);
+  background:linear-gradient(90deg,#18130e,#100d0b 14% 86%,#18130e);
 }
 .sponsor-scene .sponsor-title-rebrand svg{
   display:block;width:100%;height:100%;overflow:visible;
+}
+
+
+/* Motion is clipped to the left-hand display on the approved sponsor artwork. */
+.sponsor-scene .sponsor-torch-motion {
+  position: absolute;
+  z-index: 1;
+  left: 2%;
+  top: 29.05%;
+  width: 19.86%;
+  height: 19.89%;
+  object-fit: cover;
+  clip-path: polygon(5.9% 5.5%, 65.7% 18.6%, 67.5% 64.6%, 7.1% 81.4%);
+  opacity: .91;
+  pointer-events: none;
+  visibility: hidden;
+}
+.sponsor-scene .sponsor-torch-motion.is-playing { visibility: visible; }
+@media (prefers-reduced-motion: reduce), print {
+  .sponsor-scene .sponsor-torch-motion { display: none; }
 }

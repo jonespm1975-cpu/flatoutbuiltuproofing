@@ -8,27 +8,28 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta name="description" content="Flat Out Built-Up Roofing — Sponsorship @ Brand Exposure. Explore sponsor positions and enquire privately about showcasing your business.">
 <title>Sponsorship @ Brand Exposure | Flat Out Built-Up Roofing</title>
-<link rel="stylesheet" href="sponsor-mobile-preview1.css?v=mobile1-25">
+<link rel="stylesheet" href="sponsor-mobile-preview1.css?v=moonlit-london-1">
 </head>
 <body class="sponsor-preview-one" data-gallery-version="preview1-mobile-25">
 <main id="main-content">
 <h1 class="sr-only">Flat Out Built-Up Roofing — Sponsorship @ Brand Exposure</h1>
 <section class="sponsor-scene" aria-label="Premium Flat Out Built-Up Roofing sponsorship showcase">
- <img class="sponsor-scene-image" src="assets/sponsor-preview1-mobile-fullbleed.webp?v=mobile1-25" width="851" height="1463" fetchpriority="high" decoding="async" alt="Gold-lit Flat Out Built-Up Roofing Sponsorship @ Brand Exposure. Three platinum, four gold and five silver available sponsor placements, roofing imagery, brand-exposure opportunities and sponsor enquiry. No sponsors are represented as confirmed.">
+ <img class="sponsor-scene-image" src="assets/sponsor-moonlit-london.webp" width="851" height="1463" fetchpriority="high" decoding="async" alt="Onyx and Antique Gold Flat Out Built-Up Roofing Sponsorship @ Brand Exposure, with a moonlit London skyline. Three platinum, four gold and five silver available sponsor placements, roofing imagery, brand-exposure opportunities and sponsor enquiry. No sponsors are represented as confirmed.">
+ <video class="sponsor-torch-motion" muted loop playsinline preload="none" aria-hidden="true"></video>
  <div class="sponsor-title-rebrand" role="heading" aria-level="2" aria-label="Sponsorship @ Brand Exposure">
   <svg viewBox="0 0 520 128" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
    <defs>
     <linearGradient id="sponsor-title-gold" x1="0" x2="0" y1="0" y2="1">
-     <stop offset="0%" stop-color="#fff7c8"/><stop offset="33%" stop-color="#ffd57c"/>
-     <stop offset="55%" stop-color="#c98629"/><stop offset="75%" stop-color="#ffe4a1"/>
-     <stop offset="100%" stop-color="#b26a20"/>
+     <stop offset="0%" stop-color="#f5e6c4"/><stop offset="33%" stop-color="#dcb77d"/>
+     <stop offset="55%" stop-color="#9d7949"/><stop offset="75%" stop-color="#ebc992"/>
+     <stop offset="100%" stop-color="#a2784b"/>
     </linearGradient>
     <filter id="sponsor-title-glow" x="-20%" y="-25%" width="140%" height="160%">
-     <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#eda83e" flood-opacity="0.65"/>
+     <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#c19a62" flood-opacity="0.30"/>
     </filter>
    </defs>
-   <text x="260" y="57" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="60" textLength="480" lengthAdjust="spacingAndGlyphs" stroke="#6b3810" stroke-width="2.4" paint-order="stroke" fill="url(#sponsor-title-gold)" filter="url(#sponsor-title-glow)">SPONSORSHIP @</text>
-   <text x="260" y="117" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="57" textLength="479" lengthAdjust="spacingAndGlyphs" stroke="#6b3810" stroke-width="2.4" paint-order="stroke" fill="url(#sponsor-title-gold)" filter="url(#sponsor-title-glow)">BRAND EXPOSURE</text>
+   <text x="260" y="57" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="60" textLength="480" lengthAdjust="spacingAndGlyphs" stroke="#533c26" stroke-width="2.4" paint-order="stroke" fill="url(#sponsor-title-gold)" filter="url(#sponsor-title-glow)">SPONSORSHIP @</text>
+   <text x="260" y="117" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="900" font-size="57" textLength="479" lengthAdjust="spacingAndGlyphs" stroke="#533c26" stroke-width="2.4" paint-order="stroke" fill="url(#sponsor-title-gold)" filter="url(#sponsor-title-glow)">BRAND EXPOSURE</text>
   </svg>
  </div>
  <div class="effect-layer" aria-hidden="true"><span class="light-sweep"></span><span class="light-sweep"></span><span class="star a"></span><span class="star b"></span><span class="star c"></span><span class="star d"></span></div>
@@ -79,6 +80,27 @@
   if(typeof qr.showModal==='function')qr.showModal(); else window.location.href='mailto:jonespm1975@gmail.com?subject=Flat%20Out%20Built-Up%20Roofing%20sponsorship';
  });
  for(const dialog of [menu,qr])dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+})();
+</script>
+<script>
+(() => {
+ const torch = document.querySelector('.sponsor-torch-motion');
+ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+ function updateSponsorTorch() {
+  if (reduceMotion.matches) {
+   torch.pause();
+   torch.classList.remove('is-playing');
+   return;
+  }
+  if (!torch.getAttribute('src')) torch.src = 'assets/homepage-torch-sweep.mp4';
+  torch.play().catch(() => torch.classList.remove('is-playing'));
+ }
+ torch.addEventListener('playing', () => {
+  if (!reduceMotion.matches) torch.classList.add('is-playing');
+ });
+ torch.addEventListener('error', () => torch.classList.remove('is-playing'));
+ reduceMotion.addEventListener('change', updateSponsorTorch);
+ updateSponsorTorch();
 })();
 </script>
 <script type="module" src="site-tracking.js"></script>
