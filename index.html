@@ -15,8 +15,8 @@ html{background:#050505}
 body{margin:0;background:#050505;color:#fff;font:16px/1.4 system-ui,-apple-system,sans-serif}
 main{width:100%;max-width:1000px;margin:0 auto;position:relative;line-height:0}
 .poster{display:block;width:100%;height:auto}
-a.hotspot{position:absolute;z-index:2;display:block;border-radius:10px;background:transparent;text-decoration:none;-webkit-tap-highlight-color:rgba(255,204,76,.22)}
-a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:#ffd15b22}
+a.hotspot{position:absolute;z-index:2;display:block;border-radius:10px;background:transparent;text-decoration:none;-webkit-tap-highlight-color:rgba(212,176,111,.22)}
+a.hotspot:focus-visible{outline:3px solid #f6e2b5;outline-offset:2px;background:#d4b06f22}
 .logo{left:0;top:0;width:27%;height:9%}
 .nav-home{left:27.5%;top:2%;width:7%;height:5.5%}
 .nav-learn{left:34.6%;top:2%;width:6.6%;height:5.5%}
@@ -64,7 +64,7 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   display: block;
   overflow: hidden;
   padding: 0;
-  border: 1px solid #e8bd50;
+  border: 1px solid #b7975d;
   border-radius: clamp(3px, 1vw, 8px);
   background: #101a23;
   cursor: zoom-in;
@@ -76,19 +76,6 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
   object-fit: cover;
 }
 .support-qr-dialog{max-width:90vw;width:max-content;max-height:90vh;padding:24px;border:2px solid #e8bd50;border-radius:22px;background:linear-gradient(145deg,#15110a,#050505 70%);color:#f7edcf;text-align:center;box-shadow:0 0 35px rgba(239,190,77,.45)}.support-qr-dialog::backdrop{background:rgba(0,0,0,.86);backdrop-filter:blur(5px)}.support-qr-large{display:block;width:min(72vw,460px);max-height:68vh;object-fit:contain;margin:18px auto;background:#08141d;border-radius:12px}.support-qr-dialog p{margin:0 0 16px;color:#d5c8ad}.support-qr-close{border:1px solid #ffe39b;border-radius:24px;padding:10px 22px;background:linear-gradient(100deg,#ffe78a,#bd7712);color:#171006;font-weight:800;cursor:pointer}
-.homepage-preview-layer {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 51.717%;
-  display: block;
-  object-fit: fill;
-  pointer-events: none;
-  mask-image: linear-gradient(to bottom, #000 0%, #000 99%, transparent);
-}
-.homepage-preview-still { z-index: 0; }
 .homepage-torch-video {
   position: absolute;
   z-index: 1;
@@ -107,18 +94,17 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 .homepage-torch-video.is-playing { visibility: visible; }
 .hero-motion-control { display: none; }
 @media (prefers-reduced-motion: reduce) {
-  main:not(.hero-motion-enabled) .homepage-preview-animation { display: none; }
   .hero-motion-control {
     display: block;
     position: absolute;
     top: 8%;
     right: 2%;
     z-index: 7;
-    border: 1px solid #dfb34f;
+    border: 1px solid #b7975d;
     border-radius: 99px;
     padding: 5px 9px;
     background: #100e0a;
-    color: #ffe7aa;
+    color: #f6e2b5;
     font: 600 clamp(10px, 1.3vw, 14px)/1.2 system-ui, sans-serif;
     cursor: pointer;
   }
@@ -155,9 +141,7 @@ a.hotspot:focus-visible{outline:3px solid #fff2b7;outline-offset:2px;background:
 </head>
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
-<img class="poster" src="assets/homepage-reference-sharpened.jpg" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
-<img class="homepage-preview-layer homepage-preview-still" src="assets/homepage-refined-hero-still.jpg" alt="" width="800" height="614">
-<img class="homepage-preview-layer homepage-preview-animation" src="assets/homepage-refined-hero.webp" alt="" width="800" height="614" decoding="async">
+<img class="poster" src="assets/homepage-onyx-antique-gold.webp" width="1029" height="1528" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
 <video class="homepage-torch-video" src="assets/homepage-torch-sweep.mp4"
   muted loop playsinline preload="none" aria-hidden="true"></video>
 <button class="hero-motion-control" type="button">Play animation</button>
