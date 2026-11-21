@@ -26,6 +26,7 @@ jobs:
         run: |
           npm install --no-save --no-package-lock 'esbuild@0.25.12'
           ./node_modules/.bin/esbuild supabase/functions/stripe-24-course-sandbox-webhook/index.ts --bundle --platform=neutral --format=esm --external:npm:* --outfile=/tmp/fobur-staging-webhook.js
+          ./node_modules/.bin/esbuild supabase/functions/paid-24-course-content/index.ts --bundle --platform=neutral --format=esm --external:npm:* --outfile=/tmp/fobur-staging-protected-content.js
       - name: State test boundary
         run: |
           echo "Unit tests only. No real Stripe event, Supabase RPC, email, or payment tested."
