@@ -54,3 +54,23 @@ Supabase organization is verified on the **Free** plan. Security Advisor flags `
 5. Preserve the approved homepage, free Supabase plan, existing successful £9.99 course access, and dormant separate £1.99 subscription configuration.
 
 *Evidence gathered by read-only connector calls on 21 November 2026. No claim of a completed payment-failure or two-connection concurrency test is made.*
+
+## Isolated two-connection database verification — 21 November 2026
+
+[GitHub Actions run 44931821341](https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/44931821341) completed with **success**. The CI job executed the definitions of `claim_live_purchase_email_retry(integer)` and `finish_live_purchase_email_retry(text,uuid,boolean,text,text)` read directly from the connected production Supabase database on 21 November 2026. The test fixture used a **disposable PostgreSQL 16 container** and fictional customers/orders; it did **not** connect to Supabase production, Stripe or Resend.
+
+All **9/9** targeted test scenarios passed:
+
+1. A second genuine database connection skipped the first connection's locked candidate rather than duplicating a claim.
+2. Active leases block repeat claims, and an invalid finish token is rejected.
+3. A simulated email-provider failure returns the item to the queue **without granting course access**. This is a confirmed defect of the current business flow, not a successful resolution.
+4. A subsequent claim receives a new token and increments attempts.
+5. Stale token rejected; correct provider acceptance grants the course once.
+6. A second completion after acceptance cannot re-grant/reclaim it.
+7. An existing sandbox course entitlement transitions to the accepted live purchase.
+8. A fifth email failure changes the job to failed, stops automatic retries, and leaves a fully paid course order **without access**.
+9. Claim/finish RPC permissions are service-role-only, not anon/authenticated.
+
+**What is not proven:** an actual live provider delivery event, two concurrent **HTTP** invocations through live Edge Functions, correct exactly-once semantics across an actual Resend timeout, all DB schema elements, or the design of a future decoupled payment/durable-confirmation implementation. The tests also do not modify or fix the already-deployed acceptance-dependent entitlement logic.
+
+**Priority decision:** retain the current production configuration pending a consumer-law review, implement entitlement and durable-confirmation tracking separately in an isolated design, and test it before any live migration. The current UK Consumer Contracts Regulations 2013, regulations [16](https://www.legislation.gov.uk/uksi/2013/3134/regulation/16) and [37](https://www.legislation.gov.uk/uksi/2013/3134/regulation/37), address durable contract confirmation, express consent and cancellation rights. An email outage must not be treated as proof that the right to cancel is forfeited.
