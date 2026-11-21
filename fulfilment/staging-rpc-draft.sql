@@ -49,7 +49,7 @@
 --   returning * into r;
 --   if found then
 --     return jsonb_build_object('status','inserted',
---       'session_id',r.stripe_checkout_session_id);
+--       'record',jsonb_build_object('stripe_checkout_session_id',r.stripe_checkout_session_id,'user_id',r.user_id,'course_id',r.course_id,'paid_amount_pence',r.paid_amount_pence,'currency',r.currency,'terms_version',r.terms_version));
 --   end if;
 --   select * into r from public.purchase_confirmations
 --    where stripe_checkout_session_id=p_session for update;
@@ -58,7 +58,7 @@
 --      and r.consent_recorded_at=p_consent_recorded_at
 --      and r.terms_version='staging-24-course-v1' then
 --     return jsonb_build_object('status','already_recorded',
---       'session_id',r.stripe_checkout_session_id);
+--       'record',jsonb_build_object('stripe_checkout_session_id',r.stripe_checkout_session_id,'user_id',r.user_id,'course_id',r.course_id,'paid_amount_pence',r.paid_amount_pence,'currency',r.currency,'terms_version',r.terms_version));
 --   end if;
 --   raise exception 'Receipt conflict requires manual reconciliation';
 -- end;
@@ -66,7 +66,6 @@
 -- REVOKE ALL ON FUNCTION public.record_sandbox_24_course_receipt_v1(text,uuid,text,timestamptz) FROM PUBLIC,anon,authenticated;
 -- GRANT EXECUTE ON FUNCTION public.record_sandbox_24_course_receipt_v1(text,uuid,text,timestamptz) TO service_role;
 --
--- NOTE: Return shape must be aligned with the JS adapter before wiring.
--- Current checked-in JS expects record fields in duplicate acknowledgments.
--- Backend should return only the minimum verified identity fields.
+-- Return shape deliberately matches the staging JS adapter's identity checks.
+-- Review the JSONB and PostgreSQL type handling before deployment.
 -- A webhook must never depend on client-provided payment assertions.
