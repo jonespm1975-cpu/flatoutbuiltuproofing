@@ -251,3 +251,33 @@ body.p4-interior :is(.onyx-logo,.head .brand img[src*="flat-out-built-up-roofing
  }
  body.p4-interior :is(.academy-panel,.academy-tile,.card,.panel,.course-box,.course-card){outline:none}
 }
+
+/* Logo wordmark replacement for simple interior headers | 21 Nov 2026 */
+/* The canonical logo is used instead of plain header text on ordinary content
+   pages. The text remains in the document for accessibility/search, while
+   category-specific, app and analytics logos keep their approved geometries. */
+body.p4-interior:not(:has(#dashboardCanvas)):not(:has(.branch-nav)) :is(
+ header > .brand,
+ header > strong:first-child,
+ header nav > strong:first-child
+):not(:has(img)){
+ display:block!important;
+ flex:0 0 auto;
+ width:clamp(148px,31vw,242px)!important;
+ min-width:0!important;
+ height:auto!important;
+ aspect-ratio:640/256;
+ padding:0!important;margin:0!important;
+ font-size:0!important;line-height:0!important;letter-spacing:0!important;
+ color:transparent!important;-webkit-text-fill-color:transparent!important;
+ background:url("assets/flat-out-built-up-roofing-logo.svg") center/contain no-repeat!important;
+ mix-blend-mode:screen;
+ filter:contrast(1.22) brightness(1.08) drop-shadow(0 0 5px #f7faff38)!important;
+}
+/* Original specialty red/grey, purple/silver and gold category tabs retain
+   their own logo designs and positions. */
+@media print{
+ body.p4-interior:not(:has(#dashboardCanvas)):not(:has(.branch-nav)) :is(header>.brand,header>strong:first-child,header nav>strong:first-child):not(:has(img)){
+  background:none!important;font-size:14px!important;line-height:1.3!important;height:auto!important;aspect-ratio:auto;color:#111!important;-webkit-text-fill-color:#111!important;mix-blend-mode:normal;filter:none!important;
+ }
+}
