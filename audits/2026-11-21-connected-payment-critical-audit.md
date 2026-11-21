@@ -4,11 +4,11 @@
 
 ## Accounts and working live transaction
 
-- Connected Stripe LIVE account: `acct_1UT8NBKeIprRDTKx`; test account: `acct_1UaPRuKS41qhUQTK` (separate).
-- Confirmed live one-off £9.99 Checkout Session: `cs_live_agIB8UqgDtgcQF6cvRZpZCgE76qNCtSRBO26MBVr4avN3Vdit17hFjxlM8`, `complete`, `paid`, `payment`, GBP 999, country GB. One matching line item for `price_1UaRJvKeIprRDTKxKDawW6ZG` with quantity 1.
+- Connected Stripe LIVE account: **connected live account**; test account: **connected separate test account** (separate).
+- Confirmed live one-off £9.99 Checkout Session: `cs_live_[redacted]`, `complete`, `paid`, `payment`, GBP 999, country GB. One matching line item for the configured one-time £9.99 price with quantity 1.
 - Supabase project `fhyhshakmvqwzdyannec` ACTIVE_HEALTHY. Current deployed functions: `stripe-live-checkout` v17, `stripe-webhook` v38 and `live-purchase-email-delivery-worker` v7.
 - On 21 November the actual edge logs recorded live checkout HTTP 200 at 13:16 UTC, Stripe webhook HTTP 200 at 13:17 UTC and scheduled worker HTTP 200 at 13:20 UTC.
-- Production DB contains one matching `cs_live_` purchase confirmation and one matching `course_access` row. Confirmation email is marked `sent`. Internal outbox status is `accepted`, attempts=1, with provider message ID `01a1fe43-9877-75d4-afb2-53fad298ab19` and null last_error. No other live outbox rows remain pending/leased/failed.
+- Production DB contains one matching `cs_live_` purchase confirmation and one matching `course_access` row. Confirmation email is marked `sent`. Internal outbox status is `accepted`, attempts=1, with provider message ID a stored provider message ID (redacted in this public repository) and null last_error. No other live outbox rows remain pending/leased/failed.
 - The active cron job `fobur-live-purchase-email-worker` runs every five minutes; function-edge logs show regular HTTP 200 responses.
 - Stripe returned **zero live subscriptions**. £1.99 recurring membership remains a separate, non-launched system. Do not repurpose the £9.99 webhook or price.
 - Provider **acceptance is not independent proof of final delivery**. The existing `PAYMENT_LAUNCH_AUDIT.md` records the owner's inbox confirmation, but connected tools have not retrieved the Resend message's final status.
