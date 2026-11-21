@@ -59,6 +59,13 @@
 - In a controlled test, enable the reviewed worker and job, queue one test confirmation and verify a worker response and Resend delivery. Cron success alone means the HTTP request was queued. It does not establish a successful HTTP response or an email delivered to the buyer. A privileged operator can run the dispatcher once and correlate the returned request ID with `net._http_response` when troubleshooting.
 - Confirmed that this Supabase project has pg_cron, pg_net and Vault installed, including the scheduling and HTTP signatures used by the draft. Local PostgreSQL checks used stand-ins for Cron, Vault and HTTP. They verified disabled-on-install, an unchanged £9.99 job, no idle HTTP calls, due work, retry cleanup, invalid settings and role restrictions. No schedule or email was activated or sent.
 
+### Integrated scheduled confirmation test
+
+- Running the staged webhook and worker against the staged SQL exposed a named-parameter mismatch. The webhook sent `payload` but the Supabase RPC accepts `p_payload`. Corrected the webhook and added a regression check that matches each RPC request to its declared parameters.
+- The test uses real Stripe SDK verification of locally signed events, an isolated PostgreSQL database, and simulated Stripe lookups, the scheduler HTTP request and Resend responses. It verified one confirmation for repeated paid events, no access before sending, a failed first send with a scheduled retry, the same message and idempotency key on retry, access after provider acceptance, and access removal on cancellation. The separate course receipt schedule remained active in the fixture.
+- Run `supabase/tests/membership-confirmation-integration.mjs` on Node 24 with `stripe@23.2.0` and `@electric-sql/pglite@0.5.17` installed locally. The test reads the branch's current functions and SQL and makes no external network requests.
+- No hosted email delivery was exercised. The connected Supabase account exposed the production project and no separate environment for a controlled hosted membership order. No production job, payment setting or email route changed.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT

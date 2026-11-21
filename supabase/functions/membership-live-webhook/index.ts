@@ -138,7 +138,7 @@ Deno.serve(async (request) => {
     const periodEnd = Number.isSafeInteger(end) && end > 0 ? new Date(end * 1000) : new Date(0);
     const { data: synced, error } = await db.rpc("sync_live_membership_order", {
       p_intent: intentId, p_session: checkout.id, p_terms: terms,
-      payload: {
+      p_payload: {
         stripe_subscription_id: id,
         stripe_customer_id: customer,
         stripe_price_id: priceId,
