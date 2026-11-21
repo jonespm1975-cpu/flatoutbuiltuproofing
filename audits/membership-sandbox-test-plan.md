@@ -19,6 +19,15 @@
 
 - My Learning now shows live membership status and a cancellation button for the customer with a cancellable subscription. A scheduled cancellation is shown with the paid-period end date when available. The return from Stripe does not grant or revoke anything. One-off course access continues to use the separate purchase entitlement. Eleven local scenarios passed with mocked services, including status lookup failure, already scheduled cancellation and invalid redirect handling. The review branch has not been deployed or exercised with hosted Stripe.
 
+### Live membership lifecycle prepared for review
+
+- The dedicated membership webhook validates Stripe's signature and live mode. It reconciles the canonical subscription, its original UK Checkout session and its current £1.99 invoice before writing the entitlement. It requires provider payment for the current billing period to write active status. Unpaid, paused and canceled periods do not grant access. The existing one-off course webhook is separate.
+- The database change adds a service-role-only upsert. It uses an observation sequence to stop an earlier reconciliation from overwriting a later one, and rejects changes to the owner, Stripe customer, price or mode of an existing subscription.
+- Seventeen local lifecycle cases passed with real Stripe SDK verification of locally signed fixtures and mocked provider lookups. Strict TypeScript checking passed with the pinned SDK packages. Local PostgreSQL checks passed for repeated and stale sync writes, mismatched ownership, test/live isolation and role restrictions. Genuine Stripe deliveries and two-connection contention were not exercised.
+- At deployment, apply the reviewed SQL and use a dedicated Stripe destination for this function, with JWT verification disabled for the Stripe callback and signature checks enabled in the handler. Configure `MEMBERSHIP_LIVE_PRICE_ID`, `MEMBERSHIP_LIVE_WEBHOOK_STRIPE_KEY` and `MEMBERSHIP_LIVE_WEBHOOK_SECRET`. Keep `MEMBERSHIP_LIVE_FULFILMENT_ENABLED` false until the staged integration is ready for the controlled go-live sequence.
+- The checkout implementation must set `client_reference_id` to the authenticated account ID, copy the immutable `membership_terms_version` to session and subscription metadata, set the subscription metadata keys `supabase_user_id`, `membership=monthly-learning` and `mode=live`, and record `eligibility_policy=uk-address-v1` with Stripe's GB-only collected address. Use signed lifecycle events and durable confirmation records for final acceptance.
+- Refund and dispute handling, checkout implementation, the membership contract confirmation, hosting and full signed Stripe lifecycle tests remain open. No migration, Edge Function, Stripe destination or recurring billing settings were changed by this review work.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
