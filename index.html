@@ -16,8 +16,25 @@ body{margin:0;background:#050505;color:#fff;font:16px/1.4 system-ui,-apple-syste
 main{width:100%;max-width:1000px;margin:0 auto;position:relative;line-height:0}
 .poster{display:block;width:100%;height:auto}
 /* The supplied official-style logo is displayed as a separate, uniformly scaled asset; the approved hero poster, video and navigation stay unchanged. */
-.official-home-logo{position:absolute;left:0;top:0;width:27%;height:9%;z-index:1;display:flex;align-items:center;justify-content:center;background:#080706;pointer-events:none;overflow:hidden}
-.official-home-logo img{display:block;width:100%;height:auto;object-fit:contain}
+.official-home-logo{
+ position:absolute;left:0;top:0;width:27%;height:9%;z-index:1;
+ display:flex;align-items:center;justify-content:center;
+ isolation:isolate;background:transparent;pointer-events:none;overflow:hidden;
+}
+/* A soft dark vignette hides the old poster wordmark WITHOUT a hard box. */
+.official-home-logo::before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse 78% 77% at 50% 49%,#080707 0%,#080707ed 62%,#08070788 80%,transparent 100%);
+}
+/* Screen blending removes the source image's solid black rectangle;
+   the original gold roof and highly polished metallic silver remain intact. */
+.official-home-logo img{
+ display:block;position:relative;width:100%;height:auto;object-fit:contain;
+ mix-blend-mode:screen;
+ filter:contrast(1.24) brightness(1.08) drop-shadow(0 0 3px #edf3ff33);
+ -webkit-mask-image:radial-gradient(ellipse 78% 83% at 50% 50%,#000 0 72%,#000d 83%,transparent 100%);
+ mask-image:radial-gradient(ellipse 78% 83% at 50% 50%,#000 0 72%,#000d 83%,transparent 100%);
+}
 a.hotspot{position:absolute;z-index:2;display:block;border-radius:10px;background:transparent;text-decoration:none;-webkit-tap-highlight-color:rgba(212,176,111,.22)}
 a.hotspot:focus-visible{outline:3px solid #f6e2b5;outline-offset:2px;background:#d4b06f22}
 .logo{left:0;top:0;width:27%;height:9%}
