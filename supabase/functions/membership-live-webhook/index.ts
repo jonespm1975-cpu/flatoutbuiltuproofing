@@ -117,6 +117,21 @@ Deno.serve(async (request) => {
       return new Response("UK checkout eligibility or agreement not verified", { status: 422 });
     }
 
+    const intentId = checkout.metadata.membership_checkout_intent;
+    if (!intentId || !userIdPattern.test(intentId) || checkout.metadata.terms_accepted !== "true" ||
+        checkout.metadata.recurring_billing_consent !== "true" ||
+        checkout.metadata.immediate_access_consent !== "true" ||
+        checkout.metadata.cancellation_acknowledgement !== "true") {
+      return new Response("Membership agreement not verified", { status: 422 });
+    }
+    const { data: consentVerified, error: consentError } = await db.rpc("verify_live_membership_checkout", {
+      p_user: userId, p_intent: intentId, p_session: checkout.id, p_price: priceId, p_terms: terms,
+    });
+    if (consentError) throw new Error("Membership agreement lookup unavailable");
+    if (consentVerified !== true) {
+      return new Response("Membership agreement not verified", { status: 422 });
+    }
+
     const items = subscription.items.data;
     const item = items[0];
     const price = item?.price;
