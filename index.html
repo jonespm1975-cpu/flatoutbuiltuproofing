@@ -157,11 +157,30 @@ a.hotspot:focus-visible{outline:3px solid #f6e2b5;outline-offset:2px;background:
   .support-qr img { object-fit: contain; }
 }
 
+
+/* £5/month label overlays only the old baked-in membership headline.
+   The approved poster, hero video, logo and navigation remain untouched. */
+.membership-live-price{
+ position:absolute;z-index:3;left:13.9%;top:69.25%;width:32.3%;height:3.45%;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ background:radial-gradient(ellipse 110% 110% at 50% 45%,#0b0908 0 66%,#0b0908f8 79%,transparent 100%);
+ color:#ffe3a3;font-family:Georgia,"Times New Roman",serif;font-style:italic;
+ font-weight:900;text-align:center;line-height:1.06;pointer-events:none;
+ text-shadow:0 1px 1px #2a0d00,0 0 5px #bb7e2e;
+}
+.membership-live-price .price-first{font-size:clamp(10px,2.45vw,25px)}
+.membership-live-price .price-second{font-size:clamp(9px,2.15vw,22px)}
+@media(min-width:1000px){
+ .membership-live-price .price-first{font-size:25px}
+ .membership-live-price .price-second{font-size:22px}
+}
+
 </style>
 </head>
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
-<img class="poster" src="assets/homepage-onyx-antique-gold.webp" width="1029" height="1528" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
+<img class="poster" src="assets/homepage-onyx-antique-gold.webp" width="1029" height="1528" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £5 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
+<span class="membership-live-price" aria-label="£5 monthly membership coming soon"><span class="price-first">£5 MONTHLY</span><span class="price-second">MEMBERSHIP</span></span>
 <span class="official-home-logo" aria-hidden="true"><img src="assets/flat-out-built-up-roofing-logo.svg" alt="" width="640" height="256"></span>
 <video class="homepage-torch-video" src="assets/homepage-torch-sweep.mp4"
   muted loop playsinline preload="none" aria-hidden="true"></video>
