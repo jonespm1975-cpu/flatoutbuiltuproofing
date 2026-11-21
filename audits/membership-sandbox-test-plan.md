@@ -66,6 +66,13 @@
 - Run `supabase/tests/membership-confirmation-integration.mjs` on Node 24 with `stripe@23.2.0` and `@electric-sql/pglite@0.5.17` installed locally. The test reads the branch's current functions and SQL and makes no external network requests.
 - No hosted email delivery was exercised. The connected Supabase account exposed the production project and no separate environment for a controlled hosted membership order. No production job, payment setting or email route changed.
 
+### Membership refund and dispute handling prepared for review
+
+- The signed webhook links refund and dispute events by Stripe PaymentIntent and Invoice Payment to the affected subscription. It checks the current paid period against the latest Stripe invoice and collected payment. An event for the separate one-off course does not update membership.
+- The review implementation treats the current membership period as unpaid when the collectible amount is below £1.99, including after a partial refund that puts the balance below that amount, or when the current charge has an unresolved or lost dispute. A resolved dispute in the merchant's favour can restore access when the current period is still fully funded and otherwise eligible. A refund for an older period does not remove a later fully paid period. The webhook sends no refund, changes no Stripe subscription and creates no extra confirmation emails.
+- The integrated test used locally signed fixtures and simulated Stripe reads. It verified old-period and separate-course refund isolation, an open dispute, a win and a loss, partial and full refunds, and recovery after a failed refund. The checkout, confirmation, retry and cancellation checks still pass. Strict TypeScript checking passed.
+- At deployment, add the refund and dispute events listed in the review webhook only to the dedicated membership destination. Its Stripe credential needs read access for Invoice Payments, PaymentIntents, Charges and Disputes in addition to existing readers. Hosted Stripe verification, inbox delivery and launch approval remain pending.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
