@@ -25,7 +25,7 @@ SET search_path TO ''
 AS $function$
 DECLARE
  v_row public.purchase_confirmations%ROWTYPE;
- v_inserted boolean := false;
+ v_inserted_rows integer := 0;
 BEGIN
  IF p_session IS NULL OR left(p_session,8) <> 'cs_live_'
    OR p_user_id IS NULL
@@ -51,7 +51,7 @@ BEGIN
    p_consent_recorded_at,p_terms_version,'pending'
  )
  ON CONFLICT (stripe_checkout_session_id) DO NOTHING;
- GET DIAGNOSTICS v_inserted = ROW_COUNT;
+ GET DIAGNOSTICS v_inserted_rows = ROW_COUNT;
 
  SELECT * INTO v_row FROM public.purchase_confirmations
   WHERE stripe_checkout_session_id=p_session FOR UPDATE;
@@ -78,7 +78,7 @@ BEGIN
  VALUES (p_session,'pending',0,now())
  ON CONFLICT (stripe_checkout_session_id) DO NOTHING;
 
- RETURN CASE WHEN v_inserted THEN 'recorded' ELSE 'already_recorded' END;
+ RETURN CASE WHEN v_inserted_rows = 1 THEN 'recorded' ELSE 'already_recorded' END;
 END;
 $function$;
 
