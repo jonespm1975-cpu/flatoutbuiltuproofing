@@ -19,9 +19,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Run 24-course staging tests without network or secrets
+      - name: Run 24-course staging tests without payment secrets
         run: |
           node --test fulfilment/*.test.mjs
+      - name: Check TypeScript webhook entrypoint bundles without deployment
+        run: |
+          npm install --no-save --no-package-lock 'esbuild@0.25.12'
+          ./node_modules/.bin/esbuild supabase/functions/stripe-24-course-sandbox-webhook/index.ts --bundle --platform=neutral --format=esm --external:npm:* --outfile=/tmp/fobur-staging-webhook.js
       - name: State test boundary
         run: |
           echo "Unit tests only. No real Stripe event, Supabase RPC, email, or payment tested."
