@@ -1,4 +1,17 @@
 # Flat Out Built-Up Roofing — £1.99 membership controlled sandbox test plan
+
+## 21 November 2026 — verification and remaining launch work
+
+- Stripe sandbox has one active £1.99 monthly subscription with a paid 199p invoice. The paid period ends at 22:59 GMT on 12 December 2026 with cancellation scheduled. Supabase shows the same state and exact Stripe event timestamp for the cancellation update. Stripe also records subscription creation and invoice payment, with no pending webhook deliveries on those event records. Per-destination Workbench HTTP history was not verified.
+- A rollback-only database test exercised the installed membership sync function for initial sync, duplicate and older events, failed renewal, return to active, cancellation and sandbox isolation. The temporary row was rolled back. The sync function is executable by the service role; anonymous and authenticated clients cannot call it.
+- Eight local tests ran the deployed sandbox webhook source with mocked Stripe and database calls. Paid invoice, failed invoice, cancellation scheduling, effective cancellation, off-Stripe payment, rejected signature, wrong price and live-mode rejection passed. This run did not generate signed Stripe events, test true concurrent requests or exercise a fresh hosted Customer Portal session.
+- Stripe live already has an active GBP 199p monthly price with inclusive tax behavior. The connected live account returned zero subscriptions and zero active Payment Links. The public course catalogue still says subscription checkout is unavailable, and the deployed Edge Function inventory exposes sandbox membership checkout, webhook and portal only. The live one-off £9.99 checkout is separate.
+- Membership scope needs a specific list of included resources. Free learning continues to be publicly available. The mobile-learning endpoint already checks active membership or separately purchased access. The protected £9.99 lesson currently has its own purchase check. The existing site terms say recurring billing is unavailable.
+- Before public checkout, implement the dedicated live membership checkout, signed lifecycle event handler and customer portal; confirm the included resources and gate them server-side; publish the recurring terms and confirmation; verify genuine sandbox renewal, failure, cancellation and expiration, plus refund and dispute handling. Show the full £1.99 monthly charge and cancellation route before purchase. Verify Stripe Tax settings at launch against the current UK-only, non-VAT-registered business setup.
+- No subscription, payment, portal session, customer email, or production setting was created or changed in this verification.
+
+The preparation checklist below records the earlier sandbox setup.
+
 **Prepared:** 2026-11-12 GMT
 **Scope:** Stripe TEST account `acct_1UaPRuKS41qhUQTK`, Supabase project `fhyhshakmvqwzdyannec`.
 **Safety:** Do not use real card details or enable live billing. Maintain separation from the £9.99 one-off course.
