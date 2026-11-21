@@ -57,5 +57,13 @@ jobs:
         run: psql "$CI_POSTGRES_URL" -v ON_ERROR_STOP=1 -f fulfilment/ci-postgres-fixture.sql
       - name: Run real two-connection concurrency tests
         run: python fulfilment/test-postgres-concurrency.py
+      - name: Setup Node.js for Stripe SDK signed-event tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned test dependencies in runner
+        run: npm install --no-save --no-package-lock "stripe@23.2.0" "pg@8.13.1"
+      - name: Verify genuine Stripe SDK test signatures and DB routing
+        run: node fulfilment/test-signed-stripe-postgres.mjs
       - name: State isolation boundary
-        run: echo "Disposable Postgres service only; no Supabase, Stripe, email or live data touched."
+        run: echo "Locally signed Stripe SDK fixture events only; disposable Postgres; no real Stripe API, Supabase, email or live payment."
