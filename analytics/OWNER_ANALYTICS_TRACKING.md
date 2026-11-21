@@ -51,3 +51,10 @@ Acquisition breakdown uses distinct opted-in tab sessions by first-touch channel
 - Page-view comparison is blocked until all four core sections have consented observations.
 - Do not compare campaign performance until each QR image actually encodes its tagged landing URL and a meaningful sample has accumulated.
 - Some older site views lack source attribution and cannot be reconstructed.
+
+## Owner activity exclusion — 21 November 2026
+- Verified owner sign-in on `owner-analytics.html` marks that **browser** as excluded using the first-party localStorage key `fobur_owner_device_excluded_v1`.
+- `site-tracking.js` skips future page views and course-interest clicks from excluded browsers. It also verifies an existing owner Supabase login before recording, so signed-in owner activity on a newly used browser is excluded. The optional consent model and public analytics Edge Function are unchanged.
+- This does **not** delete or reclassify older anonymous events. Previous owner visits are not reliably identifiable after the fact. Browsers/device profiles are independent; owner sign-in marks each browser used. A different browser used while logged out may be counted until the owner signs in there.
+- This is an exclusion from visitor reporting, not a separate owner-activity report: suppressed events are not retained. Shared browsers using the same profile may also be excluded after an owner sign-in.
+- Static verification: GitHub main contains both the tracking guard and verified-owner device marker. No Supabase database, Stripe billing, customer checkout, website homepage imagery, or approved layout was changed. A real browser / production deployment acceptance test remains outstanding.
