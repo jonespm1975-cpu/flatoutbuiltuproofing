@@ -17,6 +17,20 @@ a{color:inherit}
 .site-shell{width:min(100%,710px);margin:0 auto;background:#000;overflow:hidden;box-shadow:0 0 36px #000}
 .site-header{position:relative;width:100%;aspect-ratio:710/75;overflow:hidden;background:#000;border-bottom:2px solid var(--gold);box-shadow:0 2px 15px #ff9c00}
 .site-header>img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+/* Replace only the header-logo appearance. Preserve the approved full-width
+   navigation poster and its original interactive hotspots. */
+.site-header::before,.site-header::after{
+ content:"";position:absolute;top:0;left:0;width:27.5%;height:100%;pointer-events:none;z-index:1;
+}
+.site-header::before{
+ background:radial-gradient(ellipse 83% 85% at 50% 52%,#080707 0%,#080707ed 60%,#08070755 85%,transparent 100%);
+}
+.site-header::after{
+ background:url("assets/flat-out-built-up-roofing-logo.svg") center/contain no-repeat;
+ mix-blend-mode:screen;filter:contrast(1.22) brightness(1.08);
+ -webkit-mask-image:radial-gradient(ellipse at center,#000 0 74%,transparent 100%);
+ mask-image:radial-gradient(ellipse at center,#000 0 74%,transparent 100%);
+}
 .site-header a{position:absolute;z-index:2;display:block;top:0;height:100%;border-radius:5px;text-decoration:none;-webkit-tap-highlight-color:#ffd34433}
 .site-header a:focus-visible{outline:2px solid #fff5a0;outline-offset:-2px;background:#ffd23922}
 .site-header .hot-logo{left:0;width:27.5%}
