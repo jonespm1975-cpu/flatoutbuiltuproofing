@@ -73,6 +73,13 @@
 - The integrated test used locally signed fixtures and simulated Stripe reads. It verified old-period and separate-course refund isolation, an open dispute, a win and a loss, partial and full refunds, and recovery after a failed refund. The checkout, confirmation, retry and cancellation checks still pass. Strict TypeScript checking passed.
 - At deployment, add the refund and dispute events listed in the review webhook only to the dedicated membership destination. Its Stripe credential needs read access for Invoice Payments, PaymentIntents, Charges and Disputes in addition to existing readers. Hosted Stripe verification, inbox delivery and launch approval remain pending.
 
+### Hosted Stripe sandbox billing evidence
+
+- Created a new payment test customer with no email address using Stripe's Visa test fixture. Its separate £1.99 monthly sandbox subscription `sub_1UeHtLKS41qhUQTKnvig6U3S` became active and Stripe recorded a paid 199p GBP first invoice. Canonical Invoice Payment data linked that invoice to a succeeded PaymentIntent and the matching Stripe charge showed 199p captured. Automatic tax was disabled for the test subscription.
+- The fixture subscription had a flexible billing mode. Resetting its billing-cycle anchor moved the billing date. A forced invoice was a zero-value subscription-update adjustment. This did not verify a paid automatic renewal.
+- Scheduled cancellation at the end of this fixture's period and refreshed it from Stripe. Verified `cancel_at_period_end=true` and `cancel_at` equal to the paid period end, 2026-12-21T17:16:59.000Z. The existing sandbox reference subscription and production billing were unaffected.
+- This used Stripe's sandbox Billing API with a separate fixture. It did not complete hosted website Checkout, invoke the review membership webhook as a hosted service, simulate a natural clock-driven renewal or deliver any email. The connected Stripe interface supported creating a test clock; advancing it was unavailable. The fresh fixture was left scheduled to stop renewing.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
