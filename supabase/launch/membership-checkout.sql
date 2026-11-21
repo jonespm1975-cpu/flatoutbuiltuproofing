@@ -82,22 +82,3 @@ revoke execute on function public.reserve_live_membership_checkout(uuid,text,tex
 revoke execute on function public.record_live_membership_checkout(uuid,uuid,text) from public, anon, authenticated;
 grant execute on function public.reserve_live_membership_checkout(uuid,text,text,uuid) to service_role;
 grant execute on function public.record_live_membership_checkout(uuid,uuid,text) to service_role;
-
-create function public.verify_live_membership_checkout(
-  p_user uuid, p_intent uuid, p_session text, p_price text, p_terms text
-)
-returns boolean
-language sql
-stable
-security definer
-set search_path = ''
-as $$
-  select exists (
-    select from internal.live_membership_checkout_intents
-    where id = p_intent and user_id = p_user and stripe_session_id = p_session
-      and stripe_price_id = p_price and terms_version = p_terms
-  )
-$$;
-
-revoke execute on function public.verify_live_membership_checkout(uuid,uuid,text,text,text) from public, anon, authenticated;
-grant execute on function public.verify_live_membership_checkout(uuid,uuid,text,text,text) to service_role;

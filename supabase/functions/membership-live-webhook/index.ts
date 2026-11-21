@@ -124,14 +124,6 @@ Deno.serve(async (request) => {
         checkout.metadata.cancellation_acknowledgement !== "true") {
       return new Response("Membership agreement not verified", { status: 422 });
     }
-    const { data: consentVerified, error: consentError } = await db.rpc("verify_live_membership_checkout", {
-      p_user: userId, p_intent: intentId, p_session: checkout.id, p_price: priceId, p_terms: terms,
-    });
-    if (consentError) throw new Error("Membership agreement lookup unavailable");
-    if (consentVerified !== true) {
-      return new Response("Membership agreement not verified", { status: 422 });
-    }
-
     const items = subscription.items.data;
     const item = items[0];
     const price = item?.price;
@@ -144,7 +136,8 @@ Deno.serve(async (request) => {
     }
     const end = item?.current_period_end;
     const periodEnd = Number.isSafeInteger(end) && end > 0 ? new Date(end * 1000) : new Date(0);
-    const { error } = await db.rpc("apply_live_membership_sync", {
+    const { data: synced, error } = await db.rpc("sync_live_membership_order", {
+      p_intent: intentId, p_session: checkout.id, p_terms: terms,
       payload: {
         stripe_subscription_id: id,
         stripe_customer_id: customer,
@@ -158,6 +151,7 @@ Deno.serve(async (request) => {
       },
     });
     if (error) throw new Error("Database membership write failed");
+    if (synced !== true) return new Response("Membership agreement not verified", { status: 422 });
     return new Response("Membership synchronized", { status: 200 });
   } catch {
     console.error("Live membership synchronization failed", event.id);

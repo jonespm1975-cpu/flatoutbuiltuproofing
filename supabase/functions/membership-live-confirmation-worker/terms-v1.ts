@@ -1,0 +1,32 @@
+// Fixed copy of the published terms text for this contract version.
+export const version = "2026-11-21-learning-pass-v1";
+export const termsHtml = `<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Monthly Learning Pass terms | Flat Out Built-Up Roofing</title>
+</head>
+<body class="p4-interior">
+<main style="max-width:760px;margin:auto;padding:24px">
+<p><a href="https://flatoutbuiltuproofing.co.uk/membership-order.html">Back to the Learning Pass order</a></p>
+<h1>Monthly Learning Pass terms</h1>
+<p>Membership terms version 2026-11-21-learning-pass-v1.</p>
+<h2>Your contract</h2>
+<p>Paul Jones trading as Flat Out Built-Up Roofing supplies the membership from 52 Bedhampton Way, Leigh Park, Havant, Hampshire, PO9 2DP, United Kingdom. You can contact us at <a href="mailto:jonespm1975@gmail.com">jonespm1975@gmail.com</a>. Stripe processes the payment. The seller is not VAT registered and no VAT is charged.</p>
+<p>The Learning Pass costs £1.99 when you subscribe and £1.99 each month until you cancel. There is no minimum commitment beyond the paid billing period, subject to your cancellation and refund rights. The offer is for customers with a UK address.</p>
+<h2>What you can access</h2>
+<p>The pass includes the Voice Learning App’s guided built-up felt roofing walkthrough. The material is available in English. You need a signed-in account, compatible browser, JavaScript and internet access. Device and browser support for voice controls varies. The walkthrough has buttons you can use without a microphone.</p>
+<p>After we verify your payment and send your confirmation, the pass is available through your signed-in account for the paid period. A failed renewal can suspend membership access until payment for the current period is verified. Your separately purchased Roof Inspection and Planning lesson is unaffected by membership cancellation or expiry.</p>
+<h2>Stopping your subscription and future charges</h2>
+<p>You can stop renewal from <a href="https://flatoutbuiltuproofing.co.uk/members.html">My Learning</a>. Select Cancel monthly membership, then confirm in Stripe before your next charge. Access usually continues to the date shown in My Learning for your paid period. Ordinary cancellation stops future charges. Any right to a refund under consumer law still applies. If you cannot use My Learning, email us and we will help with cancellation.</p>
+<h2>Initial cancellation right and refunds</h2>
+<p>Consumers generally have 14 days to cancel an online digital-content contract. If you request immediate supply, your initial right to cancel is lost once supply begins only where the legal conditions are met, including your prior express consent, acknowledgement and the required confirmation. Contact us before ordering if you want delayed access.</p>
+<p>To exercise a cancellation right or request a refund, email us or write to the address above with a clear statement. Include the order date, your account email and the order reference if available. You can use your own wording or copy the optional statement below.</p>
+<blockquote>I give notice that I cancel my Monthly Learning Pass contract, ordered on [date]. My name is [name] and my account email is [email]. My order reference is [reference, if available]. Date of this notice [date].</blockquote>
+<p>If a refund is due, we usually return it to the original payment method. Your statutory rights for faulty or misdescribed digital content are unaffected. Contact us at the address above if you have a complaint or need help with access.</p>
+</main>
+</body>
+</html>
+`;

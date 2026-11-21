@@ -43,6 +43,15 @@
 - Ten local browser DOM scenarios passed with mocked services, covering login, incomplete consent, successful redirects, unavailable checkout and unsafe redirect rejection. No hosted checkout was opened.
 - Before launch, confirm the included resources, review the membership contract text, send the versioned agreement and recorded consent on a durable medium and gate access until confirmation has been sent. Reconcile public policy references to subscription availability when switching the product on. None of these review changes were published to the live website.
 
+### Membership confirmation and first-access gate prepared for review
+
+- The webhook now records the verified membership state and queues one confirmation in the same database transaction. Its paid Stripe session must match the original checkout reservation. The confirmation goes to the verified account email recorded when the job is queued. Repeat deliveries cannot create a second confirmation for the same signup.
+- The membership entitlement function checks for an active, unexpired paid period and a recorded confirmation send. One-off purchase access continues through its separate database records. Renewal under the same subscription uses the initial confirmation. A new subscription needs its own confirmation.
+- The dedicated worker attaches the fixed membership terms and includes the £1.99 monthly charge, consent timestamp, cancellation instructions and statutory-rights wording. It uses a durable idempotency key, atomic leases, bounded retry and a manual-reconciliation state after exhausted or uncertain delivery. Provider acceptance is recorded as a send and does not establish inbox delivery.
+- Local PostgreSQL verified one queued confirmation, the access gate, retry backoff, stale lease rejection, successful completion, cancellation and role restrictions. Eleven worker cases passed with mocked Resend and database services. Strict TypeScript checking passed. No real email was sent.
+- Apply the reviewed launch SQL in the order `membership-lifecycle.sql`, `membership-checkout.sql`, then `membership-confirmations.sql`. The worker still needs a dedicated scheduled caller and shared token in Supabase Vault and function secrets (`MEMBERSHIP_LIVE_CONFIRMATION_WORKER_TOKEN`). Keep `MEMBERSHIP_LIVE_CONFIRMATION_ENABLED` false until a controlled integration test is approved. Use the existing sender identity (`PURCHASE_CONFIRMATION_FROM`) and Resend credential. Verify one buyer confirmation reaches the intended test inbox before opening checkout.
+- The review branch has not been deployed. No live scheduling, email settings or payment settings changed. Refunds, disputes, a complete membership content list and paid Stripe sandbox tests remain open.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
