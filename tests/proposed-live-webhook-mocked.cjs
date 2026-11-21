@@ -10,7 +10,7 @@ const source = raw
   .replace('from "npm:stripe@17.7.0"', 'from "stripe-mock"')
   .replace('from "npm:@supabase/supabase-js@2.49.4"', 'from "supabase-mock"');
 const js = ts.transpileModule(source,{
-  compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}
+  compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}
 }).outputText;
 
 const id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
