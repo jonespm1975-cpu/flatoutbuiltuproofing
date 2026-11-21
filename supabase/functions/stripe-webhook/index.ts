@@ -43,15 +43,11 @@ Deno.serve(async (req) => {
     const admin=createClient(url!,serviceKey!,{auth:{persistSession:false,autoRefreshToken:false}});
     const {data:userResult,error:userError}=await admin.auth.admin.getUserById(userId);
     if (userError || !userResult.user) return new Response("Unknown customer",{status:422});
-    const {error}=await admin.from("course_access").upsert({
-      user_id:userId,course_id:lessonId!,stripe_checkout_session_id:session.id
-    },{onConflict:"user_id,course_id",ignoreDuplicates:true});
-    if (error) {console.error("Grant failed",error.code);return new Response("Grant failed",{status:503});}
-    const {error:confirmationError}=await admin.from("purchase_confirmations").upsert({stripe_checkout_session_id:session.id,user_id:userId,course_id:lessonId!,paid_amount_pence:session.amount_total,currency:"gbp",consent_recorded_at:session.metadata.consent_recorded_at},{onConflict:"stripe_checkout_session_id",ignoreDuplicates:true});
+    const {error:confirmationError}=await admin.from("purchase_confirmations").upsert({stripe_checkout_session_id:session.id,user_id:userId,course_id:lessonId!,paid_amount_pence:session.amount_total,currency:"gbp",consent_recorded_at:session.metadata.consent_recorded_at,terms_version:"2026-11-21-course-v1"},{onConflict:"stripe_checkout_session_id",ignoreDuplicates:true});
     if(confirmationError){console.error("Confirmation record failed",confirmationError.code);return new Response("Confirmation recording failed",{status:503});}
     // The purchase_confirmations INSERT trigger queues a live email independently.
-    // Email provider failures must never cause Stripe to retry a successfully fulfilled payment.
+    // The email finalizer grants access after provider acceptance in the same database transaction.
     // The separately authenticated live-purchase-email-delivery-worker processes the outbox.
-    return new Response("Access granted; confirmation queued independently",{status:200});
+    return new Response("Payment recorded; confirmation queued",{status:200});
   } catch(e) {console.error("Grant processing failed",String(e));return new Response("Temporary failure",{status:503});}
 });
