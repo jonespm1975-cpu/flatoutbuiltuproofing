@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Learning Pass | Flat Out Built-Up Roofing</title>
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="academy-interior.css">
+<link rel="stylesheet" href="interior-preview-four.css">
+<style>
+.membership-order{max-width:760px;margin:auto;padding:24px}
+.order-panel{margin:24px 0;padding:clamp(16px,4vw,26px);border:1px solid #9d7a38;border-radius:14px;background:#17130c}
+.order-panel legend{padding:0 6px;font-weight:700;color:#f5cf72}
+.order-consent{display:flex;align-items:flex-start;gap:12px;margin:16px 0}
+.order-consent input{flex:none;width:22px;height:22px;margin:2px 0 0}
+.order-submit{max-width:100%;min-height:44px;padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700}
+.order-submit:disabled{opacity:.55;cursor:not-allowed}
+</style>
+</head>
+<body class="p4-interior">
+<header><div class="brand">FLAT OUT BUILT-UP ROOFING</div><a class="back" href="courses.html">Back to courses</a></header>
+<main class="membership-order">
+<nav class="academy-topnav" aria-label="Academy navigation">
+<a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="members.html">My Learning</a>
+</nav>
+<h1>Monthly Learning Pass</h1>
+<p><strong>£1.99 today, then £1.99 each month until you cancel.</strong> The price is in GBP and no VAT is charged. UK customers only. Stripe asks for a UK address to check eligibility. There is no free trial.</p>
+<section class="order-panel" aria-labelledby="included">
+<h2 id="included">What’s included</h2>
+<p>Access to the Voice Learning App’s guided built-up felt roofing walkthrough, with spoken guidance and controls you can use by voice or by tapping. Use a compatible browser with an internet connection and JavaScript. Voice recognition depends on your browser and microphone permissions.</p>
+<p><a href="purchase-info.html">Roof Inspection and Planning</a> remains a separate £9.99 purchase. If you’ve bought it, you keep that access when your monthly membership ends.</p>
+</section>
+<section aria-labelledby="how-to-cancel">
+<h2 id="how-to-cancel">How to stop renewal</h2>
+<p>Go to <a href="members.html">My Learning</a>, choose <strong>Cancel monthly membership</strong> and confirm in Stripe before your next payment is taken. Your access to the pass continues until the end of the period you’ve paid for. For help, <a href="mailto:jonespm1975@gmail.com">email Flat Out Built-Up Roofing</a>.</p>
+<p>Read the <a href="membership-terms-2026-11-21-learning-pass-v1.html">membership terms and cancellation policy</a> and <a href="privacy.html">privacy notice</a>.</p>
+</section>
+<p id="member-sign-in"><a href="login.html?next=membership-order.html">Sign in or create an account to continue</a></p>
+<form id="membership-order" data-terms-version="2026-11-21-learning-pass-v1">
+<fieldset class="order-panel" id="membership-agreements" disabled>
+<legend>Review your order</legend>
+<label class="order-consent"><input type="checkbox" required name="terms_accepted"><span>I agree to the membership terms linked above.</span></label>
+<label class="order-consent"><input type="checkbox" required name="recurring_billing_consent"><span>I authorise £1.99 today and £1.99 every month until I cancel.</span></label>
+<label class="order-consent"><input type="checkbox" required name="immediate_access_consent"><span>I expressly consent to receiving the digital content during my 14-day cancellation period.</span></label>
+<label class="order-consent"><input type="checkbox" required name="cancellation_acknowledgement"><span>I acknowledge that my initial right to cancel is lost once digital supply begins, where the legal conditions are met. I can still stop future renewals.</span></label>
+<p>Access begins after we verify payment and send the contract confirmation. If you prefer to delay access until the cancellation period ends, <a href="mailto:jonespm1975@gmail.com">contact us before ordering</a>.</p>
+<button id="membership-checkout" class="order-submit" type="submit" disabled>Continue to Stripe · £1.99 per month</button>
+</fieldset>
+</form>
+<p id="membership-checkout-status" role="status"></p>
+<noscript><p>Enable JavaScript to sign in and continue to Stripe.</p></noscript>
+</main>
+<script type="module" src="membership-checkout.js"></script>
+<script type="module" src="site-tracking.js"></script>
+</body>
+</html>

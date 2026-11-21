@@ -171,9 +171,13 @@ try {
       const item = document.createElement('li'); item.textContent = lesson === 'beginner-training-course' ? 'Beginner Training Course — access recorded' : `Lesson ${lesson} — access recorded`; if (lesson === 'beginner-training-course') { const open = document.createElement('button'); open.type='button'; open.textContent='Open my paid lesson'; open.onclick=loadPaidLesson; item.append(' ',open); }
       document.querySelector('#lessons').append(item);
     }
-    const returnedFromCheckout = new URLSearchParams(location.search).get('checkout') === 'success';
+    const checkoutParams = new URLSearchParams(location.search);
+    const returnedFromCheckout = checkoutParams.get('checkout') === 'success';
+    const returnedFromMembershipCheckout = checkoutParams.get('membership') === 'checkout-return';
     if (returnedFromCheckout && !lessons.has('beginner-training-course')) {
       status.textContent = 'Your lesson will appear after we verify payment and send your confirmation email. This usually takes a few minutes. Refresh this page to check again.';
+    } else if (returnedFromMembershipCheckout && !memberActive) {
+      status.textContent = 'Your Learning Pass will appear here after we verify payment and send your confirmation. Refresh this page to check again.';
     } else {
       status.textContent = (lessons.size || memberActive === true) ? 'Your account is ready.' : 'You have no paid lessons yet.';
     }

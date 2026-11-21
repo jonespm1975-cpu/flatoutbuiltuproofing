@@ -36,6 +36,13 @@
 - Strict TypeScript checks passed for the checkout and updated webhook. Sixteen mocked checkout cases, four locally signed webhook linkage cases and local PostgreSQL reservation checks passed. Two-connection contention, hosted Stripe checkout and provider idempotency behavior were not exercised.
 - The review SQL and functions were not deployed. Set `MEMBERSHIP_LIVE_CHECKOUT_STRIPE_KEY`, `MEMBERSHIP_LIVE_PRICE_ID` and `MEMBERSHIP_LIVE_TERMS_VERSION` after preparing the final contract, and leave `MEMBERSHIP_LIVE_CHECKOUT_ENABLED` false until the customer order page, contract confirmation and controlled sandbox tests are complete. The order page will use `membership-order.html`, and My Learning will receive `membership=checkout-return`.
 
+### Customer order page and membership terms prepared for review
+
+- The preview catalogue links to `membership-order.html`. The page shows £1.99 today and each month until canceled, the UK address check, the cancellation route and the four separate, initially unticked consent statements. Its login return is allowlisted and it sends only the selected statements and terms version to the membership checkout endpoint. My Learning explains that a return from Stripe can precede payment and confirmation processing.
+- Draft terms version `2026-11-21-learning-pass-v1` is at `membership-terms-2026-11-21-learning-pass-v1.html`. The draft describes the Voice Learning App guide as the included benefit because it is the protected membership content already verified. The broader membership catalogue remains to be confirmed before launch. Roof Inspection and Planning remains a separate £9.99 purchase.
+- Ten local browser DOM scenarios passed with mocked services, covering login, incomplete consent, successful redirects, unavailable checkout and unsafe redirect rejection. No hosted checkout was opened.
+- Before launch, confirm the included resources, review the membership contract text, send the versioned agreement and recorded consent on a durable medium and gate access until confirmation has been sent. Reconcile public policy references to subscription availability when switching the product on. None of these review changes were published to the live website.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
