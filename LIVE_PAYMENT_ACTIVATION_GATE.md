@@ -7,7 +7,7 @@
 - `stripe-webhook` v26 ACTIVE: requires `COURSE_UNLOCK_ENABLED=true`, validates Stripe signature, live event, payment, metadata, customer and price, then upserts `course_access` and `purchase_confirmations`.
 - `paid-lesson-content` v10 ACTIVE: authenticates user and checks `course_access` before returning lesson.
 - `purchase-info.html` currently says purchases are not open, and checkout control is disabled.
-- Live webhook sends Resend confirmation synchronously and returns HTTP 503 if email provider fails or email status cannot be updated **after access may already have been granted**. Stripe retries can then occur. Need decouple email from webhook acknowledgement and independently retry confirmation.
+- Live webhook sends Resend confirmation synchronously and returns HTTP 503 if email provider fails or email status cannot be updated **after access may already have been granted**. Stripe retries can then occur. Need to decouple email from webhook acknowledgement and independently retry confirmation.
 - Stripe connected-account listing failed with `link_id must identify an eligible linked account`. Therefore live Stripe settings, account readiness and webhook delivery status were not verified.
 - Supabase Edge Function environment secret values/activation flags cannot be read through the available connector. Do not infer current flags.
 
@@ -26,3 +26,27 @@
 6. Only then explicitly switch live flags on, check checkout availability, and monitor first real purchases without initiating a charge.
 
 **No live activation, real charge, email send, DNS change, or customer-data modification performed in this review.**
+
+---
+
+# Current verification — 21 November 2026
+**Current decision: NO-GO. This section supersedes older status notes above where deployed versions or Stripe state have changed.**
+
+## Verified through Supabase, Stripe and GitHub
+- Supabase project is `ACTIVE_HEALTHY`. Deployed functions are active: `stripe-live-checkout` v12, `stripe-webhook` v32 and `live-purchase-email-delivery-worker` v2. “Active” means deployed; it does not prove that their operator flags are enabled.
+- The live checkout function requires `STRIPE_LIVE_CHECKOUT_ENABLED=true`, a live Stripe secret, an authenticated non-anonymous Supabase user, and all three explicit consent fields. It creates a one-time £9.99 Checkout Session for the beginner course.
+- The live webhook requires `COURSE_UNLOCK_ENABLED=true`; it validates the paid live session, amount, price, user/course mapping and consent, rejects Payment Link sessions, writes course access and a purchase receipt, and queues confirmation email work. The separate email worker also has two independent enable flags.
+- The active Stripe price for the beginner course is £9.99 GBP one-time, with inclusive tax behavior.
+- The live Payment Link is inactive. The current live Stripe account has 14 Checkout Sessions; all 14 are expired and unpaid, all originated from that Payment Link, and none are direct Checkout Sessions. No paid session or successful charge was found. The recorded return URL on those sessions was `https://stripe.com`.
+- GitHub `purchase-info.html` still says purchases are closed. Its immediate-delivery consent checkbox and checkout button are disabled, so the public purchase flow is not ready.
+- The Supabase screenshots show secret names only; secret values and live-flag values remain unverified. The Supabase connector exposes no secret read/write operation. No secrets or payment settings were changed in this review.
+
+## Remaining launch gates
+1. Implement the signed-in customer purchase and consent flow, then provide the requested visual preview before publishing it.
+2. Verify the production email sender identity, outbox worker configuration and schedule without exposing keys.
+3. Complete a sandbox end-to-end checkout, entitlement, receipt and email check with no real charge.
+4. Confirm the production secret values and flags through Supabase’s protected secrets UI.
+5. Recheck tax, contract wording, consumer information, and refund/cancellation handling before launch.
+6. Only after all gates pass, enable the live checkout and course-unlock flags and monitor the first customer transactions.
+
+**No live checkout was activated and no customer payment was created during the 21 November 2026 review.**
