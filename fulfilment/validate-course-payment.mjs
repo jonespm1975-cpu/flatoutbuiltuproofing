@@ -36,7 +36,7 @@ export function validateCoursePayment({event,session,lineItems,courseConfig,expe
   if(!["checkout.session.completed","checkout.session.async_payment_succeeded"].includes(event.type)) return {ok:false,reason:"unsupported_event"};
   if(event.livemode!==expectedLivemode || session.livemode!==expectedLivemode) return {ok:false,reason:"wrong_environment"};
   if(session.mode!=="payment" || session.payment_status!=="paid") return {ok:false,reason:"not_paid"};
-  if(!/^cs_(test_|live_)/.test(session.id||"")) return {ok:false,reason:"invalid_session"};
+  if(typeof session.id!=="string" || !session.id.startsWith(expectedLivemode?"cs_live_":"cs_test_")) return {ok:false,reason:"invalid_session_environment"};
   if(session.currency!=="gbp" || session.amount_subtotal!==999 || session.amount_total<999) return {ok:false,reason:"amount_mismatch"};
   if(session.payment_link) return {ok:false,reason:"unmapped_payment_link"};
   const userId=session.client_reference_id;
@@ -45,6 +45,7 @@ export function validateCoursePayment({event,session,lineItems,courseConfig,expe
   if(!COURSES.includes(courseId)) return {ok:false,reason:"unknown_course"};
   const cfg=courseConfig?.[courseId];
   if(cfg?.status!=="published" || cfg?.checkout_enabled!==true || cfg?.content_verified!==true || !/^price_/.test(cfg.price_id||"")) return {ok:false,reason:"course_not_ready"};
+  if(Object.entries(courseConfig).some(([id,other])=>id!==courseId && other?.price_id===cfg.price_id)) return {ok:false,reason:"duplicate_price_mapping"};
   const consent=session.metadata||{};
   if(consent.terms_accepted!=="true" || consent.immediate_access_consent!=="true" || consent.cancellation_acknowledgement!=="true" || !Number.isFinite(Date.parse(consent.consent_recorded_at||""))) return {ok:false,reason:"consent_missing"};
   if(expectedLivemode && (consent.eligibility_policy!=="uk-address-v1" || (session.collected_information?.shipping_details?.address?.country??session.shipping_details?.address?.country)!=="GB")) return {ok:false,reason:"uk_eligibility_missing"};
