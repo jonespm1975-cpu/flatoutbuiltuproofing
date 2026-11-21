@@ -6,8 +6,8 @@
  */
 import Stripe from "npm:stripe@23.2.0";
 import {createClient} from "npm:@supabase/supabase-js@2.49.4";
-import {processSandboxWebhook} from "../../fulfilment/sandbox-webhook-workflow.mjs";
-import {makeSandboxReceiptAdapter} from "../../fulfilment/sandbox-receipt-adapter.mjs";
+import {processSandboxWebhook} from "../../../fulfilment/sandbox-webhook-workflow.mjs";
+import {makeSandboxReceiptAdapter} from "../../../fulfilment/sandbox-receipt-adapter.mjs";
 
 const json=(status:number,code:string)=>new Response(JSON.stringify({code}),{
  status,headers:{"content-type":"application/json","cache-control":"no-store"}
