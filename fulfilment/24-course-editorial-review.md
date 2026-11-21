@@ -1,6 +1,6 @@
 # Owner editorial review — 24 paid course drafts
 
-Status: **draft_for_review, not for sale**. Updated 21 November 2026.
+Status: **owner draft approved, NOT for sale**. Owner approval recorded 21 November 2026.
 
 ## Deliverables held in the owner's private review package (not this public repository)
 - 24 individually authored roofing specialist lessons; 6 each in Built-Up Roofing, Tile & Slate, Metal & Sheet and Liquid Applied Systems.
@@ -11,6 +11,10 @@ Status: **draft_for_review, not for sale**. Updated 21 November 2026.
 - Browser validation: all 24 displayed and all 72 correct answers returned 3/3 on 390px mobile and 1024px desktop, without runtime errors.
 - Source-specific references to HSE HSG33/roofwork, NFRC Safe2Torch, NHBC pitched-roof guidance, MCRMA metal cladding technical library and LRWA liquid applied roofing guides.
 
+## Owner approval
+- The owner approved the 24-lesson draft package on 21 November 2026.
+- This authorises progression to technical review and protected implementation; it does **not** approve public release or activate payment.
+
 ## Release requirements (NOT completed)
 1. Qualified roofing trainer / manufacturer review of each lesson's accuracy, suitability, standards currency, correct product-specific details, and completeness. Verify the current version of BS 6229 and relevant standards at publication time; this training is not a substitute for them.
 2. Add manufacturer-approved method detail, sourced drawings, technical data and licensed demonstration footage as needed. Generic illustrative layers are NOT dimensional installation drawings.
@@ -19,7 +23,7 @@ Status: **draft_for_review, not for sale**. Updated 21 November 2026.
 5. For each course, verify buyer ownership server-side, current signature-verified checkout, Stripe test and live Price, exact course entitlement and deterministic email confirmation with proper digital-content consent.
 6. Test genuine Stripe sandbox purchases and readback, concurrency, denial to unowned accounts and email provider acceptance before opening sales.
 7. Keep the existing £9.99 beginner course and £5 future membership separate, and preserve existing homepage and security settings.
-8. Owner must approve the individual lessons, graphics and price/access description before release.
+8. Owner has approved the editorial draft; final release still requires technical review and owner acceptance of the purchase/access flow.
 
 ## Relevant libraries
 - HSE: https://www.hse.gov.uk/pUbns/books/hsg33.htm
