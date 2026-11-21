@@ -95,7 +95,7 @@ Deno.serve(async (request) => {
       flow_data: {
         type: "subscription_cancel",
         subscription_cancel: { subscription: subscription.id },
-        after_completion: { type: "redirect", redirect: { return_url: returnUrl } },
+        after_completion: { type: "redirect", redirect: { return_url: returnUrl + "?membership=cancel-return" } },
       },
     });
     if (!session.livemode || !session.url || new URL(session.url).origin !== "https://billing.stripe.com") {
