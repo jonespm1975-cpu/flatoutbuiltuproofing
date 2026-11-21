@@ -211,3 +211,43 @@ body.p4-interior:has(.app-art) .shell :is(.panel,.installBox){
  body.p4-interior :is(h1,h2,h3,p,li){color:#111!important;text-shadow:none!important}
  body.p4-interior .p4-technical-visual{box-shadow:none}
 }
+
+/* Official silver-chrome and antique-gold identity | 21 Nov 2026 */
+/* Shared only by approved interior pages; original category colourways,
+   financial/consent logic, content and fixed artwork geometry are untouched. */
+body.p4-interior{
+ --fobur-chrome:linear-gradient(180deg,#fff 0%,#9ba2ab 14%,#f7faff 30%,#515967 48%,#f9fcff 64%,#979fa9 80%,#d6dbe0 93%,#666e76 100%);
+ --fobur-antique-gold:linear-gradient(125deg,#835919 0%,#ffecab 16%,#c68f32 43%,#fff0ba 60%,#9b6725 100%);
+}
+/* Brand names carry a distinctly metallic-silver sheen, with warm gold edging.
+   Restrict this to the header to avoid recolouring lesson and legal text. */
+body.p4-interior header :is(.brand, strong:first-child):not(:has(img)){
+ background-image:linear-gradient(105deg,#656b77 0%,#fff 19%,#929ba7 32%,#f9fcff 46%,#c7a160 73%,#ffe9ad 89%,#8c631f 100%)!important;
+ background-clip:text!important;-webkit-background-clip:text!important;
+ -webkit-text-fill-color:transparent!important;color:transparent!important;
+ text-shadow:none!important;
+ filter:drop-shadow(0 1px 1px #050505) drop-shadow(0 0 4px #f2e4c138);
+ font-weight:900!important;letter-spacing:.025em;
+}
+/* Silver facets inside gold-bounded navigation and cards mirror the approved
+   official logo without flattening the chosen Preview Four interior artwork. */
+body.p4-interior .academy-topnav{
+ border-top-color:#d9dfe7!important;
+ border-bottom-color:#d7b36c!important;
+ box-shadow:inset 0 1px 0 #f2f6ff73,0 3px 15px #0009,0 0 12px #d9b46f2c!important;
+}
+body.p4-interior :is(.academy-panel,.academy-tile,.card,.panel,.course-box,.course-card):not(.sponsor-scene){
+ outline:1px solid #a0a6ad21;outline-offset:0;
+}
+body.p4-interior :is(.onyx-logo,.head .brand img[src*="flat-out-built-up-roofing-logo"]){
+ filter:contrast(1.19) brightness(1.06) drop-shadow(0 0 5px #f0f5ff50);
+ mix-blend-mode:screen;
+}
+/* Fixed-category red/grey and purple/silver specialist logos deliberately
+   retain their own trade-specific primary colours. */
+@media print{
+ body.p4-interior header :is(.brand,strong:first-child):not(:has(img)){
+  background:none!important;-webkit-text-fill-color:#111!important;color:#111!important;filter:none;
+ }
+ body.p4-interior :is(.academy-panel,.academy-tile,.card,.panel,.course-box,.course-card){outline:none}
+}
