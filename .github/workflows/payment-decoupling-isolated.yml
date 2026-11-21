@@ -1,0 +1,74 @@
+name: Proposed payment/email decoupling — isolated database
+
+on:
+  push:
+    branches:
+      - audit-20261121-stripe-receipts-critical
+    paths:
+      - 'proposals/live-payment-email-decoupling-NOT-DEPLOYED.sql'
+      - 'tests/live-payment-decoupling-isolated.py'
+      - 'tests/proposed-live-webhook-mocked.cjs'
+      - 'proposals/stripe-webhook-decoupled-NOT-DEPLOYED.ts'
+      - 'tests/fixtures/live-email-*.sql'
+      - '.github/workflows/payment-decoupling-isolated.yml'
+  pull_request:
+    paths:
+      - 'proposals/live-payment-email-decoupling-NOT-DEPLOYED.sql'
+      - 'tests/live-payment-decoupling-isolated.py'
+      - 'tests/proposed-live-webhook-mocked.cjs'
+      - 'proposals/stripe-webhook-decoupled-NOT-DEPLOYED.ts'
+      - 'tests/fixtures/live-email-*.sql'
+      - '.github/workflows/payment-decoupling-isolated.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candidate-db-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable_candidate_only
+          POSTGRES_DB: candidate_course_access
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d candidate_course_access"
+          --health-interval 3s --health-timeout 3s --health-retries 15
+    env:
+      DATABASE_URL: postgresql://postgres:disposable_candidate_only@127.0.0.1:5432/candidate_course_access
+    steps:
+      - name: Checkout proposed code without credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PostgreSQL driver
+        run: python -m pip install 'psycopg[binary]==3.2.3'
+      - name: Run two-connection / invalid / receipt failure regression in ephemeral PostgreSQL
+        run: python tests/live-payment-decoupling-isolated.py
+
+  candidate-webhook-mocks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout proposed source without credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned TypeScript compiler for isolated mock
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Exercise proposed Stripe webhook with mocked APIs, no real network
+        run: node tests/proposed-live-webhook-mocked.cjs

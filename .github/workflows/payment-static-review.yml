@@ -1,0 +1,47 @@
+name: Review-only Stripe payment source checks
+
+on:
+  push:
+    branches:
+      - audit-20261121-stripe-receipts-critical
+    paths:
+      - 'tests/live-payment-static-regressions.test.mjs'
+      - 'tests/stripe-legacy-api-guard.test.mjs'
+      - 'supabase/functions/**'
+      - 'purchase-checkout.js'
+      - 'purchase-confirmations.html'
+      - 'members.html'
+      - 'refunds.html'
+      - '.github/workflows/payment-static-review.yml'
+  pull_request:
+    paths:
+      - 'tests/live-payment-static-regressions.test.mjs'
+      - 'tests/stripe-legacy-api-guard.test.mjs'
+      - 'supabase/functions/**'
+      - 'purchase-checkout.js'
+      - 'purchase-confirmations.html'
+      - 'members.html'
+      - 'refunds.html'
+      - '.github/workflows/payment-static-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-static-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out proposed code, without credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify that payment sources avoid legacy Stripe APIs
+        run: node --test tests/stripe-legacy-api-guard.test.mjs
+      - name: Verify Checkout, webhook, receipts and independent email worker source
+        run: node --test tests/live-payment-static-regressions.test.mjs
