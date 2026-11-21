@@ -1,9 +1,82 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>My Learning | Flat Out Built-Up Roofing</title><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="academy-interior.css"><link rel="stylesheet" href="interior-preview-four.css"></head>
-<body class="p4-interior"><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Monthly membership</h2><p id="membershipStatus" role="status">Checking subscription status…</p><section id="sandboxMembershipManagement" hidden aria-labelledby="sandboxMembershipTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxMembershipTitle" style="margin-top:0;color:#e8c77b">Subscription management — test environment</h2><p>Manage your £1.99 monthly test subscription securely through Stripe. Cancellation takes effect at the end of the paid billing period.</p><button id="manageSandboxMembership" type="button" style="padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700">Manage test subscription</button><p id="sandboxPortalMessage" role="status" aria-live="polite" style="margin-bottom:0"></p></section><section id="sandboxMembershipStatus" hidden aria-labelledby="sandboxStatusTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxStatusTitle" style="margin-top:0;color:#e8c77b">Sandbox membership status — TEST ONLY</h2><p>This test subscription is not a live membership and does not unlock production lessons.</p><p id="sandboxStatusMessage" role="status" aria-live="polite">Checking your test subscription…</p></section><section id="mobileAppAccess" hidden aria-labelledby="mobileAppTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:linear-gradient(145deg,#21190d,#101010);color:#f6edd6"><h2 id="mobileAppTitle" style="margin-top:0;color:#e8c77b">Voice Learning App</h2><p>Learn built-up felt roofing step by step with spoken guidance and hands-free voice commands. App access is included with your active live membership or paid course.</p><p><a href="mobile-learning.html" style="display:inline-block;padding:12px 18px;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700;text-decoration:none">Open Voice Learning App</a></p><p style="margin-bottom:0;font-size:13px">Install on iPhone from Safari: Share → Add to Home Screen. On Android, use Chrome’s menu → Install app.</p></section><h2>Your lessons</h2><p>Paid lessons are available only to the account that purchased them. Checkout remains unavailable until testing and legal checks are complete.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
+<body class="p4-interior"><main style="max-width:760px;margin:40px auto;padding:24px"><nav class="academy-topnav" aria-label="Academy navigation"><a href="index.html">Home</a><a href="courses.html">Courses</a><a href="free-hub.html">Free learning</a><a href="health-safety.html">Health &amp; Safety</a><a href="cscs.html">CSCS</a><a href="tool-safety.html">Tools</a><a href="members.html">Members</a></nav><h1>My Learning</h1><p id="status" role="status">Checking your login…</p><section id="account" hidden><p id="email"></p><h2>Monthly membership</h2><p id="membershipStatus" role="status">Checking subscription status…</p>
+<div id="liveMembershipManagement" hidden>
+  <button id="cancelLiveMembership" type="button" style="padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700">Cancel monthly membership</button>
+  <p>Stripe will ask you to confirm. If your current month is paid, you can continue using your membership until that period ends.</p>
+</div>
+<p id="liveMembershipMessage" role="status"></p>
+<p id="liveMembershipHelp" hidden>For help with cancellation, <a href="mailto:jonespm1975@gmail.com">email Flat Out Built-Up Roofing</a>.</p><section id="sandboxMembershipManagement" hidden aria-labelledby="sandboxMembershipTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxMembershipTitle" style="margin-top:0;color:#e8c77b">Subscription management — test environment</h2><p>Manage your £1.99 monthly test subscription securely through Stripe. Cancellation takes effect at the end of the paid billing period.</p><button id="manageSandboxMembership" type="button" style="padding:12px 18px;border:0;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700">Manage test subscription</button><p id="sandboxPortalMessage" role="status" aria-live="polite" style="margin-bottom:0"></p></section><section id="sandboxMembershipStatus" hidden aria-labelledby="sandboxStatusTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:#171717;color:#f6edd6"><h2 id="sandboxStatusTitle" style="margin-top:0;color:#e8c77b">Sandbox membership status — TEST ONLY</h2><p>This test subscription is not a live membership and does not unlock production lessons.</p><p id="sandboxStatusMessage" role="status" aria-live="polite">Checking your test subscription…</p></section><section id="mobileAppAccess" hidden aria-labelledby="mobileAppTitle" style="margin:24px 0;padding:20px;border:1px solid #9d7a38;border-radius:12px;background:linear-gradient(145deg,#21190d,#101010);color:#f6edd6"><h2 id="mobileAppTitle" style="margin-top:0;color:#e8c77b">Voice Learning App</h2><p>Learn built-up felt roofing step by step with spoken guidance and hands-free voice commands. App access is included with your active live membership or paid course.</p><p><a href="mobile-learning.html" style="display:inline-block;padding:12px 18px;border-radius:7px;background:#d6ae56;color:#171717;font-weight:700;text-decoration:none">Open Voice Learning App</a></p><p style="margin-bottom:0;font-size:13px">Install on iPhone from Safari: Share → Add to Home Screen. On Android, use Chrome’s menu → Install app.</p></section><h2>Your lessons</h2><p>One-off lessons stay on the account that bought them, even if monthly membership ends.</p><section id="paidContent" hidden><h2 id="paidTitle"></h2><div id="paidSections"></div></section><ul id="lessons"></ul><a href="lessons/introduction.html">Open your free introduction</a><p><a href="purchase-confirmations.html">View or save purchase confirmations</a></p><p><button id="logout">Sign out</button></p></section><p><a href="index.html">Back to home</a></p></main><script type="module">
 import { supabase, requireUser } from './auth.js';
 const status = document.querySelector('#status');
 const account = document.querySelector('#account');
+async function loadLiveMembership(userId) {
+  const membershipStatus = document.querySelector('#membershipStatus');
+  const management = document.querySelector('#liveMembershipManagement');
+  const message = document.querySelector('#liveMembershipMessage');
+  const help = document.querySelector('#liveMembershipHelp');
+  const button = document.querySelector('#cancelLiveMembership');
+  const [{ data: memberActive, error: accessError }, { data: subscriptions, error: statusError }] = await Promise.all([
+    supabase.rpc('has_active_membership'),
+    supabase.from('membership_subscriptions')
+      .select('status,current_period_end,cancel_at_period_end')
+      .eq('user_id', userId)
+      .eq('livemode', true)
+      .in('status', ['active', 'past_due', 'unpaid', 'paused', 'trialing'])
+      .limit(2)
+  ]);
+  const isActive = !accessError && memberActive === true;
+  membershipStatus.textContent = accessError
+    ? 'Membership access status is temporarily unavailable.'
+    : isActive ? 'Your monthly membership is active.' : 'No active monthly membership on this account.';
+
+  if (statusError) {
+    message.textContent = 'We could not check your cancellation status. Refresh to try again.';
+    help.hidden = false;
+    return isActive;
+  }
+  if (!subscriptions.length) return isActive;
+  if (subscriptions.length !== 1) {
+    message.textContent = 'Contact us to manage the subscriptions on this account.';
+    help.hidden = false;
+    return isActive;
+  }
+
+  const subscription = subscriptions[0];
+  if (subscription.cancel_at_period_end) {
+    const endDate = new Date(subscription.current_period_end || '');
+    const hasDate = Number.isFinite(endDate.getTime());
+    message.textContent = hasDate
+      ? 'Cancellation is scheduled for ' + endDate.toLocaleDateString('en-GB', {
+          timeZone: 'Europe/London', dateStyle: 'long'
+        }) + '.'
+      : 'Cancellation is scheduled for the end of the current billing period.';
+    return isActive;
+  }
+
+  if (new URLSearchParams(location.search).get('membership') === 'cancel-return') {
+    message.textContent = 'If you confirmed cancellation in Stripe, allow a moment for the status to update, then refresh this page.';
+  }
+  management.hidden = false;
+  help.hidden = false;
+  button.addEventListener('click', async () => {
+    button.disabled = true;
+    message.textContent = 'Opening Stripe…';
+    try {
+      const { data, error } = await supabase.functions.invoke('membership-live-portal', { method: 'POST', body: {} });
+      if (error || typeof data?.url !== 'string') throw new Error('Portal unavailable');
+      const destination = new URL(data.url);
+      if (destination.origin !== 'https://billing.stripe.com') throw new Error('Invalid portal destination');
+      location.assign(destination.href);
+    } catch {
+      message.textContent = 'We could not open cancellation. Refresh to check your status, or email us for help.';
+      button.disabled = false;
+    }
+  });
+
+  return isActive;
+}
+
 function concealPaidContent() {
  const panel=document.querySelector('#paidContent');
  panel.hidden=true;
@@ -86,9 +159,7 @@ try {
         sandboxText.textContent = 'TEST subscription: '+String(m.status).replaceAll('_',' ')+'; current period ends '+end+(m.cancel_at_period_end?'; cancellation scheduled at the end of the paid period.':'; cancellation not scheduled.')+' No live membership access granted.';
       }
     }
-    const membershipStatus = document.querySelector('#membershipStatus');
-    const {data:memberActive,error:membershipError} = await supabase.rpc('has_active_membership');
-    membershipStatus.textContent = membershipError ? 'Membership status temporarily unavailable. No subscription access has been granted.' : memberActive === true ? 'Your monthly membership is active.' : 'No active monthly membership on this account.';
+    const memberActive = await loadLiveMembership(user.id);
     const results = await Promise.all([
       supabase.from('course_access').select('course_id').eq('user_id', user.id).like('stripe_checkout_session_id','cs_live_%'),
       supabase.from('lesson_access').select('lesson_id').eq('user_id', user.id).like('stripe_session_id','cs_live_%')
