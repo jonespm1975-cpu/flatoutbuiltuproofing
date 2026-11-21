@@ -4,6 +4,10 @@
 "use strict";
 const API="https://fhyhshakmvqwzdyannec.supabase.co/functions/v1/site-analytics";
 const CONSENT="fobur_analytics_consent_v1", VISITOR="fobur_visitor_session_v2", ATTR="fobur_session_source_v1";
+// Exclude the owner on each browser after an authenticated owner sign-in.
+const OWNER_EXCLUDE="fobur_owner_device_excluded_v1";
+const OWNER_ID="87fca075-224a-4379-bafb-3a01e41890f4";
+const AUTH_STORAGE="sb-fhyhshakmvqwzdyannec-auth-token";
 const blocked=navigator.globalPrivacyControl===true||navigator.doNotTrack==="1";
 const read=(store,key)=>{try{return store.getItem(key)}catch{return null}};
 const write=(store,key,val)=>{try{store.setItem(key,val)}catch{}};
@@ -14,7 +18,26 @@ const device=/iPad|Tablet/i.test(navigator.userAgent)?"Tablet":/Mobi|iPhone|Andr
 const page=location.pathname.replace(/\/+/g,"/")||"/";
 const courseLinks=new Set(["/courses.html","/tapered-insulation.html","/purchase-info.html","/built-up-roofing.html","/tapered-video-academy.html"]);
 let sent=false;
-function opted(){return !blocked&&read(localStorage,CONSENT)==="yes";}
+function ownerDevice(){return read(localStorage,OWNER_EXCLUDE)==="yes";}
+function opted(){return !blocked&&!ownerDevice()&&read(localStorage,CONSENT)==="yes";}
+// No personal identity is sent to analytics; owner detection only decides
+// whether to suppress voluntary tracking on this browser. The local marker
+// also protects owner browsing after sign-out.
+async function isOwnerVisit(){
+ if(ownerDevice())return true;
+ // Avoid loading Auth on every public page when no Supabase session exists.
+ if(!read(localStorage,AUTH_STORAGE))return false;
+ try{
+  const {supabase}=await import('/auth.js');
+  const {data:{user},error}=await supabase.auth.getUser();
+  if(!error&&user?.id===OWNER_ID&&user.email?.toLowerCase()==='jonespm1975@gmail.com'){
+   write(localStorage,OWNER_EXCLUDE,"yes");
+   hide();
+   return true;
+  }
+ }catch{} // Normal consented traffic still works if Auth is unavailable.
+ return false;
+}
 function attribution(){
  // First-touch source within a consented browser-tab session. No raw URLs or PII.
  const saved=read(sessionStorage,ATTR);
@@ -46,8 +69,9 @@ function visitor(){
  if(!v){v=crypto.randomUUID();write(sessionStorage,VISITOR,v)}
  return v;
 }
-function record(kind,path){
+async function record(kind,path){
  if(!opted()||!/^\/[a-zA-Z0-9/_.-]{0,119}$/.test(path))return;
+ if(await isOwnerVisit()||!opted())return;
  const payload={consent:true,event_kind:kind,page:path,visitor:visitor(),device,...attribution()};
  fetch(API,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),keepalive:true,cache:"no-store"}).catch(()=>{});
 }
@@ -75,7 +99,7 @@ function choose(value){
  else {remove(sessionStorage,VISITOR);remove(sessionStorage,ATTR);}
 }
 function show(){
- if(notice||blocked)return;
+ if(notice||blocked||ownerDevice())return;
  notice=document.createElement("section");
  notice.setAttribute("role","region");notice.setAttribute("aria-label","Optional analytics preferences");
  notice.style.cssText="position:fixed;z-index:2147483000;left:12px;right:12px;bottom:12px;max-width:600px;margin:auto;background:#101016;color:#fff4d7;border:1px solid #d9b453;border-radius:14px;padding:15px;font:14px/1.45 system-ui,sans-serif;box-shadow:0 7px 32px #000c";
@@ -91,5 +115,7 @@ function show(){
  notice.append(lead,links,buttons);document.body.append(notice);
 }
 window.foburOpenAnalyticsPreferences=()=>{remove(localStorage,CONSENT);sent=false;show();};
-if(opted())pageView();else if(read(localStorage,CONSENT)!=="no"&&!blocked)show();
+// Check owner status before the initial page view, so signed-in owner visits
+// never increment public visitor statistics.
+(async()=>{if(await isOwnerVisit())return;if(opted())pageView();else if(read(localStorage,CONSENT)!=="no"&&!blocked)show();})();
 })();
