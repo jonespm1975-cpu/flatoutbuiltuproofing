@@ -18,9 +18,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "built-up-02",
@@ -31,9 +33,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "built-up-03",
@@ -44,9 +48,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "built-up-04",
@@ -57,9 +63,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "built-up-05",
@@ -70,9 +78,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "built-up-06",
@@ -83,9 +93,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-01",
@@ -96,9 +108,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-02",
@@ -109,9 +123,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-03",
@@ -122,9 +138,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-04",
@@ -135,9 +153,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-05",
@@ -148,9 +168,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "tile-slate-06",
@@ -161,9 +183,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-01",
@@ -174,9 +198,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-02",
@@ -187,9 +213,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-03",
@@ -200,9 +228,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-04",
@@ -213,9 +243,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-05",
@@ -226,9 +258,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "metal-sheet-06",
@@ -239,9 +273,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-01",
@@ -252,9 +288,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-02",
@@ -265,9 +303,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-03",
@@ -278,9 +318,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-04",
@@ -291,9 +333,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-05",
@@ -304,9 +348,11 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     },
     {
       "course_id": "liquid-applied-06",
@@ -317,9 +363,12 @@
       "currency": "gbp",
       "stripe_price_id": null,
       "status": "planned",
-      "content_status": "not_verified",
+      "content_status": "draft_for_review",
       "checkout_enabled": false,
-      "entitlement_type": "one_time_individual"
+      "entitlement_type": "one_time_individual",
+      "content_delivery": "private_owner_review_only",
+      "editorial_review_required": true
     }
-  ]
+  ],
+  "editorial_note": "24 owner-review lessons authored externally; full paid text is intentionally excluded from this public repository. Require qualified review and private authenticated delivery before publication."
 }
