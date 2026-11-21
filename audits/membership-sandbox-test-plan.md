@@ -11,6 +11,12 @@
 - Before public checkout, implement the dedicated live membership checkout, signed lifecycle event handler and customer portal; confirm the included resources and gate them server-side; publish the recurring terms and confirmation; verify genuine sandbox renewal, failure, cancellation and expiration, plus refund and dispute handling. Show the full £1.99 monthly charge and cancellation route before purchase. Verify Stripe Tax settings at launch against the current UK-only, non-VAT-registered business setup.
 - No subscription, payment, portal session, customer email, or production setting was created or changed in this verification.
 
+### Live cancellation portal prepared for review
+
+- The review branch adds a dedicated endpoint for an authenticated membership customer to open a Stripe-hosted cancellation screen. The endpoint uses the signed-in user's live subscription record, independently verifies its Stripe customer, owner and £1.99 monthly price, and targets that exact subscription. The Stripe portal configuration must support cancellation at the end of the billing period. A cancellation redirect returns to My Learning, where status must come from the signed subscription webhook.
+- Configure `MEMBERSHIP_LIVE_PRICE_ID`, `MEMBERSHIP_LIVE_PORTAL_STRIPE_KEY` (live Stripe key with subscription and portal configuration reads and portal session writes), and `MEMBERSHIP_LIVE_PORTAL_CONFIGURATION_ID` (a dedicated live Stripe configuration). The endpoint is disabled unless `MEMBERSHIP_LIVE_PORTAL_ENABLED` is explicitly set to `true`.
+- Fourteen local scenarios passed using mocked Supabase and Stripe services. They covered account ownership, test/live isolation, an already scheduled cancellation, refusal of immediate-cancellation settings, and the redirect to the approved Stripe host. No actual Stripe portal session was opened. Deployment, the membership management action in My Learning and a hosted end-to-end test are pending.
+
 The preparation checklist below records the earlier sandbox setup.
 
 **Prepared:** 2026-11-12 GMT
