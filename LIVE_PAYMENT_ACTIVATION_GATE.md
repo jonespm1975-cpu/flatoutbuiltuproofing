@@ -41,6 +41,9 @@
 - GitHub `purchase-info.html` still says purchases are closed. Its immediate-delivery consent checkbox and checkout button are disabled, so the public purchase flow is not ready.
 - The Supabase screenshots show secret names only; secret values and live-flag values remain unverified. The Supabase connector exposes no secret read/write operation. No secrets or payment settings were changed in this review.
 
+- Supabase's current security advisor also reports leaked-password protection is disabled; its RLS-without-policy notices require review to confirm the deny-by-default setup is intentional.
+- The inactive Payment Link has Stripe automatic tax enabled; its expired sessions show tax status `requires_location_inputs`. Confirm the tax setup and £9.99 price treatment before activation. No tax setting was changed.
+
 ## Remaining launch gates
 1. Implement the signed-in customer purchase and consent flow, then provide the requested visual preview before publishing it.
 2. Verify the production email sender identity, outbox worker configuration and schedule without exposing keys.
