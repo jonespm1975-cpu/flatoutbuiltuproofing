@@ -1,0 +1,27 @@
+name: 24-course staging fulfilment tests
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "fulfilment/**"
+      - ".github/workflows/staging-course-fulfilment.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safe-unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout proposed branch (not production)
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run 24-course staging tests without network or secrets
+        run: |
+          node --test fulfilment/*.test.mjs
+      - name: State test boundary
+        run: |
+          echo "Unit tests only. No real Stripe event, Supabase RPC, email, or payment tested."
