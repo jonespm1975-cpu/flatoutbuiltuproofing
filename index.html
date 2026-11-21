@@ -15,6 +15,9 @@ html{background:#050505}
 body{margin:0;background:#050505;color:#fff;font:16px/1.4 system-ui,-apple-system,sans-serif}
 main{width:100%;max-width:1000px;margin:0 auto;position:relative;line-height:0}
 .poster{display:block;width:100%;height:auto}
+/* The supplied official-style logo is displayed as a separate, uniformly scaled asset; the approved hero poster, video and navigation stay unchanged. */
+.official-home-logo{position:absolute;left:0;top:0;width:27%;height:9%;z-index:1;display:flex;align-items:center;justify-content:center;background:#080706;pointer-events:none;overflow:hidden}
+.official-home-logo img{display:block;width:100%;height:auto;object-fit:contain}
 a.hotspot{position:absolute;z-index:2;display:block;border-radius:10px;background:transparent;text-decoration:none;-webkit-tap-highlight-color:rgba(212,176,111,.22)}
 a.hotspot:focus-visible{outline:3px solid #f6e2b5;outline-offset:2px;background:#d4b06f22}
 .logo{left:0;top:0;width:27%;height:9%}
@@ -142,6 +145,7 @@ a.hotspot:focus-visible{outline:3px solid #f6e2b5;outline-offset:2px;background:
 <body>
 <main aria-label="Flat Out Built-Up Roofing homepage">
 <img class="poster" src="assets/homepage-onyx-antique-gold.webp" width="1029" height="1528" alt="Flat Out Built-Up Roofing homepage design: Real Skills. Lasting Roofs. Practical UK roofing training, safety guides, free beginner lessons, £9.99 specialist courses, £1.99 monthly membership marked coming soon, CSCS revision, project gallery, sponsors and support.">
+<span class="official-home-logo" aria-hidden="true"><img src="assets/flat-out-built-up-roofing-logo.svg" alt="" width="640" height="256"></span>
 <video class="homepage-torch-video" src="assets/homepage-torch-sweep.mp4"
   muted loop playsinline preload="none" aria-hidden="true"></video>
 <button class="hero-motion-control" type="button">Play animation</button>
