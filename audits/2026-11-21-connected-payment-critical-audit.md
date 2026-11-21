@@ -43,14 +43,14 @@ A naive unconditional unlock on purchase INSERT may conflict with requirements f
 
 ## Security notes
 
-Supabase Security Advisor: `auth_leaked_password_protection` disabled. Nine tables have RLS enabled without policies. Read-only role-grant inspection found `course_access` grants authenticated SELECT; the purchase-confirmation and email-outbox tables are not granted directly to `anon` / `authenticated`. Review each table's intended server-only use; do **not** add public policies merely to silence INFO lint.
+Supabase organization is verified on the **Free** plan. Security Advisor flags `auth_leaked_password_protection` disabled, but [Supabase documentation](https://supabase.com/docs/guides/auth/password-security) currently lists leaked-password protection as available on **Pro and above**. Keep the Free plan; document this as a plan limitation and use strong-password/MFA guidance instead of promising that the feature can be enabled without an upgrade. Nine tables have RLS enabled without policies. Read-only role-grant inspection found `course_access` grants authenticated SELECT; the purchase-confirmation and email-outbox tables are not granted directly to `anon` / `authenticated`. Review each table's intended server-only use; do **not** add public policies merely to silence INFO lint.
 
 ## Safe next checks
 
 1. Identify Stripe Workbench request responsible for the warning.
 2. Look up the exact Resend email message ID's final Delivered/Bounced/Failed status; **do not resend an accepted message**.
 3. Implement, isolate and test the legal/technical access and durable-confirmation redesign before production.
-4. Finish Supabase Auth leaked-password review if supported on the owner's Free plan; recheck database advisor results.
+4. Keep Supabase Free; treat leaked-password protection as a Pro-only limitation, and use available strong-password/MFA controls. Do not change the plan.
 5. Preserve the approved homepage, free Supabase plan, existing successful £9.99 course access, and dormant separate £1.99 subscription configuration.
 
 *Evidence gathered by read-only connector calls on 21 November 2026. No claim of a completed payment-failure or two-connection concurrency test is made.*
