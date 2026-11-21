@@ -15,4 +15,11 @@ for(const id of COURSES){
  assert.equal(validateCoursePayment({...base,session,courseConfig:{...configs,[id]:{...configs[id],content_verified:false}},lineItems:[{price:{id:configs[id].price_id},quantity:1}]}).ok,false);
 }
 assert.equal(validateCoursePayment({...base,session:{...base.session,metadata:{...base.session.metadata,course_id:"unknown"}},lineItems:[]}).ok,false);
-console.log("PASS: 24 course IDs; 24 valid positive scenarios; price, unpaid and not-published rejections; unknown course rejection.");
+// Isolate test/live Session IDs, even when the session livemode flag is malformed.
+const first=COURSES[0], second=COURSES[1];
+const correctSession={...base.session,metadata:{...base.session.metadata,course_id:first}};
+const correctItems=[{price:{id:configs[first].price_id},quantity:1}];
+assert.equal(validateCoursePayment({...base,session:{...correctSession,id:"cs_live_invalid"},lineItems:correctItems}).ok,false);
+assert.equal(validateCoursePayment({...base,session:correctSession,lineItems:correctItems,courseConfig:{...configs,[second]:{...configs[second],price_id:configs[first].price_id}}}).ok,false);
+assert.equal(validateCoursePayment({...base,session:{...correctSession,metadata:{...correctSession.metadata,course_id:second}},lineItems:correctItems}).ok,false);
+console.log("PASS: all 24 positive cases and fail-closed negative cases, environment prefix, duplicate mapping, cross-course isolation.");
