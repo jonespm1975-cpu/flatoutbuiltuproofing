@@ -18,10 +18,10 @@
 .note{margin:9px 0 16px;font-size:13px;color:#d7dae2;padding:12px 17px;border-left:3px solid var(--brand);background:#0f1420}footer{margin:10px 0 0;padding:11px;text-align:center;border-top:2px solid #c8a030;color:#d5d3d8;font-size:13px}
 a:hover .block{filter:brightness(1.08)}.small-focus:focus-visible{outline:4px solid #fff5af}.logos-link{display:flex;gap:10px;justify-content:center;margin:12px auto}.logos-link a{font-size:16px;font-weight:900;color:#fee9b4;border:1px solid #9b722b;padding:8px 15px;border-radius:12px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-</style><link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"></head>
+</style><link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"><link rel="stylesheet" href="specialty-mobile.css"></head>
 <body class="p4-interior"><div id="screen" class="screen"><div id="art" class="art">
-<div class="site-top"><span class="tiny-label">◆ FLAT OUT ROOFING TRAINING</span><span class="badge">THREE SPECIALIST TRAINING AREAS</span></div>
-<main class="page"><nav class="branch-nav" aria-label="Roofing training categories"><a href="index.html" >Main website</a><a href="built-up-roofing.html" aria-current="page">Built-Up Roofing</a><a href="tile-slate-roofing.html" >Tile &amp; Slate</a><a href="metal-sheet-roofing.html" >Metal &amp; Sheet</a></nav>
+<div class="site-top"><span class="tiny-label">◆ FLAT OUT ROOFING TRAINING</span><span class="badge">FOUR SPECIALIST TRAINING AREAS</span></div>
+<main class="page"><nav class="branch-nav" aria-label="Roofing training categories"><a href="index.html" >Main website</a><a href="built-up-roofing.html" aria-current="page">Built-Up Roofing</a><a href="tile-slate-roofing.html" >Tile &amp; Slate</a><a href="metal-sheet-roofing.html" >Metal &amp; Sheet</a><a href="liquid-applied-roofing.html">Liquid Applied</a></nav>
 <section class="hero"><div class="hero-visual"><video autoplay loop muted playsinline preload="metadata" poster="assets/homepage-refined-hero-still.jpg" aria-label="Built-up roofing roof animation"><source src="assets/homepage-torch-sweep.mp4" type="video/mp4"></video><div class="video-note">BUILT-UP ROOFING • MOTION PREVIEW</div></div><div class="intro">
 <div class="roof-logo" style="--roof:#f8bf3a"><div class="name">FLAT OUT</div><div class="trade">BUILT-UP ROOFING</div><div class="motto">TRAINING • SKILLS • SAFETY • REAL ROOFING</div></div>
 <div class="claim">REAL SKILLS.<br><em>LASTING ROOFS.</em></div><p>Traditional three-layer built-up felt roofing: real skills, practical knowledge and a safety-first approach.</p><a class="button" href="lessons/introduction.html">START LEARNING ▶</a>
@@ -43,11 +43,11 @@ a:hover .block{filter:brightness(1.08)}.small-focus:focus-visible{outline:4px so
 <section class="block item-wide"><div class="emoji">♥</div><div><h3>SUPPORT THE SITE</h3><p>Voluntary donations help improve the training library.</p><a href="support-qr.html">SUPPORT ▶</a></div></section>
 </div>
 <div class="note"><strong>Course availability:</strong> The existing free roofing resources are accessible; specialist Built-Up Felt Roofing paid lessons and video demonstrations shown in this preview are not available for purchase. All learning is educational, not a substitute for manufacturer instructions, technical approval or competent on-site supervision.</div>
-<div class="logos-link"><a href="built-up-roofing.html">BUILT-UP</a><a href="tile-slate-roofing.html">TILE & SLATE</a><a href="metal-sheet-roofing.html">METAL & SHEET</a></div>
+<div class="logos-link"><a href="built-up-roofing.html">BUILT-UP</a><a href="tile-slate-roofing.html">TILE & SLATE</a><a href="metal-sheet-roofing.html">METAL & SHEET</a><a href="liquid-applied-roofing.html">LIQUID APPLIED</a></div>
 <footer>UK-FOCUSED TRAINING · PRACTICAL REAL-WORLD SKILLS · SAFETY FIRST · MOBILE & APP FRIENDLY<br>Training and safety information only. Practical work requires competent supervision, site-specific risk assessments and appropriate training.<br><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="index.html">Original website</a></footer>
 </main></div></div>
 <script>
-function scalePage(){const art=document.getElementById('art'),screen=document.getElementById('screen');const scale=Math.min(1,window.innerWidth/920);art.style.transform='scale('+scale+')';screen.style.width=(920*scale)+'px';screen.style.height=Math.ceil(art.scrollHeight*scale)+'px'}
+function scalePage(){const art=document.getElementById('art'),screen=document.getElementById('screen');if(window.innerWidth<=700){art.style.transform='none';screen.style.width='100%';screen.style.height='auto';return;}const scale=Math.min(1,window.innerWidth/920);art.style.transform='scale('+scale+')';screen.style.width=(920*scale)+'px';screen.style.height=Math.ceil(art.scrollHeight*scale)+'px'}
 window.addEventListener('resize',scalePage,{passive:true});window.addEventListener('load',scalePage);scalePage();
 </script><script type="module" src="site-tracking.js"></script>
 </body></html>
