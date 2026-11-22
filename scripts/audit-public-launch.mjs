@@ -15,7 +15,7 @@ for(const file of pages){
  const html=fs.readFileSync(path.join(root,file),"utf8");
  for(const match of html.matchAll(/(?:href|src)\s*=\s*["']([^"']+)["']/g)){
    const raw=match[1].trim();
-   if(!raw||/^(?:https?:|mailto:|tel:|data:|blob:|javascript:|#|\/\/)/i.test(raw))continue;
+   if(!raw||raw.includes("${")||/^(?:https?:|mailto:|tel:|data:|blob:|javascript:|#|\/\/)/i.test(raw))continue;
    const target=decodeURIComponent(raw.split(/[?#]/)[0]);
    if(!target||target.startsWith("/functions")||target.startsWith("/api"))continue;
    if(target.startsWith("/"))continue;
