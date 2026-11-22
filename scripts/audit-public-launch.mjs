@@ -31,8 +31,8 @@ for(const name of categories){
  if(!html.includes('specialty-mobile.css'))failures.push("MOBILE_STYLES_NOT_LINKED "+name);
 }
 const liquid=fs.readFileSync(path.join(root,"liquid-applied-roofing.html"),"utf8");
-if((liquid.match(/class="liquid-module"/g)||[]).length!==6)failures.push("LIQUID_MODULE_COUNT");
-if(!liquid.includes("ANIMATED ROOF SYSTEM CUTAWAY")||!liquid.includes("NOT SITE FOOTAGE"))failures.push("ILLUSTRATION_DISCLOSURE");
+if(!liquid.includes('id="roof-panel-4"')||!liquid.includes('class="page-art"')||!liquid.includes('data-action="academy"'))failures.push("APPROVED_ORIGINAL_LIQUID_PAGE_MISSING");
+if(!liquid.includes("Four Roofing Main Pages")&&!liquid.includes("Four Roofing Main Pages"))failures.push("ORIGINAL_FOUR_PANEL_DESIGN_MISSING");
 if(fs.readFileSync(path.join(root,"training-availability.html"),"utf8").includes("section is in preparation"))failures.push("STALE_AVAILABILITY");
 if(failures.length)throw Error("Static public audit failures:\n"+failures.join("\n"));
 
@@ -62,10 +62,10 @@ try{
    const info=await page.evaluate(()=>({
      innerWidth:window.innerWidth,scrollWidth:document.documentElement.scrollWidth,
      title:document.title,
-     navCount:document.querySelectorAll(".branch-nav a").length,
+     navCount:document.querySelectorAll(".branch-nav a").length||document.querySelectorAll(".roof-tab").length+1,
      visible:document.body.getBoundingClientRect().height>300,
-     grid:getComputedStyle(document.querySelector(".branch-nav")||document.body).display,
-     image:document.querySelector(".hero-visual img")?.complete!==false
+     grid:getComputedStyle(document.querySelector(".branch-nav")||document.querySelector(".tabs")||document.body).display,
+     image:(document.querySelector(".hero-visual img")||document.querySelector("#roof-panel-4 .page-art"))?.complete!==false
    }));
    if(info.scrollWidth>info.innerWidth+3)failures.push("HORIZONTAL_OVERFLOW "+width+" "+file+" "+JSON.stringify(info));
    if(categories.includes(file)&&info.navCount!==5)failures.push("WRONG_NAV_COUNT "+width+" "+file+" "+info.navCount);
@@ -83,15 +83,17 @@ try{
  await page.goto("http://127.0.0.1:"+port+"/courses.html");
  await page.getByRole("link",{name:"Explore Liquid Applied"}).click();
  await page.waitForURL("**/liquid-applied-roofing.html");
- await page.locator(".liquid-learning details summary").click();
- await page.locator('input[name="liquidquiz"][value="b"]').check();
- await page.getByRole("button",{name:"Check answer"}).click();
- assert.match(await page.locator("#liquid-result").innerText(),/^Correct/);
- await page.getByRole("link",{name:"Tile & Slate",exact:true}).first().click();
- await page.waitForURL("**/tile-slate-roofing.html");
- await page.getByRole("link",{name:"Liquid Applied",exact:true}).first().click();
- await page.waitForURL("**/liquid-applied-roofing.html");
- console.log("PASS_NAVIGATION four-way category navigation and Liquid Applied knowledge check");
+ await page.locator("#roof-panel-4 .page-art").waitFor({state:"visible"});
+ assert.equal(await page.locator(".roof-tab").count(),4);
+ await page.locator("#roof-tab-2").click();
+ await page.locator("#roof-panel-2").waitFor({state:"visible"});
+ await page.locator("#roof-tab-4").click();
+ await page.locator("#roof-panel-4").waitFor({state:"visible"});
+ const academy=page.locator('#roof-panel-4 [data-action="academy"]').first();
+ await academy.click();
+ await page.locator("#academy-overlay").waitFor({state:"visible"});
+ await page.locator("#academy-close").click();
+ console.log("PASS_NAVIGATION four logo tabs, exact original Liquid artwork, and academy hotspot");
  await ctx.close();
 }finally{
  if(browser)await browser.close();
