@@ -135,7 +135,7 @@
 
 /* Mobile Page 1: match the supplied reference artwork while retaining live links. */
 @media (max-width: 600px) {
-  .visually-note {
+  .viewport:has(#roof-panel-1:not([hidden])) .visually-note {
     box-sizing: border-box !important;
     height: calc(100vw * 37 / 710) !important;
     min-height: 0 !important;
@@ -144,9 +144,9 @@
     color: transparent !important;
     background: #050505 url("assets/homepage-reference-label-20261122.webp") center / 100% 100% no-repeat !important;
   }
-  .visually-note > * { visibility: hidden !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .visually-note > * { visibility: hidden !important; }
 
-  .tabs {
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs {
     position: relative !important;
     display: block !important;
     box-sizing: border-box !important;
@@ -159,8 +159,8 @@
     overflow: visible !important;
     background: #050505 url("assets/homepage-reference-tabs-20261122.webp") center / 100% 100% no-repeat !important;
   }
-  .tabs::before { display: none !important; }
-  .tabs > .roof-tab {
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs::before { display: none !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab {
     position: absolute !important;
     top: 0 !important;
     width: 23.8% !important;
@@ -176,23 +176,23 @@
     opacity: 0 !important;
     transform: none !important;
   }
-  .tabs > .roof-tab:nth-child(1) { left: 1.2% !important; }
-  .tabs > .roof-tab:nth-child(2) { left: 26% !important; }
-  .tabs > .roof-tab:nth-child(3) { left: 50.8% !important; }
-  .tabs > .roof-tab:nth-child(4) { left: 75.6% !important; }
-  .tabs > .roof-tab img,
-  .tabs > .roof-tab::before,
-  .tabs > .roof-tab::after { display: none !important; }
-  .tabs > .roof-tab:focus-visible {
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab:nth-child(1) { left: 1.2% !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab:nth-child(2) { left: 26% !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab:nth-child(3) { left: 50.8% !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab:nth-child(4) { left: 75.6% !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab img,
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab::before,
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab::after { display: none !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .tabs > .roof-tab:focus-visible {
     opacity: .16 !important;
     outline: 2px solid white !important;
     outline-offset: -2px !important;
     background: #fff !important;
   }
 
-  .stack { margin: 0 !important; }
-  .stack::before,
-  .stack::after { display: none !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .stack { margin: 0 !important; }
+  .viewport:has(#roof-panel-1:not([hidden])) .stack::before,
+  .viewport:has(#roof-panel-1:not([hidden])) .stack::after { display: none !important; }
   #roof-panel-1 {
     border: 0 !important;
     border-radius: 0 !important;
