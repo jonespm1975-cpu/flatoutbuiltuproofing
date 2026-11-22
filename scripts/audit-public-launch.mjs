@@ -25,14 +25,17 @@ for(const file of pages){
 }
 for(const name of categories){
  const html=fs.readFileSync(path.join(root,name),"utf8");
- for(const link of categories){
-  if(!html.includes('href="'+link+'"'))failures.push("MISSING_FOURTH_TAB "+name+" -> "+link);
+ if(name==="liquid-applied-roofing.html"){
+    for(let i=1;i<=4;i++)if(!html.includes('href="#roof-panel-'+i+'"'))failures.push("MISSING_ORIGINAL_TAB "+name+" -> "+i);
+    if(!html.includes('viewport-fit=cover'))failures.push("MISSING_ORIGINAL_RESPONSIVE_VIEWPORT");
+ }else{
+   for(const link of categories)if(!html.includes('href="'+link+'"'))failures.push("MISSING_FOURTH_TAB "+name+" -> "+link);
+   if(!html.includes('specialty-mobile.css'))failures.push("MOBILE_STYLES_NOT_LINKED "+name);
  }
- if(!html.includes('specialty-mobile.css'))failures.push("MOBILE_STYLES_NOT_LINKED "+name);
 }
 const liquid=fs.readFileSync(path.join(root,"liquid-applied-roofing.html"),"utf8");
 if(!liquid.includes('id="roof-panel-4"')||!liquid.includes('class="page-art"')||!liquid.includes('data-action="academy"'))failures.push("APPROVED_ORIGINAL_LIQUID_PAGE_MISSING");
-if(!liquid.includes("Four Roofing Main Pages")&&!liquid.includes("Four Roofing Main Pages"))failures.push("ORIGINAL_FOUR_PANEL_DESIGN_MISSING");
+if(!liquid.includes("FOUR-PAGE WORKING PREVIEW")||!liquid.includes("Main Page 4 · Liquid Applied Roofing Systems"))failures.push("ORIGINAL_FOUR_PANEL_DESIGN_MISSING");
 if(fs.readFileSync(path.join(root,"training-availability.html"),"utf8").includes("section is in preparation"))failures.push("STALE_AVAILABILITY");
 if(failures.length)throw Error("Static public audit failures:\n"+failures.join("\n"));
 
