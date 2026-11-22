@@ -48,3 +48,87 @@
     letter-spacing:.015em!important;
   }
 }
+
+/* Four-card roofing selector finish: pitched neon frames and a joined route line.
+   The original logo artwork, page layout and working links remain in place. */
+.tabs {
+  position: relative !important;
+  isolation: isolate !important;
+}
+.tabs::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  left: clamp(3px, .75vw, 8px) !important;
+  right: clamp(3px, .75vw, 8px) !important;
+  bottom: 0 !important;
+  height: 3px !important;
+  background: linear-gradient(90deg,
+    #ffc85b 0%, #ffc85b 25%,
+    #f5485b 25%, #f5485b 50%,
+    #e9f2ff 50%, #e9f2ff 75%,
+    #9edfff 75%, #9edfff 100%) !important;
+  box-shadow: 0 0 7px #ffc85b88, 0 0 13px #f5485b44 !important;
+  pointer-events: none !important;
+}
+.tabs > .roof-tab {
+  z-index: 1 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  clip-path: none !important;
+}
+.tabs > .roof-tab::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  background: var(--tab-color) !important;
+  clip-path: polygon(0 13%, 37% 13%, 44% 0, 56% 0, 63% 13%, 100% 13%, 100% 100%, 0 100%) !important;
+  filter: drop-shadow(0 0 5px var(--tab-color)) !important;
+  pointer-events: none !important;
+}
+.tabs > .roof-tab img {
+  position: relative !important;
+  z-index: 1 !important;
+  width: calc(100% - 4px) !important;
+  height: calc(100% - 4px) !important;
+  margin: 2px !important;
+  object-fit: contain !important;
+}
+.tabs > .roof-tab::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: -28px !important;
+  width: 3px !important;
+  height: 28px !important;
+  transform: translateX(-50%) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--tab-color) !important;
+  box-shadow: 0 0 7px var(--tab-color), 0 0 14px color-mix(in srgb, var(--tab-color) 65%, transparent) !important;
+  opacity: 1 !important;
+}
+.tabs > .roof-tab[aria-selected="true"],
+.tabs > .roof-tab[aria-current="page"] {
+  z-index: 2 !important;
+  filter: brightness(1.12) !important;
+  box-shadow: none !important;
+}
+.tabs > .roof-tab:focus-visible {
+  outline: 2px solid #fff !important;
+  outline-offset: 2px !important;
+}
+@media (max-width: 600px) {
+  .tabs::before { height: 2px !important; }
+  .tabs > .roof-tab::after {
+    bottom: -25px !important;
+    height: 25px !important;
+    width: 2px !important;
+  }
+}
