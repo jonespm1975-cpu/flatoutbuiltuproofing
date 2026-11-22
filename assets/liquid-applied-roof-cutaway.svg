@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 640" role="img" aria-labelledby="ttl desc">
+<title id="ttl">Animated liquid applied roof waterproofing system illustration</title>
+<desc id="desc">Conceptual 3D-looking layered roof with pale-blue liquid membrane, reinforcement fleece, upstand and a moving application roller. Not a site recording or installation specification.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#07192a"/><stop offset="1" stop-color="#03050b"/></linearGradient>
+ <linearGradient id="coat" x1="0" x2="1" y1="0" y2=".7"><stop stop-color="#edffff"/><stop offset=".33" stop-color="#78dafa"/><stop offset=".74" stop-color="#2a87ba"/><stop offset="1" stop-color="#125c8a"/></linearGradient>
+ <linearGradient id="fleece" x2="0" y2="1"><stop stop-color="#e9f4f5"/><stop offset="1" stop-color="#a7b5c6"/></linearGradient>
+ <linearGradient id="sub" x2="0" y2="1"><stop stop-color="#a8afbc"/><stop offset="1" stop-color="#3c4855"/></linearGradient>
+ <linearGradient id="steel" x2="1" y2=".7"><stop stop-color="#f2fbff"/><stop offset=".4" stop-color="#8cc7e1"/><stop offset="1" stop-color="#1b4c66"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="shadow"><feGaussianBlur stdDeviation="13"/></filter>
+ <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" stroke="#91e5f2" stroke-opacity=".12" fill="none"/></pattern>
+</defs>
+<rect width="840" height="640" fill="url(#sky)"/><g opacity=".65"><circle cx="630" cy="115" r="160" fill="#0b5482" filter="url(#glow)"/><circle cx="180" cy="360" r="110" fill="#0e7ba4" filter="url(#glow)"/></g>
+<path d="M-30 515L840 250M-10 575L840 309" stroke="#70c3dc" stroke-opacity=".15" stroke-width="2"/>
+<g transform="translate(12 70)">
+<path d="M115 345L590 190L765 270L291 434Z" fill="#000" opacity=".8" filter="url(#shadow)"/>
+<!-- deck, substrate, primer, fleece, liquid membrane -->
+<path d="M125 360L582 209L749 284L291 439L291 466L125 391Z" fill="#32414e" stroke="#6b8ba4" stroke-width="2"/>
+<path d="M291 439L749 284L749 311L291 466Z" fill="#293e52" stroke="#89abc0" stroke-width="2"/>
+<path d="M125 360L582 209L749 284L291 439Z" fill="url(#sub)" stroke="#c7d4da" stroke-width="2"/>
+<path d="M125 351L582 200L749 275L291 430Z" fill="#29384c" stroke="#6e90a1" stroke-width="2"/>
+<path d="M125 340L582 189L749 264L291 419Z" fill="url(#fleece)" stroke="#dce8ee" stroke-width="2"/>
+<path d="M125 330L582 179L749 254L291 409Z" fill="url(#coat)" stroke="#d4fbff" stroke-width="4"/>
+<path d="M125 330L582 179L749 254L291 409Z" fill="url(#grid)" opacity=".35"/>
+<!-- liquid top sheen -->
+<path d="M177 319L593 190L697 240L281 373Z" fill="#dbfbff" opacity=".14"/>
+<path d="M145 329L585 186" stroke="#eaffff" stroke-width="3" stroke-opacity=".75"/>
+<!-- upstand and waterproofing turn -->
+<path d="M560 178L560 74L725 139L725 246L747 257L586 191Z" fill="url(#steel)" stroke="#b7eafa" stroke-width="4"/>
+<path d="M564 170L564 93L717 153L717 234" fill="none" stroke="#61d6f5" stroke-width="10"/>
+<path d="M564 177L588 192L747 257" fill="none" stroke="#7de0fa" stroke-width="8" opacity=".9"/>
+<!-- roller animation travels across membrane -->
+<g class="roller">
+<path d="M265 284L327 310" stroke="#e9fbff" stroke-width="8" stroke-linecap="round"/>
+<path d="M267 280L282 244L316 234" fill="none" stroke="#a0b8c9" stroke-width="10" stroke-linecap="round"/>
+<path d="M312 235L343 222" stroke="#dce8f3" stroke-width="11" stroke-linecap="round"/>
+<path d="M285 302L335 322" stroke="#001829" stroke-width="37" stroke-linecap="round"/>
+<path d="M285 302L335 322" stroke="url(#steel)" stroke-width="29" stroke-linecap="round"/>
+<path d="M285 301L335 321" stroke="#e9ffff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+<ellipse cx="286" cy="301" rx="9" ry="17" transform="rotate(-23 286 301)" fill="#06243d" stroke="#94e6f7" stroke-width="3"/>
+</g>
+<!-- sparkle and visual guides -->
+<g stroke="#dbfdff" stroke-linecap="round" opacity=".7"><path d="M503 251v18M494 260h18"/><path d="M186 361v12M180 367h12"/></g>
+</g>
+<text x="36" y="66" fill="#d0f6ff" font-family="Arial,Helvetica,sans-serif" font-size="16" letter-spacing="4" font-weight="700">LIQUID APPLIED SYSTEMS</text>
+<text x="36" y="96" fill="#75cde8" font-family="Arial,Helvetica,sans-serif" font-size="11" letter-spacing="3">ILLUSTRATIVE LAYERED ROOF CUTAWAY</text>
+<path d="M38 114H325" stroke="#89e5ff" stroke-opacity=".6"/>
+<style>
+.roller{animation:apply 5s ease-in-out infinite alternate;transform-origin:center;transform-box:fill-box}
+@keyframes apply{0%{transform:translate(-22px,14px)}55%{transform:translate(90px,-28px)}100%{transform:translate(134px,-48px)}}
+@media(prefers-reduced-motion:reduce){.roller{animation:none}}
+</style>
+</svg>
