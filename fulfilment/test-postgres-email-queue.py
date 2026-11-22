@@ -10,7 +10,8 @@ DB=os.environ["CI_POSTGRES_URL"]
 now=datetime(2026,11,22,tzinfo=timezone.utc)
 def query(sql,params=()):
  with psycopg.connect(DB,autocommit=True,connect_timeout=10) as db:
-  return db.execute(sql,params).fetchall()
+  cursor=db.execute(sql,params)
+  return cursor.fetchall() if cursor.description is not None else []
 def claim(token,ts=now,barrier=None,limit=1):
  with psycopg.connect(DB,autocommit=True,connect_timeout=10) as db:
   if barrier:barrier.wait(timeout=15)
