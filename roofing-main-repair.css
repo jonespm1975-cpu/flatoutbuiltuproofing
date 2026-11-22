@@ -265,3 +265,52 @@
   .viewport:has(#roof-panel-1:not([hidden])) .controls,
   .viewport:has(#roof-panel-1:not([hidden])) .notice { display: none !important; }
 }
+
+/* Desktop selector: use the exact supplied four-tab artwork, with live links. */
+@media (min-width: 601px) {
+  .viewport .tabs {
+    position: sticky !important;
+    top: 0 !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 710 / 146 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    overflow: visible !important;
+    background: #050505 url("assets/homepage-reference-tabs-20261122.webp") center / 100% 100% no-repeat !important;
+  }
+  .viewport .tabs::before { display: none !important; }
+  .viewport .tabs > .roof-tab {
+    position: absolute !important;
+    top: 0 !important;
+    width: 23.8% !important;
+    height: 75% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  .viewport .tabs > .roof-tab:nth-child(1) { left: 1.2% !important; }
+  .viewport .tabs > .roof-tab:nth-child(2) { left: 26% !important; }
+  .viewport .tabs > .roof-tab:nth-child(3) { left: 50.8% !important; }
+  .viewport .tabs > .roof-tab:nth-child(4) { left: 75.6% !important; }
+  .viewport .tabs > .roof-tab img,
+  .viewport .tabs > .roof-tab::before,
+  .viewport .tabs > .roof-tab::after { display: none !important; }
+  .viewport .tabs > .roof-tab:focus-visible {
+    opacity: .16 !important;
+    outline: 2px solid white !important;
+    outline-offset: -2px !important;
+    background: #fff !important;
+  }
+}
