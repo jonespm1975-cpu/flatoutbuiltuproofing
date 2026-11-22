@@ -16,7 +16,7 @@ permissions:
   contents: read
 jobs:
   visitor-mobile-audit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Checkout live repository contents for read-only browser audit
