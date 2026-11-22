@@ -70,5 +70,9 @@ jobs:
         run: npm install --no-save --no-package-lock "stripe@23.2.0" "pg@8.13.1"
       - name: Verify genuine Stripe SDK test signatures and DB routing
         run: node fulfilment/test-signed-stripe-postgres.mjs
+      - name: Initialise disposable email lease fixture
+        run: psql "$CI_POSTGRES_URL" -v ON_ERROR_STOP=1 -f fulfilment/ci-email-queue.sql
+      - name: Verify independent PostgreSQL email worker leases and backoff
+        run: python fulfilment/test-postgres-email-queue.py
       - name: State isolation boundary
-        run: echo "Locally signed Stripe SDK fixture events only; disposable Postgres; no real Stripe API, Supabase, email or live payment."
+        run: echo "Signed test fixtures, disposable PostgreSQL only; no live Stripe, Supabase, Resend, emails or real payment."
