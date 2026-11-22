@@ -20,7 +20,7 @@ export async function runSandboxConfirmationBatch({
   catch{return {ok:false,reason:"atomic_claim_unavailable"};}
   if(!Array.isArray(claims)||claims.length>maxJobs)
     return {ok:false,reason:"invalid_claims"};
-  const summary={ok:true,claimed:0,accepted:0,rejected:0,finish_errors:0};
+  const summary={ok:true,claimed:0,accepted:0,rejected:0,uncertain:0,finish_errors:0};
   const seen=new Set();
   for(const job of claims){
     const session=job?.session_id,token=job?.claim_token;
@@ -29,7 +29,7 @@ export async function runSandboxConfirmationBatch({
       summary.rejected++;continue;
     }
     seen.add(session);summary.claimed++;
-    let outcome="rejected",providerId=null,reason="unknown_error";
+    let outcome="rejected",providerId=null,reason="unknown_error",sendStarted=false;
     try{
       const receipt=await loadReceipt(session);
       const prepared=buildCourseConfirmation({receipt,catalogue});
@@ -41,6 +41,7 @@ export async function runSandboxConfirmationBatch({
           reason="verified_customer_email_missing";
         }else{
           // sendConfirmation must only return provider-accepted data, not a guessed success.
+          sendStarted=true;
           const delivered=await sendConfirmation({
             to:email,subject:prepared.confirmation.email_subject,
             text:prepared.confirmation.customer_text,
@@ -51,17 +52,19 @@ export async function runSandboxConfirmationBatch({
           if(delivered?.accepted===true && typeof delivered.provider_id==="string" &&
              delivered.provider_id.length>2){
             outcome="accepted";providerId=delivered.provider_id;reason=null;
-          }else reason="provider_not_accepted";
+          }else {outcome="uncertain";reason="provider_acceptance_unconfirmed";}
         }
       }
-    }catch{reason="provider_or_data_error";}
+    }catch{if(sendStarted){outcome="uncertain";reason="provider_response_ambiguous";}else reason="provider_or_data_error";}
     // A rejected attempt MUST be recorded by atomic finish, permitting the DB's
     // existing lease expiry, bounded retry and reconciliation policy.
     try{
       const result=await finishClaim({sessionId:session,claimToken:token,status:outcome,
         providerId,errorCode:reason});
       if(result?.committed!==true){summary.finish_errors++;continue;}
-      if(outcome==="accepted")summary.accepted++;else summary.rejected++;
+      if(outcome==="accepted")summary.accepted++;
+      else if(outcome==="uncertain")summary.uncertain++;
+      else summary.rejected++;
     }catch{summary.finish_errors++;}
   }
   return summary;
