@@ -167,12 +167,64 @@ html{scroll-padding-top:86px;scroll-behavior:auto}
 
 </style>
 <style id="premium-tabs-and-membership-polish-20261122">
-/* Final authoritative trade selector: four equal, non-overlapping tabs on every phone. */
-.tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:clamp(3px,.7vw,9px)!important;overflow:visible!important;scroll-snap-type:none!important;align-items:stretch!important}
-.tabs>.roof-tab{flex:none!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;transform:none!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;box-sizing:border-box!important}
-.tabs>.roof-tab img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;object-fit:contain!important;image-rendering:auto!important}
-.tabs>.roof-tab[aria-selected="true"]{transform:none!important;box-shadow:0 0 12px color-mix(in srgb,var(--tab-color) 50%,transparent),inset 0 1px 8px #ffffff20!important;filter:brightness(1.12)!important}
-@media(max-width:600px){.tabs{padding:7px 4px 4px!important}.tabs>.roof-tab{height:clamp(56px,16vw,80px)!important;padding:3px!important;border-radius:10px 10px 0 0!important}}
+/* Four brand logos sit above the page stack with their own neon connector lines. */
+.tabs{
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:0!important;
+ position:sticky!important;top:0!important;z-index:70!important;
+ padding:12px 6px 30px!important;
+ margin:0!important;
+ overflow:visible!important;
+ align-items:start!important;
+ background:linear-gradient(180deg,#050505 0%,#080706f2 76%,#08070600 100%)!important;
+}
+.tabs>.roof-tab{
+ position:relative!important;
+ display:flex!important;
+ flex:initial!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:72px!important;
+ margin:0!important;padding:0!important;
+ align-items:center!important;justify-content:center!important;
+ box-sizing:border-box!important;overflow:visible!important;
+ border:0!important;border-radius:0!important;
+ background:transparent!important;box-shadow:none!important;
+ transform:none!important;filter:none!important;
+}
+.tabs>.roof-tab img{
+ display:block!important;
+ width:100%!important;height:72px!important;max-width:100%!important;
+ object-fit:contain!important;image-rendering:auto!important;
+ border:0!important;border-radius:0!important;background:transparent!important;
+ filter:drop-shadow(0 0 4px color-mix(in srgb,var(--tab-color) 65%,transparent))!important;
+}
+.tabs>.roof-tab[aria-selected="true"] img{
+ filter:drop-shadow(0 0 7px color-mix(in srgb,var(--tab-color) 82%,transparent)) brightness(1.08)!important;
+}
+.tabs>.roof-tab::before,.tabs>.roof-tab::after{
+ content:""!important;position:absolute!important;z-index:0!important;
+ display:block!important;pointer-events:none!important;
+ background:var(--tab-color)!important;
+ box-shadow:0 0 5px var(--tab-color),0 0 12px color-mix(in srgb,var(--tab-color) 70%,transparent)!important;
+}
+.tabs>.roof-tab::before{
+ left:50%!important;right:0!important;top:auto!important;bottom:-30px!important;
+ width:auto!important;height:3px!important;transform:none!important;
+}
+.tabs>.roof-tab::after{
+ left:50%!important;right:auto!important;top:auto!important;bottom:-30px!important;
+ width:3px!important;height:30px!important;transform:translateX(-50%)!important;
+ inset-block-start:auto!important;
+}
+.tabs>.roof-tab[aria-selected="true"]{box-shadow:none!important;filter:none!important}
+@media(max-width:600px){
+ .tabs{padding:10px 4px 26px!important;gap:0!important}
+ .tabs>.roof-tab{height:clamp(48px,14vw,62px)!important}
+ .tabs>.roof-tab img{height:100%!important}
+ .tabs>.roof-tab::before{bottom:-26px!important}
+ .tabs>.roof-tab::after{bottom:-26px!important;height:26px!important}
+}
 /* Membership label: dark-to-transparent vignette rather than a flat pasted-on box. */
 .live-price-label{
  background:radial-gradient(ellipse 83% 75% at 47% 49%,#0b0908f6 0%,#0b0908ed 57%,#0b0908b0 76%,transparent 100%)!important;
