@@ -52,3 +52,18 @@
  footer{font-size:12px!important;line-height:1.65}
 }
 @media(prefers-reduced-motion:reduce){.hero-visual img{animation:none}}
+
+
+/* 22 Nov 2026 — four-tab iPhone header clearance.
+   Keep the approved artwork, tab sizes, hero and desktop layout unchanged.
+   Use normal smooth image resampling rather than pixelation on compact screens. */
+@media (max-width:700px){
+  body:has(.roof-tab) {
+    padding-top:calc(12px + env(safe-area-inset-top, 0px))!important;
+  }
+  body:has(.roof-tab) .roof-tab img,
+  body:has(.roof-tab) .page-art img {
+    image-rendering:auto!important;
+    filter:none!important;
+  }
+}
