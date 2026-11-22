@@ -23,19 +23,14 @@ for(const file of pages){
    if(!location.startsWith(root+path.sep)||!fs.existsSync(location))failures.push("MISSING_FILE "+file+" -> "+target);
  }
 }
-for(const name of categories){
+for(const name of ["index.html",...categories]){
  const html=fs.readFileSync(path.join(root,name),"utf8");
- if(name==="liquid-applied-roofing.html"){
-    for(let i=1;i<=4;i++)if(!html.includes('href="#roof-panel-'+i+'"'))failures.push("MISSING_ORIGINAL_TAB "+name+" -> "+i);
-    if(!html.includes('viewport-fit=cover'))failures.push("MISSING_ORIGINAL_RESPONSIVE_VIEWPORT");
- }else{
-   for(const link of categories)if(!html.includes('href="'+link+'"'))failures.push("MISSING_FOURTH_TAB "+name+" -> "+link);
-   if(!html.includes('specialty-mobile.css'))failures.push("MOBILE_STYLES_NOT_LINKED "+name);
- }
+ for(let i=1;i<=4;i++)if(!html.includes('href="#roof-panel-'+i+'"'))failures.push("MISSING_ORIGINAL_TAB "+name+" "+i);
+ if(!html.includes("viewport-fit=cover"))failures.push("MISSING_MOBILE_VIEWPORT "+name);
+ if(!html.includes('class="page-art"')||!html.includes('id="roof-panel-4"'))failures.push("MISSING_APPROVED_ARTWORK "+name);
+ if(!html.includes("live-category-navigation"))failures.push("CLICKABLE_ARTWORK_LINKS_MISSING "+name);
+ if(!html.includes("FOUR SPECIALIST ROOFING AREAS"))failures.push("WRONG_FOUR_PAGE_DESIGN "+name);
 }
-const liquid=fs.readFileSync(path.join(root,"liquid-applied-roofing.html"),"utf8");
-if(!liquid.includes('id="roof-panel-4"')||!liquid.includes('class="page-art"')||!liquid.includes('data-action="academy"'))failures.push("APPROVED_ORIGINAL_LIQUID_PAGE_MISSING");
-if(!liquid.includes("FOUR-PAGE WORKING PREVIEW")||!liquid.includes("Main Page 4 · Liquid Applied Roofing Systems"))failures.push("ORIGINAL_FOUR_PANEL_DESIGN_MISSING");
 if(fs.readFileSync(path.join(root,"training-availability.html"),"utf8").includes("section is in preparation"))failures.push("STALE_AVAILABILITY");
 if(failures.length)throw Error("Static public audit failures:\n"+failures.join("\n"));
 
@@ -65,13 +60,13 @@ try{
    const info=await page.evaluate(()=>({
      innerWidth:window.innerWidth,scrollWidth:document.documentElement.scrollWidth,
      title:document.title,
-     navCount:document.querySelectorAll(".branch-nav a").length||document.querySelectorAll(".roof-tab").length+1,
+     navCount:document.querySelectorAll(".roof-tab").length,
      visible:document.body.getBoundingClientRect().height>300,
      grid:getComputedStyle(document.querySelector(".branch-nav")||document.querySelector(".tabs")||document.body).display,
-     image:(document.querySelector(".hero-visual img")||document.querySelector("#roof-panel-4 .page-art"))?.complete!==false
+     image:[...document.querySelectorAll(".page-panel .page-art")].every(im=>im.complete&&im.naturalWidth>0)
    }));
    if(info.scrollWidth>info.innerWidth+3)failures.push("HORIZONTAL_OVERFLOW "+width+" "+file+" "+JSON.stringify(info));
-   if(categories.includes(file)&&info.navCount!==5)failures.push("WRONG_NAV_COUNT "+width+" "+file+" "+info.navCount);
+   if(categories.includes(file)&&info.navCount!==4)failures.push("WRONG_NAV_COUNT "+width+" "+file+" "+info.navCount);
    if(categories.includes(file)&&width===390&&info.grid!=="grid")failures.push("MOBILE_NAV_NOT_GRID "+file);
    if(!info.visible)failures.push("EMPTY_PAGE "+width+" "+file);
    if(!info.image)failures.push("MISSING_HERO_IMAGE "+width+" "+file);
@@ -92,11 +87,10 @@ try{
  await page.locator("#roof-panel-2").waitFor({state:"visible"});
  await page.locator("#roof-tab-4").click();
  await page.locator("#roof-panel-4").waitFor({state:"visible"});
- const academy=page.locator('#roof-panel-4 [data-action="academy"]').first();
+ const academy=page.locator('#roof-panel-4 .visual-hit[aria-label="Academy"]').first();
  await academy.click();
- await page.locator("#academy-overlay").waitFor({state:"visible"});
- await page.locator("#academy-close").click();
- console.log("PASS_NAVIGATION four logo tabs, exact original Liquid artwork, and academy hotspot");
+ await page.waitForURL("**/courses.html");
+ console.log("PASS_NAVIGATION four original logo tabs, full artwork and academy hotspot");
  await ctx.close();
 }finally{
  if(browser)await browser.close();
