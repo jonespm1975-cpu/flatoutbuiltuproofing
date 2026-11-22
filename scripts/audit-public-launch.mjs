@@ -62,12 +62,12 @@ try{
      title:document.title,
      navCount:document.querySelectorAll(".roof-tab").length,
      visible:document.body.getBoundingClientRect().height>300,
-     grid:getComputedStyle(document.querySelector(".branch-nav")||document.querySelector(".tabs")||document.body).display,
+     tabLayout:(()=>{const tabs=[...document.querySelectorAll(".roof-tab")];const container=tabs[0]?.parentElement;const boxes=tabs.map(el=>{const r=el.getBoundingClientRect();return{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height,visible:!!(el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden")}});return{display:container?getComputedStyle(container).display:null,boxes,allVisible:boxes.length===4&&boxes.every(b=>b.visible&&b.width>=44&&b.height>=44),withinViewport:boxes.every(b=>b.left>=-1&&b.right<=innerWidth+1),noOverlap:boxes.every((a,i)=>boxes.slice(i+1).every(b=>a.right<=b.left+1||b.right<=a.left+1||a.bottom<=b.top+1||b.bottom<=a.top+1))}})(),
      image:[...document.querySelectorAll(".page-panel .page-art")].every(im=>im.complete&&im.naturalWidth>0)
    }));
    if(info.scrollWidth>info.innerWidth+3)failures.push("HORIZONTAL_OVERFLOW "+width+" "+file+" "+JSON.stringify(info));
    if(categories.includes(file)&&info.navCount!==4)failures.push("WRONG_NAV_COUNT "+width+" "+file+" "+info.navCount);
-   if(categories.includes(file)&&width===390&&info.grid!=="grid")failures.push("MOBILE_NAV_NOT_GRID "+file);
+   if(categories.includes(file)&&width===390&&(!["grid","flex"].includes(info.tabLayout.display)||!info.tabLayout.allVisible||!info.tabLayout.withinViewport||!info.tabLayout.noOverlap))failures.push("MOBILE_TAB_LAYOUT_INVALID "+file+" "+JSON.stringify(info.tabLayout));
    if(!info.visible)failures.push("EMPTY_PAGE "+width+" "+file);
    if(!info.image)failures.push("MISSING_HERO_IMAGE "+width+" "+file);
    if(errors.length)failures.push("JS_EXCEPTION "+width+" "+file+" "+errors.join(" | "));
