@@ -43,9 +43,9 @@ const rejection=await runSandboxConfirmationBatch({catalogue,maxJobs:1,
  loadReceipt:async()=>({...record(0),stripe_checkout_session_id:"cs_test_retry_new"}),
  loadCustomerEmail:async()=> "customer@example.test",
  sendConfirmation:async()=>{throw Error("offline")},
- finishClaim:async({status,errorCode})=>{assert.equal(status,"rejected");assert.equal(errorCode,"provider_or_data_error");return {committed:true}}
+ finishClaim:async({status,errorCode})=>{assert.equal(status,"uncertain");assert.equal(errorCode,"provider_response_ambiguous");return {committed:true}}
 });
-assert.equal(rejection.rejected,1);assert.equal(rejection.accepted,0);
+assert.equal(rejection.uncertain,1);assert.equal(rejection.rejected,0);assert.equal(rejection.accepted,0);
 // Stale claim token must not be acknowledged as a successful send.
 const stale=await runSandboxConfirmationBatch({catalogue,maxJobs:1,
  claimDue:async()=>[{session_id:"cs_test_stale",claim_token:"expired-token-long-123"}],
@@ -55,4 +55,22 @@ const stale=await runSandboxConfirmationBatch({catalogue,maxJobs:1,
  finishClaim:async()=>({committed:false})
 });
 assert.equal(stale.finish_errors,1);assert.equal(stale.accepted,0);
-console.log("PASS: 24 course-specific sandbox email preparations, idempotent identities, failure reporting, stale lease acknowledgement");
+// A definite validation failure happens before send and may be rejected normally.
+const noEmail=await runSandboxConfirmationBatch({catalogue,maxJobs:1,
+ claimDue:async()=>[{session_id:"cs_test_missing_recipient",claim_token:"missing-email-token-123"}],
+ loadReceipt:async()=>({...record(0),stripe_checkout_session_id:"cs_test_missing_recipient"}),
+ loadCustomerEmail:async()=>null,
+ sendConfirmation:async()=>{throw Error("must not send")},
+ finishClaim:async({status,errorCode})=>{assert.equal(status,"rejected");assert.equal(errorCode,"verified_customer_email_missing");return {committed:true}}
+});
+assert.equal(noEmail.rejected,1);assert.equal(noEmail.uncertain,0);
+// A provider response lacking acceptance proof also needs manual reconciliation.
+const ambiguous=await runSandboxConfirmationBatch({catalogue,maxJobs:1,
+ claimDue:async()=>[{session_id:"cs_test_ambiguous",claim_token:"ambiguous-token-1234"}],
+ loadReceipt:async()=>({...record(0),stripe_checkout_session_id:"cs_test_ambiguous"}),
+ loadCustomerEmail:async()=> "customer@example.test",
+ sendConfirmation:async()=>({accepted:false}),
+ finishClaim:async({status,errorCode})=>{assert.equal(status,"uncertain");assert.equal(errorCode,"provider_acceptance_unconfirmed");return {committed:true}}
+});
+assert.equal(ambiguous.uncertain,1);
+console.log("PASS: 24 course-specific emails; provider ambiguity quarantined; pre-send failure safe; stale lease guarded");
