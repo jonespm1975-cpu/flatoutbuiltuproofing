@@ -19,7 +19,7 @@
 a:hover .block{filter:brightness(1.08)}.small-focus:focus-visible{outline:4px solid #fff5af}.logos-link{display:flex;gap:10px;justify-content:center;margin:12px auto}.logos-link a{font-size:16px;font-weight:900;color:#fee9b4;border:1px solid #9b722b;padding:8px 15px;border-radius:12px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .hero-visual img{width:100%;height:100%;object-fit:cover;display:block}.liquid-module{background:linear-gradient(155deg,#162c37,#06131c);border:1px solid #6ab9d2;border-radius:10px;padding:11px;min-height:135px}.liquid-module strong{color:#bcefff;font-size:16px}.liquid-module p{font-size:13px;color:#d2e3e9;line-height:1.4;margin:7px 0}.roof-logo .trade{color:#b9eeff;text-shadow:0 0 12px #54c9e8}.hero-visual{border-color:#7cdff8;box-shadow:0 0 21px #54cef6aa}.video-note{background:#041c32d9;color:#b8f1ff}
-</style><link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"><link rel="stylesheet" href="training-3d.css"></head>
+</style><link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"><link rel="stylesheet" href="training-3d.css"><link rel="stylesheet" href="specialty-mobile.css"></head>
 <body class="p4-interior"><div id="screen" class="screen"><div id="art" class="art">
 <div class="site-top"><span class="tiny-label">◆ FLAT OUT ROOFING TRAINING</span><span class="badge">FOUR SPECIALIST TRAINING AREAS</span></div>
 <main class="page"><nav class="branch-nav" aria-label="Roofing training categories"><a href="index.html" >Main website</a><a href="built-up-roofing.html" >Built-Up Roofing</a><a href="tile-slate-roofing.html" >Tile &amp; Slate</a><a href="metal-sheet-roofing.html">Metal &amp; Sheet</a><a href="liquid-applied-roofing.html" aria-current="page">Liquid Applied</a></nav>
@@ -54,7 +54,7 @@ a:hover .block{filter:brightness(1.08)}.small-focus:focus-visible{outline:4px so
 <footer>UK-FOCUSED TRAINING · PRACTICAL REAL-WORLD SKILLS · SAFETY FIRST · MOBILE & APP FRIENDLY<br>Training and safety information only. Practical work requires competent supervision, site-specific risk assessments and appropriate training.<br><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="index.html">Original website</a></footer>
 </main></div></div>
 <script>
-function scalePage(){const art=document.getElementById('art'),screen=document.getElementById('screen');const scale=Math.min(1,window.innerWidth/920);art.style.transform='scale('+scale+')';screen.style.width=(920*scale)+'px';screen.style.height=Math.ceil(art.scrollHeight*scale)+'px'}
+function scalePage(){const art=document.getElementById('art'),screen=document.getElementById('screen');if(window.innerWidth<=700){art.style.transform='none';screen.style.width='100%';screen.style.height='auto';return;}const scale=Math.min(1,window.innerWidth/920);art.style.transform='scale('+scale+')';screen.style.width=(920*scale)+'px';screen.style.height=Math.ceil(art.scrollHeight*scale)+'px'}
 window.addEventListener('resize',scalePage,{passive:true});window.addEventListener('load',scalePage);scalePage();
 </script><script>
 document.getElementById('liquid-check')?.addEventListener('click',()=>{
