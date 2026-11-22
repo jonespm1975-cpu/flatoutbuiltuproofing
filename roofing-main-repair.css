@@ -1,0 +1,50 @@
+/* Four-page interaction repair, 22 November 2026.
+   Restores clickable areas and membership badge positioning without changing
+   the approved artwork, tab imagery, colours or layout. */
+.page-frame > .visual-hit {
+  position:absolute;
+  display:block;
+  z-index:3;
+  box-sizing:border-box;
+  background:transparent;
+  text-decoration:none;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.page-frame > .visual-hit:focus-visible {
+  outline:2px solid #ffe8b4;
+  outline-offset:-2px;
+  background:#ffe8b41a;
+}
+.page-frame > .live-price-label {
+  position:absolute!important;
+  z-index:4!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  box-sizing:border-box!important;
+  pointer-events:none!important;
+  left:13.8%!important;
+  top:66.7%!important;
+  width:34%!important;
+  height:4.8%!important;
+  padding:0 2%!important;
+  line-height:1.15!important;
+  font:700 clamp(10px,1.8vw,18px)/1.15 Georgia,"Times New Roman",serif!important;
+  white-space:nowrap!important;
+  color:#eed4a1!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:radial-gradient(ellipse 100% 110% at 50% 50%,#090807f8 0%,#090807eb 57%,#0908079e 76%,transparent 100%)!important;
+  text-shadow:0 1px 1px #000,0 0 5px #c1945155!important;
+}
+#roof-panel-4 .page-frame > .live-price-label {top:66%!important}
+.page-panel[hidden] {display:none!important}
+.page-panel video.video-unavailable {visibility:hidden!important}
+@media(max-width:600px) {
+  .page-frame > .live-price-label {
+    font-size:clamp(8px,2.25vw,12px)!important;
+    letter-spacing:.015em!important;
+  }
+}
