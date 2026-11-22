@@ -1,0 +1,35 @@
+name: Public launch visual and navigation audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-public-launch.mjs"
+      - ".github/workflows/public-launch-audit.yml"
+      - "index.html"
+      - "courses.html"
+      - "training-availability.html"
+      - "*roofing.html"
+      - "specialty-mobile.css"
+      - "assets/liquid-applied-roof-cutaway.svg"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visitor-mobile-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout live repository contents for read-only browser audit
+        uses: actions/checkout@v4
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned Playwright test dependency
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Install headless Chromium for visual and navigation audit
+        run: npx playwright install --with-deps chromium
+      - name: Audit public pages at phone, tablet and desktop widths
+        run: node scripts/audit-public-launch.mjs
+      - name: Scope
+        run: echo "Read-only local browser audit; no Stripe charges, Supabase writes, emails or site deployment."
