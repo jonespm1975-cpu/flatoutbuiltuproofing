@@ -14,6 +14,13 @@
     'Built-Up Roofing','Tile & Slate Roofing',
     'Metal & Sheet Roofing','Liquid Applied Roofing Systems'
   ];
+  const sponsorPages = ['sponsors.html', 'sponsors-tile-slate-roofing.html',
+    'sponsors-metal-sheet-roofing.html', 'sponsors-liquid-applied-roofing.html'];
+  panels.forEach((panel, index) => {
+    panel.querySelectorAll('a[href="sponsors.html"]').forEach(link => {
+      link.href = sponsorPages[index];
+    });
+  });
   const readSelection = () => {
     const match = location.hash.match(/^#roof-panel-([1-4])$/);
     if (match) return Number(match[1]) - 1;
