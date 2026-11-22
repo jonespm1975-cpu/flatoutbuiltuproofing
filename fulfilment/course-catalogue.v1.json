@@ -24,7 +24,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "built-up-02",
@@ -41,7 +43,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "built-up-03",
@@ -58,7 +62,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "built-up-04",
@@ -75,7 +81,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "built-up-05",
@@ -92,7 +100,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "built-up-06",
@@ -109,7 +119,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-01",
@@ -126,7 +138,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-02",
@@ -143,7 +157,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-03",
@@ -160,7 +176,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-04",
@@ -177,7 +195,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-05",
@@ -194,7 +214,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "tile-slate-06",
@@ -211,7 +233,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-01",
@@ -228,7 +252,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-02",
@@ -245,7 +271,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-03",
@@ -262,7 +290,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-04",
@@ -279,7 +309,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-05",
@@ -296,7 +328,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "metal-sheet-06",
@@ -313,7 +347,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-01",
@@ -330,7 +366,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-02",
@@ -347,7 +385,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-03",
@@ -364,7 +404,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-04",
@@ -381,7 +423,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-05",
@@ -398,7 +442,9 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     },
     {
       "course_id": "liquid-applied-06",
@@ -415,8 +461,11 @@
       "content_delivery": "private_owner_review_only",
       "editorial_review_required": false,
       "owner_draft_approved_at": "2026-11-21",
-      "technical_review_required": true
+      "technical_review_required": true,
+      "technical_qa_screened_at": "2026-11-22",
+      "technical_qa_disposition": "hold_qualified_manufacturer_review"
     }
   ],
-  "editorial_note": "Owner approved the 24-lesson editorial draft on 2026-11-21. This is NOT technical certification or publication approval; manufacturer/qualified expert review, private delivery, real sandbox verification and activation checks remain required. Checkout remains disabled."
+  "editorial_note": "Owner approved the 24-lesson editorial draft on 2026-11-21. This is NOT technical certification or publication approval; manufacturer/qualified expert review, private delivery, real sandbox verification and activation checks remain required. Checkout remains disabled.",
+  "technical_qa_note": "All 24 drafts passed structural checks; source links and general guidance were reviewed and a non-public v1.1 correction candidate prepared. Original drafts retained. Correct-answer position bias and generic cases identified. No independent competent manufacturer/roof design signoff. Technical release remains blocked."
 }
