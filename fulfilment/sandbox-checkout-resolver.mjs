@@ -1,10 +1,11 @@
 /** Pure server-side sandbox checkout resolver. Never trust price IDs from a browser. */
+const ALLOWED_COURSES=new Set(["built-up","tile-slate","metal-sheet","liquid-applied"].flatMap(s=>Array.from({length:6},(_,i)=>s+"-"+String(i+1).padStart(2,"0"))));
 export function validateCatalogue(catalogue) {
   const rows = catalogue?.courses;
   if (!Array.isArray(rows) || rows.length!==24) return {ok:false,reason:"invalid_course_count"};
   const seenIds=new Set(), seenPrices=new Set();
   for(const row of rows){
-    if(typeof row.course_id!=="string" || seenIds.has(row.course_id)) return {ok:false,reason:"duplicate_or_missing_course_id"};
+    if(typeof row.course_id!=="string" || !ALLOWED_COURSES.has(row.course_id) || seenIds.has(row.course_id)) return {ok:false,reason:"duplicate_or_missing_course_id"};
     seenIds.add(row.course_id);
     if(row.currency!=="gbp" || row.price_pence!==999 || row.entitlement_type!=="one_time_individual") return {ok:false,reason:"price_contract_mismatch"};
     if(row.checkout_enabled===true){
@@ -14,6 +15,7 @@ export function validateCatalogue(catalogue) {
       seenPrices.add(row.stripe_price_id_test);
     }
   }
+  if(seenIds.size!==ALLOWED_COURSES.size)return {ok:false,reason:"required_course_missing"};
   return {ok:true,count:seenIds.size,enabled:seenPrices.size};
 }
 /**
