@@ -1,0 +1,54 @@
+/* Mobile-first correction for the four original luxury roofing category layouts.
+   Desktop 920px artwork remains completely unchanged. */
+@media(max-width:700px){
+ html,body{overflow-x:hidden!important}
+ #screen.screen{width:100%!important;height:auto!important;overflow:visible!important}
+ #art.art{width:100%!important;transform:none!important;min-height:0!important;box-shadow:none!important}
+ .site-top{height:auto!important;min-height:64px;display:flex;gap:7px;flex-wrap:wrap;padding:12px 8px}
+ .site-top .tiny-label{font-size:11px;letter-spacing:.10em}
+ .site-top .badge{font-size:10px;padding:5px 8px}
+ .page{padding:0 10px 24px!important}
+ .branch-nav{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px}
+ .branch-nav a{font-size:12px!important;white-space:normal!important;min-height:44px;display:flex!important;align-items:center;justify-content:center;padding:7px 4px;line-height:1.2}
+ .hero{display:grid!important;grid-template-columns:minmax(0,1fr)!important;min-height:0!important;gap:10px}
+ .hero-visual{height:clamp(240px,65vw,410px)!important}
+ .hero-visual img,.hero-visual video,.hero-visual svg{width:100%;height:100%;object-fit:cover;display:block}
+ .intro{padding:13px 10px!important}
+ .roof-logo .name{font-size:clamp(27px,9vw,37px)!important}
+ .roof-logo .trade{font-size:clamp(15px,4vw,21px)!important;white-space:normal!important}
+ .roof-logo .motto{font-size:9px!important;letter-spacing:.03em}
+ .claim{font-size:clamp(28px,9vw,38px)!important}
+ .intro p{font-size:16px!important;line-height:1.45!important}
+ .button{font-size:16px!important;padding:11px 20px;min-height:44px}
+ .cards4,.cards6{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px}
+ .cards4 .topic-card,.cards6 .topic-card{min-height:88px}
+ .topic-card strong,.cards6 .topic-card strong{font-size:14px!important}
+ .topic-card small{font-size:12px!important}
+ .topic-card .symbol,.cards6 .symbol{font-size:28px!important}
+ .strip{display:flex!important;flex-direction:column;align-items:flex-start}
+ .strip h2{font-size:23px!important;line-height:1.2!important}
+ .strip a{white-space:normal!important;text-align:center;min-height:44px}
+ .stripe-title{font-size:24px!important}
+ .stripe-title small{font-size:12px!important}
+ .duo,.trio{grid-template-columns:minmax(0,1fr)!important}
+ .feature{min-height:0;padding:14px 12px;gap:10px}
+ .feature .emoji{font-size:38px;flex-basis:50px}
+ .feature h3{font-size:24px!important}
+ .feature p{font-size:14px!important}
+ .feature ul{font-size:13px!important}
+ .feature .mini{font-size:13px;line-height:1.3;min-height:42px}
+ .item-wide{min-height:95px;padding:12px;gap:10px;flex-wrap:wrap}
+ .item-wide .emoji{font-size:32px;flex-basis:34px}
+ .item-wide h3{font-size:22px!important}
+ .item-wide p{font-size:13px!important}
+ .item-wide a{white-space:normal!important;min-height:42px}
+ .logos-link{flex-wrap:wrap}
+ .logos-link a{flex:1 1 43%;text-align:center;font-size:12px;min-height:42px}
+ .liquid-modules{grid-template-columns:minmax(0,1fr)!important}
+ .liquid-module{min-height:0!important}
+ .liquid-learning{padding:14px 12px!important}
+ .liquid-learning h2{font-size:23px!important;line-height:1.15!important}
+ .liquid-learning label{font-size:14px}
+ footer{font-size:12px!important;line-height:1.65}
+}
+@media(prefers-reduced-motion:reduce){.hero-visual img{animation:none}}
