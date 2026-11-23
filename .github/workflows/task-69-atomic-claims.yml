@@ -1,0 +1,37 @@
+name: Task 69 isolated atomic email claims
+on:
+  push:
+    branches: [audit/task-67-sandbox-email-claim]
+    paths:
+      - 'tests/task-69-*'
+      - '.github/workflows/task-69-atomic-claims.yml'
+  pull_request:
+    paths:
+      - 'tests/task-69-*'
+      - '.github/workflows/task-69-atomic-claims.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  postgres-two-connections:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PostgreSQL client
+        run: psql --version
+      - name: Run actual SQL function bodies with independent PostgreSQL clients
+        run: bash tests/task-69-isolated-claims.sh
