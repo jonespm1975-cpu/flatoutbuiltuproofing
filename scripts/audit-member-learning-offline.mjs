@@ -79,7 +79,17 @@ try{
    await page.waitForFunction(()=>!document.querySelector("#status")?.textContent.includes("Checking"));
    assert.equal(await page.locator(".receipt").count(),paid?1:0);
    assert.equal(await page.locator("#print").isVisible(),paid);
-   if(paid)assert.match(await page.locator(".receipt").innerText(),/£9\.99/);
+   if(paid){
+    assert.match(await page.locator(".receipt").innerText(),/£9\.99/);
+    const archive=page.locator(".receipt a[download]");
+    assert.equal(await archive.count(),1,"paid customers receive fixed contract copy link");
+    assert.equal(await archive.getAttribute("href"),"legal/2026-11-21-course-v1-contract-snapshot.html");
+    const response=await page.request.get(base+"/legal/2026-11-21-course-v1-contract-snapshot.html");
+    assert.equal(response.status(),200);
+    const contractText=await response.text();
+    assert.match(contractText,/Terms of Use and Training Safety/);
+    assert.match(contractText,/Digital Course Cancellation and Refunds/);
+   }
    assert.equal(receiptRequests,1);
    assert.deepEqual(errors,[]);
    console.log("PASS",width,paid?"own receipt printable":"unpaid receipt absent");
