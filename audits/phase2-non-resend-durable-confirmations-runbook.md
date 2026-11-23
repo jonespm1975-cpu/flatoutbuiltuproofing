@@ -90,3 +90,34 @@ References:
 Official references: https://postmarkapp.com/support/article/how-do-i-verify-a-domain
 and https://www.names.co.uk/support/articles/accessing-your-dns-zone-files/
 and https://postmarkapp.com/developer/webhooks/webhooks-overview.
+
+
+## Verified public DNS audit and webhook hardening — 23 November 2026
+
+GitHub Actions **read-only** public DNS audit run:
+https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45261685713
+
+| Existing DNS item | Verified public response |
+| --- | --- |
+| Authoritative NS | ns0.phase8.net, ns1.phase8.net, ns2.phase8.net |
+| `www` CNAME | jonespm1975-cpu.github.io |
+| Inbound MX | fwd0.hosts.co.uk, fwd1.hosts.co.uk, fwd2.hosts.co.uk |
+| Apex SPF TXT | No `v=spf1` record published at lookup time |
+| `_dmarc` TXT | Not published (DNS NXDOMAIN) |
+| `pm_bounces` / `pm-bounces` CNAME | Not published (DNS NXDOMAIN) |
+| Postmark DKIM TXT | **Unknown**: requires the account-generated exact hostname/record from Sender Signatures → DNS Settings |
+
+**Important:** The existing `www` CNAME and MX records must **not** be replaced. Do not switch nameservers. Postmark does not necessarily require an apex SPF record to send DKIM-authenticated mail; any addition to the root SPF record must account for **all** legitimate outbound senders and avoid multiple `v=spf1` records. Postmark's verified DKIM and aligned custom Return-Path are the priorities.
+
+Suggested *monitoring-only* DMARC start (owner to approve at DNS provider):
+- Type: `TXT`
+- Name/host: `_dmarc` (some control panels append the domain automatically)
+- Value: `v=DMARC1; p=none`
+- Do not add `rua` without a verified, approved reporting address or Postmark-generated reporting address.
+- Later evaluate `quarantine`/`reject` only after actual mail authentication is verified for all senders.
+
+For the Postmark Return-Path, use the **exact** hostname/value displayed inside Postmark DNS Settings. Postmark commonly uses `pm-bounces` → `pm.mtasv.net`; neither candidate label is published at this check. The full DKIM key is account-specific; never invent it.
+
+**Webhook safety upgrade:** Deployed `future-confirmation-delivery-webhook` v2 additionally requires `FUTURE_CONFIRMATION_POSTMARK_SERVER_ID` equal to the verified account/server ID before processing any event. If missing, it fails closed (503). Postmark's documented Delivery and Bounce JSON payloads contain a `ServerID`; unrelated server IDs are ignored. The endpoint still requires Basic Authentication and the independent `FUTURE_CONFIRMATION_WEBHOOK_ENABLED=true` feature flag, which is **not enabled**. No customer messages or charges were created. Provider guidance also recommends IP allowlisting at a trusted ingress; do not trust client-supplied `x-forwarded-for` values for security decisions.
+
+After owner adds DNS records, rerun the read-only workflow in GitHub Actions. The public checker reports publication state, **not** proof of Postmark's account-side domain verification.
