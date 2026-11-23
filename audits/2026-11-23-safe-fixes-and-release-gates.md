@@ -40,3 +40,19 @@ Both have now been changed, with no emails sent:
 - Both current sources are recorded in GitHub. Root `AGENTS.md` now contains an explicit permanent no-Resend policy, and the new workflow `.github/workflows/no-retired-email-provider.yml` checks the three affected active source files for regression.
 - Last Supabase verification still showed one original live payment and entitlement, one accepted historical outbox record, no pending outbox records, and inactive live-email cron.
 - The provider's credentials may still exist in protected project secrets; the connector cannot list or remove them. The owner should revoke/clear them when able. Nothing was sent or re-sent.
+
+
+## Final testing update — 23 November 2026, 19:02 UTC
+
+**Automated testing completed in isolated environments:**
+- Signed webhook fixture and actual migrated trigger in disposable, genuinely two-connection PostgreSQL: **both GitHub Actions jobs passed**. Run: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45241958751
+- Live unauthenticated endpoint refusal gates **passed** without live checkout, payment, email, credentials, or writes. Run: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45242337274
+- Public phone/tablet/desktop navigation and sponsor-gallery browser check passed. Run: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45239173688
+- Offline authenticated *mock* account flow at 390px and 1280px **passed**: paid/unpaid lesson entitlements, lesson rendering, private own receipts, printable receipt visibility, and optional analytics consent rejection. Run: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45244136905
+- Found and fixed a real UI bug where a hidden print button was still visually rendered for a zero-purchase account. `purchase-confirmations.html` now applies `#print[hidden]{display:none!important}`. GitHub Pages deployment for that commit passed: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45244136697
+- Fresh Supabase verification: one original live GBP £9.99 receipt, one matching live entitlement, **zero outstanding live receipts without access**, zero persistent QA receipt rows; retired live-email cron remains inactive.
+
+**Critical operator warning**: Current deployed `stripe-live-checkout` function checks `STRIPE_LIVE_CHECKOUT_ENABLED` *before* authentication. A no-bearer, correct-origin test returned HTTP 401 rather than 503, strongly confirming the production checkout flag is currently `true` and live secret configuration passes basic checks. No real Checkout Session was created during this test. Email provider is retired and durable contractual confirmation delivery is unavailable: user/owner should set `STRIPE_LIVE_CHECKOUT_ENABLED=false` in protected Supabase Edge Function Secrets pending reliable alternate confirmation, or explicitly approve another safe policy. Do **not** change live flags here without separate owner authorisation.
+
+**Still not independently verified**: authenticated real-buyer browser flow using an actual owner session, current iPhone Safari visual match against approved 22 Nov image, legally adequate *delivered* durable contract confirmation, access after a real signed Stripe event post-migration, original Stripe legacy Charges/Customers warning's originating Workbench request, and independent content/safety reviews for 24 specialist lessons. The isolated test suites do not replace these validations. No further Resend calls are permitted.
+
