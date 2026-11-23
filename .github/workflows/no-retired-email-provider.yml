@@ -1,0 +1,35 @@
+name: Prohibit retired email provider
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/live-purchase-email-delivery-worker/index.ts"
+      - "supabase/functions/sponsor-logo-intake/index.ts"
+      - "supabase/functions/owner-sandbox-receipt-check/index.ts"
+      - ".github/workflows/no-retired-email-provider.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject retired provider calls or credentials in active email paths
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          files = [
+              "supabase/functions/live-purchase-email-delivery-worker/index.ts",
+              "supabase/functions/sponsor-logo-intake/index.ts",
+              "supabase/functions/owner-sandbox-receipt-check/index.ts",
+          ]
+          forbidden = ("api.resend.com", "RESEND_API_KEY", "resend.emails")
+          for name in files:
+              body = Path(name).read_text(encoding="utf-8")
+              hits = [term for term in forbidden if term.casefold() in body.casefold()]
+              if hits:
+                  raise SystemExit(f"FAIL: retired email provider reference in {name}")
+              print(f"PASS: no retired provider reference in {name}")
+          PY
