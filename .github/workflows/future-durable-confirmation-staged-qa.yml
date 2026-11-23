@@ -10,6 +10,7 @@ on:
       - "tests/future_confirmation_worker_mock.cjs"
       - "tests/future_confirmation_webhook_mock.cjs"
       - "tests/future_confirmation_deployed_inactive_smoke.py"
+      - "tests/postmark_nondelivery_api_contract.cjs"
       - ".github/workflows/future-durable-confirmation-staged-qa.yml"
   workflow_dispatch:
 permissions:
@@ -83,3 +84,17 @@ jobs:
           python-version: "3.12"
       - name: Check dormant production endpoints without auth or mail send
         run: python tests/future_confirmation_deployed_inactive_smoke.py
+
+  postmark-non-delivery-contract:
+    name: Validate Postmark public test token (no email)
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify documented POSTMARK_API_TEST never creates a deliverable customer message
+        run: node tests/postmark_nondelivery_api_contract.cjs
+      - name: Scope
+        run: echo "Public non-delivery test token. Reserved example.com sender and recipient only; no live server key, Supabase user, charge or email."
