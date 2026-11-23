@@ -121,6 +121,11 @@ tbody tr:nth-child(even){background:#07192933}
 .hidden{display:none!important}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.dashboard-music{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:0 0 12px;color:#fff4db}
+.dashboard-music button{border:1px solid #b99337;border-radius:8px;background:#091b2c;color:#ffda68;padding:7px 12px;min-width:42px;cursor:pointer;font-weight:700}
+.dashboard-music button:disabled{opacity:.5}
+.dashboard-music output{min-width:4ch;text-align:center;font-variant-numeric:tabular-nums}
+.dashboard-music span:empty{display:none}
 </style>
 <link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"></head>
 <body class="p4-interior">
@@ -130,6 +135,13 @@ tbody tr:nth-child(even){background:#07192933}
 <section id="locked" class="lock"><h2>Checking owner access…</h2><p>Website performance is only available to the verified owner.</p><a href="login.html?next=owner-analytics.html">Sign in securely</a></section>
 <div id="content" class="hidden">
 <div class="top"><div><div class="live" id="status" aria-live="polite">● Connecting to live analytics</div><div class="muted">Recorded website activity · UTC reporting dates</div></div><div class="controls"><select id="period" aria-label="Analytics reporting period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select><button id="refresh" type="button">Refresh</button><button id="logout" type="button">Sign out</button></div></div>
+<div class="dashboard-music" role="group" aria-label="Background music">
+  <button type="button" id="musicToggle" aria-label="Background music" aria-pressed="false">♫ Music off</button>
+  <button type="button" id="volumeDown" aria-label="Lower music volume">−</button>
+  <output id="musicVolume" aria-label="Music volume">30%</output>
+  <button type="button" id="volumeUp" aria-label="Raise music volume">+</button>
+  <span id="musicNotice" role="status"></span>
+</div>
 <div class="metric-grid">
 <div class="metric"><div class="heading"><span class="icon">♟</span> Visitors</div><div class="value" id="visitors">—</div><div class="detail">Distinct tracked browser sessions</div></div>
 <div class="metric"><div class="heading"><span class="icon">◉</span> Page Views</div><div class="value" id="views">—</div><div class="detail" id="viewsChange">Recorded page loads</div></div>
@@ -154,6 +166,78 @@ tbody tr:nth-child(even){background:#07192933}
 </div>
 </main>
 </div></div>
+<script>
+(() => {
+  const toggle = document.getElementById('musicToggle');
+  const down = document.getElementById('volumeDown');
+  const up = document.getElementById('volumeUp');
+  let volume = 30;
+  let context, gain, recording, player;
+  function setVolume(value) {
+    volume = Math.max(0, Math.min(100, value));
+    document.getElementById('musicVolume').textContent = volume + '%';
+    down.disabled = volume === 0;
+    up.disabled = volume === 100;
+    if (gain) gain.gain.setTargetAtTime(volume / 100, context.currentTime, 0.035);
+  }
+  // Original four-bar electric-piano arpeggio. Wrap note tails across the loop boundary.
+  function compose() {
+    const rate = 22050, bar = 3.6;
+    const chords = [[50,57,61,66],[47,54,57,62],[43,50,54,59],[45,52,57,62]];
+    const buffer = context.createBuffer(1, Math.round(rate * bar * chords.length), rate);
+    const samples = buffer.getChannelData(0);
+    chords.forEach((chord, measure) => {
+      [0,1,2,3,2,1].forEach((degree, beat) => {
+        const start = Math.round((measure * bar + beat * bar / 6) * rate);
+        const frequency = 440 * 2 ** ((chord[degree] - 69) / 12);
+        for (let i = 0; i < 3 * rate; i++) {
+          const t = i / rate, phase = 2 * Math.PI * frequency * t;
+          const envelope = Math.min(1, t / 0.04, (3 - t) / 0.15) * Math.exp(-1.9 * t);
+          samples[(start + i) % samples.length] += 0.32 * envelope * (Math.sin(phase) + 0.18 * Math.sin(2 * phase));
+        }
+      });
+    });
+    return buffer;
+  }
+  function stop() {
+    if (player) { player.stop(); player.disconnect(); player = null; }
+    toggle.textContent = '♫ Music off';
+    toggle.setAttribute('aria-pressed', 'false');
+  }
+  let request = 0;
+  toggle.addEventListener('click', async () => {
+    const current = ++request;
+    if (player) { stop(); return; }
+    try {
+      if (!context) {
+        context = new (window.AudioContext || window.webkitAudioContext)();
+        gain = context.createGain();
+        gain.connect(context.destination);
+        setVolume(volume);
+      }
+      await context.resume();
+      if (current !== request) return;
+      recording ||= compose();
+      player = context.createBufferSource();
+      player.buffer = recording;
+      player.loop = true;
+      player.connect(gain);
+      player.start();
+      toggle.textContent = '♫ Music on';
+      toggle.setAttribute('aria-pressed', 'true');
+      document.getElementById('musicNotice').textContent = '';
+    } catch {
+      stop();
+      document.getElementById('musicNotice').textContent = 'Music could not start in this browser.';
+    }
+  });
+  down.addEventListener('click', () => setVolume(volume - 10));
+  up.addEventListener('click', () => setVolume(volume + 10));
+  function leave() { request++; stop(); }
+  window.addEventListener('pagehide', leave);
+  document.getElementById('logout').addEventListener('click', leave);
+})();
+</script>
 <script type="module">
 import {supabase} from './auth.js';
 
