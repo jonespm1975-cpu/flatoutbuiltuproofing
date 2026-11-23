@@ -57,6 +57,11 @@ try{
    const errors=[];page.on("pageerror",e=>errors.push(e.message));
    await page.goto(base+"/members.html",{waitUntil:"load"});
    await page.locator("#account").waitFor({state:"visible"});
+   const consent=page.getByRole("region",{name:"Optional analytics preferences"});
+   await consent.waitFor({state:"visible"});
+   await consent.getByRole("button",{name:"Reject optional analytics"}).click();
+   await consent.waitFor({state:"hidden"});
+   console.log("PASS analytics consent can be rejected without tracking",width);
    const button=page.getByRole("button",{name:"Open my paid lesson"});
    assert.equal(await button.count(),paid?1:0);
    assert.equal(await page.locator("#mobileAppAccess").isVisible(),paid);
