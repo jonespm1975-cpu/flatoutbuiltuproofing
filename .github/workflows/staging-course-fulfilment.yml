@@ -1,0 +1,78 @@
+name: 24-course staging fulfilment tests
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "fulfilment/**"
+      - ".github/workflows/staging-course-fulfilment.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safe-unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout proposed branch (not production)
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run 24-course staging tests without payment secrets
+        run: |
+          node --test fulfilment/*.test.mjs
+      - name: Check TypeScript webhook entrypoint bundles without deployment
+        run: |
+          npm install --no-save --no-package-lock 'esbuild@0.25.12'
+          ./node_modules/.bin/esbuild supabase/functions/stripe-24-course-sandbox-webhook/index.ts --bundle --platform=neutral --format=esm --external:npm:* --outfile=/tmp/fobur-staging-webhook.js
+          ./node_modules/.bin/esbuild supabase/functions/paid-24-course-content/index.ts --bundle --platform=neutral --format=esm --external:npm:* --outfile=/tmp/fobur-staging-protected-content.js
+      - name: State test boundary
+        run: |
+          echo "Unit tests only. No real Stripe event, Supabase RPC, email, or payment tested."
+
+  isolated-postgres-concurrency:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: course_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U testuser -d course_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      CI_POSTGRES_URL: postgresql://testuser:testpass@localhost:5432/course_ci
+      PGPASSWORD: testpass
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install database test driver
+        run: python -m pip install "psycopg[binary]==3.2.3"
+      - name: Create disposable schema only
+        run: psql "$CI_POSTGRES_URL" -v ON_ERROR_STOP=1 -f fulfilment/ci-postgres-fixture.sql
+      - name: Run real two-connection concurrency tests
+        run: python fulfilment/test-postgres-concurrency.py
+      - name: Setup Node.js for Stripe SDK signed-event tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned test dependencies in runner
+        run: npm install --no-save --no-package-lock "stripe@23.2.0" "pg@8.13.1"
+      - name: Verify genuine Stripe SDK test signatures and DB routing
+        run: node fulfilment/test-signed-stripe-postgres.mjs
+      - name: Initialise disposable email lease fixture
+        run: psql "$CI_POSTGRES_URL" -v ON_ERROR_STOP=1 -f fulfilment/ci-email-queue.sql
+      - name: Verify independent PostgreSQL email worker leases and backoff
+        run: python fulfilment/test-postgres-email-queue.py
+      - name: State isolation boundary
+        run: echo "Signed test fixtures, disposable PostgreSQL only; no live Stripe, Supabase, Resend, emails or real payment."

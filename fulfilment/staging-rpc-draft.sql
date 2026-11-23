@@ -1,0 +1,71 @@
+-- REVIEW-ONLY SQL DRAFT. DO NOT APPLY TO LIVE DATABASE.
+-- This is a prospective atomic RPC contract for the staging 24-course webhook.
+-- Security/RLS/auth settings MUST remain unchanged until an approved migration.
+-- Must be invoked ONLY after a valid Stripe-signed test webhook with price, user,
+-- currency, UK policy (where applicable), and consent independently verified.
+--
+-- Current purchase_confirmations has PK(stripe_checkout_session_id).
+-- Current course_access has UNIQUE(user_id,course_id) and UNIQUE(session_id).
+-- Current sandbox email trigger only enqueues receipts when terms_version='sandbox-test'.
+-- This draft deliberately does NOT grant course access and does NOT trigger emails.
+-- When the new email worker is ready, implement staged, idempotent queueing and
+-- fulfilment policy without changing how the existing beginner course behaves.
+--
+-- BEFORE deployment, confirm role privileges, RLS exposure and transaction
+-- semantics, and test genuine concurrent calls against a disposable database.
+--
+-- create or replace function public.record_sandbox_24_course_receipt_v1(
+--   p_session text, p_user_id uuid, p_course_id text,
+--   p_consent_recorded_at timestamptz
+-- )
+-- returns jsonb
+-- language plpgsql
+-- security definer
+-- set search_path = ''
+-- as $body$
+-- declare r public.purchase_confirmations%rowtype;
+-- begin
+--   if p_session not like 'cs_test_%'
+--      or p_course_id not in (
+--        'built-up-01','built-up-02','built-up-03','built-up-04','built-up-05','built-up-06',
+--        'tile-slate-01','tile-slate-02','tile-slate-03','tile-slate-04','tile-slate-05','tile-slate-06',
+--        'metal-sheet-01','metal-sheet-02','metal-sheet-03','metal-sheet-04','metal-sheet-05','metal-sheet-06',
+--        'liquid-applied-01','liquid-applied-02','liquid-applied-03','liquid-applied-04','liquid-applied-05','liquid-applied-06'
+--      )
+--      or p_user_id is null or p_consent_recorded_at is null
+--   then raise exception 'Invalid sandbox purchase record';
+--   end if;
+--   if not exists (select 1 from auth.users where id=p_user_id)
+--   then raise exception 'Unknown purchasing account'; end if;
+--
+--   insert into public.purchase_confirmations (
+--     stripe_checkout_session_id,user_id,course_id,paid_amount_pence,
+--     currency,consent_recorded_at,terms_version
+--   ) values (
+--     p_session,p_user_id,p_course_id,999,'gbp',p_consent_recorded_at,
+--     'staging-24-course-v1'
+--   )
+--   on conflict (stripe_checkout_session_id) do nothing
+--   returning * into r;
+--   if found then
+--     return jsonb_build_object('status','inserted',
+--       'record',jsonb_build_object('stripe_checkout_session_id',r.stripe_checkout_session_id,'user_id',r.user_id,'course_id',r.course_id,'paid_amount_pence',r.paid_amount_pence,'currency',r.currency,'terms_version',r.terms_version));
+--   end if;
+--   select * into r from public.purchase_confirmations
+--    where stripe_checkout_session_id=p_session for update;
+--   if r.user_id=p_user_id and r.course_id=p_course_id
+--      and r.paid_amount_pence=999 and r.currency='gbp'
+--      and r.consent_recorded_at=p_consent_recorded_at
+--      and r.terms_version='staging-24-course-v1' then
+--     return jsonb_build_object('status','already_recorded',
+--       'record',jsonb_build_object('stripe_checkout_session_id',r.stripe_checkout_session_id,'user_id',r.user_id,'course_id',r.course_id,'paid_amount_pence',r.paid_amount_pence,'currency',r.currency,'terms_version',r.terms_version));
+--   end if;
+--   raise exception 'Receipt conflict requires manual reconciliation';
+-- end;
+-- $body$;
+-- REVOKE ALL ON FUNCTION public.record_sandbox_24_course_receipt_v1(text,uuid,text,timestamptz) FROM PUBLIC,anon,authenticated;
+-- GRANT EXECUTE ON FUNCTION public.record_sandbox_24_course_receipt_v1(text,uuid,text,timestamptz) TO service_role;
+--
+-- Return shape deliberately matches the staging JS adapter's identity checks.
+-- Review the JSONB and PostgreSQL type handling before deployment.
+-- A webhook must never depend on client-provided payment assertions.
