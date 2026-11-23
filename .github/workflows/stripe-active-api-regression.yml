@@ -1,0 +1,26 @@
+name: Guard against legacy Stripe Charges/token API
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/stripe-live-checkout/index.ts"
+      - "supabase/functions/stripe-webhook/index.ts"
+      - "purchase-checkout.js"
+      - "auth.js"
+      - "tests/stripe-active-legacy-api-guard.cjs"
+      - ".github/workflows/stripe-active-api-regression.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prevent-legacy-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify active payment sources exclude deprecated token-backed charge calls
+        run: node tests/stripe-active-legacy-api-guard.cjs
+      - run: echo "Static read-only check; no Stripe API calls, payment sessions or charges."
