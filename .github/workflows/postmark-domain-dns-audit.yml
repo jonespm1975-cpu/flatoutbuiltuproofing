@@ -1,0 +1,23 @@
+name: Postmark public DNS readiness — read-only
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/audit-postmark-public-dns.mjs"
+      - ".github/workflows/postmark-domain-dns-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dns-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Inspect public domain NS, MX, SPF, DMARC and possible Return-Path labels
+        run: node scripts/audit-postmark-public-dns.mjs
+      - name: Scope
+        run: echo "Read-only public DNS. No DNS mutations, customer email, or payment operations."

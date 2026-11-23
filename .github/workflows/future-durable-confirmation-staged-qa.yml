@@ -1,0 +1,100 @@
+name: Stage future-only durable contract confirmations
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/migrations/20261123202000_future_contract_confirmation_queue.sql"
+      - "supabase/functions/future-contract-confirmation-worker/**"
+      - "supabase/functions/future-confirmation-delivery-webhook/**"
+      - "tests/future_confirmation_two_connections.py"
+      - "tests/future_confirmation_worker_mock.cjs"
+      - "tests/future_confirmation_webhook_mock.cjs"
+      - "tests/future_confirmation_deployed_inactive_smoke.py"
+      - "tests/postmark_nondelivery_api_contract.cjs"
+      - ".github/workflows/future-durable-confirmation-staged-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  future-queue-two-connections:
+    name: Two real PostgreSQL connections — no production access
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable_future_confirmation_only
+          POSTGRES_DB: disposable_future_confirmation
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d disposable_future_confirmation"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:disposable_future_confirmation_only@localhost:5432/disposable_future_confirmation
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only disposable PostgreSQL test driver
+        run: python -m pip install 'psycopg[binary]==3.2.3'
+      - name: Test actual staged migration, historical exclusion and concurrent claims
+        run: python tests/future_confirmation_two_connections.py
+
+  fail-closed-email-worker:
+    name: Exact staged worker source — zero external messages
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated TypeScript compiler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Exercise real archived contract snapshots and provider refusal rules
+        run: node tests/future_confirmation_worker_mock.cjs
+      - name: Test authenticated delivery and bounce webhook source
+        run: node tests/future_confirmation_webhook_mock.cjs
+      - name: Confirm no prior email provider has been reintroduced
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          sources=list(Path("supabase/functions/future-contract-confirmation-worker").rglob("*"))+list(Path("supabase/functions/future-confirmation-delivery-webhook").rglob("*"))
+          for file in sources:
+            if file.is_file():
+              data=file.read_text(encoding="utf-8").lower()
+              assert not any(x in data for x in ("api.resend.com","resend_api_key","resend.emails")), file
+          print("PASS no retired provider reference in new delivery worker")
+          PY
+      - name: Safety scope
+        run: echo "No real customer emails, Stripe checkouts or production Supabase database operations."
+
+  deployed-inactive-endpoints:
+    name: Confirm deployed callbacks refuse unauthenticated traffic
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check dormant production endpoints without auth or mail send
+        run: python tests/future_confirmation_deployed_inactive_smoke.py
+
+  postmark-non-delivery-contract:
+    name: Validate Postmark public test token (no email)
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify documented POSTMARK_API_TEST never creates a deliverable customer message
+        run: node tests/postmark_nondelivery_api_contract.cjs
+      - name: Scope
+        run: echo "Public non-delivery test token. Reserved example.com sender and recipient only; no live server key, Supabase user, charge or email."
