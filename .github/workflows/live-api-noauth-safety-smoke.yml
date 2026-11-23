@@ -1,0 +1,23 @@
+name: Live API unauthenticated safety smoke — no charges
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tests/unauthenticated_live_endpoint_gates.py"
+      - ".github/workflows/live-api-noauth-safety-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  noauth-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify production read-only refusal gates
+        run: python tests/unauthenticated_live_endpoint_gates.py
+      - name: Scope
+        run: echo 'All requests unauthenticated. No Stripe sessions, emails, provider connections or write credentials.'
