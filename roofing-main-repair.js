@@ -21,6 +21,28 @@
       link.href = sponsorPages[index];
     });
   });
+  const liquidFrame = panels[3].querySelector('.page-frame');
+  const liquidVideo = document.createElement('video');
+  liquidVideo.className = 'liquid-hero-film';
+  liquidVideo.muted = true;
+  liquidVideo.playsInline = true;
+  liquidVideo.loop = true;
+  liquidVideo.preload = 'none';
+  liquidVideo.setAttribute('aria-label', 'Liquid roofing being applied with a roller');
+  liquidVideo.addEventListener('loadeddata', () => liquidVideo.classList.add('ready'));
+  const liquidToggle = document.createElement('button');
+  liquidToggle.type = 'button';
+  liquidToggle.className = 'motion-toggle liquid-film-toggle';
+  liquidToggle.setAttribute('aria-label', 'Play liquid roofing video');
+  liquidToggle.addEventListener('click', () => {
+    if (liquidVideo.paused) liquidVideo.play().catch(() => {});
+    else liquidVideo.pause();
+  });
+  for (const event of ['play','pause']) {
+    liquidVideo.addEventListener(event, () => liquidToggle.setAttribute('aria-label',
+      liquidVideo.paused ? 'Play liquid roofing video' : 'Pause liquid roofing video'));
+  }
+  liquidFrame.append(liquidVideo, liquidToggle);
   const readSelection = () => {
     const match = location.hash.match(/^#roof-panel-([1-4])$/);
     if (match) return Number(match[1]) - 1;
@@ -29,6 +51,8 @@
   };
   function select() {
     const index = readSelection();
+    if (index === 3 && !liquidVideo.hasAttribute('src'))
+      liquidVideo.src = 'assets/liquid-applied-hero.mp4';
     panels.forEach((panel, i) => {
       panel.hidden = i !== index;
       panel.setAttribute('aria-hidden', String(i !== index));
@@ -50,7 +74,8 @@
       else if (!document.hidden) panel.querySelectorAll('video').forEach(v => {
         v.muted = true;
         v.playsInline = true;
-        if (!v.classList.contains('video-unavailable') && v.paused) {
+        if (!v.classList.contains('video-unavailable') && v.paused &&
+            (v !== liquidVideo || !window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
           const attempt = v.play();
           if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {
             const button = panel.querySelector('.motion-toggle,.hero-pause');

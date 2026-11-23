@@ -361,3 +361,24 @@
     background: #fff !important;
   }
 }
+
+#roof-panel-4 .liquid-hero-film {
+  position: absolute;
+  left: 44%;
+  top: 6.4%;
+  width: 54%;
+  height: 17.2%;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0;
+  mask-image: linear-gradient(to right, transparent, black 14%);
+}
+#roof-panel-4 .liquid-hero-film.ready { opacity: 1; }
+#roof-panel-4 .liquid-hero-film.video-unavailable { opacity: 0; }
+#roof-panel-4 .page-frame:has(.liquid-hero-film.ready)::after { display: none; }
+#roof-panel-4 .page-frame > .liquid-film-toggle {
+  top: 18.3% !important;
+  right: 3.3% !important;
+  z-index: 41;
+}
+#roof-panel-4 .liquid-film-toggle[hidden] { display: none; }
