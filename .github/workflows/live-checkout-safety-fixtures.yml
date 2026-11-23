@@ -1,0 +1,26 @@
+name: Live checkout safety fixtures (no real payments)
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/stripe-live-checkout/index.ts"
+      - "tests/live-checkout-safety-fixtures.cjs"
+      - ".github/workflows/live-checkout-safety-fixtures.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-payment-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated TypeScript transpiler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Run checkout source security fixtures
+        run: node tests/live-checkout-safety-fixtures.cjs
+      - name: Safety note
+        run: echo 'Mocks only; no live Stripe sessions, payments, email, or Supabase writes. Duplicate-session risk is documented, not fixed by this workflow.'
