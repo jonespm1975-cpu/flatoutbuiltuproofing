@@ -92,12 +92,12 @@ function harness(options={}){
   throw Error("Unexpected RPC "+name);
  };
  const createClient=(_url,_secret)=>({rpc});
- const fetch=async(url,options)=>{
+ const fetch=async(url,requestOptions)=>{
    providerCalls++;
    assert.equal(url,"https://api.postmarkapp.com/email");
-   assert.equal(options.method,"POST");
-   assert.equal(options.headers["X-Postmark-Server-Token"],env.POSTMARK_SERVER_TOKEN);
-   const payload=JSON.parse(options.body);
+   assert.equal(requestOptions.method,"POST");
+   assert.equal(requestOptions.headers["X-Postmark-Server-Token"],env.POSTMARK_SERVER_TOKEN);
+   const payload=JSON.parse(requestOptions.body);
    assert.equal(payload.To,fixture.recipient_email);
    assert.match(payload.HtmlBody,/Digital Course Cancellation and Refunds/);
    assert.equal(payload.TrackOpens,false);
