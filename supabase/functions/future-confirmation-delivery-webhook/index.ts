@@ -38,6 +38,12 @@ Deno.serve(async req=>{
  if(!userOk||!passwordOk)return response(401,{error:"Authentication required"});
  if(Deno.env.get("FUTURE_CONFIRMATION_WEBHOOK_ENABLED")!=="true")
    return response(503,{error:"Delivery webhook disabled"});
+ // Postmark supplies ServerID in Delivery and Bounce events. This must be set
+ // to the operator-verified server ID before processing any provider callback.
+ const configuredServerId=Deno.env.get("FUTURE_CONFIRMATION_POSTMARK_SERVER_ID")||"";
+ const serverId=Number(configuredServerId);
+ if(!/^[1-9][0-9]*$/.test(configuredServerId)||!Number.isSafeInteger(serverId))
+   return response(503,{error:"Verified Postmark Server ID required"});
  const serviceKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
  const dbUrl=Deno.env.get("SUPABASE_URL")||"";
  if(!serviceKey||!dbUrl)return response(503,{error:"Delivery webhook config incomplete"});
@@ -53,6 +59,8 @@ Deno.serve(async req=>{
    typeof event.MessageID!=="string"||
    event.MessageID.length<3||event.MessageID.length>255)
    return response(200,{status:"ignored"});
+ if(!Number.isSafeInteger(event.ServerID)||event.ServerID!==serverId)
+   return response(200,{status:"ignored",reason:"server_mismatch"});
  const recipient=event.RecordType==="Delivery"?event.Recipient:event.Email;
  const when=event.RecordType==="Delivery"?event.DeliveredAt:event.BouncedAt;
  if(typeof recipient!=="string"||typeof when!=="string"||
