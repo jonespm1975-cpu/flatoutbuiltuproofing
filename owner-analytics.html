@@ -126,6 +126,19 @@ tbody tr:nth-child(even){background:#07192933}
 .dashboard-music button:disabled{opacity:.5}
 .dashboard-music output{min-width:4ch;text-align:center;font-variant-numeric:tabular-nums}
 .dashboard-music span:empty{display:none}
+@media (min-width: 941px) {
+  #dashboardCanvas, #dashboardCanvas main, #dashboardCanvas .hero { width: 100%; }
+  #dashboardCanvas { min-height: 100vh; }
+  #dashboardCanvas main { padding-inline: clamp(16px, 1.6vw, 32px); }
+}
+@media (min-width: 1280px) {
+  #content { display: grid; grid-template-columns: minmax(360px, 1fr) minmax(0, 1.65fr); column-gap: 14px; }
+  #content > * { grid-column: 1 / -1; }
+  #content > .insights { grid-column: 1; }
+  #content > .panel:has(#trendChart) { grid-column: 2; height: auto; }
+  #content .lineplot { height: auto; aspect-ratio: 960 / 230; }
+  .insights ul { margin-right: 45px; }
+}
 </style>
 <link rel="stylesheet" href="luxury-artwork-detail.css"><link rel="stylesheet" href="design4-specialty.css"><link rel="stylesheet" href="interior-preview-four.css"></head>
 <body class="p4-interior">
@@ -244,7 +257,13 @@ import {supabase} from './auth.js';
 function keepApprovedComposition(){
  const canvas=document.getElementById('dashboardCanvas'),frame=document.getElementById('dashboardViewport');
  if(!canvas||!frame)return;
- const scale=Math.min(1,window.innerWidth/941);
+ if(window.matchMedia('(min-width: 941px)').matches){
+   canvas.style.removeProperty('transform');
+   frame.style.removeProperty('width');
+   frame.style.removeProperty('height');
+   return;
+ }
+ const scale=document.documentElement.clientWidth/941;
  canvas.style.transform='scale('+scale+')';
  frame.style.width=(941*scale)+'px';
  frame.style.height=Math.ceil(canvas.scrollHeight*scale)+'px';
