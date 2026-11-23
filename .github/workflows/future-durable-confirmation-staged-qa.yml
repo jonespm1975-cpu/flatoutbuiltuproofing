@@ -9,6 +9,7 @@ on:
       - "tests/future_confirmation_two_connections.py"
       - "tests/future_confirmation_worker_mock.cjs"
       - "tests/future_confirmation_webhook_mock.cjs"
+      - "tests/future_confirmation_deployed_inactive_smoke.py"
       - ".github/workflows/future-durable-confirmation-staged-qa.yml"
   workflow_dispatch:
 permissions:
@@ -70,3 +71,15 @@ jobs:
           PY
       - name: Safety scope
         run: echo "No real customer emails, Stripe checkouts or production Supabase database operations."
+
+  deployed-inactive-endpoints:
+    name: Confirm deployed callbacks refuse unauthenticated traffic
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check dormant production endpoints without auth or mail send
+        run: python tests/future_confirmation_deployed_inactive_smoke.py
