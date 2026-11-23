@@ -44,6 +44,8 @@ const message=mail.buildDurableEmail({...fixture},"courses@flatoutbuiltuproofing
 assert.equal(message.To,fixture.recipient_email);
 assert.equal(message.From,"courses@flatoutbuiltuproofing.co.uk");
 assert.equal(message.MessageStream,"outbound");
+assert.equal(message.TrackOpens,false);
+assert.equal(message.TrackLinks,"None");
 assert.match(message.HtmlBody,/£9\.99/);
 assert.match(message.HtmlBody,/21 November 2026/);
 assert.match(message.HtmlBody,/Terms of Use and Training Safety/);
@@ -98,9 +100,12 @@ function harness(options={}){
    const payload=JSON.parse(options.body);
    assert.equal(payload.To,fixture.recipient_email);
    assert.match(payload.HtmlBody,/Digital Course Cancellation and Refunds/);
+   assert.equal(payload.TrackOpens,false);
+   assert.equal(payload.TrackLinks,"None");
    if(options.timeout)throw Error("Simulated provider timeout after possible acceptance");
    if(options.rejected)return new Response(JSON.stringify({ErrorCode:422,Message:"rejected"}),{status:422});
-   return new Response(JSON.stringify({ErrorCode:0,MessageID:"postmark-fixture-id"}),{status:200});
+   return new Response(JSON.stringify({ErrorCode:0,MessageID:"postmark-fixture-id",
+     To:options.mismatchedRecipient?"other@example.invalid":fixture.recipient_email}),{status:200});
  };
  const fetchMock=(url,o)=>{
    if(options.timeout)throw Error("simulated uncertain response");
@@ -149,6 +154,14 @@ function harness(options={}){
  assert.equal((await accepted.request()).status,200);
  assert.equal(accepted.stats().providerCalls,1);
  console.log("PASS new order sends only once; provider acceptance never claims delivered");
+ const wrongDestination=harness({mismatchedRecipient:true});
+ assert.equal((await wrongDestination.request()).status,502);
+ assert.equal(wrongDestination.stats().jobStatus,"review");
+ assert.equal(wrongDestination.stats().providerCalls,1);
+ assert.equal((await wrongDestination.request()).status,200);
+ assert.equal(wrongDestination.stats().providerCalls,1);
+ console.log("PASS provider recipient mismatch fails closed without a second message");
+
 
  const uncertain=harness({timeout:true});
  assert.equal((await uncertain.request()).status,502);
