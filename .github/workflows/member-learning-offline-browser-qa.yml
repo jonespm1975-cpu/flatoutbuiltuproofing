@@ -1,0 +1,29 @@
+name: Member learning and purchase confirmations — isolated browser QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-member-learning-offline.mjs"
+      - "members.html"
+      - "purchase-confirmations.html"
+      - ".github/workflows/member-learning-offline-browser-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  member-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned Chromium test dependency
+        run: npm install --no-save --no-package-lock --ignore-scripts playwright@1.56.1
+      - name: Install headless Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Simulate paid/unpaid learning and receipts
+        run: node scripts/audit-member-learning-offline.mjs
+      - name: Scope
+        run: echo "No live credentials, authenticated service access, charges, emails or Supabase writes."
