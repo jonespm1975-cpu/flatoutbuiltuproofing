@@ -1,5 +1,5 @@
-// STAGED ONLY — not deployed, not scheduled, no credentials configured.
-// Candidate Postmark transport, subject to OWNER APPROVAL and domain verification.
+// DEPLOYED but OFF: no scheduler, no approved sender credentials, no delivery flag.
+// Postmark transport approved by owner; domain authentication remains pending.
 // Intentionally separate from the retired provider and historical accepted queue.
 // This endpoint NEVER creates entitlements and never accesses Stripe.
 
@@ -69,7 +69,10 @@ Deno.serve(async req=>{
       signal:AbortSignal.timeout(15000)
     });
     const reply=await response.json();
-    if(response.ok&&reply?.ErrorCode===0&&typeof reply?.MessageID==="string"&&reply.MessageID){
+    // Postmark includes the destination in its response. A mismatch is
+    // ambiguous: NEVER re-send automatically; reconcile the message manually.
+    if(response.ok&&reply?.ErrorCode===0&&typeof reply?.MessageID==="string"&&reply.MessageID
+       &&typeof reply?.To==="string"&&reply.To.trim().toLowerCase()===email.To.toLowerCase()){
       const updated=await finish("accepted",reply.MessageID,null);
       if(!updated)return json(503,{error:"Accepted by provider; queue requires manual reconciliation"});
       // Provider acceptance is NOT proof of recipient inbox delivery.
