@@ -58,8 +58,9 @@ with db() as c:
   has_function_privilege('anon','public.claim_future_contract_confirmations(integer)','EXECUTE'),
   has_function_privilege('authenticated','public.claim_future_contract_confirmations(integer)','EXECUTE'),
   has_function_privilege('service_role','public.claim_future_contract_confirmations(integer)','EXECUTE'),
-  has_function_privilege('anon','public.finish_future_contract_confirmation(text,uuid,text,text,text)','EXECUTE')""").fetchone()
- assert a==(False,False,True,False),a
+  has_function_privilege('anon','public.finish_future_contract_confirmation(text,uuid,text,text,text)','EXECUTE'),
+  has_function_privilege('anon','public.record_future_contract_delivery(text,text,text,timestamptz)','EXECUTE')""").fetchone()
+ assert a==(False,False,True,False,False),a
  assert c.execute("select relrowsecurity from pg_class where oid='internal.future_contract_confirmation_jobs'::regclass").fetchone()[0]
  print("PASS private RLS/ACL; historical accepted email never backfilled")
 
@@ -112,7 +113,17 @@ with db() as c:
  row=c.execute("""select status,attempts,provider_message_id,accepted_at
   from internal.future_contract_confirmation_jobs where stripe_checkout_session_id=%s""",(sid,)).fetchone()
  assert row[0]=="accepted" and row[1]==1 and row[2]=="provider_message_fixture" and row[3]
- print("PASS accepted provider ID stored only once, wrong/duplicate completion refused")
+ assigned=c.execute("select recipient_email from internal.future_contract_confirmation_jobs where stripe_checkout_session_id=%s",(sid,)).fetchone()[0]
+ assert assigned=="course-account@example.invalid"
+ assert c.execute("select public.record_future_contract_delivery(%s,%s,%s,clock_timestamp())",("provider_message_fixture","attacker@example.invalid","delivered")).fetchone()[0] is False
+ assert c.execute("select public.record_future_contract_delivery(%s,%s,%s,clock_timestamp())",("provider_message_fixture",assigned,"delivered")).fetchone()[0] is True
+ assert c.execute("select status from internal.future_contract_confirmation_jobs where stripe_checkout_session_id=%s",(sid,)).fetchone()[0]=="delivered"
+ assert c.execute("select public.record_future_contract_delivery(%s,%s,%s,clock_timestamp())",("provider_message_fixture",assigned,"delivered")).fetchone()[0] is True
+ assert c.execute("select public.record_future_contract_delivery(%s,%s,%s,clock_timestamp())",("provider_message_fixture",assigned,"bounced")).fetchone()[0] is True
+ assert c.execute("select status from internal.future_contract_confirmation_jobs where stripe_checkout_session_id=%s",(sid,)).fetchone()[0]=="bounced"
+ assert c.execute("select public.record_future_contract_delivery(%s,%s,%s,clock_timestamp())",("provider_message_fixture",assigned,"delivered")).fetchone()[0] is True
+ assert c.execute("select status from internal.future_contract_confirmation_jobs where stripe_checkout_session_id=%s",(sid,)).fetchone()[0]=="bounced"
+ print("PASS provider acceptance, recipient match, delivered/bounced and idempotent callbacks")
 
 with db() as c:
  other=newid()
