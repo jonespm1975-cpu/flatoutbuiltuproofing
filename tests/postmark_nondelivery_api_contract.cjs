@@ -13,6 +13,7 @@ const payload={
 assert.equal(payload.TrackOpens,false);
 assert.equal(payload.TrackLinks,"None");
 assert.ok(!JSON.stringify(payload).includes("flatoutbuiltuproofing.co.uk"));
+(async()=>{
 const result=await fetch("https://api.postmarkapp.com/email",{
   method:"POST",
   headers:{"Accept":"application/json","Content-Type":"application/json",
@@ -30,3 +31,4 @@ assert.equal(details.To,payload.To,"Postmark must echo expected fixture recipien
 assert.ok(typeof details.MessageID==="string"&&details.MessageID.length>0,"Missing acknowledgement ID");
 console.log("PASS real Postmark API accepted no-delivery fixture with explicit tracking disabled");
 console.log("IMPORTANT: POSTMARK_API_TEST does not send mail and does not verify a customer inbox.");
+})().catch(error=>{console.error(error);process.exitCode=1;});
