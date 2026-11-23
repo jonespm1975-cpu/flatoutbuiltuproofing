@@ -76,6 +76,8 @@ ${details}${policies}</body></html>`;
     From:verifiedSender,To:row.recipient_email,ReplyTo:"jonespm1975@gmail.com",
     Subject:"Flat Out Built-Up Roofing — £9.99 course purchase and contract confirmation",
     HtmlBody:html,TextBody:textBody,MessageStream:"outbound",
-    Tag:"one-off-course-contract-confirmation"
+    Tag:"one-off-course-contract-confirmation",
+    // Essential contract messaging does not need behaviour analytics.
+    TrackOpens:false,TrackLinks:"None"
   };
 }
