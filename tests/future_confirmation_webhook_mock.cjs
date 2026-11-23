@@ -12,7 +12,7 @@ const js=ts.transpileModule(c,{compilerOptions:{
 const event={
  RecordType:"Delivery",MessageID:"postmark-fixture-id",
  Recipient:"course-account@example.invalid",
- DeliveredAt:"2026-11-23T20:10:00Z",
+ DeliveredAt:"2026-11-23T20:10:00Z",ServerID:23,
  Tag:"one-off-course-contract-confirmation",MessageStream:"outbound"
 };
 const auth="Basic "+Buffer.from("postmark-hook-fixture:distinct-secret-123").toString("base64");
@@ -22,6 +22,7 @@ function harness(opts={}){
   FUTURE_CONFIRMATION_WEBHOOK_USER:"postmark-hook-fixture",
   FUTURE_CONFIRMATION_WEBHOOK_PASSWORD:"distinct-secret-123",
   FUTURE_CONFIRMATION_WEBHOOK_ENABLED:opts.disabled?"false":"true",
+  FUTURE_CONFIRMATION_POSTMARK_SERVER_ID:opts.noServerId?"":"23",
   SUPABASE_URL:"https://example.invalid",SUPABASE_SERVICE_ROLE_KEY:"service_role_fixture"
  };
  const createClient=()=>({rpc:async(name,params)=>{
@@ -57,6 +58,11 @@ function harness(opts={}){
  assert.equal(disabled.calls().length,0);
  console.log("PASS event handler disabled by default");
 
+ const noServer=harness({noServerId:true});
+ assert.equal((await noServer.request()).status,503);
+ assert.equal(noServer.calls().length,0);
+ console.log("PASS webhook remains disabled without operator-verified Postmark Server ID");
+
  const valid=harness();
  assert.equal((await valid.request()).status,200);
  assert.equal(valid.calls().length,1);
@@ -76,8 +82,10 @@ function harness(opts={}){
  assert.equal((await spoof.request({...event,Tag:"spam"})).status,200);
  assert.equal((await spoof.request({...event,MessageStream:"broadcast"})).status,200);
  assert.equal((await spoof.request({...event,RecordType:"Opened"})).status,200);
+ assert.equal((await spoof.request({...event,ServerID:24})).status,200);
+ assert.equal((await spoof.request({...event,ServerID:null})).status,200);
  assert.equal(spoof.calls().length,0);
- console.log("PASS unrelated stream, tags and event types ignored");
+ console.log("PASS unrelated stream, tags, ServerID and event types ignored");
 
  const invalid=harness();
  assert.equal((await invalid.request({...event,Recipient:"not-an-email"})).status,422);
