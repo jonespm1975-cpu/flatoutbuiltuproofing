@@ -26,3 +26,17 @@ Scope: connected Stripe (live account acct_1UT8NBKeIprRDTKx), Supabase project f
 ## Safety boundaries observed
 
 No new charge/refund/checkout session, no email, no Stripe price or subscription write, no deployment changing approved homepage or videos, no Supabase plan upgrade, no accidental use of the retired email provider. The main purchase webhook remains deployed as before. No source changes to the other four main roofing page HTML files.
+
+
+## Additional provider audit — 23 November 2026
+
+Full scan of all **19 deployed Supabase Edge Functions** found two additional legacy email senders beyond the already retired live worker:
+- `sponsor-logo-intake` v9 had a provider call after successful logo storage.
+- `owner-sandbox-receipt-check` v3 was an expired provider-backed owner test.
+Both have now been changed, with no emails sent:
+- `sponsor-logo-intake` v10 **preserves invitation token validation, submitter authorisation, file signatures, private storage and pending owner approval**, but makes no email call. Its notification status retains database default `pending`, so the owner must review new submissions in Supabase manually.
+- `owner-sandbox-receipt-check` v4 returns 404 and sends nothing.
+- Re-scanned all 19 deployed functions: **zero references to the former provider's API endpoint or key**.
+- Both current sources are recorded in GitHub. Root `AGENTS.md` now contains an explicit permanent no-Resend policy, and the new workflow `.github/workflows/no-retired-email-provider.yml` checks the three affected active source files for regression.
+- Last Supabase verification still showed one original live payment and entitlement, one accepted historical outbox record, no pending outbox records, and inactive live-email cron.
+- The provider's credentials may still exist in protected project secrets; the connector cannot list or remove them. The owner should revoke/clear them when able. Nothing was sent or re-sent.
