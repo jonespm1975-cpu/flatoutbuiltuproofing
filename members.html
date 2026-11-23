@@ -117,7 +117,7 @@ try {
     } else if (orderCheck.error) {
       status.textContent = 'We couldn’t check your purchase status. If you have paid, please don’t buy again. Refresh to try again.';
     } else if (returnedFromCheckout && !lessons.has('beginner-training-course')) {
-      status.textContent = 'Your lesson will appear after we verify payment and send your confirmation email. This usually takes a few minutes. Refresh this page to check again.';
+      status.textContent = 'If you have just paid, your lesson will appear after payment is verified. Refresh this page to check again. Purchase confirmation is handled separately and does not delay course access. If access does not appear, please contact us.';
     } else {
       status.textContent = (lessons.size || memberActive === true) ? 'Your account is ready.' : 'You have no paid lessons yet.';
     }
