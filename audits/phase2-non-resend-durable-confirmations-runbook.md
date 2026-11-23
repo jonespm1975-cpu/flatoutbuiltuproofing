@@ -1,9 +1,9 @@
-# Phase 2 — Future-only durable course confirmations (STAGED / NOT LIVE)
+# Phase 2 — Postmark approved; installed but email sending inactive
 23 November 2026 · Flat Out Built-Up Roofing · owner review required
 
 ## State / absolute safety rules
-- **No code in this PR has been deployed to production.** No new Supabase migration applied, cron job created, provider keys configured, customer messages sent or past records re-sent.
-- The owner has permanently forbidden the prior email provider. Do not reconnect, access, retry, invoke or reuse it.
+- The future-only queue migration and two guarded Edge Functions have now been deployed to production, but **sending and delivery callback features remain inactive**. No cron job, provider keys, customer messages or past-record resends have been made.
+- The owner has approved **Postmark** and permanently forbidden the prior email provider. Do not reconnect, access, retry, invoke or reuse it.
 - Existing successful £9.99 payment, entitlement, and previously accepted historical email-outbox record remain untouched. The new trigger is **INSERT-only**, has **no historical backfill**, and the claim function also excludes old accepted rows.
 - Paid-course access remains independent of email delivery, and none of these functions creates payments or grants entitlements.
 - £5 membership, legacy £1.99 test subscriptions, 24 other paid courses and sponsor notifications are **out of scope**.
@@ -63,3 +63,30 @@ References:
 - https://www.legislation.gov.uk/uksi/2013/3134/regulation/37
 - https://postmarkapp.com/developer/api/email-api
 - https://postmarkapp.com/developer/webhooks/webhooks-overview
+
+
+## Postmark owner approval and dormant installation — 23 November 2026
+
+**Authorisation:** owner approved Postmark as the replacement provider. No paid Postmark plan was authorised; Postmark's current free Developer plan allows up to 100 emails/month.
+
+**Production installation now complete but safely inactive:**
+- Migration `future_only_contract_confirmation_queue_20261123` applied; RLS enabled; only service_role can claim or report delivery. The new future queue contains **zero records**, no historical purchase replays, and no scheduled mail worker.
+- `future-contract-confirmation-worker` v1 and `future-confirmation-delivery-webhook` v1 are installed in Supabase. The dedicated authentication keys and Postmark API token are **not** configured by the assistant. The feature-enable flags have not been activated.
+- Production safe HTTP tests show POST without credentials returns 401 and GET returns 405 on both endpoints. GitHub run: https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45260763917 (success).
+- Historical live purchase 1; matching paid course entitlement 1; old accepted email outbox 1; old cron disabled. No new emails/charges.
+- Do not treat successful Edge Function deployment as successful customer email delivery.
+
+### Exact steps in the owner-controlled accounts
+1. Open https://account.postmarkapp.com/sign_up and register/login using the free Developer tier. Avoid choosing a paid plan unless separately authorised.
+2. In Postmark, create a server for `Flat Out Built-Up Roofing` with transactional `outbound` messages. Add the sending domain `flatoutbuiltuproofing.co.uk`.
+3. In Postmark **Sender Signatures → DNS Settings** find the exact generated DKIM TXT host/value and custom Return-Path CNAME host/value. **These are account-specific**; do not invent the DKIM value. Postmark often defaults to `pm_bounces` → `pm.mtasv.net`.
+4. In https://www.names.co.uk login → Services → DNS Administration → domain → Add/Modify DNS zone, add **only** the provider-provided DKIM TXT and Return-Path CNAME, plus DMARC if appropriate. Keep all existing A/AAAA, GitHub Pages CNAME, MX, verified third-party mail and nameserver records unchanged. Do not switch your domain's nameservers.
+5. Press Verify in Postmark after DNS propagation. The free tier can be used for the initial tests if permitted by the provider.
+6. In Postmark Server → **API Tokens**, obtain the **Server API Token** privately. Never paste it into ChatGPT or GitHub issue/PR. Store it only inside protected Supabase secrets; same for unique worker token and webhook Basic-Auth username/password.
+7. Configure the dedicated Postmark delivery/bounce webhooks using authenticated HTTPS URLs and provider documentation, but leave `FUTURE_CONFIRMATION_WEBHOOK_ENABLED` not true until authentication and ingress restrictions are checked.
+8. Confirm owner test inbox and explicitly authorise the first real deliverability test. Start with a Postmark non-delivering test token in an isolated context; never mark its result as delivered. Subsequently test one real message and verify both accepted and recipient delivery, not just HTTP 200.
+9. Do not set `FUTURE_CONFIRMATION_DELIVERY_ENABLED=true` or schedule the worker until tests, final legal review and checkout release gate pass. Never enable or call the retired provider.
+
+Official references: https://postmarkapp.com/support/article/how-do-i-verify-a-domain
+and https://www.names.co.uk/support/articles/accessing-your-dns-zone-files/
+and https://postmarkapp.com/developer/webhooks/webhooks-overview.
