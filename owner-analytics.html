@@ -155,6 +155,10 @@ tbody tr:nth-child(even){background:#07192933}
   <button type="button" id="volumeUp" aria-label="Raise music volume">+</button>
   <span id="musicNotice" role="status"></span>
 </div>
+<section id="orderAlerts" class="panel" hidden>
+  <h2>Paid lessons awaiting access</h2>
+  <div id="orderAlertsBody" aria-live="polite"></div>
+</section>
 <div class="metric-grid">
 <div class="metric"><div class="heading"><span class="icon">♟</span> Visitors</div><div class="value" id="visitors">—</div><div class="detail">Distinct tracked browser sessions</div></div>
 <div class="metric"><div class="heading"><span class="icon">◉</span> Page Views</div><div class="value" id="views">—</div><div class="detail" id="viewsChange">Recorded page loads</div></div>
@@ -366,7 +370,23 @@ else {const top=pages.find(p=>p.page!=='/'&&p.page!=='/index.html');if(top)box.a
 if(!(d.source_coverage?.known??d.source_coverage?.attributed))box.append(li('No visits with a known acquisition source yet. Use tagged QR destinations and social campaign links; untagged historic views cannot be reclassified.'));
 if(!(d.course_interest_clicks))box.append(li('Course CTA interest is measured separately from page visits; wait for real clicks before assessing demand.'));if(d.completed_purchases===null||d.verified_signups===null)box.append(li('Owner-only backend conversion verification is temporarily unavailable; do not treat missing figures as zero.'));
 if(!d.views)box.append(li('Check site analytics availability and try the 90-day date range.'))}
-async function load(){if(isBusy)return;isBusy=true;$('refresh').disabled=true;$('status').textContent='● Refreshing analytics…';try{
+async function checkOutstandingOrders() {
+  const panel = $('orderAlerts');
+  const body = $('orderAlertsBody');
+  const {data, error} = await supabase.rpc('outstanding_course_orders', {owner_view: true});
+  body.replaceChildren();
+  panel.hidden = !error && !data?.length;
+  if (error) {
+    body.textContent = 'Could not check orders awaiting access. Refresh to try again.';
+    return;
+  }
+  for (const order of data || []) {
+    const date = new Date(order.paid_at).toLocaleString('en-GB', {timeZone:'Europe/London'});
+    const state = order.needs_help ? 'Needs owner attention' : 'Awaiting confirmation';
+    body.append(node('p', state + ' · £9.99 · ' + date + ' UK · Order ' + order.order_reference));
+  }
+}
+async function load(){if(isBusy)return;isBusy=true;void checkOutstandingOrders();$('refresh').disabled=true;$('status').textContent='● Refreshing analytics…';try{
   const {data:{session},error}=await supabase.auth.getSession();if(error||!session)throw Error('Please sign in again');
   const days=Number($('period').value),d=await fetchAnalytics(days,session.access_token);if(!Number.isFinite(d.views)||!Array.isArray(d.pages)||!Array.isArray(d.daily))throw Error('Unexpected analytics response');
   $('visitors').textContent=fmt(d.visitors);$('views').textContent=fmt(d.views);$('engaged').textContent=Number.isFinite(d.engaged_sessions)?fmt(d.engaged_sessions):'—';$('time').textContent=Number.isFinite(d.average_session_seconds)?Math.round(d.average_session_seconds)+'s':'—';$('qr').textContent=Number.isFinite(d.qr_arrivals)?fmt(d.qr_arrivals):'—';$('conversions').textContent=Number.isFinite(d.completed_purchases)?fmt(d.completed_purchases):'—';
