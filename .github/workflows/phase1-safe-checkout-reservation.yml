@@ -1,0 +1,57 @@
+name: Phase 1 — safe duplicate checkout protection (staged)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/migrations/20261123200800_live_course_checkout_reservation_phase1.sql"
+      - "supabase/functions/stripe-live-checkout/index.ts"
+      - "tests/live_checkout_reservation_two_connections.py"
+      - "tests/phase1_checkout_source_mock.cjs"
+      - ".github/workflows/phase1-safe-checkout-reservation.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  disposable-postgres:
+    name: Two genuine connections — disposable PostgreSQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable_phase1_test_only
+          POSTGRES_DB: disposable_phase1_checkout
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d disposable_phase1_checkout"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:disposable_phase1_test_only@localhost:5432/disposable_phase1_checkout
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install isolated database driver
+        run: python -m pip install 'psycopg[binary]==3.2.3'
+      - name: Test staged migration with concurrent database connections
+        run: python tests/live_checkout_reservation_two_connections.py
+
+  isolated-stripe-mocks:
+    name: Actual checkout source — mock Stripe and Supabase
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated TypeScript transpiler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Check same buyer, concurrent calls, expiry and ambiguous provider outcome
+        run: node tests/phase1_checkout_source_mock.cjs
+      - name: No side effects
+        run: echo "Mocked-only. Production Supabase/Stripe, billing, email, lessons and visuals unchanged."
