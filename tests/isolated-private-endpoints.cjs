@@ -78,7 +78,7 @@ async function verify(name,slug,options,requestOptions,expected,inspect=()=>{}){
  const response=await fixture.request(requestOptions);
  assert.equal(response.status,expected,name);
  const raw=await response.text();
- const body=raw?JSON.parse(raw):null;
+ let body=null;try{body=raw?JSON.parse(raw):null}catch{body={message:raw}};
  inspect(body,fixture.stats());
  console.log("PASS",name,"HTTP",expected);
  cases.push(name);
