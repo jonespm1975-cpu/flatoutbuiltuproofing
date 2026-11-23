@@ -1,0 +1,28 @@
+name: Private course and receipt endpoint source security
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tests/isolated-private-endpoints.cjs"
+      - "supabase/functions/paid-lesson-content/index.ts"
+      - "supabase/functions/my-purchase-confirmations/index.ts"
+      - ".github/workflows/private-endpoint-source-security.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mock-auth-and-rls:
+    name: Isolated JWT and entitlement security checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install TypeScript transpiler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Exercise actual deployed source with fake identities
+        run: node tests/isolated-private-endpoints.cjs
+      - name: Scope
+        run: echo "All auth, API and row data simulated. Zero Stripe/Supabase calls, production credentials, charges or emails."
