@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS internal.future_contract_confirmation_jobs (
   lease_until timestamptz,
   provider_message_id text,
   provider_name text,
+  recipient_email text,
   last_error text,
   created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
   updated_at timestamptz NOT NULL DEFAULT clock_timestamp(),
@@ -98,8 +99,10 @@ BEGIN
     UPDATE internal.future_contract_confirmation_jobs q
     SET status='leased',attempts=1,lease_token=gen_random_uuid(),
         lease_until=clock_timestamp()+interval '5 minutes',
-        updated_at=clock_timestamp()
+        updated_at=clock_timestamp(),recipient_email=u.email
     FROM candidates candidate
+    JOIN public.purchase_confirmations c ON c.stripe_checkout_session_id=candidate.stripe_checkout_session_id
+    JOIN auth.users u ON u.id=c.user_id
     WHERE q.stripe_checkout_session_id=candidate.stripe_checkout_session_id
     RETURNING q.stripe_checkout_session_id,q.lease_token
   )
@@ -150,3 +153,39 @@ REVOKE ALL ON FUNCTION public.claim_future_contract_confirmations(integer) FROM 
 REVOKE ALL ON FUNCTION public.finish_future_contract_confirmation(text,uuid,text,text,text) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.claim_future_contract_confirmations(integer) TO service_role;
 GRANT EXECUTE ON FUNCTION public.finish_future_contract_confirmation(text,uuid,text,text,text) TO service_role;
+
+-- Record delivery/bounce event ONLY after the separately authenticated provider
+-- webhook verifies the provider identity; never treat 'accepted' as delivered.
+CREATE OR REPLACE FUNCTION public.record_future_contract_delivery(
+ p_provider_message_id text,p_recipient text,p_event text,p_event_at timestamptz
+)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path=''
+AS $fn$
+DECLARE changed integer;
+BEGIN
+ IF nullif(btrim(p_provider_message_id),'') IS NULL
+ OR nullif(btrim(p_recipient),'') IS NULL
+ OR p_event NOT IN ('delivered','bounced')
+ OR p_event_at IS NULL OR p_event_at > clock_timestamp()+interval '2 days'
+ OR p_event_at < clock_timestamp()-interval '45 days' THEN RETURN false; END IF;
+ UPDATE internal.future_contract_confirmation_jobs q
+ SET status=CASE WHEN q.status='bounced' THEN 'bounced'
+           WHEN p_event='bounced' THEN 'bounced' ELSE 'delivered' END,
+     delivered_at=CASE WHEN p_event='delivered' AND q.status<>'bounced'
+                      THEN coalesce(q.delivered_at,p_event_at)
+                      ELSE q.delivered_at END,
+     updated_at=clock_timestamp()
+ WHERE q.provider_message_id=p_provider_message_id
+   AND lower(q.recipient_email)=lower(p_recipient)
+   AND q.status IN ('accepted','delivered','bounced');
+ GET DIAGNOSTICS changed=ROW_COUNT;
+ RETURN changed=1;
+END;
+$fn$;
+REVOKE ALL ON FUNCTION public.record_future_contract_delivery(text,text,text,timestamptz)
+  FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.record_future_contract_delivery(text,text,text,timestamptz)
+  TO service_role;
