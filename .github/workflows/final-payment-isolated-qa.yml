@@ -1,0 +1,57 @@
+name: Final isolated payment source and concurrency QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tests/live_course_unlock_two_connections.py"
+      - "tests/live_signed_webhook_mock.cjs"
+      - "supabase/migrations/20261123181441_grant_verified_live_course_before_email_delivery.sql"
+      - "supabase/functions/stripe-webhook/index.ts"
+      - ".github/workflows/final-payment-isolated-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  signed-webhook-mocks:
+    name: Signed Stripe webhook source fixtures — no live calls
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install isolated TypeScript transpiler
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Test current webhook source and HMAC fixtures
+        run: node tests/live_signed_webhook_mock.cjs
+
+  disposable-postgres-concurrency:
+    name: Two real DB connections — disposable SQL migration
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable_only_do_not_reuse
+          POSTGRES_DB: disposable_course_unlock
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d disposable_course_unlock"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:disposable_only_do_not_reuse@localhost:5432/disposable_course_unlock
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install isolated PostgreSQL driver
+        run: python -m pip install 'psycopg[binary]==3.2.3'
+      - name: Test actual deployed SQL with two separate connections
+        run: python tests/live_course_unlock_two_connections.py
+      - name: Scope
+        run: echo 'PASS requires both jobs green; no live Stripe/Supabase network activity or email sending.'
