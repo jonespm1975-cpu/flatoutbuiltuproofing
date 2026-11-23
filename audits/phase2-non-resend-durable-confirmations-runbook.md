@@ -121,3 +121,14 @@ For the Postmark Return-Path, use the **exact** hostname/value displayed inside 
 **Webhook safety upgrade:** Deployed `future-confirmation-delivery-webhook` v2 additionally requires `FUTURE_CONFIRMATION_POSTMARK_SERVER_ID` equal to the verified account/server ID before processing any event. If missing, it fails closed (503). Postmark's documented Delivery and Bounce JSON payloads contain a `ServerID`; unrelated server IDs are ignored. The endpoint still requires Basic Authentication and the independent `FUTURE_CONFIRMATION_WEBHOOK_ENABLED=true` feature flag, which is **not enabled**. No customer messages or charges were created. Provider guidance also recommends IP allowlisting at a trusted ingress; do not trust client-supplied `x-forwarded-for` values for security decisions.
 
 After owner adds DNS records, rerun the read-only workflow in GitHub Actions. The public checker reports publication state, **not** proof of Postmark's account-side domain verification.
+
+
+## Postmark API contract and privacy-hardening check — 23 November 2026
+
+- The **official non-delivering** Postmark test token `POSTMARK_API_TEST` was used once in isolated GitHub Actions with only reserved `example.com` fixture addresses. The real Postmark API returned **HTTP 200, ErrorCode 0**, and the expected test recipient; **no actual customer email was sent**.
+- Test workflow (all four jobs passed): https://github.com/jonespm1975-cpu/flatoutbuiltuproofing/actions/runs/45266151805
+- Contract message now explicitly sets `TrackOpens:false` and `TrackLinks:"None"` to avoid behavioural tracking on essential legal/purchase notices.
+- The worker now requires Postmark's `To` field in a successful API response to match the authenticated course-account email. An unexpected recipient is marked **review** rather than accepted and will **not** trigger an automatic resend. Accepted-by-provider is separate from delivered-to-mail-server.
+- Updated production worker to **version 2**, still inactive: no enabled delivery flag, no registered provider token, zero pending future confirmations, no new cron job. The separate delivery/bounce webhook remains guarded and inactive.
+- **Important Postmark sandbox caveat:** Postmark Sandbox Servers can display `Delivered` and generate webhook deliveries **even when no real inbox receives the test email**. Never treat sandbox `Delivered` as proof of durable customer contract delivery. After domain DNS verification, a separately owner-authorised delivery to an owner-controlled **real recipient inbox** and independent inbox receipt review are mandatory.
+- Postmark API response recipient and non-delivery test outcomes are grounded in https://postmarkapp.com/developer/api/email-api and https://postmarkapp.com/developer/api/overview; sandbox caveat: https://postmarkapp.com/developer/user-guide/sandbox-mode/server-sandbox-mode.
