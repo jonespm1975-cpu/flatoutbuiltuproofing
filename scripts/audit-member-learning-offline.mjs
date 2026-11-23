@@ -74,7 +74,7 @@ try{
    await page.waitForFunction(()=>!document.querySelector("#status")?.textContent.includes("Checking"));
    assert.equal(await page.locator(".receipt").count(),paid?1:0);
    assert.equal(await page.locator("#print").isVisible(),paid);
-   if(paid)assert.match(await page.locator(".receipt").innerText(),/£9\\.99/);
+   if(paid)assert.match(await page.locator(".receipt").innerText(),/£9\.99/);
    assert.equal(receiptRequests,1);
    assert.deepEqual(errors,[]);
    console.log("PASS",width,paid?"own receipt printable":"unpaid receipt absent");
