@@ -29,6 +29,7 @@ Deno.serve(async(req:Request)=>{
  if(inviteError)return json(503,{error:"Sponsor invitation could not be checked."});
  if(!invite||!invite.enabled)return json(403,{error:"This sponsor invitation is no longer active."});
  if(invite.submission_count>=invite.max_submissions)return json(429,{error:"This sponsor invitation has reached its submission limit."});
+ if(String(form.get("approval")||"")!=="yes")return json(400,{error:"Confirm that you are authorised to submit this logo."});
  const company=String(form.get("company")||"").trim();
  const email=String(form.get("email")||"").trim().toLowerCase();
  const description=String(form.get("description")||"").trim();
@@ -57,34 +58,10 @@ Deno.serve(async(req:Request)=>{
    await admin.storage.from("sponsor-logos").remove([path]);
    return countError?json(503,{error:"The invitation limit could not be verified. Please retry."}):json(429,{error:"This sponsor invitation has reached its submission limit."});
  }
- const resendKey=Deno.env.get("RESEND_API_KEY"),from=Deno.env.get("PURCHASE_CONFIRMATION_FROM");
- let notified=false,notificationError:string|null=null;
- if(resendKey&&from){
-   try{
-     const {data:reviewFile,error:reviewFileError}=await admin.storage.from("sponsor-logos").createSignedUrl(path,3600);
-     if(reviewFileError||!reviewFile?.signedUrl)throw new Error("Private logo review link could not be prepared.");
-     const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{
-       "Authorization":"Bearer "+resendKey,"Content-Type":"application/json","Idempotency-Key":"sponsor-review-"+id
-     },body:JSON.stringify({
-       from,to:[Deno.env.get("SPONSOR_REVIEW_EMAIL")||"jonespm1975@gmail.com"],
-       subject:"Sponsor logo awaiting your approval: "+company,
-       text:["A sponsor logo has arrived and is waiting for your review.","",
-         "Company: "+company,"Contact: "+email,"Website: "+(website||"Not supplied"),
-         "Description: "+description,"Submission: "+id,"Status: pending",
-         "Private logo preview (link expires in one hour): "+reviewFile.signedUrl,
-         "The logo has not been published. Review it and approve the design/layout before adding it to the public sponsor wall.",
-         "Review queue: https://supabase.com/dashboard/project/fhyhshakmvqwzdyannec/editor/"].join("\n")
-     })});
-     const result=await response.json().catch(()=>({}));
-     if(!response.ok||!result.id)throw new Error("Email provider did not accept the owner alert.");
-     notified=true;
-   }catch(error){notificationError=error instanceof Error?error.message:"Owner alert failed";}
- }else notificationError="Resend key or sender address is not configured.";
- await admin.from("sponsor_logo_submissions").update({
-   owner_notification_status:notified?"sent":"failed",owner_notified_at:notified?new Date().toISOString():null,
-   notification_error:notified?null:notificationError
- }).eq("id",id);
- if(!notified)console.error("Sponsor submission pending; owner notification failed",id,notificationError);
- return json(201,{accepted:true,status:"pending",ownerNotified:notified,
+ // The owner has retired the previous email provider. No emails are sent here.
+ // Preserve the uploaded logo and its private pending-approval database record.
+ // owner_notification_status retains its safe default 'pending' until a new,
+ // explicitly approved notification service is integrated.
+ return json(201,{accepted:true,status:"pending",ownerNotified:false,
    message:"Your logo has been received and is awaiting owner approval. It will not appear on the wall until approved."});
 });
