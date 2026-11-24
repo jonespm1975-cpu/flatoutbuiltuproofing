@@ -41,9 +41,31 @@ Deno.serve(async(req)=>{
  const expiresAt=createdEpoch+3600;
  // Never replay a key outside this short window, or rotate a reservation without
  // authoritative Stripe reconciliation. Stripe requires expiry >=30 minutes on creation.
- if(expiresAt-Math.floor(Date.now()/1000)<1800)return reply("Checkout requires reconciliation before another attempt. Contact support.",409);
  try{
   const stripe=new Stripe(key,{apiVersion:"2025-03-31.basil"});
+  if(expiresAt-Math.floor(Date.now()/1000)<1800){
+   if(Math.floor(Date.now()/1000)<expiresAt+120)return reply("Previous checkout is still within its recovery window. Wait until it expires.",409);
+   // Bounded, exhaustive search of the reservation creation window. Never rotate on absent or ambiguous proof.
+   const matches:Stripe.Checkout.Session[]=[];
+   let cursor:string|undefined;
+   let exhausted=false;
+   for(let page=0;page<20;page++){
+    const result=await stripe.checkout.sessions.list({created:{gte:createdEpoch-120,lte:expiresAt+120},limit:100,...(cursor?{starting_after:cursor}:{})});
+    for(const item of result.data)if(item.metadata?.reservation_key===reservationKey)matches.push(item);
+    if(!result.has_more){exhausted=true;break;}
+    cursor=result.data.at(-1)?.id;
+    if(!cursor)break;
+   }
+   if(!exhausted||matches.length!==1)return reply("Previous checkout needs support reconciliation.",409);
+   const prior=await stripe.checkout.sessions.retrieve(matches[0].id);
+   if(!prior.livemode||prior.mode!=="subscription"||prior.status!=="expired"||prior.payment_status!=="unpaid"||prior.subscription!==null||
+      prior.client_reference_id!==data.user.id||prior.metadata?.supabase_user_id!==data.user.id||
+      prior.metadata?.reservation_key!==reservationKey||prior.metadata?.membership!=="monthly-learning"||prior.metadata?.mode!=="live")
+     return reply("Previous checkout cannot safely be replaced. Contact support.",409);
+   const {data:rotated,error:rotationError}=await admin.rpc("rotate_expired_membership_reservation",{p_user_id:data.user.id,p_old_key:reservationKey});
+   if(rotationError||typeof rotated!=="string")return reply("Checkout reconciliation changed; please try again or contact support.",409);
+   return reply("Expired unpaid checkout cleared. Please select checkout again.",409);
+  }
   const createdSession=await stripe.checkout.sessions.create({
    mode:"subscription",shipping_address_collection:{allowed_countries:["GB"]},managed_payments:{enabled:false},expires_at:expiresAt,line_items:[{price:"price_1UeNy2KeIprRDTKxLWoER0vk",quantity:1}],
    client_reference_id:data.user.id,
