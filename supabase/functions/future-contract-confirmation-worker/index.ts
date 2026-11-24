@@ -9,26 +9,30 @@ const json=(code:number,body:Record<string,unknown>)=>
     "x-content-type-options":"nosniff"
   }});
 
-async function sameSecret(candidate:string,required:string){
-  if(!candidate||!required)return false;
-  const enc=new TextEncoder();
-  const [a,b]=await Promise.all([
-    crypto.subtle.digest("SHA-256",enc.encode(candidate)),
-    crypto.subtle.digest("SHA-256",enc.encode(required))
-  ]);
-  const left=new Uint8Array(a),right=new Uint8Array(b);
-  let diff=candidate.length^required.length;
-  for(let i=0;i<left.length;i++)diff|=left[i]^right[i];
-  return diff===0;
+async function digestHex(value:string){
+  const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,"0")).join("");
+}
+
+async function validWorkerKey(presented:string){
+  if(!presented || presented.length>512)return false;
+  const stored=Deno.env.get("FUTURE_CONFIRMATION_WORKER_KEY_SHA256");
+  const legacy=Deno.env.get("FUTURE_CONFIRMATION_WORKER_KEY");
+  const expected=stored || (legacy && await digestHex(legacy));
+  if(!expected || !/^[0-9a-f]{64}$/.test(expected))return false;
+  const actual=await digestHex(presented);
+  let mismatch=0;
+  for(let i=0;i<64;i++)mismatch|=actual.charCodeAt(i)^expected.charCodeAt(i);
+  return mismatch===0;
 }
 
 Deno.serve(async req=>{
   if(req.method!=="POST")return json(405,{error:"Method not allowed"});
-  const workerKey=Deno.env.get("FUTURE_CONFIRMATION_WORKER_KEY")||"";
   const presented=req.headers.get("x-fobur-worker-key")||"";
-  if(!await sameSecret(presented,workerKey))return json(401,{error:"Unauthorized"});
-  // Explicitly OFF until the owner selects and verifies this replacement provider.
-  if(Deno.env.get("FUTURE_CONFIRMATION_DELIVERY_ENABLED")!=="true")
+  if(!await validWorkerKey(presented))return json(401,{error:"Unauthorized"});
+  const checkOnly=req.headers.get("x-fobur-check-only")==="true";
+  const sendingEnabled=Deno.env.get("FUTURE_CONFIRMATION_DELIVERY_ENABLED")==="true";
+  if(!checkOnly && !sendingEnabled)
     return json(503,{error:"Future confirmation delivery disabled"});
   if(Deno.env.get("FUTURE_CONFIRMATION_PROVIDER")!=="postmark")
     return json(503,{error:"Transactional provider not approved or configured"});
@@ -40,6 +44,12 @@ Deno.serve(async req=>{
     !/^[^@\s]+@flatoutbuiltuproofing\.co\.uk$/i.test(from)||!dbUrl||!serviceKey)
     return json(503,{error:"Transactional sender is not ready"});
   const admin=createClient(dbUrl,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
+  if(checkOnly){
+    const probe=await admin.rpc("claim_future_contract_confirmations",{p_limit:0});
+    if(probe.error || !Array.isArray(probe.data) || probe.data.length!==0)
+      return json(503,{error:"Confirmation queue check failed"});
+    return json(200,{status:"postmark_scheduler_ready",claimed:0,sending_enabled:sendingEnabled});
+  }
   const {data:items,error:claimErr}=await admin.rpc("claim_future_contract_confirmations",{p_limit:1});
   if(claimErr)return json(503,{error:"Future confirmation queue unavailable"});
   if(!Array.isArray(items)||items.length===0)return json(200,{status:"idle",claimed:0});
