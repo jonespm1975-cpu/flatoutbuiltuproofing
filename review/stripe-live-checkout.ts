@@ -1,4 +1,4 @@
-// REVIEW ONLY — not deployed; automatic release intentionally disabled pending reconciliation testing.
+// REVIEW ONLY — not deployed; expired session rotation requires integration testing.
 import Stripe from "npm:stripe@17.7.0";
 import { createClient } from "npm:@supabase/supabase-js@2.49.4";
 const origin="https://flatoutbuiltuproofing.co.uk";
@@ -25,7 +25,7 @@ Deno.serve(async(req)=>{
  if(!service) return new Response(JSON.stringify({error:"Checkout protection unavailable"}),{status:503,headers});
  const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false}});
  const course="beginner-training-course", user=data.user.id;
- const {data:reservation,error:reservationError}=await admin.rpc("reserve_live_course_checkout",{p_user_id:user,p_course_id:course});
+ let {data:reservation,error:reservationError}=await admin.rpc("reserve_live_course_checkout",{p_user_id:user,p_course_id:course});
  if(reservationError||!reservation) throw new Error("Reservation unavailable");
  const reply=(error:string,status:number)=>new Response(JSON.stringify({error}),{status,headers});
  if(reservation.result==="owned_or_paid") return reply("Course already purchased or payment awaiting confirmation",409);
@@ -34,7 +34,16 @@ Deno.serve(async(req)=>{
    const original=await stripe.checkout.sessions.retrieve(reservation.stripe_session_id);
    if(!original.livemode||original.client_reference_id!==user||original.metadata?.course_id!==course||original.metadata?.reservation_key!==reservation.reservation_key) return reply("Checkout requires owner review",409);
    if(original.status==="open"&&original.payment_status==="unpaid"&&original.url) return new Response(JSON.stringify({url:original.url}),{status:200,headers});
-   return reply("Previous checkout requires reconciliation before another attempt",409);
+   // Fail closed for asynchronous or uncertain payment outcomes. Only a terminal
+   // expired session with no PaymentIntent or a canceled PaymentIntent can rotate.
+   if(original.status!=="expired"||original.payment_status!=="unpaid"||original.id!==reservation.stripe_session_id||original.after_expiration?.recovery?.enabled||original.recovered_from) return reply("Previous checkout requires reconciliation before another attempt",409);
+   if(original.payment_intent){
+     const pi=await stripe.paymentIntents.retrieve(typeof original.payment_intent==="string"?original.payment_intent:original.payment_intent.id);
+     if(!pi.livemode||pi.status!=="canceled"||pi.amount_received!==0) return reply("Previous payment requires reconciliation",409);
+   }
+   const rotated=await admin.rpc("rotate_expired_live_course_checkout",{p_user_id:user,p_course_id:course,p_key:reservation.reservation_key,p_session:original.id});
+   if(rotated.error||rotated.data?.result!=="create_once") return reply("Checkout recovery requires reconciliation or retry",409);
+   reservation=rotated.data;
  }
  if(reservation.result!=="create_once"||!reservation.reservation_key) throw new Error("Unexpected reservation");
  const session=await stripe.checkout.sessions.create({
