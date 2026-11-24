@@ -25,7 +25,7 @@ Deno.serve(async(req)=>{
  if(existingError)return reply("Unable to check existing membership",503);
  if(existing?.length)return reply("A production membership already exists. Manage your existing subscription instead of starting another.",409);
  const body=await req.json().catch(()=>null);
- if(body?.terms_accepted!==true||body?.recurring_billing_consent!==true||body?.cancellation_acknowledgement!==true)return reply("Monthly billing, terms and cancellation consent required",422);
+ if(body?.terms_accepted!==true||body?.recurring_billing_consent!==true||body?.cancellation_acknowledgement!==true||body?.immediate_supply_requested!==true||body?.terms_version!=="membership-2026-11-24-v1")return reply("Current membership terms and explicit recurring billing and immediate supply consent required",422);
  // Transactional server-only lease stops two concurrent requests creating checkout sessions.
  
  const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -66,13 +66,15 @@ Deno.serve(async(req)=>{
    if(rotationError||typeof rotated!=="string")return reply("Checkout reconciliation changed; please try again or contact support.",409);
    return reply("Expired unpaid checkout cleared. Please select checkout again.",409);
   }
+  const {data:consentRecorded,error:consentError}=await admin.rpc("record_membership_contract_consent",{p_user_id:data.user.id,p_reservation_key:reservationKey,p_version:"membership-2026-11-24-v1",p_immediate_supply:true});
+  if(consentError||consentRecorded!==true)return reply("Membership terms are not available or consent could not be recorded. No checkout created.",503);
   const createdSession=await stripe.checkout.sessions.create({
    mode:"subscription",shipping_address_collection:{allowed_countries:["GB"]},managed_payments:{enabled:false},expires_at:expiresAt,line_items:[{price:"price_1UeNy2KeIprRDTKxLWoER0vk",quantity:1}],
    client_reference_id:data.user.id,
    success_url:origin+"/members.html?membership=success",
    cancel_url:origin+"/members.html?membership=cancel",
-   metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey},
-   subscription_data:{metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey}},
+   metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",terms_version:"membership-2026-11-24-v1",reservation_key:reservationKey},
+   subscription_data:{metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",terms_version:"membership-2026-11-24-v1",reservation_key:reservationKey}},
   },{idempotencyKey:"fobur-live-monthly-v1-"+reservationKey});
   // Idempotency can return an earlier response; retrieve the current state before returning a URL.
   const session=await stripe.checkout.sessions.retrieve(createdSession.id);
