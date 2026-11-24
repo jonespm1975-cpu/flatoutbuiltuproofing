@@ -54,7 +54,7 @@ Deno.serve(async req=>{
  catch{return response(400,{error:"Malformed event"});}
  if(!event||typeof event!=="object" ||
    !["Delivery","Bounce"].includes(event.RecordType)||
-   !["one-off-course-contract-confirmation","fobur-owner-delivery-check"].includes(event.Tag)||
+   !["one-off-course-contract-confirmation","fobur-owner-delivery-check","fobur-owner-sandbox-receipt"].includes(event.Tag)||
    event.MessageStream!=="outbound"||
    typeof event.MessageID!=="string"||
    event.MessageID.length<3||event.MessageID.length>255)
@@ -68,6 +68,13 @@ Deno.serve(async req=>{
    !Number.isFinite(Date.parse(when)))
    return response(422,{error:"Invalid provider event fields"});
  const admin=createClient(dbUrl,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
+ if(event.Tag==="fobur-owner-sandbox-receipt"){
+   if(recipient.toLowerCase()!=="flatoutbuiltuproofing@gmail.com")return response(200,{status:"ignored"});
+   const recorded=await admin.rpc("record_owner_sandbox_receipt_event",{
+     p_id:event.MessageID,p_kind:event.RecordType,p_at:new Date(when).toISOString()
+   });
+   return recorded.data===true?response(200,{status:"recorded"}):response(503,{status:"reconciliation_pending"});
+ }
  if(event.Tag==="fobur-owner-delivery-check"){
    if(recipient.toLowerCase()!=="flatoutbuiltuproofing@gmail.com")return response(200,{status:"ignored"});
    const check=await admin.rpc("postmark_owner_check_event",{p_action:event.RecordType,p_nonce:null,p_id:event.MessageID,p_at:new Date(when).toISOString()});
