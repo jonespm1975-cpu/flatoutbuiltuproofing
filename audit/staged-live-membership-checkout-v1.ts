@@ -31,18 +31,28 @@ Deno.serve(async(req)=>{
  const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false}});
  const {data:acquired,error:leaseError}=await admin.rpc("reserve_live_membership_checkout",{p_user_id:data.user.id});
  if(leaseError)return reply("Unable to reserve a production checkout. Try again later.",503);
- if(typeof acquired!=="string")return reply("A production checkout is already in progress for this account. Return after it expires or manage your existing membership.",409);
+ // Recover an existing reservation without generating a new Stripe idempotency key.
+ const {data:reservation,error:inspectError}=await admin.rpc("inspect_live_membership_checkout",{p_user_id:data.user.id});
+ if(inspectError||!reservation||typeof reservation.reservation_key!=="string"||
+    !Number.isSafeInteger(Number(reservation.created_epoch)))return reply("Checkout reservation unavailable; contact support.",503);
+ const reservationKey=reservation.reservation_key;
+ if(typeof acquired==="string"&&acquired!==reservationKey)return reply("Checkout reservation changed; try again.",409);
+ const createdEpoch=Number(reservation.created_epoch);
+ const expiresAt=createdEpoch+3600;
+ // Never replay a key outside this short window, or rotate a reservation without
+ // authoritative Stripe reconciliation. Stripe requires expiry >=30 minutes on creation.
+ if(expiresAt-Math.floor(Date.now()/1000)<1800)return reply("Checkout requires reconciliation before another attempt. Contact support.",409);
  try{
   const stripe=new Stripe(key,{apiVersion:"2025-03-31.basil"});
   const session=await stripe.checkout.sessions.create({
-   mode:"subscription",shipping_address_collection:{allowed_countries:["GB"]},managed_payments:{enabled:false},expires_at:Math.floor(Date.now()/1000)+1800,line_items:[{price:"price_1UeNy2KeIprRDTKxLWoER0vk",quantity:1}],
+   mode:"subscription",shipping_address_collection:{allowed_countries:["GB"]},managed_payments:{enabled:false},expires_at:expiresAt,line_items:[{price:"price_1UeNy2KeIprRDTKxLWoER0vk",quantity:1}],
    client_reference_id:data.user.id,
    success_url:origin+"/members.html?membership=success",
    cancel_url:origin+"/members.html?membership=cancel",
-   metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:acquired},
-   subscription_data:{metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:acquired}},
-  },{idempotencyKey:"fobur-live-monthly-v1-"+acquired});
-  if(!session.url)return reply("Checkout URL unavailable",503);
+   metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey},
+   subscription_data:{metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey}},
+  },{idempotencyKey:"fobur-live-monthly-v1-"+reservationKey});
+  if(!session.url||session.status!=="open"||session.payment_status!=="unpaid"||session.mode!=="subscription"||!session.livemode||session.client_reference_id!==data.user.id||session.metadata?.reservation_key!==reservationKey)return reply("Checkout cannot be resumed; contact support.",409);
   return new Response(JSON.stringify({url:session.url,test_mode:false}),{headers});
- }catch(e){console.error("Membership test checkout failed",String(e));return reply("Production checkout unavailable",503);}
+ }catch(e){console.error("Membership production checkout failed",String(e));return reply("Production checkout unavailable",503);}
 });
