@@ -1,0 +1,19 @@
+# Proposed £5 Learning Pass terms — not yet offered
+Version: membership-2026-11-24-v1 (draft, not a contract).
+Seller: Paul Jones trading as Flat Out Built-Up Roofing, 52 Bedhampton Way, Leigh Park, Havant, Hampshire, PO9 2DP, United Kingdom. Contact: flatoutbuiltuproofing@gmail.com. Stripe processes payments; the seller remains responsible for the service. No VAT is added while the business is not VAT registered.
+
+## Proposed customer wording
+The optional Learning Pass costs £5 per month, charged immediately and automatically each month until cancelled. There is no minimum term beyond the current monthly billing period. Before payment, the checkout must identify exactly which currently available resources the pass includes. Planned content is not included unless expressly listed as available. Separately purchased £9.99 courses remain separate and are not removed when membership ends. Access requires a signed-in account, compatible browser, internet connection and JavaScript. Training is educational only; it does not certify competence or replace practical training or site-specific safety arrangements.
+
+Cancel future renewals through My Learning > Manage membership or email the business. Normal cancellation ends renewal and preserves access until the end of the paid period. This is separate from statutory cancellation, refund and faulty-content rights. Proposed conservative policy: request immediate access expressly if desired; allow a full refund of the initial £5 if the consumer cancels within 14 days of entering the contract, even if access has begun; terminate the membership when that cancellation is processed. Do not imply statutory rights are waived. This proposed additional refund promise needs implementation and policy approval before publication. Refunds due are issued within applicable legal deadlines, normally by the original payment method. No card details by email. Optional form: I give notice that I cancel my Learning Pass subscription entered into on [date]. Name, account email, date. Send to flatoutbuiltuproofing@gmail.com. Statutory rights are preserved.
+
+## Pre-checkout and durable records
+Require unticked express acceptance of this version, monthly renewal and cancellation terms, and request for immediate supply (if applicable). Show total recurring amount, payment obligation, exact entitlements and cancellation instructions adjacent to checkout. Store server-recorded consent version/time and immutable terms snapshot linked to reservation and verified subscription. Do not activate until all customer-visible pages are consistent.
+
+## Postmark confirmation specification
+Send through a separate membership outbox only after verified first paid invoice; unique key (subscription_id, first_invoice_id, confirmation_kind), atomic claim, provider message ID reconciliation, ambiguous delivery held for review (no blind retry). Never call Resend. Do not share the course outbox or modify historic course terms.
+Subject: Your Flat Out Learning Pass membership confirmation — £5 monthly
+Body fields: account email; subscription reference; paid total GBP 5.00; start date; next scheduled payment date from Stripe; exact agreed version of terms and full cancellation/refund text; consent evidence; manage membership link; contact email. Include plain-text and HTML, archived terms content inline or as attachment, not merely a mutable web link. Do not send to actual customers until end-to-end sandbox delivery succeeds.
+
+## Release considerations
+Check commencement of subscription provisions under DMCCA 2024 and relevant 2026 regulations before launch. Review Consumer Contracts Regulations 2013 and Consumer Rights Act 2015. This draft does not claim legal sign-off. Verify reminder and cancellation confirmation obligations; configure durable notification flow. Existing public course terms and £9.99 checkout remain unchanged.
