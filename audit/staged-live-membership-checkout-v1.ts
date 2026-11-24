@@ -44,7 +44,7 @@ Deno.serve(async(req)=>{
  if(expiresAt-Math.floor(Date.now()/1000)<1800)return reply("Checkout requires reconciliation before another attempt. Contact support.",409);
  try{
   const stripe=new Stripe(key,{apiVersion:"2025-03-31.basil"});
-  const session=await stripe.checkout.sessions.create({
+  const createdSession=await stripe.checkout.sessions.create({
    mode:"subscription",shipping_address_collection:{allowed_countries:["GB"]},managed_payments:{enabled:false},expires_at:expiresAt,line_items:[{price:"price_1UeNy2KeIprRDTKxLWoER0vk",quantity:1}],
    client_reference_id:data.user.id,
    success_url:origin+"/members.html?membership=success",
@@ -52,6 +52,8 @@ Deno.serve(async(req)=>{
    metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey},
    subscription_data:{metadata:{supabase_user_id:data.user.id,membership:"monthly-learning",mode:"live",reservation_key:reservationKey}},
   },{idempotencyKey:"fobur-live-monthly-v1-"+reservationKey});
+  // Idempotency can return an earlier response; retrieve the current state before returning a URL.
+  const session=await stripe.checkout.sessions.retrieve(createdSession.id);
   if(!session.url||session.status!=="open"||session.payment_status!=="unpaid"||session.mode!=="subscription"||!session.livemode||session.client_reference_id!==data.user.id||session.metadata?.reservation_key!==reservationKey)return reply("Checkout cannot be resumed; contact support.",409);
   return new Response(JSON.stringify({url:session.url,test_mode:false}),{headers});
  }catch(e){console.error("Membership production checkout failed",String(e));return reply("Production checkout unavailable",503);}
