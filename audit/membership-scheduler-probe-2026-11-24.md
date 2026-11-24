@@ -1,0 +1,5 @@
+# Membership scheduler readiness
+
+Dedicated cron job 7 registered as `fobur-postmark-membership-confirmations`, every five minutes, inactive. Its current command is a readiness probe only, not a production sender. Existing course Postmark cron job 6 remains active and legacy job 1 remains inactive.
+
+Worker version 2 retains hard no-send gate. Database-minted, two-minute single-use check-only credentials are hashed at rest and atomically consumed through a service-only RPC. Five rollback assertions passed: malformed, expired, valid, replay, cleanup. Anonymous/authenticated token consumption and service-role token minting denied. Request 2549 returned HTTP 200 with membership_queue_ready and sending_enabled:false. No customer payment or email initiated. No reusable scheduler secret stored in source. Next: controlled Postmark membership delivery test, delivery/bounce reconciliation, then explicitly authorise a distinct send-scoped scheduler path and test before enabling. Production membership checkout remains disabled.
