@@ -23,7 +23,8 @@ Deno.serve(async(req)=>{
   const subscription=await stripe.subscriptions.retrieve(rows[0].stripe_subscription_id);
   const customer=typeof subscription.customer==="string"?subscription.customer:subscription.customer.id;
   if(subscription.livemode!==true||customer!==rows[0].stripe_customer_id||subscription.metadata?.supabase_user_id!==auth.user.id||subscription.items.data.length!==1||subscription.items.data[0].price.id!=="price_1UeNy2KeIprRDTKxLWoER0vk")return reply("Membership verification failed",403);
-  const configId=Deno.env.get("MEMBERSHIP_LIVE_PORTAL_CONFIGURATION");
+  // Dedicated live configuration verified against Stripe on 24 November 2026. The ID is not a secret.
+  const configId=Deno.env.get("MEMBERSHIP_LIVE_PORTAL_CONFIGURATION")||"bpc_1UfOBAKeIprRDTKxKLJQmlQ7";
   if(!configId?.startsWith("bpc_"))return reply("Portal configuration missing",503);
   const config=await stripe.billingPortal.configurations.retrieve(configId);
   if(!config.livemode||!config.active||!config.features.subscription_cancel.enabled||config.features.subscription_cancel.mode!=="at_period_end"||config.features.subscription_update.enabled)return reply("Portal configuration not approved",503);
