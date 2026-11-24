@@ -14,4 +14,4 @@ Important
 - The domain flatoutbuiltuproofing.co.uk is shown as the intended domain only. It has not been connected or verified.
 - To connect the domain, you need access to the registrar account and your WordPress.com dashboard. Domain/DNS settings must be configured there.
 - The website uses original practice content and links to official CITB/HSE resources. It does not claim CITB/CSCS endorsement.
-- Contact email shown: jonespm1975@gmail.com.
+- Contact email shown: flatoutbuiltuproofing@gmail.com.
