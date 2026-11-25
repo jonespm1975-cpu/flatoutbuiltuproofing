@@ -452,3 +452,10 @@
   .fl-leads-cta{min-height:32px}
 }
 @media(min-width:601px){.fl-leads-card{align-self:stretch}.fl-leads-cta{min-height:44px}}
+
+/* Owner-approved Roofing Leads half-size, 25 November 2026.
+   Scale the whole panel proportionally; retain the existing training grid and links. */
+.fobur-leads-section > .fl-leads-card {
+  transform: scale(0.5);
+  transform-origin: center center;
+}
