@@ -82,7 +82,7 @@ try{
      const leadButton=leads.getByRole("link",{name:"Access roofing leads"});
      assert.equal(await leadButton.getAttribute("href"),"roofing-connect.html?roof="+["built-up","tile-slate","metal-sheet","liquid-applied"][index]+"#enquiry");
      assert.equal(await leads.locator(".fl-sparkles i").count(),10);
-     assert.ok(await leads.evaluate(el=>{const r=el.getBoundingClientRect(),a=el.querySelector(".fl-training-stack").getBoundingClientRect(),b=el.querySelector(".fl-leads-card").getBoundingClientRect();return r.width>0&&a.right<=b.left+1&&b.right<=innerWidth+1&&r.height>50}));
+     assert.ok(await leads.evaluate(el=>{const r=el.getBoundingClientRect(),a=el.querySelector(".fl-training-stack").getBoundingClientRect(),b=el.querySelector(".fl-leads-card").getBoundingClientRect(),c=[...el.querySelectorAll(".fl-training-card")].map(x=>x.getBoundingClientRect());return r.width>0&&a.bottom<=b.top+1&&Math.abs(a.left-b.left)<2&&Math.abs(a.width-b.width)<2&&b.right<=innerWidth+1&&c.length===4&&Math.abs(c[0].top-c[1].top)<2&&Math.abs(c[2].top-c[3].top)<2&&c[0].right<=c[1].left+1&&c[2].right<=c[3].left+1&&c[0].bottom<=c[2].top+1}),"two-column training grid and integrated full-width leads strip");
      const pause=leads.locator(".fl-sparkle-toggle");
      assert.equal(await pause.textContent(),"Pause sparkles");
      assert.equal(await pause.getAttribute("aria-pressed"),"false");
@@ -94,9 +94,9 @@ try{
      assert.equal(await pause.textContent(),"Pause sparkles");
      assert.equal(await pause.getAttribute("aria-pressed"),"false");
      assert.equal(await leads.locator(".fl-sparkles i").first().evaluate(el=>getComputedStyle(el).animationPlayState),"running");
-     assert.ok(await leads.locator(".fl-leads-card").evaluate(el=>Math.abs(el.getBoundingClientRect().width/el.offsetWidth-0.5)<0.02 && Math.abs(el.getBoundingClientRect().height/el.offsetHeight-0.5)<0.02), "owner-approved half-size");
+     assert.ok(await leads.locator(".fl-leads-card").evaluate(el=>getComputedStyle(el).transform==="none"&&el.getBoundingClientRect().height<220&&el.scrollWidth<=el.clientWidth+2), "compact unscaled strip without overflow");
      await leadButton.scrollIntoViewIfNeeded();
-     assert.ok(await leadButton.evaluate(el=>{const r=el.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.bottom-42);return hit===el||el.contains(hit)}),"44px expanded Access Leads touch target");
+     assert.ok(await leadButton.evaluate(el=>{const r=el.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.bottom-42);return hit===el||el.contains(hit)}),"44px real Access Leads touch target");
      console.log("PASS_ROOFING_LEADS_HOME",width,file);
      const sponsorLinks = panel.getByRole("link", {name: /sponsor/i});
      assert.equal(await sponsorLinks.count(), 3, file + " sponsor links");
