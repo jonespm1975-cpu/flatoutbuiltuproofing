@@ -102,7 +102,17 @@ try{
        return {card:rect(el),top:rect(el.querySelector(".fl-leads-top")),divider:rect(el.querySelector(".fl-leads-divider")),cta:rect(el.querySelector(".fl-leads-cta")),footer:rect(el.querySelector(".fl-leads-footer")),transform:getComputedStyle(el).transform,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth};
      });
      const {card:cardBox,top,divider,cta,footer,transform,scrollWidth,clientWidth}=geometry;
-     assert.ok(transform==="none"&&cardBox.height<220&&scrollWidth<=clientWidth+2&&top.bottom<=divider.top+1&&divider.bottom<=cta.top+1&&cta.bottom<=footer.top+1&&cta.height>=44&&Math.abs(cta.width-top.width)<2&&top.top>=cardBox.top-1&&footer.bottom<=cardBox.bottom+1, "compact logo-led strip with full-width usable button and no overlap "+width+" "+file+" "+JSON.stringify(geometry));
+     // The owner-approved half-depth strip uses a side-by-side action at every viewport.
+     const contained = b => b.left >= cardBox.left-1 && b.right <= cardBox.right+1 &&
+       b.top >= cardBox.top-1 && b.bottom <= cardBox.bottom+1 && b.width > 0 && b.height > 0;
+     const separate = (a,b) => a.right <= b.left+1 || b.right <= a.left+1 ||
+       a.bottom <= b.top+1 || b.bottom <= a.top+1;
+     assert.ok(transform==="none" && cardBox.height<220 && scrollWidth<=clientWidth+2 &&
+       [top,cta,footer].every(contained) && separate(top,cta) &&
+       top.right<=cta.left+1 && Math.min(top.bottom,cta.bottom)>Math.max(top.top,cta.top) &&
+       Math.max(top.bottom,cta.bottom)<=footer.top+1 &&
+       cta.height>=44 && cta.width>=44 && divider.height===0,
+       "compact logo-led strip with side-by-side usable button and no overlap "+width+" "+file+" "+JSON.stringify(geometry));
      await leadButton.scrollIntoViewIfNeeded();
      assert.ok(await leadButton.evaluate(el=>{const r=el.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.bottom-42);return hit===el||el.contains(hit)}),"44px real Access Leads touch target");
      console.log("PASS_ROOFING_LEADS_HOME",width,file);
