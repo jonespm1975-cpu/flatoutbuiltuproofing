@@ -453,17 +453,83 @@
 }
 @media(min-width:601px){.fl-leads-card{align-self:stretch}.fl-leads-cta{min-height:44px}}
 
-/* Owner-approved Roofing Leads half-size, 25 November 2026.
-   Scale the whole panel proportionally; retain the existing training grid and links. */
-.fobur-leads-section > .fl-leads-card {
-  transform: scale(0.5);
-  transform-origin: center center;
+/* Compact Roofing Leads integration, 25 November 2026.
+   Restore the original two-column training cards and fit a horizontal gold
+   panel immediately above the original gallery/sponsors/support artwork. */
+.fobur-leads-section {
+  box-sizing:border-box;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(5px,1vw,10px);
+  background:#050403;
 }
-
-/* Keep the approved half-size appearance while extending the invisible hit area
-   upward into noninteractive card content. 88 CSS px becomes 44 at scale(.5). */
-.fobur-leads-section > .fl-leads-card .fl-leads-cta { position: relative; }
-.fobur-leads-section > .fl-leads-card .fl-leads-cta::before {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
-  min-height: 88px; height: 100%; pointer-events: auto;
+.fobur-leads-section > .fl-training-stack {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start;
+  gap:clamp(4px,.8vw,8px);
+}
+.fobur-leads-section > .fl-leads-card {
+  box-sizing:border-box;
+  width:100%;
+  align-self:start;
+  transform:none;
+  padding:clamp(6px,1.2vw,12px);
+  border-radius:clamp(7px,1.5vw,14px);
+  border:1px solid #e6bd68;
+  box-shadow:0 0 4px #ffcc62aa,inset 0 0 9px #b97a2455;
+  background:radial-gradient(ellipse at 22% 40%,#241509,#090704 48%,#030303 83%);
+}
+.fl-leads-card .fl-leads-content {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.45fr) minmax(0,1.15fr);
+  grid-template-rows:auto auto auto;
+  gap:3px clamp(6px,1.3vw,14px);
+  align-items:center;
+}
+.fl-leads-card .fl-roof {
+  grid-column:1;grid-row:1;
+  width:70%;max-height:29px;margin:0 auto;
+}
+.fl-leads-card h2 {
+  grid-column:1;grid-row:2;
+  font-size:clamp(16px,2.6vw,28px);
+}
+.fl-leads-card .fl-pin {
+  grid-column:1;grid-row:3;
+  width:65%;max-height:24px;margin:0 auto;
+}
+.fl-leads-card ul {
+  grid-column:2;grid-row:1 / 4;
+  font-size:clamp(10px,1.5vw,15px);
+  line-height:1.25;margin:0;
+}
+.fl-leads-card .fl-leads-cta {
+  grid-column:3;grid-row:1;
+  box-sizing:border-box;
+  width:100%;min-height:44px;
+  padding:5px 4px;font-size:clamp(10px,1.65vw,16px);
+}
+.fl-leads-card .fl-leads-note {
+  grid-column:3;grid-row:2;
+  font-size:clamp(9px,1.1vw,11px);margin:0;
+}
+.fl-leads-card .fl-sparkle-toggle {
+  grid-column:3;grid-row:3;justify-self:center;
+  font-size:11px;min-height:26px;
+}
+@media(max-width:600px) {
+  .fl-leads-card .fl-leads-content {
+    grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);
+    grid-template-rows:auto auto auto auto auto;
+    gap:3px 8px;
+  }
+  .fl-leads-card h2 {font-size:clamp(16px,4.5vw,23px)}
+  .fl-leads-card .fl-roof {max-height:24px}
+  .fl-leads-card .fl-pin {max-height:20px}
+  .fl-leads-card ul {font-size:clamp(10px,2.8vw,13px)}
+  .fl-leads-card .fl-leads-cta {grid-column:1 / -1;grid-row:4;font-size:14px}
+  .fl-leads-card .fl-leads-note {grid-column:1;grid-row:5;text-align:left}
+  .fl-leads-card .fl-sparkle-toggle {grid-column:2;grid-row:5;justify-self:end}
+}
+@media(prefers-reduced-motion:reduce) {
+  .fl-leads-card .fl-sparkle-toggle {display:none}
 }
