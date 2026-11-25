@@ -600,3 +600,16 @@
   .fl-leads-card .fl-leads-top ul {font-size:clamp(10px,2.7vw,13px)}
   .fl-leads-card .fl-leads-content {gap:3px}
 }
+
+
+/* Keep animation paint inside the border and make each compact row explicit.
+   Preserve the logo, colors, button depth and existing four training tiles. */
+.fobur-leads-section > .fl-leads-card {min-height:min-content}
+.fl-leads-card .fl-leads-content {
+  flex:1 1 auto;min-width:0;grid-template-rows:auto 12px auto auto;
+  align-content:center;justify-items:stretch;
+}
+.fl-leads-card .fl-leads-top {grid-column:1;grid-row:1;min-width:0}
+.fl-leads-card .fl-leads-brand {min-width:0}
+.fl-leads-card .fl-leads-footer {justify-self:stretch}
+.fl-leads-card .fl-sparkles {overflow:hidden;border-radius:inherit}

@@ -97,10 +97,12 @@ try{
      const brand=leads.locator(".fl-leads-brand img");
      await brand.evaluate(img=>img.decode());
      assert.equal(await brand.getAttribute("src"),"assets/flat-out-built-up-roofing-logo.svg");
-     assert.ok(await leads.locator(".fl-leads-card").evaluate(el=>{
-       const r=el.getBoundingClientRect(),top=el.querySelector(".fl-leads-top").getBoundingClientRect(),divider=el.querySelector(".fl-leads-divider").getBoundingClientRect(),cta=el.querySelector(".fl-leads-cta").getBoundingClientRect(),footer=el.querySelector(".fl-leads-footer").getBoundingClientRect();
-       return getComputedStyle(el).transform==="none"&&r.height<220&&el.scrollWidth<=el.clientWidth+2&&top.bottom<=divider.top+1&&divider.bottom<=cta.top+1&&cta.bottom<=footer.top+1&&cta.height>=44&&Math.abs(cta.width-top.width)<2;
-     }),"compact logo-led strip with full-width usable button and no overlap");
+     const geometry=await leads.locator(".fl-leads-card").evaluate(el=>{
+       const rect=e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height}};
+       return {card:rect(el),top:rect(el.querySelector(".fl-leads-top")),divider:rect(el.querySelector(".fl-leads-divider")),cta:rect(el.querySelector(".fl-leads-cta")),footer:rect(el.querySelector(".fl-leads-footer")),transform:getComputedStyle(el).transform,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth};
+     });
+     const {card:cardBox,top,divider,cta,footer,transform,scrollWidth,clientWidth}=geometry;
+     assert.ok(transform==="none"&&cardBox.height<220&&scrollWidth<=clientWidth+2&&top.bottom<=divider.top+1&&divider.bottom<=cta.top+1&&cta.bottom<=footer.top+1&&cta.height>=44&&Math.abs(cta.width-top.width)<2&&top.top>=cardBox.top-1&&footer.bottom<=cardBox.bottom+1, "compact logo-led strip with full-width usable button and no overlap "+width+" "+file+" "+JSON.stringify(geometry));
      await leadButton.scrollIntoViewIfNeeded();
      assert.ok(await leadButton.evaluate(el=>{const r=el.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.bottom-42);return hit===el||el.contains(hit)}),"44px real Access Leads touch target");
      console.log("PASS_ROOFING_LEADS_HOME",width,file);
