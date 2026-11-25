@@ -10,6 +10,10 @@ on:
       - "training-availability.html"
       - "*roofing.html"
       - "specialty-mobile.css"
+      - "roofing-connect.html"
+      - "roofing-connect.css"
+      - "sponsors*.html"
+      - "gallery.html"
       - "assets/liquid-applied-roof-cutaway.svg"
   workflow_dispatch:
 permissions:
