@@ -114,6 +114,53 @@ try{
  await academy.click();
  await page.waitForURL("**/courses.html");
  console.log("PASS_NAVIGATION four original logo tabs, full artwork and academy hotspot");
+
+ // Roofing Connect: verify the real enquiry code without opening a mail app or sending mail.
+ const roofingKeys=["built-up","tile-slate","metal-sheet","liquid-applied"];
+ for(const width of [390,768,1024]){
+   const leadContext=await browser.newContext({viewport:{width,height:844}});
+   // Intercept only the final external mailto navigation; run all other original code.
+   await leadContext.route("**/roofing-connect.html*",async route=>{
+     const response=await route.fetch();
+     const original=await response.text();
+     assert.ok(original.includes("location.href=uri;"));
+     await route.fulfill({response,body:original.replace("location.href=uri;","window.__testMailto=uri;")});
+   });
+   const lead=await leadContext.newPage();
+   for(let i=0;i<sponsorPages.length;i++){
+     await lead.goto("http://127.0.0.1:"+port+"/"+sponsorPages[i]);
+     await lead.locator(".rc-entry a").click();
+     await lead.waitForURL("**/roofing-connect.html?roof="+roofingKeys[i]+"#enquiry");
+     assert.equal(await lead.locator("#rc-roof").inputValue(),roofingKeys[i]);
+     assert.ok((await lead.locator("#rc-source").textContent()).includes("sponsor gallery"));
+     assert.ok(await lead.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+3));
+     await lead.locator("#rc-area").fill("INVALID");
+     await lead.locator("#rc-submit").click();
+     assert.equal(await lead.evaluate(()=>window.__testMailto),undefined);
+     await lead.locator("#rc-area").fill("PO9");
+     await lead.locator("#rc-detail").fill("TEST ONLY — synthetic project, no customer data.");
+     await lead.locator("#rc-submit").click();
+     const draft=await lead.evaluate(()=>window.__testMailto);
+     const uri=new URL(draft);
+     assert.equal(uri.protocol,"mailto:");
+     assert.equal(uri.pathname,"flatoutbuiltuproofing@gmail.com");
+     assert.equal(uri.searchParams.get("subject"),"Roofing Connect project enquiry");
+     assert.ok(uri.searchParams.get("body").includes("Postcode area: PO9"));
+     assert.ok(uri.searchParams.get("body").includes("Enquiry source:"));
+     assert.ok(uri.searchParams.get("body").includes("Ask me before sharing"));
+     assert.ok(await lead.locator("#rc-result").isVisible());
+     if(i!==0)assert.ok(await lead.locator("#rc-partner option").nth(1).isDisabled());
+     console.log("PASS_ROOFING_CONNECT",width,roofingKeys[i],"draft intercepted; no mail sent");
+   }
+   await lead.goto("http://127.0.0.1:"+port+"/gallery.html");
+   await lead.locator(".rc-entry a").click();
+   await lead.waitForURL("**/roofing-connect.html#enquiry");
+   assert.equal(await lead.locator("#rc-source").textContent(),"From: Project gallery");
+   await lead.locator("#rc-select-tmc").click();
+   assert.equal(await lead.locator("#rc-partner").inputValue(),"TMC Roofing");
+   console.log("PASS_ROOFING_CONNECT_GALLERY",width);
+   await leadContext.close();
+ }
  await ctx.close();
 }finally{
  if(browser)await browser.close();
