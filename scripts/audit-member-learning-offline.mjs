@@ -22,7 +22,7 @@ function authFixture(paid, membership=false){
  const row=paid?'[{course_id:"beginner-training-course"}]':'[]';
  return [
   'const u={id:"11111111-1111-4111-8111-111111111111",email:"qa@example.invalid",is_anonymous:false};',
-  'function from(table){const q={select(){return q},eq(){return q},like(){return q},limit(){return q},then(a,b){return Promise.resolve({data:table==="course_access"?'+row+':table==="membership_subscriptions"?'+memberRow+':[],error:null}).then(a,b)}};return q}',
+  'function from(table){const q={select(){return q},eq(){return q},like(){return q},in(){return q},order(){return q},limit(){return q},then(a,b){return Promise.resolve({data:table==="course_access"?'+row+':table==="membership_subscriptions"?'+memberRow+':[],error:null}).then(a,b)}};return q}',
   'export const supabase={auth:{getUser:async()=>({data:{user:u},error:null}),getSession:async()=>({data:{session:{access_token:"fixture"}},error:null}),onAuthStateChange:()=>({}),signOut:async()=>({error:null})},',
   'from, rpc:async name=>name==="has_active_membership"?{data:'+membership+',error:null}:{data:[],error:null}};',
   'export async function requireUser(){return u}'
