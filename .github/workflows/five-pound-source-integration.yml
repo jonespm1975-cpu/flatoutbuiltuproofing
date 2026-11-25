@@ -1,0 +1,29 @@
+name: Five pound membership offline integration
+on:
+  push:
+    branches: [draft/membership-five-pound-sandbox]
+    paths:
+      - '.github/workflows/five-pound-source-integration.yml'
+      - 'tests/membership-staged-source.cjs'
+      - 'tests/membership-delivery-webhook.cjs'
+      - 'audits/membership-staged-source-2026-11-25/**'
+      - 'proposals/membership-confirmation-delivery-webhook.ts'
+permissions:
+  contents: read
+jobs:
+  fixtures:
+    if: github.ref == 'refs/heads/draft/membership-five-pound-sandbox'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned test compiler in temporary directory
+        run: npm install --prefix "$RUNNER_TEMP/fobur-test" --ignore-scripts --no-audit --no-fund typescript@5.7.3
+      - name: Execute membership and delivery fixtures
+        run: |
+          export NODE_PATH="$RUNNER_TEMP/fobur-test/node_modules"
+          node tests/membership-staged-source.cjs
+          node tests/membership-delivery-webhook.cjs
