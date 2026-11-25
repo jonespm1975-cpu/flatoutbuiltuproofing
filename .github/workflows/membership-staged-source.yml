@@ -6,6 +6,9 @@ on:
       - "audits/membership-staged-source-2026-11-25/**"
       - "tests/membership-staged-source.cjs"
       - "tests/membership-disposable-db.py"
+      - "tests/membership-delivery-webhook.cjs"
+      - "proposals/membership-confirmation-delivery*"
+
       - ".github/workflows/membership-staged-source.yml"
   workflow_dispatch:
 permissions:
@@ -23,6 +26,8 @@ jobs:
         run: npm install --no-save --ignore-scripts --no-audit --no-fund typescript@5.7.3
       - name: Run staged membership source fixtures
         run: node tests/membership-staged-source.cjs
+      - name: Verify delivery and bounce callback routing
+        run: node tests/membership-delivery-webhook.cjs
       - name: Scope
         run: echo "Mocked network, no deployment, Stripe charges, live database writes or emails."
 
