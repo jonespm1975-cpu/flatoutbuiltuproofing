@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /preview-
+Disallow: /backup/
+Disallow: /index-backup.html
+Disallow: /manager.html
+Disallow: /owner-
+Disallow: /sandbox-checkout.html
+Disallow: /membership-sandbox-test.html
+Disallow: /animation-previews.html
+Sitemap: https://flatoutbuiltuproofing.co.uk/sitemap.xml
