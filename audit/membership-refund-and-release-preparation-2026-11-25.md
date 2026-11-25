@@ -1,0 +1,26 @@
+# Membership release preparation — 25 November 2026
+
+Owner authorised implementation and eventual activation. Not a release approval for incomplete safeguards. Checkout, portal, email sender, membership webhook and UI remain disabled. Do not create a real subscription during testing.
+
+## Candidate customer terms (version membership-2026-11-24-v1, unapproved release)
+
+Learning Pass — £5 per month, billed immediately and automatically every month until cancelled. UK consumers only. Seller: Paul Jones trading as Flat Out Built-Up Roofing. Contact: flatoutbuiltuproofing@gmail.com. Stripe processes payment. No VAT is added while the seller is not VAT registered. The presently verified membership entitlement is the signed-in Voice Learning App for built-up felt roofing. Free resources remain free. Separately purchased courses remain separate; the 24 specialist courses are not included or offered until independently released. Internet, a compatible browser and JavaScript are required; voice features depend on browser/device permissions. Educational content is not a competence certificate. Cancel future renewals through My Learning or email the business; access continues until the end of the paid period. You may request a full refund of your initial £5 within 14 days of entering the contract, even if you requested immediate access or used the service. On processing that cooling-off cancellation, membership ends and the initial payment is refunded via the original method within 14 days of notice, without charge. Statutory cancellation, refund and faulty-content rights are not affected. To request cancellation or refund, email the business with account email, subscription reference if known, and a clear request; never send card details. Separately purchased course access is not affected.
+
+The existing draft also lists the registered business address; use the verified seller address in final pre-contract wording. The only membership entitlement independently verified is Voice Learning App; do not imply the 24 specialist courses or other paid lessons are included. Confirm intended broader scope before publishing. This text is staged, not a live offer.
+
+## Initial 14-day cancellation / full refund operating procedure
+
+1. Accept cancellation by email or any clear notice; record time of receipt and acknowledge promptly. Do not demand a particular form or card details. Match the request to authenticated customer/subscription and first paid invoice; do not disclose another account's data. If identity is uncertain, request only proportionate verification.
+2. Check date of contract acceptance; use the 14-day period beginning the day after contract entry and retain statutory extensions and remedies. Do not reject solely because the customer used content. Verify actual first GBP 500 payment and that no refund is already pending or completed.
+3. In Stripe Dashboard, an authorised owner cancels that specific membership immediately for cooling-off requests and issues a full initial-payment refund via the original payment method. Confirm no subsequent renewal remains scheduled. Do not refund separately purchased courses or create a second refund. If a step fails, mark for reconciliation; do not retry blindly.
+4. Verify signed cancellation webhook and Supabase denied membership entitlement. Check independently purchased access remains. Confirm Stripe refund status before telling the customer it completed; send durable cancellation/refund acknowledgement and retain evidence securely. Refund within 14 days of notice; escalate exceptions immediately. This manual process is not yet exercised end-to-end; no actual refunds performed by this change.
+5. Normal recurring cancellation remains end-of-period, with access retained. Complaints and statutory faulty-content rights are separate.
+
+## Release gates
+
+- Exact entitlement list, complete seller identity/address and consistent public terms, refund page and account UI. The new UI is hidden behind MEMBERSHIP_UI_RELEASE_APPROVED=false.
+- Candidate contract row remains approved_at NULL until exact final customer text is verified; don't use that timestamp to bypass testing.
+- Test actual £5 sandbox checkout, consent, first invoice, membership email delivery and verified callbacks; cancellation and full refund, expiry and independent course access. Existing isolated tests are not a provider integration test.
+- Membership sender requires separate send-scoped scheduler authorization and tested no-duplicate protection. Existing course worker must remain unchanged.
+- UK Consumer Contracts Regulations 2013 and Consumer Rights Act 2015; draft new DMCCA subscription regulations propose 1 January 2027 commencement, subject to final confirmation. Check pre-contract information, reminders, easy exit, durable termination and cooling-off requirements before that date. Sources: https://www.legislation.gov.uk/uksi/2013/3134/contents ; https://www.gov.uk/government/publications/subscription-contracts ; https://www.legislation.gov.uk/ukdsi/2026/9780348287912/regulation/1 .
+- Only after gates pass: approved contract snapshot, coordinated release, verify rollback route and no unapproved charges. Supabase Free; no retired email provider.
