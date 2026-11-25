@@ -533,3 +533,70 @@
 @media(prefers-reduced-motion:reduce) {
   .fl-leads-card .fl-sparkle-toggle {display:none}
 }
+
+
+/* Owner-approved logo-led Roofing Leads redesign, 25 Nov 2026.
+   Full-width panel, approximately half the reference depth (4.2:1).
+   Use real brand artwork, not a simulated logo; retain interactive controls. */
+.fobur-leads-section > .fl-leads-card {
+  aspect-ratio: 4.2 / 1;
+  padding: clamp(5px,.85vw,10px);
+  border-color:#ffe1a0;
+  box-shadow:0 0 5px #fff0b6,0 0 10px #ffbd3588,inset 0 0 9px #c57b1c66;
+}
+.fl-leads-card .fl-leads-content {
+  display:grid;grid-template-columns:minmax(0,1fr);
+  grid-template-rows:minmax(0,auto) 12px auto auto;
+  gap:clamp(3px,.6vw,6px);
+  width:100%;align-items:center;
+}
+.fl-leads-card .fl-leads-top {
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);
+  align-items:center;gap:clamp(5px,1vw,12px);min-width:0;
+}
+.fl-leads-card .fl-leads-brand {grid-column:auto;grid-row:auto;margin:0;padding:0;line-height:1}
+.fl-leads-card .fl-leads-brand img {
+  display:block;width:100%;height:auto;max-height:clamp(44px,10vw,83px);
+  object-fit:contain;object-position:center;
+}
+.fl-leads-card .fl-leads-top ul {
+  grid-column:auto;grid-row:auto;margin:0;padding:0;min-width:0;
+  font-size:clamp(10px,1.55vw,15px);line-height:1.16;
+}
+.fl-leads-card .fl-leads-top li {margin:.14em 0;overflow-wrap:break-word}
+.fl-leads-card .fl-leads-divider {
+  position:relative;grid-column:1;grid-row:2;width:100%;height:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(90deg,transparent,#e5b64a 24%,#f9d77a 76%,transparent) center / 100% 1px no-repeat;
+}
+.fl-leads-card .fl-leads-divider .fl-pin {
+  grid-column:auto;grid-row:auto;width:42px;height:14px;max-height:none;
+  margin:0;filter:drop-shadow(0 0 3px #ffbd37);
+  background:#090704;
+}
+.fl-leads-card .fl-leads-cta {
+  grid-column:1;grid-row:3;min-height:44px;padding:4px 8px;
+  font-size:clamp(13px,2vw,21px);
+}
+.fl-leads-card .fl-leads-cta span {
+  border-radius:.28em;background:linear-gradient(#a9bed0,#42627b);color:white;
+}
+.fl-leads-card .fl-leads-footer {
+  grid-column:1;grid-row:4;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;min-width:0;
+}
+.fl-leads-card .fl-leads-footer .fl-leads-note {
+  grid-column:auto;grid-row:auto;flex:1;min-width:0;margin:0;text-align:left;
+  font-size:clamp(9px,1.15vw,11px);
+}
+.fl-leads-card .fl-leads-footer .fl-sparkle-toggle {
+  grid-column:auto;grid-row:auto;flex-shrink:0;min-height:24px;white-space:nowrap;
+  font-size:clamp(10px,1.25vw,12px);padding:2px 3px;
+}
+@media(max-width:600px) {
+  /* Maintain readable text and a genuine 44px touch target rather than squash the phone layout. */
+  .fobur-leads-section > .fl-leads-card {aspect-ratio:auto}
+  .fl-leads-card .fl-leads-brand img {max-height:60px}
+  .fl-leads-card .fl-leads-top ul {font-size:clamp(10px,2.7vw,13px)}
+  .fl-leads-card .fl-leads-content {gap:3px}
+}

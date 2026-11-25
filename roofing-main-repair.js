@@ -149,7 +149,6 @@
     set(el,'tile-size'+suffix,(100*layout.w/w)+'% '+(100*layout.h/h)+'%');
     set(el,'tile-pos'+suffix,(100*x/(layout.w-w))+'% '+(100*y/(layout.h-h))+'%');
   };
-  const roof = '<svg class="fl-roof" viewBox="0 0 200 72" aria-hidden="true"><defs><linearGradient id="FL_GOLD" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff5ca"/><stop offset=".4" stop-color="#ffce4f"/><stop offset="1" stop-color="#a8630b"/></linearGradient></defs><path d="M8 54L100 5l92 49-19-3-73-36-73 36z" fill="url(#FL_GOLD)"/><path d="M21 39V19h13v13m130 0V19h13v20" fill="url(#FL_GOLD)"/><path d="M88 43h10v10H88zm14 0h10v10h-10zM88 57h10v10H88zm14 0h10v10h-10z" fill="url(#FL_GOLD)"/></svg>';
   const pin = '<svg class="fl-pin" viewBox="0 0 220 72" aria-hidden="true"><ellipse cx="110" cy="56" rx="96" ry="12" fill="none" stroke="#ffd46b" stroke-width="2"/><path fill="#ffce49" d="M110 4c-17 0-28 12-28 27 0 19 28 39 28 39s28-20 28-39c0-15-11-27-28-27zm0 15a11 11 0 1 1 0 22 11 11 0 0 1 0-22z" fill-rule="evenodd"/></svg>';
   const sparkleSpecs = [[7,4,19,0],[87,3,13,1.7],[99,42,23,3],[4,67,14,.7],[92,95,19,2],[13,99,10,3.7],[5,28,7,2.4],[96,18,8,.9],[75,98,6,1.4],[4,88,6,2.8]];
   for (let i=0;i<4;i++) {
@@ -203,7 +202,7 @@
     card.append(glitter);
     const content=document.createElement('div');
     content.className='fl-leads-content';
-    content.innerHTML=roof.replaceAll('FL_GOLD','FL_GOLD_'+i)+'<h2 id="fl-leads-title-'+i+'"><span>ROOFING</span><strong>LEADS</strong></h2>'+pin+'<ul><li>Get Roofing Job Leads</li><li>Connect with Customers</li><li>Opportunities for Our Brands</li><li>Grow Your Roofing Business</li></ul>';
+    content.innerHTML='<div class="fl-leads-top"><h2 class="fl-leads-brand" id="fl-leads-title-'+i+'"><img src="assets/flat-out-built-up-roofing-logo.svg" alt="Flat Out Built-Up Roofing — Roofing Leads" width="640" height="256"></h2><ul><li>Get Roofing Job Leads</li><li>Connect with Customers</li><li>Opportunities for Our Brands</li><li>Grow Your Roofing Business</li></ul></div><div class="fl-leads-divider" aria-hidden="true">'+pin+'</div>';
     const cta=document.createElement('a');
     cta.className='fl-leads-cta';
     cta.href='roofing-connect.html?roof='+keys[i]+'#enquiry';
@@ -222,7 +221,10 @@
       pause.textContent=stopped?'Play sparkles':'Pause sparkles';
       pause.setAttribute('aria-pressed',String(stopped));
     });
-    content.append(cta,note,pause);
+    const footer=document.createElement('div');
+    footer.className='fl-leads-footer';
+    footer.append(note,pause);
+    content.append(cta,footer);
     card.append(content);
     section.append(training,card);
     clip.after(section);

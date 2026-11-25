@@ -94,7 +94,13 @@ try{
      assert.equal(await pause.textContent(),"Pause sparkles");
      assert.equal(await pause.getAttribute("aria-pressed"),"false");
      assert.equal(await leads.locator(".fl-sparkles i").first().evaluate(el=>getComputedStyle(el).animationPlayState),"running");
-     assert.ok(await leads.locator(".fl-leads-card").evaluate(el=>getComputedStyle(el).transform==="none"&&el.getBoundingClientRect().height<220&&el.scrollWidth<=el.clientWidth+2), "compact unscaled strip without overflow");
+     const brand=leads.locator(".fl-leads-brand img");
+     await brand.evaluate(img=>img.decode());
+     assert.equal(await brand.getAttribute("src"),"assets/flat-out-built-up-roofing-logo.svg");
+     assert.ok(await leads.locator(".fl-leads-card").evaluate(el=>{
+       const r=el.getBoundingClientRect(),top=el.querySelector(".fl-leads-top").getBoundingClientRect(),divider=el.querySelector(".fl-leads-divider").getBoundingClientRect(),cta=el.querySelector(".fl-leads-cta").getBoundingClientRect(),footer=el.querySelector(".fl-leads-footer").getBoundingClientRect();
+       return getComputedStyle(el).transform==="none"&&r.height<220&&el.scrollWidth<=el.clientWidth+2&&top.bottom<=divider.top+1&&divider.bottom<=cta.top+1&&cta.bottom<=footer.top+1&&cta.height>=44&&Math.abs(cta.width-top.width)<2;
+     }),"compact logo-led strip with full-width usable button and no overlap");
      await leadButton.scrollIntoViewIfNeeded();
      assert.ok(await leadButton.evaluate(el=>{const r=el.getBoundingClientRect();const hit=document.elementFromPoint(r.left+r.width/2,r.bottom-42);return hit===el||el.contains(hit)}),"44px real Access Leads touch target");
      console.log("PASS_ROOFING_LEADS_HOME",width,file);
