@@ -150,7 +150,8 @@ try{
      assert.ok(uri.searchParams.get("body").includes("Enquiry source:"));
      assert.ok(uri.searchParams.get("body").includes("Ask me before sharing"));
      assert.ok(await lead.locator("#rc-result").isVisible());
-     if(i!==0)assert.ok(await lead.locator("#rc-partner option").nth(1).isDisabled());
+     assert.equal(await lead.locator("#rc-partner option").nth(1).evaluate(option=>option.disabled),i!==0,"native sponsor option disabled state");
+     if(i!==0)assert.equal(await lead.locator("#rc-partner").inputValue(),"");
      console.log("PASS_ROOFING_CONNECT",width,roofingKeys[i],"draft intercepted; no mail sent");
    }
    await lead.goto("http://127.0.0.1:"+port+"/gallery.html");
