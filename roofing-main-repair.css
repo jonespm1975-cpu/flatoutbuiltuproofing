@@ -625,3 +625,30 @@
     max-height: none;
   }
 }
+
+/* Compact leads strip: keep the existing artwork and actions, remove excess
+   vertical space by placing the CTA beside the logo and benefits on wider screens. */
+.fobur-leads-section > .fl-leads-card {
+  aspect-ratio:auto; height:auto; min-height:0; max-height:none;
+  padding:clamp(5px,.7vw,9px);
+}
+.fl-leads-card .fl-leads-content {
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto auto auto;
+  gap:4px;
+}
+.fl-leads-card .fl-leads-divider {display:none}
+.fl-leads-card .fl-leads-top {grid-column:1;grid-row:1}
+.fl-leads-card .fl-leads-brand img {max-height:clamp(42px,8vw,70px)}
+.fl-leads-card .fl-leads-cta {grid-column:1;grid-row:2;min-height:44px;padding:4px 8px}
+.fl-leads-card .fl-leads-footer {grid-column:1;grid-row:3}
+@media(min-width:601px) {
+  .fl-leads-card .fl-leads-content {
+    grid-template-columns:minmax(0,2.3fr) minmax(0,1fr);
+    grid-template-rows:auto auto;
+    column-gap:10px;
+  }
+  .fl-leads-card .fl-leads-top {grid-column:1;grid-row:1}
+  .fl-leads-card .fl-leads-cta {grid-column:2;grid-row:1;font-size:clamp(12px,1.6vw,18px)}
+  .fl-leads-card .fl-leads-footer {grid-column:1 / -1;grid-row:2}
+}
