@@ -5,6 +5,7 @@ on:
     paths:
       - "audits/membership-staged-source-2026-11-25/**"
       - "tests/membership-staged-source.cjs"
+      - "tests/membership-disposable-db.py"
       - ".github/workflows/membership-staged-source.yml"
   workflow_dispatch:
 permissions:
@@ -24,3 +25,32 @@ jobs:
         run: node tests/membership-staged-source.cjs
       - name: Scope
         run: echo "Mocked network, no deployment, Stripe charges, live database writes or emails."
+
+  disposable-membership-db:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable_only_do_not_reuse
+          POSTGRES_DB: disposable_membership
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d disposable_membership"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:disposable_only_do_not_reuse@localhost:5432/disposable_membership
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned isolated PostgreSQL driver
+        run: python -m pip install 'psycopg[binary]==3.2.3'
+      - name: Test actual membership SQL and two independent database connections
+        run: python tests/membership-disposable-db.py
+      - name: Scope
+        run: echo "Disposable synthetic database only; no production access or email sending."
