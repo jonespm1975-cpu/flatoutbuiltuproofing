@@ -17,13 +17,14 @@ const server=http.createServer((req,res)=>{
 });
 await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve));
 const base="http://127.0.0.1:"+server.address().port;
-function authFixture(paid){
+function authFixture(paid, membership=false){
+ const memberRow=membership?'[{status:"active"}]':'[]';
  const row=paid?'[{course_id:"beginner-training-course"}]':'[]';
  return [
   'const u={id:"11111111-1111-4111-8111-111111111111",email:"qa@example.invalid",is_anonymous:false};',
-  'function from(table){const q={select(){return q},eq(){return q},like(){return q},then(a,b){return Promise.resolve({data:table==="course_access"?'+row+':[],error:null}).then(a,b)}};return q}',
+  'function from(table){const q={select(){return q},eq(){return q},like(){return q},limit(){return q},then(a,b){return Promise.resolve({data:table==="course_access"?'+row+':table==="membership_subscriptions"?'+memberRow+':[],error:null}).then(a,b)}};return q}',
   'export const supabase={auth:{getUser:async()=>({data:{user:u},error:null}),getSession:async()=>({data:{session:{access_token:"fixture"}},error:null}),onAuthStateChange:()=>({}),signOut:async()=>({error:null})},',
-  'from, rpc:async name=>name==="has_active_membership"?{data:false,error:null}:{data:[],error:null}};',
+  'from, rpc:async name=>name==="has_active_membership"?{data:'+membership+',error:null}:{data:[],error:null}};',
   'export async function requireUser(){return u}'
  ].join("\n");
 }
@@ -67,6 +68,7 @@ try{
    assert.equal(await page.locator("#mobileAppAccess").isVisible(),paid);
    assert.equal(await page.locator("#paidContent").isVisible(),false);
    assert.equal(await page.locator("#sandboxMembershipManagement").isVisible(),false);
+   assert.equal(await page.locator("#liveMembershipControls").isVisible(),false,"live release lock hides staged controls");
    if(paid){
     await button.click();
     await page.waitForFunction(()=>document.querySelector("#status")?.textContent==="Your lesson is ready.");
@@ -95,6 +97,56 @@ try{
    console.log("PASS",width,paid?"own receipt printable":"unpaid receipt absent");
    await context.close();
   }
+ }
+
+ // Test the staged membership UI in memory only. Never change the checked-in release lock.
+ const memberHtml=fs.readFileSync(path.join(root,"members.html"),"utf8");
+ assert.ok(memberHtml.includes("const MEMBERSHIP_UI_RELEASE_APPROVED = false;"));
+ const simulatedRelease=memberHtml.replace("const MEMBERSHIP_UI_RELEASE_APPROVED = false;","const MEMBERSHIP_UI_RELEASE_APPROVED = true;");
+ for(const width of [390,1280])for(const membership of [false,true]){
+  const context=await browser.newContext({viewport:{width,height:850}});
+  let requests=[],hostile=true;
+  await context.route("**/*",async route=>{
+   const req=route.request(),url=new URL(req.url());
+   if(url.origin===base&&url.pathname==="/members.html")return route.fulfill({contentType:"text/html",body:simulatedRelease});
+   if(url.origin===base&&url.pathname==="/auth.js")return route.fulfill({contentType:"text/javascript",body:authFixture(false,membership)});
+   if(url.origin===base)return route.continue();
+   if(url.hostname==="fhyhshakmvqwzdyannec.supabase.co"){
+    const headers={"access-control-allow-origin":"*","access-control-allow-headers":"authorization,apikey,content-type","access-control-allow-methods":"POST,OPTIONS"};
+    if(req.method()==="OPTIONS")return route.fulfill({status:204,headers});
+    const endpoint=membership?"membership-live-portal":"membership-live-checkout";
+    assert.equal(url.pathname,"/functions/v1/"+endpoint);
+    requests.push(req.postDataJSON());
+    const host=membership?"billing.stripe.com":"checkout.stripe.com";
+    return route.fulfill({status:200,contentType:"application/json",headers,body:JSON.stringify({test_mode:false,url:hostile?"https://"+host+".example.invalid/fake":"https://"+host+"/fixture-no-real-session"})});
+   }
+   if(["billing.stripe.com","checkout.stripe.com"].includes(url.hostname))return route.fulfill({status:200,contentType:"text/html",body:"<h1>Intercepted Stripe fixture — no real payment</h1>"});
+   throw Error("Unexpected network "+url.hostname);
+  });
+  await context.addInitScript(()=>localStorage.setItem("fobur_analytics_consent_v1","no"));
+  const page=await context.newPage();
+  await page.goto(base+"/members.html");
+  await page.locator("#liveMembershipControls").waitFor({state:"visible"});
+  const form=page.locator("#liveMembershipConsent"),manage=page.locator("#liveMembershipManage");
+  assert.equal(await form.isVisible(),!membership);
+  assert.equal(await manage.isVisible(),membership);
+  const button=membership?manage:form.locator("button");
+  if(!membership){
+   assert.equal(await form.locator("input:checked").count(),0);
+   await button.click();
+   assert.equal(requests.length,0,"missing consent must not create checkout");
+   for(const name of ["terms","renewal","cancel","immediate"])await form.locator("input[name="+name+"]").check();
+  }
+  await button.click();
+  await page.waitForFunction(()=>document.querySelector("#liveMembershipMessage").textContent.includes("Unexpected payment destination"));
+  assert.equal(requests.length,1);
+  if(!membership)assert.deepEqual(requests[0],{terms_accepted:true,recurring_billing_consent:true,cancellation_acknowledgement:true,immediate_supply_requested:true,terms_version:"membership-2026-11-24-v1"});
+  hostile=false;
+  await button.click();
+  await page.getByRole("heading",{name:"Intercepted Stripe fixture — no real payment"}).waitFor();
+  assert.equal(requests.length,2);
+  console.log("PASS staged membership consent controls",width,membership?"portal, exact host":"checkout, explicit consent, exact host");
+  await context.close();
  }
 } finally {
  if(browser)await browser.close();
