@@ -25,3 +25,13 @@ Status: HOLD. UK-only release. Supabase Free. Postmark only. Do not change appro
 ## Operational constraints
 
 Keep live checkout, fulfilment, portal and confirmation worker hard release locks in place until all gates pass. Do not expose credentials or test account identifiers in public repository files. Maintain the approved £5 monthly price, separate course purchases and four page layouts. A production deployment of locked code is not a production payment test.
+
+## Subsequent verified evidence — 25 November
+
+- Isolated sandbox Voice Learning page published; production and QA Start Learning hotspot repaired and verified on live HTML (HTTP requests 2570–2571). QA uses only sandbox endpoint and does not register a service worker.
+- GitHub isolated Chromium run 45692456531 passed all 22 logged scenarios across mobile and desktop, including simulated membership consent, exact Stripe destination hosts, sandbox voice controls, denied and wrong-mode responses. Physical microphone and real hosted checkout are NOT covered.
+- Actual Stripe API-created £5 sandbox subscription with synthetic consent binding granted authenticated QA learning content (HTTP 200, two demonstration sections), denied production content (HTTP 403), and cancellation removed entitlement. Request 2572. No real money and no customer consent implied.
+- Temporary test functions retired (HTTP 410 code, JWT required), tokens cleared; database scope constraint now permits check_only and dispatch only. Queue readiness HTTP 200, sending_enabled false (request 2580); scheduler remains inactive.
+- Live price verified GBP 500 monthly, no trial, portal cancellation at period end, subscription changes disabled, dedicated live webhook disabled with nine expected event types. Production receipt delivery is not verified.
+- All four main pages plus root returned HTTP 200; £5 advertised as coming soon, no £1.99 literal in HTML. Terms/refund pages verified published with matching membership conditions; privacy names Postmark. Cancellation template update deployed in Pages run 45693919080. No independent legal certification.
+- Remaining gates: direct Stripe sandbox dispute redelivery (both original events pending at last check), real interactive sandbox checkout and portal cancellation, physical microphone test and coordinated production activation. Use ChatGPT Work Cloud Browser or owner dashboard for interaction; current connectors do not provide direct redelivery or browser control. No live charges or design changes authorised by this checkpoint.
