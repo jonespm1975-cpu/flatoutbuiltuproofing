@@ -152,6 +152,59 @@ try{
   console.log("PASS staged membership consent controls",width,membership?"portal, exact host":"checkout, explicit consent, exact host");
   await context.close();
  }
+
+ // Sandbox voice interface: only synthetic responses, never a real microphone or provider.
+ for(const width of [390,1280])for(const outcome of ["allowed","denied","wrong_mode"]){
+  const context=await browser.newContext({viewport:{width,height:850},serviceWorkers:"block"});
+  let requested=0;
+  await context.addInitScript(()=>{
+   window.__spoken=[];window.__stops=0;
+   Object.defineProperty(window,"speechSynthesis",{configurable:true,value:{speak(u){window.__spoken.push(u.text);},cancel(){window.__stops++;}}});
+   window.SpeechRecognition=class {start(){this.onstart?.();this.onresult?.({results:[[{transcript:"next step"}]]});this.onend?.();}stop(){}};
+  });
+  await context.route("**/*",async route=>{
+   const req=route.request(),url=new URL(req.url());
+   if(url.origin===base&&url.pathname==="/auth.js")return route.fulfill({contentType:"text/javascript",body:authFixture(false)});
+   if(url.origin===base)return route.continue();
+   if(url.hostname==="fhyhshakmvqwzdyannec.supabase.co"){
+    const headers={"access-control-allow-origin":"*","access-control-allow-headers":"authorization,apikey,content-type","access-control-allow-methods":"GET,OPTIONS"};
+    assert.equal(url.pathname,"/functions/v1/membership-qa-learning-content");
+    if(req.method()==="OPTIONS")return route.fulfill({status:204,headers});
+    requested++;
+    const body=outcome==="denied"?{code:"ACCESS_REQUIRED",error:"Sandbox membership required"}:{entitled:true,test_mode:outcome==="allowed",access:"sandbox-subscription",guide:{title:"QA synthetic guide",description:"Test content only",sections:[{heading:"Audio check",body:"Test speech."},{heading:"Navigation check",body:"Test navigation."}],safety:"Demonstration only"}};
+    return route.fulfill({status:outcome==="denied"?403:200,headers,contentType:"application/json",body:JSON.stringify(body)});
+   }
+   return route.abort();
+  });
+  const page=await context.newPage(),errors=[];
+  page.on("pageerror",e=>errors.push(e.message));
+  await page.goto(base+"/mobile-learning-qa.html",{waitUntil:"domcontentloaded"});
+  assert.equal(await page.locator("#app").isVisible(),false);
+  await page.locator("#startLearning").click();
+  if(outcome==="allowed"){
+   await page.locator("#app").waitFor({state:"visible"});
+   assert.match(await page.locator("#accessBadge").innerText(),/SANDBOX TEST/);
+   assert.equal(await page.locator("#installPrompt").isVisible(),false);
+   await page.locator("#next").click();
+   assert.equal(await page.locator("#stepTitle").innerText(),"Navigation check");
+   await page.locator("#previous").click();
+   assert.equal(await page.locator("#stepTitle").innerText(),"Audio check");
+   await page.locator("#repeat").click();
+   assert.match((await page.evaluate(()=>window.__spoken)).join(" "),/Audio check/);
+   await page.locator("#listen").click();
+   assert.equal(await page.locator("#stepTitle").innerText(),"Navigation check");
+   await page.locator("#stop").click();
+   assert.ok(await page.evaluate(()=>window.__stops>0));
+  }else{
+   await page.locator(outcome==="denied"?"#gate":"#errorPanel").waitFor({state:"visible"});
+   assert.equal(await page.locator("#app").isVisible(),false);
+  }
+  assert.ok(requested>=1);
+  assert.deepEqual(errors,[]);
+  console.log("PASS isolated sandbox voice interface",width,outcome);
+  await context.close();
+ }
+
 } finally {
  if(browser)await browser.close();
  await new Promise(resolve=>server.close(resolve));
