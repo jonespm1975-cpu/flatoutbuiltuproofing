@@ -652,3 +652,28 @@
   .fl-leads-card .fl-leads-cta {grid-column:2;grid-row:1;font-size:clamp(12px,1.6vw,18px)}
   .fl-leads-card .fl-leads-footer {grid-column:1 / -1;grid-row:2}
 }
+
+/* Mobile: fit brand, benefits and action into one horizontal strip.
+   Keep a 44px touch target and allow text to wrap without clipping. */
+@media(max-width:600px) {
+  .fobur-leads-section > .fl-leads-card {padding:4px 5px;aspect-ratio:auto;min-height:0}
+  .fl-leads-card .fl-leads-content {
+    grid-template-columns:minmax(0,2.65fr) minmax(0,1fr);
+    grid-template-rows:auto auto;gap:2px 5px;
+  }
+  .fl-leads-card .fl-leads-top {
+    grid-column:1;grid-row:1;
+    grid-template-columns:minmax(0,.85fr) minmax(0,1.45fr);gap:4px;
+  }
+  .fl-leads-card .fl-leads-brand img {max-height:42px}
+  .fl-leads-card .fl-leads-top ul {font-size:clamp(9px,2.25vw,12px);line-height:1.1}
+  .fl-leads-card .fl-leads-top li {margin:0}
+  .fl-leads-card .fl-leads-cta {
+    grid-column:2;grid-row:1;min-height:44px;
+    font-size:clamp(10px,2.6vw,14px);white-space:normal;
+    padding:3px;line-height:1.05;
+  }
+  .fl-leads-card .fl-leads-footer {grid-column:1 / -1;grid-row:2;gap:4px}
+  .fl-leads-card .fl-leads-footer .fl-leads-note {font-size:9px;line-height:1.1}
+  .fl-leads-card .fl-leads-footer .fl-sparkle-toggle {font-size:10px;min-height:24px;padding:0 2px}
+}
