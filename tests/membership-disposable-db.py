@@ -85,4 +85,26 @@ with psycopg.connect(url,autocommit=True) as db:
     expect(db.execute("select public.finish_membership_confirmation('sub_fixture',%s,'accepted','fixture-id')",(token,)).fetchone()[0],True,"correct claim finalizes job")
     expect(db.execute("select public.finish_membership_confirmation('sub_fixture',%s,'accepted','fixture-id')",(token,)).fetchone()[0],False,"duplicate completion refused")
     expect(db.execute("select status from internal.membership_confirmation_outbox").fetchone()[0],"accepted","provider acceptance not mislabelled delivered")
+    # Candidate callback SQL: service-only, identity-bound, idempotent, bounce cannot be cleared.
+    db.execute("create role anon; create role authenticated; create role service_role")
+    db.execute((root/"proposals/membership-confirmation-delivery.sql").read_text())
+    signature="public.record_membership_confirmation_delivery(text,text,text,timestamptz)"
+    for role,allowed in [("anon",False),("authenticated",False),("service_role",True)]:
+        expect(db.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,signature)).fetchone()[0],allowed,"callback execute privilege "+role)
+    def callback(message="fixture-id",recipient="customer@fixture.invalid",kind="delivered",when=None):
+        return db.execute("select public.record_membership_confirmation_delivery(%s,%s,%s,%s)",(message,recipient,kind,when or datetime.now(timezone.utc))).fetchone()[0]
+    status=lambda:db.execute("select status from internal.membership_confirmation_outbox").fetchone()[0]
+    expect(callback(message="unknown"),False,"unknown provider message refused")
+    expect(callback(recipient="other@fixture.invalid"),False,"wrong recipient refused")
+    expect(callback(kind="opened"),False,"unsupported callback refused")
+    expect(callback(when=datetime.now(timezone.utc)-timedelta(days=46)),False,"stale callback refused")
+    expect(status(),"accepted","invalid callback cannot change accepted state")
+    expect(callback(),True,"matching delivery recorded")
+    expect(status(),"delivered","delivery status updated")
+    expect(callback(),True,"duplicate delivery safely acknowledged")
+    expect(callback(kind="bounced"),True,"bounce recorded")
+    expect(status(),"bounced","bounce status updated")
+    expect(callback(),True,"late delivery safely acknowledged")
+    expect(status(),"bounced","late delivery cannot erase bounce")
+    expect(active(),False,"delivery callbacks never grant membership access")
 print("ALL DISPOSABLE MEMBERSHIP DATABASE TESTS PASSED")
