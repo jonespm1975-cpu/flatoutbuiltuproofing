@@ -10,7 +10,7 @@ const account = document.querySelector('#account');
 const MEMBERSHIP_UI_RELEASE_APPROVED = false;
 async function initialiseLiveMembership(user, active) {
   if (!MEMBERSHIP_UI_RELEASE_APPROVED) return;
-  const {data:rows,error}=await supabase.from('membership_subscriptions').select('status').eq('user_id',user.id).eq('livemode',true).eq('stripe_price_id','price_1UeNy2KeIprRDTKxLWoER0vk').limit(1);
+  const {data:rows,error}=await supabase.from('membership_subscriptions').select('status').eq('user_id',user.id).eq('livemode',true).eq('stripe_price_id','price_1UeNy2KeIprRDTKxLWoER0vk').in('status',['incomplete','trialing','active','past_due','unpaid','paused']).limit(1);
   if(error) return;
   const panel=document.querySelector('#liveMembershipControls'), offer=document.querySelector('#liveMembershipOffer'), manage=document.querySelector('#liveMembershipManage'), msg=document.querySelector('#liveMembershipMessage'), form=document.querySelector('#liveMembershipConsent');
   panel.hidden=false; offer.hidden=Boolean(rows?.length)||active; manage.hidden=!rows?.length;
