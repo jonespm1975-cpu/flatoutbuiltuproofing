@@ -1,0 +1,34 @@
+name: Isolated five pound membership database test
+on:
+  push:
+    branches:
+      - draft/membership-five-pound-sandbox
+    paths:
+      - 'drafts/membership-five-sandbox/**'
+      - '.github/workflows/five-pound-sandbox-db.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  disposable-db:
+    if: github.ref == 'refs/heads/draft/membership-five-pound-sandbox'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: disposable-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify PostgreSQL client
+        run: psql --version
+      - name: Run isolated concurrent tests
+        run: python3 drafts/membership-five-sandbox/test_database.py
