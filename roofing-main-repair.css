@@ -613,3 +613,9 @@
 .fl-leads-card .fl-leads-brand {min-width:0}
 .fl-leads-card .fl-leads-footer {justify-self:stretch}
 .fl-leads-card .fl-sparkles {overflow:hidden;border-radius:inherit}
+
+/* Keep the approved half-depth strip compact on wider screens. Content minimum
+   still wins if zoom or larger text needs extra space; mobile remains unchanged. */
+@media (min-width: 601px) {
+  .fobur-leads-section > .fl-leads-card { max-height: 218px; }
+}
