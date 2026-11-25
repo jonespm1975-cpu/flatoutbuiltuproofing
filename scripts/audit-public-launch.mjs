@@ -126,6 +126,7 @@ try{
      assert.ok(original.includes("location.href=uri;"));
      await route.fulfill({response,body:original.replace("location.href=uri;","window.__testMailto=uri;")});
    });
+   await leadContext.addInitScript(()=>localStorage.setItem("fobur_analytics_consent_v1","no"));
    const lead=await leadContext.newPage();
    for(let i=0;i<sponsorPages.length;i++){
      await lead.goto("http://127.0.0.1:"+port+"/"+sponsorPages[i]);
