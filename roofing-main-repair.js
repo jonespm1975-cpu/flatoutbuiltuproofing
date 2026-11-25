@@ -123,3 +123,132 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden) select(); });
   select();
 })();
+
+/* Owner-approved Roofing Leads integration, 25 November 2026.
+   Reflow only the four training tiles; the original top artwork, hero, footer,
+   sponsor QR and live links remain intact. Each page keeps its own artwork. */
+(() => {
+  'use strict';
+  const layouts = [
+    {w:780,h:1400,top:802,bottom:1095,tiles:[[14,805,371,135],[390,805,378,135],[14,943,371,149],[390,943,378,149]]},
+    {w:780,h:1302,top:730,bottom:1010,tiles:[[17,733,369,130],[391,733,371,130],[17,866,369,140],[391,866,371,140]]},
+    {w:780,h:1302,top:736,bottom:998,tiles:[[19,739,367,120],[393,739,368,120],[19,862,367,134],[393,862,368,134]]},
+    {w:853,h:1684,top:949,bottom:1290,tiles:[[16,951,407,160],[429,951,412,160],[16,1115,407,173],[429,1115,412,173]]}
+  ];
+  const mobileOne = {w:710,h:1114,top:676,bottom:922,tiles:[[19,678,326,107],[350,678,341,107],[19,789,326,131],[350,789,341,131]]};
+  const keys = ['built-up','tile-slate','metal-sheet','liquid-applied'];
+  const labels = ['Start free beginner training','Upcoming £9.99 specialist lessons','£5 monthly membership coming soon, no checkout','Safety and CSCS revision','Project gallery','Sponsorship and brand exposure','Support the site'];
+  const set = (el,key,value) => el.style.setProperty('--fl-'+key,String(value));
+  const geometry = (el,layout,suffix='') => {
+    set(el,'top-ratio'+suffix,layout.w+' / '+layout.top);
+    set(el,'bottom-ratio'+suffix,layout.w+' / '+(layout.h-layout.bottom));
+  };
+  const tileGeometry = (el,layout,i,suffix='') => {
+    const [x,y,w,h]=layout.tiles[i];
+    set(el,'tile-ratio'+suffix,w+' / '+h);
+    set(el,'tile-size'+suffix,(100*layout.w/w)+'% '+(100*layout.h/h)+'%');
+    set(el,'tile-pos'+suffix,(100*x/(layout.w-w))+'% '+(100*y/(layout.h-h))+'%');
+  };
+  const roof = '<svg class="fl-roof" viewBox="0 0 200 72" aria-hidden="true"><defs><linearGradient id="FL_GOLD" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff5ca"/><stop offset=".4" stop-color="#ffce4f"/><stop offset="1" stop-color="#a8630b"/></linearGradient></defs><path d="M8 54L100 5l92 49-19-3-73-36-73 36z" fill="url(#FL_GOLD)"/><path d="M21 39V19h13v13m130 0V19h13v20" fill="url(#FL_GOLD)"/><path d="M88 43h10v10H88zm14 0h10v10h-10zM88 57h10v10H88zm14 0h10v10h-10z" fill="url(#FL_GOLD)"/></svg>';
+  const pin = '<svg class="fl-pin" viewBox="0 0 220 72" aria-hidden="true"><ellipse cx="110" cy="56" rx="96" ry="12" fill="none" stroke="#ffd46b" stroke-width="2"/><path fill="#ffce49" d="M110 4c-17 0-28 12-28 27 0 19 28 39 28 39s28-20 28-39c0-15-11-27-28-27zm0 15a11 11 0 1 1 0 22 11 11 0 0 1 0-22z" fill-rule="evenodd"/></svg>';
+  const sparkleSpecs = [[7,4,19,0],[87,3,13,1.7],[99,42,23,3],[4,67,14,.7],[92,95,19,2],[13,99,10,3.7],[5,28,7,2.4],[96,18,8,.9],[75,98,6,1.4],[4,88,6,2.8]];
+  for (let i=0;i<4;i++) {
+    const panel=document.getElementById('roof-panel-'+(i+1));
+    const frame=panel?.querySelector('.page-frame');
+    const art=frame?.querySelector('.page-art');
+    if(!frame||!art||panel.querySelector('.fobur-leads-section'))continue;
+    const existing=Array.from(frame.querySelectorAll(':scope > .visual-hit'));
+    const links=labels.map(label=>existing.find(a=>a.getAttribute('aria-label')===label));
+    // Fail closed: do not crop any artwork if a real original link is missing.
+    if(links.some(a=>!a))continue;
+    const layout=layouts[i];
+    panel.classList.add('fobur-leads-integrated');
+    set(panel,'art','url("'+art.getAttribute('src')+'")');
+    geometry(panel,layout);
+    if(i===0)geometry(panel,mobileOne,'-mobile');
+    const clip=document.createElement('div');
+    clip.className='fl-top-clip';
+    frame.before(clip);
+    clip.append(frame);
+    const section=document.createElement('div');
+    section.className='fobur-leads-section';
+    const training=document.createElement('div');
+    training.className='fl-training-stack';
+    links.slice(0,4).forEach((a,n)=>{
+      a.className='fl-training-card';
+      a.removeAttribute('style');
+      tileGeometry(a,layout,n);
+      if(i===0)tileGeometry(a,mobileOne,n,'-mobile');
+      if(n===2){
+        const price=document.createElement('span');
+        price.className='fl-membership-price';
+        price.setAttribute('aria-hidden','true');
+        price.textContent='£5 MONTHLY';
+        a.append(price);
+      }
+      training.append(a);
+    });
+    frame.querySelector('.live-price-label')?.remove();
+    const card=document.createElement('section');
+    card.className='fl-leads-card';
+    card.setAttribute('aria-labelledby','fl-leads-title-'+i);
+    const glitter=document.createElement('div');
+    glitter.className='fl-sparkles';
+    glitter.setAttribute('aria-hidden','true');
+    sparkleSpecs.forEach(([x,y,size,delay])=>{
+      const star=document.createElement('i');
+      star.style.cssText='--sx:'+x+'%;--sy:'+y+'%;--ss:'+size+'px;--sd:-'+delay+'s';
+      glitter.append(star);
+    });
+    card.append(glitter);
+    const content=document.createElement('div');
+    content.className='fl-leads-content';
+    content.innerHTML=roof.replaceAll('FL_GOLD','FL_GOLD_'+i)+'<h2 id="fl-leads-title-'+i+'"><span>ROOFING</span><strong>LEADS</strong></h2>'+pin+'<ul><li>Get Roofing Job Leads</li><li>Connect with Customers</li><li>Opportunities for Our Brands</li><li>Grow Your Roofing Business</li></ul>';
+    const cta=document.createElement('a');
+    cta.className='fl-leads-cta';
+    cta.href='roofing-connect.html?roof='+keys[i]+'#enquiry';
+    cta.setAttribute('aria-label','Access roofing leads');
+    cta.innerHTML='ACCESS LEADS <span aria-hidden="true">▶</span>';
+    const note=document.createElement('small');
+    note.className='fl-leads-note';
+    note.textContent='Owner-reviewed enquiries · referrals subject to availability and consent';
+    const pause=document.createElement('button');
+    pause.type='button';
+    pause.className='fl-sparkle-toggle';
+    pause.textContent='Pause sparkles';
+    pause.setAttribute('aria-pressed','false');
+    pause.addEventListener('click',()=>{
+      const stopped=card.classList.toggle('fl-paused');
+      pause.textContent=stopped?'Play sparkles':'Pause sparkles';
+      pause.setAttribute('aria-pressed',String(stopped));
+    });
+    content.append(cta,note,pause);
+    card.append(content);
+    section.append(training,card);
+    clip.after(section);
+    const tail=document.createElement('div');
+    tail.className='fl-bottom-art';
+    tail.setAttribute('role','group');
+    tail.setAttribute('aria-label','Project gallery, sponsorship, support and original footer');
+    const tailRects = i===0?[[14,1097,245,130],[263,1097,207,130],[476,1097,292,130]]:
+      i===1?[[17,1012,246,124],[266,1012,203,124],[473,1012,289,124]]:
+      i===2?[[19,1000,242,128],[265,1000,198,128],[466,1000,295,128]]:
+      [[16,1294,270,150],[292,1294,219,150],[518,1294,322,150]];
+    const mobileTail=[[19,925,214,111],[239,925,202,111],[446,925,245,111]];
+    const tailGeo=(a,geo,rect,suffix='')=>{
+      const [x,y,w,h]=rect;
+      set(a,'tail-left'+suffix,100*x/geo.w+'%');
+      set(a,'tail-top'+suffix,100*(y-geo.bottom)/(geo.h-geo.bottom)+'%');
+      set(a,'tail-width'+suffix,100*w/geo.w+'%');
+      set(a,'tail-height'+suffix,100*h/(geo.h-geo.bottom)+'%');
+    };
+    links.slice(4).forEach((a,n)=>{
+      a.className='fl-tail-link';
+      a.removeAttribute('style');
+      tailGeo(a,layout,tailRects[n]);
+      if(i===0)tailGeo(a,mobileOne,mobileTail[n],'-mobile');
+      tail.append(a);
+    });
+    section.after(tail);
+  }
+})();

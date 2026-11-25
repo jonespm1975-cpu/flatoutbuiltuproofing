@@ -76,6 +76,19 @@ try{
    if (categories.includes(file)) {
      const index = categories.indexOf(file);
      const panel = page.locator("#roof-panel-" + (index + 1));
+     const leads = panel.locator(".fobur-leads-section");
+     assert.equal(await leads.count(),1,file+" one integrated leads section");
+     assert.equal(await leads.locator(".fl-training-card").count(),4,file+" all four original training links");
+     const leadButton=leads.getByRole("link",{name:"Access roofing leads"});
+     assert.equal(await leadButton.getAttribute("href"),"roofing-connect.html?roof="+["built-up","tile-slate","metal-sheet","liquid-applied"][index]+"#enquiry");
+     assert.equal(await leads.locator(".fl-sparkles i").count(),10);
+     assert.ok(await leads.evaluate(el=>{const r=el.getBoundingClientRect(),a=el.querySelector(".fl-training-stack").getBoundingClientRect(),b=el.querySelector(".fl-leads-card").getBoundingClientRect();return r.width>0&&a.right<=b.left+1&&b.right<=innerWidth+1&&r.height>50}));
+     const pause=leads.getByRole("button",{name:"Pause sparkles"});
+     await pause.click();
+     assert.equal(await pause.getAttribute("aria-pressed"),"true");
+     assert.equal(await leads.locator(".fl-sparkles i").first().evaluate(el=>getComputedStyle(el).animationPlayState),"paused");
+     await leads.getByRole("button",{name:"Play sparkles"}).click();
+     console.log("PASS_ROOFING_LEADS_HOME",width,file);
      const sponsorLinks = panel.getByRole("link", {name: /sponsor/i});
      assert.equal(await sponsorLinks.count(), 3, file + " sponsor links");
      for (const link of await sponsorLinks.all()) {
