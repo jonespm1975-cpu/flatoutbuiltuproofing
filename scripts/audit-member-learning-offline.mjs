@@ -102,7 +102,9 @@ try{
  // Test the staged membership UI in memory only. Never change the checked-in release lock.
  const memberHtml=fs.readFileSync(path.join(root,"members.html"),"utf8");
  assert.ok(memberHtml.includes("const MEMBERSHIP_UI_RELEASE_APPROVED = false;"));
- const simulatedRelease=memberHtml.replace("const MEMBERSHIP_UI_RELEASE_APPROVED = false;","const MEMBERSHIP_UI_RELEASE_APPROVED = true;");
+ // Capture only the final navigation; retain all real URL validation.
+ assert.equal(memberHtml.split("location.assign(destination.href);").length,2);
+ const simulatedRelease=memberHtml.replace("const MEMBERSHIP_UI_RELEASE_APPROVED = false;","const MEMBERSHIP_UI_RELEASE_APPROVED = true;").replace("location.assign(destination.href);","window.__verifiedMembershipDestination=destination.href;");
  for(const width of [390,1280])for(const membership of [false,true]){
   const context=await browser.newContext({viewport:{width,height:850}});
   let requests=[],hostile=true;
@@ -120,7 +122,7 @@ try{
     const host=membership?"billing.stripe.com":"checkout.stripe.com";
     return route.fulfill({status:200,contentType:"application/json",headers,body:JSON.stringify({test_mode:false,url:hostile?"https://"+host+".example.invalid/fake":"https://"+host+"/fixture-no-real-session"})});
    }
-   if(["billing.stripe.com","checkout.stripe.com"].includes(url.hostname))return route.fulfill({status:200,contentType:"text/html",body:"<h1>Intercepted Stripe fixture — no real payment</h1>"});
+   // Any outbound navigation is a test failure.
    throw Error("Unexpected network "+url.hostname);
   });
   await context.addInitScript(()=>localStorage.setItem("fobur_analytics_consent_v1","no"));
@@ -141,9 +143,11 @@ try{
   await page.waitForFunction(()=>document.querySelector("#liveMembershipMessage").textContent.includes("Unexpected payment destination"));
   assert.equal(requests.length,1);
   if(!membership)assert.deepEqual(requests[0],{terms_accepted:true,recurring_billing_consent:true,cancellation_acknowledgement:true,immediate_supply_requested:true,terms_version:"membership-2026-11-24-v1"});
+  assert.equal(await page.evaluate(()=>window.__verifiedMembershipDestination),undefined);
   hostile=false;
   await button.click();
-  await page.getByRole("heading",{name:"Intercepted Stripe fixture — no real payment"}).waitFor();
+  const expectedDestination="https://"+(membership?"billing.stripe.com":"checkout.stripe.com")+"/fixture-no-real-session";
+  await page.waitForFunction(expected=>window.__verifiedMembershipDestination===expected,expectedDestination);
   assert.equal(requests.length,2);
   console.log("PASS staged membership consent controls",width,membership?"portal, exact host":"checkout, explicit consent, exact host");
   await context.close();
