@@ -12,6 +12,8 @@ on:
       - "specialty-mobile.css"
       - "roofing-connect.html"
       - "roofing-connect.css"
+      - "roofing-main-repair.css"
+      - "roofing-main-repair.js"
       - "sponsors*.html"
       - "gallery.html"
       - "assets/liquid-applied-roof-cutaway.svg"
