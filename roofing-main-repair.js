@@ -254,3 +254,17 @@
     section.after(tail);
   }
 })();
+
+/* Owner-approved Tools & Workwear store route, 26 November 2026. */
+(() => {
+  'use strict';
+  // Keep the approved artwork and hotspot positions unchanged; route its existing
+  // Tools & Workwear hotspot to the selected option 3 virtual showroom.
+  document.querySelectorAll('.page-panel .visual-hit').forEach(link => {
+    const label = (link.getAttribute('aria-label') || '').toLowerCase();
+    if (!label.includes('tools') || !label.includes('workwear')) return;
+    link.href = 'tools-workwear-store.html';
+    link.setAttribute('aria-label', 'Open the Tools & Workwear virtual store');
+    link.setAttribute('title', 'Tools & Workwear virtual store');
+  });
+})();
