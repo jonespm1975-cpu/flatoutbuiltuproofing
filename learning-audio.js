@@ -4,7 +4,7 @@
   const speech = window.speechSynthesis;
   const panel = document.createElement('details');
   panel.className = 'fobur-audio'; panel.dataset.noNarration = 'true';
-  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Read the page with the best English voice installed on your device. A British male voice is preferred when available. Nothing plays until you press a control.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Read full page (best voice)</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
+  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Listen to the official George British narration introduction on the four roofing home pages. Full-page reading uses a separate device voice, whose quality may vary. Nothing plays until you press a control.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Read full page (device voice)</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
   const artwork = root.matches('.viewport') && root.querySelector('.page-panel');
   // The controls sit outside the artwork, never cover its navigation or hero.
   root.prepend(panel);
@@ -48,20 +48,30 @@
     if(key==='index'&&/^#roof-panel-[1-4]$/.test(location.hash))key=['built-up-roofing','tile-slate-roofing','metal-sheet-roofing','liquid-applied-roofing'][Number(location.hash.slice(-1))-1];
     return recordings.has(key)?key:'generic';
   }
-  function selectRecording(){const key=recordingKey();const url='/assets/narration/'+key+'.mp3?v=20261126-3';if(player.dataset.recording!==key){player.pause();player.dataset.recording=key;player.src=url;}}
-  selectRecording();addEventListener('hashchange',selectRecording);
+  // George is the approved recorded brand voice. The existing introduction is shared until section-specific recordings are available.
+  const georgeKeys=new Set(['index','built-up-roofing','tile-slate-roofing','metal-sheet-roofing','liquid-applied-roofing']);
+  const georgeIntro='https://assets.vidiq.com/voiceovers/7bfdffe6-9f6d-4c3f-af88-a2a239022c0a/30c664a4-6b72-40b3-b7f7-28cb06529c22.mp3';
+  function selectRecording(){
+    const key=recordingKey(), official=!privateRecording&&georgeKeys.has(key);
+    const url=official?georgeIntro:'/assets/narration/'+key+'.mp3?v=20261126-3';
+    label.textContent=official?'George — official British voice (website introduction)':key==='generic'?'Recorded sound check (full page narration uses your device voice)':'Recorded audio overview (works without a device voice)';
+    player.setAttribute('aria-label',label.textContent);
+    recordButton.textContent=official?'▶ Play George introduction':'▶ Recorded overview';
+    if(player.dataset.recording!==key){player.pause();player.dataset.recording=key;player.src=url;}
+  }
   const recordButton=document.createElement('button');recordButton.type='button';recordButton.textContent='▶ Recorded overview';recordButton.dataset.audio='recorded';
   controls.insertBefore(recordButton,controls.querySelector('[data-audio=test]'));
+  selectRecording();addEventListener('hashchange',selectRecording);
   recordButton.addEventListener('click',()=>{if(speech?.speaking||speech?.pending||speech?.paused)speech.cancel();selectRecording();player.play().catch(e=>{status.textContent='Recording could not start. Use the audio player or check the device media output.';});});
   player.addEventListener('playing',()=>{status.textContent='Recorded audio playing';});
   player.addEventListener('ended',()=>{status.textContent='Recording finished';});
-  player.addEventListener('error',()=>{status.textContent='Recording could not load. Refresh the page and try again.';});
+  player.addEventListener('error',()=>{status.textContent=georgeKeys.has(player.dataset.recording)?'George’s introduction could not load. Refresh and retry, or use the separate device reader.':'Recording could not load. Refresh the page and try again.';});
   player.addEventListener('play',()=>{if(speech?.speaking||speech?.pending||speech?.paused)speech.cancel();});
   addEventListener('pagehide',()=>player.pause());document.addEventListener('visibilitychange',()=>{if(document.hidden)player.pause();});
   panel.querySelector('[data-audio=stop]').addEventListener('click',()=>{player.pause();player.currentTime=0;});
   panel.querySelector('[data-audio=pause]').addEventListener('click',()=>{if(!player.paused)player.pause();});
   panel.querySelector('select').addEventListener('change',e=>{player.playbackRate=Number(e.target.value);});
-  if(recordingKey()==='generic')label.textContent='Recorded sound check (full page narration uses your device voice)';
+
   if(!speech || !window.SpeechSynthesisUtterance){status.textContent='Device voice is unavailable. Use the recorded audio player above.';buttons.forEach(b=>{if(b.dataset.audio==='start')b.disabled=true;});panel.querySelector('[data-audio=test]').addEventListener('click',testSound);return;}
   let generation=0, current=null, timer=null, availableVoices=[];
   function refreshVoices(){try{availableVoices=speech.getVoices()||[];}catch{availableVoices=[];}}
