@@ -4,7 +4,7 @@
   const speech = window.speechSynthesis;
   const panel = document.createElement('details');
   panel.className = 'fobur-audio'; panel.dataset.noNarration = 'true';
-  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Play a recorded page overview, or read the full visible page with your device voice. No audio plays automatically.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Read full page (device voice)</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
+  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Read the page with the best English voice installed on your device. A British male voice is preferred when available. Nothing plays until you press a control.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Read full page (best voice)</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
   const artwork = root.matches('.viewport') && root.querySelector('.page-panel');
   // The controls sit outside the artwork, never cover its navigation or hero.
   root.prepend(panel);
@@ -50,8 +50,8 @@
   }
   function selectRecording(){const key=recordingKey();const url='/assets/narration/'+key+'.mp3?v=20261126-3';if(player.dataset.recording!==key){player.pause();player.dataset.recording=key;player.src=url;}}
   selectRecording();addEventListener('hashchange',selectRecording);
-  const recordButton=document.createElement('button');recordButton.type='button';recordButton.textContent='▶ Play recording';recordButton.dataset.audio='recorded';
-  controls.prepend(recordButton);
+  const recordButton=document.createElement('button');recordButton.type='button';recordButton.textContent='▶ Recorded overview';recordButton.dataset.audio='recorded';
+  controls.insertBefore(recordButton,controls.querySelector('[data-audio=test]'));
   recordButton.addEventListener('click',()=>{if(speech?.speaking||speech?.pending||speech?.paused)speech.cancel();selectRecording();player.play().catch(e=>{status.textContent='Recording could not start. Use the audio player or check the device media output.';});});
   player.addEventListener('playing',()=>{status.textContent='Recorded audio playing';});
   player.addEventListener('ended',()=>{status.textContent='Recording finished';});
@@ -93,15 +93,43 @@
       source.unshift(name.replace(/^Open /,''),'Real skills. Lasting roofs. Practical training, expert guidance and essential knowledge for roofing.', 'Explore the following learning and website sections:',...new Set(labels));
     }
     if(!source.length)source.push(document.title,...Array.from(root.querySelectorAll('a[aria-label]')).filter(visible).map(a=>a.getAttribute('aria-label')));
-    return source.flatMap(s=>s.match(/.{1,180}(?:\s|$)|\S{181,}/g)||[s]).map(s=>s.trim()).filter(Boolean);
+    function speechChunks(text, limit=320){
+      const cleaned=text.replace(/\s+/g,' ').trim();
+      const sentences=cleaned.match(/[^.!?]+(?:[.!?]+|$)/g)||[cleaned];
+      const chunks=[];let current='';
+      for(let sentence of sentences){
+        sentence=sentence.trim();if(!sentence)continue;
+        const combined=current?current+' '+sentence:sentence;
+        if(combined.length<=limit){current=combined;continue;}
+        if(current){chunks.push(current);current='';}
+        while(sentence.length>limit){
+          let cut=sentence.lastIndexOf(' ',limit);
+          if(cut<1)cut=limit;
+          chunks.push(sentence.slice(0,cut).trim());sentence=sentence.slice(cut).trim();
+        }
+        current=sentence;
+      }
+      if(current)chunks.push(current);
+      return chunks;
+    }
+    return source.flatMap(speechChunks).filter(Boolean);
   }
   function play(){
     player.pause();stop();const id=generation, queue=gather();let i=0;
     if(!queue.length){status.textContent='No readable text found.';return;}
     refreshVoices();
     const privatePage=!!document.querySelector('#paidContent,#app,[type=password]');
-    const voices=availableVoices.filter(v=>!privatePage||v.localService===true);
-    const voice=voices.find(v=>v.localService&&v.lang.toLowerCase()==='en-gb')||voices.find(v=>v.localService&&v.lang.toLowerCase().startsWith('en'))||voices.find(v=>v.lang.toLowerCase()==='en-gb')||voices.find(v=>v.lang.toLowerCase().startsWith('en'));
+    const voices=availableVoices.filter(v=>(!privatePage||v.localService===true)&&/^en(?:-|$)/i.test(v.lang||''));
+    const voiceScore=v=>{
+      const identity=((v.name||'')+' '+(v.voiceURI||'')).toLowerCase();
+      let score=v.lang?.toLowerCase()==='en-gb'?100:45;
+      if(/\b(daniel|george|oliver|arthur|james|alex|david|tom|harry|robert|fred|matthew|ryan|aaron|liam|mark|gordon|lee|nathan|andrew)\b/.test(identity))score+=60;
+      if(/\b(enhanced|premium|natural|neural)\b/.test(identity))score+=25;
+      if(v.localService)score+=12;
+      if(/\b(samantha|victoria|karen|moira|tessa|serena|female|woman)\b/.test(identity))score-=60;
+      return score;
+    };
+    const voice=[...voices].sort((a,b)=>voiceScore(b)-voiceScore(a))[0];
     if(privatePage&&!voice){status.textContent='No local English voice ready. Wait a moment and press Play again, or enable a downloaded device voice.';return;}
     if(speech.paused)speech.resume();
     function next(){
@@ -111,7 +139,7 @@
       const u=new SpeechSynthesisUtterance(queue[i++]);current=u;
       if(voice){u.voice=voice;u.lang=voice.lang;}else u.lang='en-GB';
       u.volume=1;u.rate=Number(panel.querySelector('select').value);
-      u.onstart=()=>{if(id!==generation||current!==u)return;clearTimeout(timer);status.textContent='Reading aloud';};
+      u.onstart=()=>{if(id!==generation||current!==u)return;clearTimeout(timer);status.textContent='Reading aloud'+(voice?' with '+voice.name:' with the device voice');};
       u.onend=()=>{if(id===generation&&current===u)next();};
       u.onerror=e=>{if(id!==generation||current!==u)return;clearTimeout(timer);current=null;status.textContent='Speech unavailable ('+(e.error||'unknown error')+'). Try Test sound, then Play again.';};
       status.textContent='Starting voice…';
