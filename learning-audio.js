@@ -5,7 +5,32 @@
   const panel = document.createElement('details');
   panel.className = 'fobur-audio'; panel.dataset.noNarration = 'true';
   panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Read visible page text aloud using your device’s speech service. No audio plays automatically.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Play</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
-  root.append(panel);
+  const artwork = root.matches('.viewport') && root.querySelector('.page-panel');
+  // The controls sit outside the artwork, never cover its navigation or hero.
+  root.prepend(panel);
+  if(artwork){
+    const fit=document.createElement('button');
+    fit.type='button';fit.className='fobur-fit-toggle';fit.textContent='Fit screen';fit.setAttribute('aria-pressed','false');
+    const summary=panel.querySelector('summary');
+    summary.append(fit);
+    const resize=()=>{
+      if(fit.getAttribute('aria-pressed')!=='true')return;
+      const stack=root.querySelector('.stack'), tabs=root.querySelector('.tabs'), note=root.querySelector('.visually-note');
+      if(!stack||!tabs)return;
+      root.style.removeProperty('--fobur-fit-width');
+      const total=stack.getBoundingClientRect().height+tabs.getBoundingClientRect().height+(note?.getBoundingClientRect().height||0);
+      const available=(window.visualViewport?.height||window.innerHeight)-panel.getBoundingClientRect().height-20;
+      const width=root.getBoundingClientRect().width;
+      if(total>0&&available>0)root.style.setProperty('--fobur-fit-width',Math.max(210,Math.floor(width*Math.min(1,available/total)))+'px');
+    };
+    fit.addEventListener('click',e=>{
+      e.preventDefault();const on=fit.getAttribute('aria-pressed')!=='true';fit.setAttribute('aria-pressed',String(on));
+      fit.textContent=on?'Normal size':'Fit screen';
+      if(on)resize();else root.style.removeProperty('--fobur-fit-width');
+    });
+    window.addEventListener('resize',resize);window.addEventListener('hashchange',resize);
+    panel.addEventListener('toggle',resize);
+  }
   const status=panel.querySelector('[role=status]'), buttons=panel.querySelectorAll('button');
   if(!speech || !window.SpeechSynthesisUtterance){status.textContent='Read-aloud is unavailable in this browser. Use your device accessibility reader.';buttons.forEach(b=>b.disabled=true);return;}
   let generation=0;
@@ -18,6 +43,12 @@
   function gather(){
     const selected=Array.from(root.querySelectorAll('h1,h2,h3,h4,p,li,figcaption,summary,article td')).filter(visible).filter(e=>!e.querySelector('p,li,h1,h2,h3,h4,figcaption'));
     const source=selected.map(e=>e.innerText.trim()).filter(Boolean);
+    if(artwork){
+      const active=root.querySelector('.page-panel:not([hidden])');
+      const name=root.querySelector('.roof-tab[aria-selected=true]')?.getAttribute('aria-label')||document.title;
+      const labels=Array.from(active?.querySelectorAll('a[aria-label]')||[]).filter(visible).map(a=>a.getAttribute('aria-label'));
+      source.unshift(name.replace(/^Open /,''),'Real skills. Lasting roofs. Practical training, expert guidance and essential knowledge for roofing.', 'Explore the following learning and website sections:',...new Set(labels));
+    }
     if(!source.length)source.push(document.title,...Array.from(root.querySelectorAll('a[aria-label]')).filter(visible).map(a=>a.getAttribute('aria-label')));
     return source.flatMap(s=>s.match(/.{1,180}(?:\s|$)|\S{181,}/g)||[s]).map(s=>s.trim()).filter(Boolean);
   }

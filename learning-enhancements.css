@@ -12,3 +12,22 @@
 .fobur-depth details{margin:10px 0;padding:10px;border:1px solid #806337;border-radius:8px}
 .fobur-depth summary{cursor:pointer;font-weight:700}
 @media(max-width:600px){.fobur-audio,.fobur-depth{margin:16px 8px;padding:14px}}
+
+/* Small, always discoverable controls; original homepage artwork stays untouched. */
+.fobur-audio{position:relative;margin:10px auto 16px;padding:10px 14px;min-width:0;width:min(100%,1100px)}
+.fobur-audio summary{line-height:1.45;min-height:32px;display:flex;align-items:center}
+.fobur-audio summary::before{content:"▸";margin-right:6px}
+.fobur-audio[open] summary::before{content:"▾"}
+.viewport>.fobur-audio{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:5px 8px;margin:5px 0 7px;padding:4px 8px;border-radius:9px;font-size:12px;max-width:none}
+.viewport>.fobur-audio summary{font-size:12px;min-height:32px}
+.viewport>.fobur-audio .fobur-fit-toggle{margin-left:auto;padding:5px 9px;font-size:12px;min-height:32px;white-space:nowrap}
+.viewport>.fobur-audio[open]>p,.viewport>.fobur-audio[open]>.fobur-audio-controls{grid-column:1/-1;margin:4px 0}
+.viewport{width:min(100%,var(--fobur-fit-width,970px))!important}
+@media(max-width:600px){
+  .viewport{width:min(92%,var(--fobur-fit-width,100%))!important;margin-inline:auto!important;padding-inline:0!important}
+  .viewport .tabs{height:auto!important;aspect-ratio:710 / 146!important}
+  .viewport:has(#roof-panel-1:not([hidden])) .visually-note{height:auto!important;aspect-ratio:710 / 37!important}
+  .viewport .stack{margin-inline:0!important}
+  .viewport .stack::before,.viewport .stack::after{display:none!important}
+  .fobur-audio:not(.viewport>.fobur-audio){width:calc(100% - 16px);margin:8px auto 14px}
+}
