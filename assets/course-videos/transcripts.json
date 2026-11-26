@@ -1,0 +1,66 @@
+[
+  [
+    "survey",
+    "Survey, levels and drainage",
+    "tapered-board-plan.webp",
+    "Before specifying insulation, establish surveyed roof levels, intended drainage points and structural limitations.",
+    "Compare the measured roof with the approved design. Check thresholds and outlet positions; do not invent a falls layout on site.",
+    "Knowledge check: can a roof that looks flat have unexpected low points? Yes. Record survey findings and refer discrepancies to the designer."
+  ],
+  [
+    "schedule",
+    "Reading tapered board schedules",
+    "tapered-board-plan.webp",
+    "A tapered board schedule identifies zones, board types, thickness changes and orientation. Codes are manufacturer-specific.",
+    "Compare delivery labels and direction arrows with the approved drawing. A reversed board can interrupt the intended fall.",
+    "Knowledge check: are board numbers universal? No. Resolve unclear codes with the system supplier before installation."
+  ],
+  [
+    "setout",
+    "Set-out and installation awareness",
+    "tapered-roof-build-up.webp",
+    "Before work begins, confirm the deck, vapour control layer and insulation specification are compatible.",
+    "Check the layout and materials against the approved sequence. Fixing and adhesive requirements depend on the project design and manufacturer.",
+    "Knowledge check: can you substitute a fixing because it looks similar? No. Obtain approval and follow site safety controls."
+  ],
+  [
+    "drainage",
+    "Outlets, sumps and upstands",
+    "roof-drainage.webp",
+    "Drainage depends on continuous falls and compatible outlet details. Valleys, changes of slope and roof edges need careful review.",
+    "Compare local levels and transitions with the approved drainage design. Do not treat this illustrative roof as a hydraulic calculation.",
+    "Knowledge check: does an outlet alone guarantee drainage? No. Check the route to it and raise irregularities with the designer."
+  ],
+  [
+    "handover",
+    "Inspection and handover",
+    "upstand-detail.webp",
+    "Quality checks should be planned before work starts, including hold points where concealed work can be inspected.",
+    "Document product information, photographs, deviations and approvals. Review outlet continuity and perimeter details against the specification.",
+    "Knowledge check: should an unexplained change be covered over? No. Record it, stop the affected task and obtain competent approval."
+  ],
+  [
+    "felt",
+    "Built-up felt roofing introduction",
+    "felt-roof-assembly.webp",
+    "A built-up roof combines compatible layers to protect the building from weather. The assembly also depends on its supporting deck.",
+    "Different systems have different attachment, moisture and fire requirements. Follow the approved specification rather than treating a diagram as a method.",
+    "Knowledge check: is the cap sheet alone the roof system? No. The complete assembly and its interfaces matter."
+  ],
+  [
+    "deck",
+    "Roof inspection and preparation",
+    "deck-support.webp",
+    "Start with a planned inspection from safe access. Establish the deck type, condition and limitations before choosing a repair system.",
+    "Look for signs of moisture, movement and previous alterations. A competent person must investigate uncertainty about structural suitability.",
+    "Knowledge check: can a dry-looking surface prove that a roof assembly is dry? No. Inspection and appropriate investigation are required."
+  ],
+  [
+    "details",
+    "Drainage and roof detailing",
+    "roof-drainage.webp",
+    "Water needs a continuous path through the roof drainage system. Details at outlets, penetrations and edges are important.",
+    "Compare observations with approved details. A visible stain inside a building does not necessarily identify the leak entry point.",
+    "Knowledge check: should a blocked or damaged outlet be ignored? No. Report it and arrange safe investigation and maintenance."
+  ]
+]
