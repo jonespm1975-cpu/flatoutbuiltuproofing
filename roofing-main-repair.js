@@ -272,7 +272,7 @@
   });
   document.querySelectorAll('.page-panel a.topic-card').forEach(link => {
     const label = (link.querySelector('strong')?.textContent || link.textContent || '')
-      .trim().replace(/\\s+/g, ' ').toLowerCase();
+      .trim().replace(/\s+/g, ' ').toLowerCase();
     if (label !== 'workwear') return;
     routeToStore(link);
   });
