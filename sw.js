@@ -1,6 +1,6 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v33';
+const CACHE = 'flatout-public-v34';
 const PUBLIC = [
   '/assets/roofing-photography/rooflight-round.webp',
   '/assets/roofing-photography/roof-field-sunlit.webp',
