@@ -9,4 +9,4 @@ const lessons=[
 let current=0;function show(i){current=i;const l=lessons[i];document.querySelectorAll('[data-i]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.i)===i)));for(const id of ['heading','intro','detail','question','answer'])document.getElementById(id).textContent=l[id];const visual=document.getElementById('trainingVisual');visual.src=l.image;visual.alt=l.imageAlt;document.getElementById('visualLabel').textContent=l.label+' · Concept image only; not a project-specific installation detail.';const ul=document.getElementById('checks');ul.replaceChildren();for(const t of l.checks){const li=document.createElement('li');li.textContent=t;ul.append(li)}document.querySelector('details').open=false}
 document.querySelectorAll('[data-i]').forEach(b=>b.addEventListener('click',()=>show(Number(b.dataset.i))));document.getElementById('next').addEventListener('click',()=>show((current+1)%5));show(0);
 </script><script type="module" src="site-tracking.js"></script>
-<script defer src="learning-audio.js?v=20261126-2"></script></body></html>
+<script defer src="learning-audio.js?v=20261126-3"></script></body></html>

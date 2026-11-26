@@ -4,7 +4,7 @@
   const speech = window.speechSynthesis;
   const panel = document.createElement('details');
   panel.className = 'fobur-audio'; panel.dataset.noNarration = 'true';
-  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Read visible page text aloud using your device’s speech service. No audio plays automatically.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Play</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
+  panel.innerHTML = '<summary>🔊 Listen to this page</summary><p>Play a recorded page overview, or read the full visible page with your device voice. No audio plays automatically.</p><div class="fobur-audio-controls"><button type="button" data-audio="start">Read full page (device voice)</button><button type="button" data-audio="test">Test sound</button><button type="button" data-audio="pause">Pause / resume</button><button type="button" data-audio="stop">Stop</button><label>Speed <select><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option></select></label></div><p role="status" aria-live="polite">Ready</p>';
   const artwork = root.matches('.viewport') && root.querySelector('.page-panel');
   // The controls sit outside the artwork, never cover its navigation or hero.
   root.prepend(panel);
@@ -32,7 +32,37 @@
     panel.addEventListener('toggle',resize);
   }
   const status=panel.querySelector('[role=status]'), buttons=panel.querySelectorAll('button');
-  if(!speech || !window.SpeechSynthesisUtterance){status.textContent='Read-aloud is unavailable in this browser. Use your device accessibility reader.';buttons.forEach(b=>{if(b.dataset.audio!=='test'&&b.className!=='fobur-fit-toggle')b.disabled=true;});panel.querySelector('[data-audio=test]').addEventListener('click',testSound);return;}
+  // Actual prerecorded MP3s are public page overviews, not protected lesson content.
+  const recordings=new Set(["index","built-up-roofing","tile-slate-roofing","metal-sheet-roofing","liquid-applied-roofing","free-hub","courses","health-safety","tool-safety","cscs","gallery","sponsors","sponsors-tile-slate-roofing","sponsors-metal-sheet-roofing","sponsors-liquid-applied-roofing","community","new-to-flat-roofing","introduction","tapered-insulation","tapered-falls-practice","tapered-video-academy","tapered-animated-lessons","roofing-connect","support-qr","access","generic"]);
+  const player=document.createElement('audio');
+  player.controls=true;player.preload='metadata';player.playsInline=true;player.setAttribute('playsinline','');
+  player.style.cssText='display:block;width:100%;max-width:520px;margin:10px 0;';
+  const label=document.createElement('p');label.textContent='Recorded audio overview (works without a device voice)';
+  const controls=panel.querySelector('.fobur-audio-controls');
+  panel.insertBefore(label,controls);panel.insertBefore(player,controls);
+  player.setAttribute('aria-label','Recorded audio overview');
+  const privateRecording=!!document.querySelector('#paidContent,#app,[type=password]');
+  function recordingKey(){
+    if(privateRecording)return 'generic';
+    let key=location.pathname.split('/').pop().replace(/\.html$/,'')||'index';
+    if(key==='index'&&/^#roof-panel-[1-4]$/.test(location.hash))key=['built-up-roofing','tile-slate-roofing','metal-sheet-roofing','liquid-applied-roofing'][Number(location.hash.slice(-1))-1];
+    return recordings.has(key)?key:'generic';
+  }
+  function selectRecording(){const key=recordingKey();const url='/assets/narration/'+key+'.mp3?v=20261126-3';if(player.dataset.recording!==key){player.pause();player.dataset.recording=key;player.src=url;}}
+  selectRecording();addEventListener('hashchange',selectRecording);
+  const recordButton=document.createElement('button');recordButton.type='button';recordButton.textContent='▶ Play recording';recordButton.dataset.audio='recorded';
+  controls.prepend(recordButton);
+  recordButton.addEventListener('click',()=>{if(speech?.speaking||speech?.pending||speech?.paused)speech.cancel();selectRecording();player.play().catch(e=>{status.textContent='Recording could not start. Use the audio player or check the device media output.';});});
+  player.addEventListener('playing',()=>{status.textContent='Recorded audio playing';});
+  player.addEventListener('ended',()=>{status.textContent='Recording finished';});
+  player.addEventListener('error',()=>{status.textContent='Recording could not load. Refresh the page and try again.';});
+  player.addEventListener('play',()=>{if(speech?.speaking||speech?.pending||speech?.paused)speech.cancel();});
+  addEventListener('pagehide',()=>player.pause());document.addEventListener('visibilitychange',()=>{if(document.hidden)player.pause();});
+  panel.querySelector('[data-audio=stop]').addEventListener('click',()=>{player.pause();player.currentTime=0;});
+  panel.querySelector('[data-audio=pause]').addEventListener('click',()=>{if(!player.paused)player.pause();});
+  panel.querySelector('select').addEventListener('change',e=>{player.playbackRate=Number(e.target.value);});
+  if(recordingKey()==='generic')label.textContent='Recorded sound check (full page narration uses your device voice)';
+  if(!speech || !window.SpeechSynthesisUtterance){status.textContent='Device voice is unavailable. Use the recorded audio player above.';buttons.forEach(b=>{if(b.dataset.audio==='start')b.disabled=true;});panel.querySelector('[data-audio=test]').addEventListener('click',testSound);return;}
   let generation=0, current=null, timer=null, availableVoices=[];
   function refreshVoices(){try{availableVoices=speech.getVoices()||[];}catch{availableVoices=[];}}
   refreshVoices();
@@ -66,7 +96,7 @@
     return source.flatMap(s=>s.match(/.{1,180}(?:\s|$)|\S{181,}/g)||[s]).map(s=>s.trim()).filter(Boolean);
   }
   function play(){
-    stop();const id=generation, queue=gather();let i=0;
+    player.pause();stop();const id=generation, queue=gather();let i=0;
     if(!queue.length){status.textContent='No readable text found.';return;}
     refreshVoices();
     const privatePage=!!document.querySelector('#paidContent,#app,[type=password]');
