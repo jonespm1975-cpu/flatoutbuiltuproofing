@@ -54,7 +54,7 @@ Deno.serve(async req=>{
  catch{return response(400,{error:"Malformed event"});}
  if(!event||typeof event!=="object" ||
    !["Delivery","Bounce"].includes(event.RecordType)||
-   !["one-off-course-contract-confirmation","fobur-owner-delivery-check","fobur-owner-sandbox-receipt"].includes(event.Tag)||
+   !["one-off-course-contract-confirmation","specialist-course-contract-confirmation","fobur-owner-delivery-check","fobur-owner-sandbox-receipt"].includes(event.Tag)||
    event.MessageStream!=="outbound"||
    typeof event.MessageID!=="string"||
    event.MessageID.length<3||event.MessageID.length>255)
