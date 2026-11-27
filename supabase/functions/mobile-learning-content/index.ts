@@ -47,18 +47,26 @@ Deno.serve(async (req: Request) => {
   const { data: identity, error: authError } = await userClient.auth.getUser(accessToken);
   if (authError || !identity.user || identity.user.is_anonymous) return reply(401, { error: "Sign in to check your learning access." });
 
+  // Explicit preview is a separate mode; verified owner identity is required.
+  const owner = identity.user.id === "87fca075-224a-4379-bafb-3a01e41890f4"
+    && identity.user.email?.toLowerCase() === "jonespm1975@gmail.com";
+  if (new URL(req.url).searchParams.get("preview") === "owner") {
+    if (!owner) return reply(403, { code: "ACCESS_REQUIRED", error: "Owner preview is restricted. Open the normal learning app to check paid access." });
+    return reply(200, { entitled: true, access: "owner-preview", courseIds: [], lessonIds: [], guide: GUIDE });
+  }
+
   const [membership, courses, lessons] = await Promise.all([
     userClient.rpc("has_active_membership"),
-    userClient.from("course_access").select("course_id").like("stripe_checkout_session_id", "cs_live_%"),
-    userClient.from("lesson_access").select("lesson_id").like("stripe_session_id", "cs_live_%")
+    userClient.from("course_access").select("course_id,stripe_checkout_session_id").like("stripe_checkout_session_id", "cs_live_%"),
+    userClient.from("lesson_access").select("lesson_id,stripe_session_id").like("stripe_session_id", "cs_live_%")
   ]);
   if (membership.error || courses.error || lessons.error) return reply(503, { error: "Your learning access could not be checked. Please try again." });
 
-  const courseIds = [...new Set((courses.data || []).map((row: { course_id: string }) => row.course_id))];
-  const lessonIds = [...new Set((lessons.data || []).map((row: { lesson_id: number }) => String(row.lesson_id)))];
+  const courseIds = [...new Set((courses.data || []).filter(row => typeof row.stripe_checkout_session_id === "string" && row.stripe_checkout_session_id.startsWith("cs_live_")).map(row => row.course_id))];
+  const lessonIds = [...new Set((lessons.data || []).filter(row => typeof row.stripe_session_id === "string" && row.stripe_session_id.startsWith("cs_live_")).map(row => String(row.lesson_id)))];
   const hasSubscription = membership.data === true;
   if (!hasSubscription && !courseIds.length && !lessonIds.length) {
-    return reply(403, { code: "ACCESS_REQUIRED", error: "Mobile learning is included with an active monthly membership or a paid course on this account." });
+    return reply(403, { code: "ACCESS_REQUIRED", ownerPreviewAvailable: owner, error: "Mobile learning is included with an active monthly membership or a paid course on this account." });
   }
 
   return reply(200, {
