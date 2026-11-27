@@ -1,0 +1,32 @@
+{
+  "environment": "sandbox",
+  "contract_version": "specialist-2026-11-27-v1",
+  "amount_pence": 999,
+  "currency": "gbp",
+  "prices": {
+    "bu-01": "price_1UgUjJ3eiZFnd5l0cE2PPZNM",
+    "bu-02": "price_1UgUjR3eiZFnd5l0h5GTxICs",
+    "bu-03": "price_1UgUjS3eiZFnd5l0Mdw7nh1m",
+    "bu-04": "price_1UgUjU3eiZFnd5l0T1gBMEOS",
+    "bu-05": "price_1UgUjW3eiZFnd5l0bpAyARi5",
+    "bu-06": "price_1UgUjX3eiZFnd5l0Q0XTeg8C",
+    "la-01": "price_1UgUju3eiZFnd5l0989tyQHT",
+    "la-02": "price_1UgUk43eiZFnd5l0RaHcz1MV",
+    "la-03": "price_1UgUk53eiZFnd5l0NGdD5gkG",
+    "la-04": "price_1UgUk73eiZFnd5l0fao8ENqK",
+    "la-05": "price_1UgUk83eiZFnd5l07lxVKcPA",
+    "la-06": "price_1UgUkA3eiZFnd5l0r1N6OJkp",
+    "ms-01": "price_1UgUjj3eiZFnd5l0pPXpDTJA",
+    "ms-02": "price_1UgUjl3eiZFnd5l0W0rfJZab",
+    "ms-03": "price_1UgUjn3eiZFnd5l0fPKr7Lux",
+    "ms-04": "price_1UgUjo3eiZFnd5l0Y95xaNzj",
+    "ms-05": "price_1UgUjq3eiZFnd5l0Oqoq6dCL",
+    "ms-06": "price_1UgUjs3eiZFnd5l0E3BeJZSe",
+    "ts-01": "price_1UgUjZ3eiZFnd5l0g1dXmLJ6",
+    "ts-02": "price_1UgUjb3eiZFnd5l0rmn5O330",
+    "ts-03": "price_1UgUjc3eiZFnd5l0bVIxp6LZ",
+    "ts-04": "price_1UgUje3eiZFnd5l0HdigXuNT",
+    "ts-05": "price_1UgUjg3eiZFnd5l0TbAD5DmP",
+    "ts-06": "price_1UgUji3eiZFnd5l0y2LV8Zzf"
+  }
+}
