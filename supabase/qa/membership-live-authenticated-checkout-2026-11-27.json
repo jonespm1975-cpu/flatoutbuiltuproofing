@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-27",
+  "scope": "Owner's authenticated live iPhone checkout; no payment submitted",
+  "checkout_http_status": 200,
+  "verified_at": "2026-11-27T20:56:55.050Z",
+  "stripe": {
+    "livemode": true,
+    "mode": "subscription",
+    "amount_pence": 500,
+    "currency": "gbp",
+    "interval": "month",
+    "quantity": 1,
+    "price_id": "price_1UeNy2KeIprRDTKxLWoER0vk",
+    "product_active": true,
+    "session_status": "open",
+    "payment_status": "unpaid",
+    "subscription_created": false,
+    "identity_matches": true,
+    "allowed_countries": [
+      "GB"
+    ],
+    "contract_version": "membership-2026-11-24-v1"
+  },
+  "database": {
+    "current_reservations": 1,
+    "valid_consent_records": 1,
+    "live_subscriptions": 0
+  },
+  "repairs": [
+    "Reactivated existing membership product",
+    "Reconciled failed reservation against complete Stripe session/subscription listing and rotated only failed reservation; retained prior consent"
+  ],
+  "limitations": [
+    "Successful checkout creation, not a completed live purchase, actual paid entitlement, renewal or customer confirmation delivery.",
+    "Owner screenshot confirms hosted checkout rendering on iPhone; desktop browser verification remains separate.",
+    "No specialist release control changed; all 24 courses remain locked pending NFRC approval."
+  ],
+  "privacy": "No account identifier, checkout URL or session identifier recorded in public evidence."
+}
