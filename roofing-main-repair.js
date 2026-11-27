@@ -267,7 +267,7 @@
   };
   document.querySelectorAll('.page-panel .visual-hit').forEach(link => {
     const label = (link.getAttribute('aria-label') || '').toLowerCase();
-    if (!label.includes('tools') || !label.includes('workwear')) return;
+    if (!label.includes('workwear')) return;
     routeToStore(link);
   });
   document.querySelectorAll('.page-panel a.topic-card').forEach(link => {
