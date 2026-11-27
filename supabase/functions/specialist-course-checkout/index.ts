@@ -3,7 +3,7 @@ import {createClient} from "npm:@supabase/supabase-js@2.49.4";
 const RELEASE_APPROVED=false; // technical review, contract and end-to-end tests required.
 const PRICES:Record<string,string>={"bu-01":"price_1UgRgPKeIprRDTKxshDkW1Gq","bu-02":"price_1UgRglKeIprRDTKxaRDw63u1","bu-03":"price_1UgRgzKeIprRDTKxXqapDuD7","bu-04":"price_1UgRgxKeIprRDTKx8GbPgWBe","bu-05":"price_1UgRgyKeIprRDTKxMcqomtGv","bu-06":"price_1UgRgwKeIprRDTKxVVoA6tte","ts-01":"price_1UgRh1KeIprRDTKxTTKyFq8f","ts-02":"price_1UgRh0KeIprRDTKxsXhHRTdi","ts-03":"price_1UgRh2KeIprRDTKxffrMpPl3","ts-04":"price_1UgRh3KeIprRDTKxkdRnrzcC","ts-05":"price_1UgRh4KeIprRDTKxbBdiT3Kz","ts-06":"price_1UgRh6KeIprRDTKx1qYhoRL3","ms-01":"price_1UgRh5KeIprRDTKx1QmttvFX","ms-02":"price_1UgRh6KeIprRDTKxxfgrpGvZ","ms-03":"price_1UgRh9KeIprRDTKxB9gfy5Bd","ms-04":"price_1UgRh7KeIprRDTKxBSrB1Pk5","ms-05":"price_1UgRh8KeIprRDTKxROvZDzR6","ms-06":"price_1UgRhAKeIprRDTKxyf31y3Kd","la-01":"price_1UgRhBKeIprRDTKxSLFwxewA","la-02":"price_1UgRhDKeIprRDTKx5lxJssJA","la-03":"price_1UgRhEKeIprRDTKxNZbhbF9j","la-04":"price_1UgRhCKeIprRDTKxdcEsJD3V","la-05":"price_1UgRhFKeIprRDTKxx3T7YwOS","la-06":"price_1UgRhGKeIprRDTKxohwZYL0q"};
 const ORIGIN="https://flatoutbuiltuproofing.co.uk";
-const TERMS="specialist-draft-v1";
+const TERMS="specialist-2026-11-27-v1";
 const HEADERS={"Access-Control-Allow-Origin":ORIGIN,"Access-Control-Allow-Headers":"authorization,apikey,content-type","Access-Control-Allow-Methods":"POST,OPTIONS","Content-Type":"application/json","Cache-Control":"no-store","Vary":"Origin"};
 const json=(status:number,body:unknown)=>new Response(JSON.stringify(body),{status,headers:HEADERS});
 Deno.serve(async req=>{
