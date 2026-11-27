@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-27",
+  "scope": "Authenticated negative access tests against deployed specialist-course-content v5, using two temporary QA users",
+  "request_id": 2667,
+  "http_status": 200,
+  "real_authenticated_sessions": 2,
+  "unpaid_courses_blocked": 24,
+  "own_row_visible": true,
+  "other_customer_row_hidden": true,
+  "sandbox_access_blocked": true,
+  "cross_account_access_blocked": true,
+  "unknown_course_blocked": true,
+  "wrong_origin_blocked": true,
+  "customer_insert_blocked": true,
+  "remaining_test_accounts": 0,
+  "remaining_test_access": 0,
+  "live_specialist_entitlements": 0,
+  "live_specialist_receipts": 0,
+  "qa_endpoint_retired_version": 4,
+  "limitations": [
+    "Initial temporary account validation failures corrected by reducing generated password length",
+    "Positive authenticated access after a production payment remains untested; all 24 course approvals remain locked",
+    "Database fixture fulfilment tests and sandbox payment tests are separate evidence"
+  ]
+}
