@@ -1,3 +1,4 @@
+import {readSpecialistPaymentRisk} from "../_shared/specialist-payment-risk.ts";
 import Stripe from "npm:stripe@17.7.0";
 import {createClient} from "npm:@supabase/supabase-js@2.49.4";
 const RELEASE_APPROVED=false; // Do not enable until independent technical review and signed sandbox tests pass.
@@ -10,6 +11,7 @@ Deno.serve(async req=>{
  const signature=req.headers.get("stripe-signature"),secret=Deno.env.get("SPECIALIST_COURSE_WEBHOOK_SECRET");
  if(!signature||!secret)return new Response("Missing signature or configuration",{status:400});
  let event:Stripe.Event;try{event=await verifier.webhooks.constructEventAsync(await req.text(),signature,secret,undefined,Stripe.createSubtleCryptoProvider())}catch{return new Response("Invalid signature",{status:400})}
+ if(["checkout.session.async_payment_failed","checkout.session.expired"].includes(event.type))return new Response("No entitlement granted",{status:200});
  if(!["checkout.session.completed","checkout.session.async_payment_succeeded"].includes(event.type))return new Response("Ignored",{status:200});
  const notice=event.data.object as Stripe.Checkout.Session;
  if(notice.metadata?.specialist_course!=="true")return new Response("Ignored",{status:200});
@@ -25,6 +27,8 @@ Deno.serve(async req=>{
  if(address!=="GB")return new Response("UK eligibility not verified",{status:422});
  const li=await stripe.checkout.sessions.listLineItems(session.id,{limit:2});
  if(li.has_more||li.data.length!==1||li.data[0].quantity!==1||li.data[0].price?.id!==PRICES[course])return new Response("Course price mismatch",{status:422});
+ const risk=await readSpecialistPaymentRisk(stripe,session,true);
+ if(!["active","partial_refund_active"].includes(risk))return new Response("Payment risk requires reconciliation",{status:503});
  const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false}});
  const {data:identity,error:userError}=await admin.auth.admin.getUserById(user);if(userError||!identity.user||identity.user.is_anonymous)return new Response("Unknown customer",{status:422});
  const {data:applied,error}=await admin.rpc("apply_specialist_course_payment",{p_user:user,p_course:course,p_key:reservation,p_session:session.id,p_consent:metadata.consent_recorded_at});
