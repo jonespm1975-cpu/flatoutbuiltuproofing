@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-27",
+  "contract_version": "specialist-2026-11-27-v1",
+  "scope": "No live payments or customer emails; QA only",
+  "checkout_creation": {
+    "verified": 24,
+    "paid": 0,
+    "one_test_checkout_via_supabase": 1,
+    "remaining_created_via_stripe_api": 23,
+    "line_item_price_and_quantity_match": 24,
+    "courses": [
+      "bu-01",
+      "bu-02",
+      "bu-03",
+      "bu-04",
+      "bu-05",
+      "bu-06",
+      "la-01",
+      "la-02",
+      "la-03",
+      "la-04",
+      "la-05",
+      "la-06",
+      "ms-01",
+      "ms-02",
+      "ms-03",
+      "ms-04",
+      "ms-05",
+      "ms-06",
+      "ts-01",
+      "ts-02",
+      "ts-03",
+      "ts-04",
+      "ts-05",
+      "ts-06"
+    ]
+  },
+  "postmark": {
+    "mode": "POSTMARK_API_TEST",
+    "request_id": 2649,
+    "http_status": 200,
+    "accepted": 24,
+    "delivery_verified": 0,
+    "invalid_payload_rejections": 9,
+    "unapproved_contract_rejections": 24
+  },
+  "database": {
+    "specialist_paid_sandbox_evidence": 0,
+    "specialist_purchase_confirmations": 0,
+    "specialist_entitlements": 0,
+    "queued_customer_emails": 0
+  },
+  "release_gates": {
+    "checkout": false,
+    "fulfilment": false,
+    "confirmation_worker": false
+  },
+  "outstanding": [
+    "Actual hosted checkout payments and signed Stripe successful-payment webhook",
+    "Protected course access and provider-confirmed delivery after genuine payment",
+    "Refund and dispute end-to-end verification",
+    "Contract approval and production release"
+  ],
+  "notes": "Postmark test token validates payloads only. Open unpaid sessions are not successful payments. A batch invocation through Supabase was blocked by the tool; the remaining checkout sessions were created using the authorized Stripe sandbox API instead. Temporary Postmark no-send QA function retired at version 2."
+}
