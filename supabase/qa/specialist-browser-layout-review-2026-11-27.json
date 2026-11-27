@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-27",
+  "v2_signed_sandbox_evidence": {
+    "event_id": "evt_1UgVtn3eiZFnd5l08fOpQhsa",
+    "course_id": "bu-03",
+    "terms_version": "specialist-2026-11-27-v2",
+    "verified_at": "2026-11-27 20:37:41.336497+00"
+  },
+  "stripe_payment_status": "paid",
+  "stripe_session_status": "complete",
+  "stripe_livemode": false,
+  "course_id": "bu-03",
+  "source_checks": {
+    "unique_catalogue_links": 24,
+    "order_locked": 24,
+    "order_version_v2": true,
+    "lesson_options": 24,
+    "cta_override": true,
+    "catalogue_review_locked": true
+  },
+  "commits": [
+    "d77a63bb8b8f4a8b29cd36032bf6caad49cc0aeb",
+    "6d024cc4aca84944d359152f81c10322ec4cad9a",
+    "192fd8bd562c379f2f567f619913ecac5d6cc02e"
+  ],
+  "local_browser": {
+    "engine": "Chromium",
+    "widths": [
+      320,
+      375,
+      390,
+      430,
+      768,
+      1024,
+      1440,
+      1920
+    ],
+    "isolated_layout_cases": 24,
+    "passed": 24,
+    "scope": "Reconstructed affected source CSS and representative markup only; not entire site or all actual assets, no real Safari or desktop live-site navigation."
+  },
+  "limitations": [
+    "Live website could not be reached by browser environment (DNS failure); public web fetch also unavailable.",
+    "Owner screenshots show pre-fix iPhone catalogue and review notice, not post-fix rendering.",
+    "Actual authenticated positive paid access still unverified and locked; V2 signed sandbox payment completed; temporary QA account retained pending cleanup.",
+    "No live checkout enabled, no main homepage design changed."
+  ]
+}
