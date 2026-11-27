@@ -36,12 +36,13 @@
     .modal-art{aspect-ratio:4/5;min-height:300px;background-color:#121413;background-image:url('store-assets/flat-out-products-contact.png');background-repeat:no-repeat;background-size:400% 200%;}
     .modal-art .product-photo{width:100%;height:100%;background-image:url('store-assets/flat-out-products-contact.png');background-repeat:no-repeat;background-size:400% 200%;}
     @media(max-width:680px){.product-art{height:auto;min-height:230px}}
-</style>
+    .nav-link.website-home{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;border-color:#a88d51;color:var(--gold2);background:#d8b65c12;min-height:44px;font-weight:700}.website-home:hover,.website-home:focus-visible{background:#d8b65c;color:#15120a}.footer-home{display:block;margin:0 auto 14px;width:max-content}.footer-home:focus-visible,.website-home:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}@media(max-width:520px){.nav-actions{gap:6px}.nav-link.website-home{display:inline-flex;padding:8px 10px;font-size:12px}.bag-btn{font-size:12px;white-space:nowrap}.brand{min-width:0}.brand-logo{max-width:100%;width:clamp(88px,28vw,126px)}}
+  </style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Flat Out Tools and Workwear Showroom home"><img class="brand-logo" src="assets/flat-out-built-up-roofing-logo.svg" alt="Flat Out Built-Up Roofing"></a>
-    <div class="nav-actions"><a class="nav-link" href="#showroom">Showroom</a><button class="bag-btn" id="openBag" aria-label="Open demo bag">Demo bag <span class="bag-count" id="bagCount">0</span></button></div>
+    <a class="brand" href="index.html" aria-label="Return to the Flat Out Roofing website homepage"><img class="brand-logo" src="assets/flat-out-built-up-roofing-logo.svg" alt="Flat Out Built-Up Roofing"></a>
+    <div class="nav-actions"><a class="nav-link website-home" href="index.html" aria-label="Return to website home">⌂ Home</a><a class="nav-link" href="#showroom">Showroom</a><button class="bag-btn" id="openBag" aria-label="Open demo bag">Demo bag <span class="bag-count" id="bagCount">0</span></button></div>
   </header>
   <main id="top">
     <section class="intro"><div class="eyebrow">Tools • PPE • Workwear</div><h1>Built for the work.<br><em>Ready for the weather.</em></h1><p>Step inside a premium roofing trade showroom concept. Explore the tool benches, workwear rails, safety essentials and winter kit in a hands-on virtual walk-through.</p><div class="notice"><i></i><span><b>Interactive concept preview</b> · fictional demo brands · no real products for sale</span></div></section>
@@ -62,7 +63,7 @@
       <div class="feature-strip"><div class="feature"><span class="feature-icon">✦</span><div><strong>Made for the trade</strong><span>Concept ranges for roofing days and site conditions.</span></div></div><div class="feature"><span class="feature-icon">◈</span><div><strong>Fictional demo labels</strong><span>Every billboard and product name is invented for this preview.</span></div></div><div class="feature"><span class="feature-icon">⌁</span><div><strong>Browse at your pace</strong><span>Open a department, inspect products and try the demo bag.</span></div></div></div>
     </section>
   </main>
-  <footer class="footer"><strong>Flat Out Built-Up Roofing</strong> · Tools & Workwear Store Concept · Preview only. Demo brands and product mock-ups are fictional. No checkout or purchasing is connected.</footer>
+  <footer class="footer"><a class="nav-link website-home footer-home" href="index.html">⌂ Return to website home</a><strong>Flat Out Built-Up Roofing</strong> · Tools & Workwear Store Concept · Preview only. Demo brands and product mock-ups are fictional. No checkout or purchasing is connected.</footer>
   <div class="overlay" id="productOverlay" role="dialog" aria-modal="true" aria-labelledby="modalName"><div class="modal"><button class="modal-x" id="closeModal" aria-label="Close product details">×</button><div class="modal-body"><div class="modal-art" id="modalArt"></div><div class="modal-copy"><span class="brand-tag" id="modalBrand"></span><h2 id="modalName"></h2><p id="modalDesc"></p><div class="price" id="modalPrice"></div><button class="gold-btn" id="modalAdd">Add to demo bag</button></div></div></div></div>
   <aside class="drawer" id="bagDrawer" aria-label="Demo bag"><div class="drawer-top"><h2>Your demo bag</h2><button class="drawer-close" id="closeBag" aria-label="Close bag">×</button></div><div class="bag-items" id="bagItems"></div><div class="drawer-total"><span>Concept total</span><span id="bagTotal">£0.00</span></div><div class="demo-warning"><strong>Preview only.</strong> The bag is a design demonstration. Product mock-ups are fictional and no checkout, payment or order is connected.</div></aside>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
