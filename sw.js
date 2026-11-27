@@ -1,6 +1,6 @@
 // Cache public training pages and static assets for offline reading.
 // Excludes sign-in, private member/admin pages, query-token forms, and API responses.
-const CACHE = 'flatout-public-v34';
+const CACHE = 'flatout-public-v35';
 const PUBLIC = [
   '/assets/roofing-photography/rooflight-round.webp',
   '/assets/roofing-photography/roof-field-sunlit.webp',
@@ -35,7 +35,7 @@ const PUBLIC = [
   '/assets/training-3d/tile-and-slate.webp',
   '/assets/training-3d/standing-seam-metal.webp',
   '/', '/index.html', '/onyx-antique-gold-interior.css', '/assets/onyx-interior-torch.webp', '/assets/homepage-onyx-antique-gold.webp', '/site.css', '/styles.css', '/academy-interior.css', '/carbon-gold-interior.css', '/design4-specialty.css', '/luxury-artwork-detail.css', '/sponsor-mobile-preview1.css', '/assets/sponsor-moonlit-london-heading.webp', '/assets/sponsor-design-10-exact.webp', '/assets/homepage-refined-hero-still.jpg', '/interior-preview-four.css', '/assets/sponsor-invitation-request-qr.svg',
-  '/site.js', '/free-sections.js', '/approved-homepage.png', '/assets/homepage-reference.jpg', '/assets/homepage-reference-sharpened.jpg', '/logo-original.jpeg',
+  '/site.js', '/free-sections.js', '/roofing-main-repair.js', '/tools-workwear-store.html', '/built-up-roofing.html', '/tile-slate-roofing.html', '/metal-sheet-roofing.html', '/liquid-applied-roofing.html', '/approved-homepage.png', '/assets/homepage-reference.jpg', '/assets/homepage-reference-sharpened.jpg', '/logo-original.jpeg',
   '/assets/flat-out-built-up-roofing-logo.svg', '/assets/gallery/pjones-city-roof-at-dusk.jpeg', '/assets/gallery/pjones-roof-field-west.jpeg', '/assets/roofing-hero-cinematic.webp', '/assets/tapered-roof-cutaway-3d.svg',
   '/manifest.webmanifest', '/academy-roof-illustration.svg',
   '/assets/premium-roofing-interior.svg', '/assets/premium-roofing-materials.svg',
@@ -78,7 +78,7 @@ self.addEventListener('activate', event => event.waitUntil((async () => {
 
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.origin !== self.location.origin || url.search || !PUBLIC_PATHS.has(url.pathname)) return;
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin || (url.search && url.pathname !== '/roofing-main-repair.js') || !PUBLIC_PATHS.has(url.pathname)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     try {
