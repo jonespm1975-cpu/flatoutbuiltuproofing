@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-27",
+  "version": "specialist-2026-11-27-v2",
+  "status": "awaiting_genuine_sandbox_checkout_payment",
+  "rollback_fixture_matrix": {
+    "fulfilment": 24,
+    "replays": 24,
+    "invalid_requests_rejected": 72,
+    "queue_claims": 24,
+    "persisted_records": 0
+  },
+  "authenticated_checkout": {
+    "request_id": 2678,
+    "http_status": 200,
+    "actual_supabase_signin": true,
+    "live_checkout_locked_http_status": 503,
+    "unpaid_content_http_status": 403,
+    "course_id": "bu-03",
+    "amount_pence": 999,
+    "currency": "gbp",
+    "stripe_price": "price_1UgUjS3eiZFnd5l0Mdw7nh1m",
+    "sandbox_session": "cs_test_a01o4qoIMLDiMzQCXPaeU1OvY1c3lUjOFTuNjZ7bang8QrdFFgNYcxTtvY",
+    "payment_status": "unpaid",
+    "metadata_identity_matches": true,
+    "three_simulated_consent_flags": true,
+    "temporary_checkout_creator_retired_version": 2
+  },
+  "evidence_migration": "ff88e5b55a670ad06e5e65c3d71e7abff2e644c9",
+  "sandbox_webhook_version": 4,
+  "sandbox_webhook_commit": "0b1bbcfd0c25035b27aa8908c8dcc022fe729270",
+  "limitations": [
+    "Hosted sandbox checkout still requires a user to complete payment using a test card; no signed V2 success event received yet.",
+    "One temporary isolated QA account retained until completion and cleanup. No public paid access or customer email granted.",
+    "Consent metadata is simulated, not genuine customer acceptance.",
+    "Rollback matrix exercises production database functions with fixtures, not real payments."
+  ]
+}
