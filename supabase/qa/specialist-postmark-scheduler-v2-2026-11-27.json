@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-27",
+  "contract_version": "specialist-2026-11-27-v2",
+  "scheduler": {
+    "job_id": 20,
+    "name": "fobur-postmark-specialist-confirmations",
+    "active": true,
+    "interval": "* * * * *",
+    "dispatch_function": "internal.dispatch_specialist_confirmations(boolean)",
+    "migration_commit": "1a93c23c28c916a9200317d6cbeb49907d662acf",
+    "first_observed_run": {
+      "id": 7017,
+      "start": "2026-11-27T20:33:00.035926Z",
+      "status": "succeeded"
+    }
+  },
+  "verification": {
+    "empty_queue_skipped": true,
+    "anon_execute_blocked": true,
+    "authenticated_execute_blocked": true,
+    "service_role_execute_blocked": true,
+    "check_request_id": 2676,
+    "http_status": 200,
+    "payloads": 24,
+    "rejection_cases": 9,
+    "unapproved_contracts_blocked": 24,
+    "claimed": 0,
+    "sending_enabled": false
+  },
+  "limitations": [
+    "Scheduled execution and authenticated no-send readiness verified separately; no genuine live specialist purchase or customer email sent.",
+    "Worker processes one eligible job per dispatch; delivery capacity and end-to-end v2 paid flow remain to be verified.",
+    "Production specialist sending remains gated by independent approval, approved contract and environment flag."
+  ]
+}
