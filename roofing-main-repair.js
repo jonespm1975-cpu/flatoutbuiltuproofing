@@ -303,7 +303,15 @@
     a.href='members.html';a.setAttribute('aria-label','Subscribe to the £5 monthly Learning Pass');
   });
   const before='Four original luxury roofing pages. Free training and information are open. New £9.99 specialist lessons and the £5 monthly membership are coming soon; purchases are not enabled here.';
-  const after='Four roofing pages. Free training and the £5 monthly Learning Pass are open. New £9.99 specialist lessons are coming soon and remain separate.';
+  const after='Four roofing pages. Free training, the £5 monthly Learning Pass and the £9.99 Roof Inspection and Planning lesson are open. Other specialist lessons are still in preparation.';
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){const node=walker.currentNode;if(node.textContent.trim()===before)node.textContent=node.textContent.replace(before,after);}
+})();
+
+/* Owner-approved £9.99 course availability, 27 November 2026. */
+(() => {
+  document.querySelectorAll('a[aria-label="Upcoming £9.99 specialist lessons"],a[aria-label="Upcoming specialist courses"]').forEach(a=>{
+    a.href='courses.html';
+    a.setAttribute('aria-label','View available £9.99 written lesson and upcoming specialist courses');
+  });
 })();
