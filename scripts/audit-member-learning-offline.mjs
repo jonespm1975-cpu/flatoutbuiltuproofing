@@ -68,7 +68,9 @@ try{
    assert.equal(await page.locator("#mobileAppAccess").isVisible(),paid);
    assert.equal(await page.locator("#paidContent").isVisible(),false);
    assert.equal(await page.locator("#sandboxMembershipManagement").isVisible(),false);
-   assert.equal(await page.locator("#liveMembershipControls").isVisible(),false,"live release lock hides staged controls");
+   await page.locator("#liveMembershipControls").waitFor({state:"visible"});
+   assert.equal(await page.locator("#liveMembershipOffer").isVisible(),true,"nonmember sees subscription offer");
+   assert.equal(await page.locator("#liveMembershipManage").isVisible(),false,"nonmember cannot manage subscription");
    if(paid){
     await button.click();
     await page.waitForFunction(()=>document.querySelector("#status")?.textContent==="Your lesson is ready.");
@@ -99,12 +101,12 @@ try{
   }
  }
 
- // Test the staged membership UI in memory only. Never change the checked-in release lock.
+ // Test the released membership UI with isolated mock auth and API responses.
  const memberHtml=fs.readFileSync(path.join(root,"members.html"),"utf8");
- assert.ok(memberHtml.includes("const MEMBERSHIP_UI_RELEASE_APPROVED = false;"));
+ assert.ok(memberHtml.includes("const MEMBERSHIP_UI_RELEASE_APPROVED = true;"));
  // Capture only the final navigation; retain all real URL validation.
  assert.equal(memberHtml.split("location.assign(destination.href);").length,2);
- const simulatedRelease=memberHtml.replace("const MEMBERSHIP_UI_RELEASE_APPROVED = false;","const MEMBERSHIP_UI_RELEASE_APPROVED = true;").replace("location.assign(destination.href);","window.__verifiedMembershipDestination=destination.href;");
+ const simulatedRelease=memberHtml.replace("location.assign(destination.href);","window.__verifiedMembershipDestination=destination.href;");
  for(const width of [390,1280])for(const membership of [false,true]){
   const context=await browser.newContext({viewport:{width,height:850}});
   let requests=[],hostile=true;
@@ -149,7 +151,7 @@ try{
   const expectedDestination="https://"+(membership?"billing.stripe.com":"checkout.stripe.com")+"/fixture-no-real-session";
   await page.waitForFunction(expected=>window.__verifiedMembershipDestination===expected,expectedDestination);
   assert.equal(requests.length,2);
-  console.log("PASS staged membership consent controls",width,membership?"portal, exact host":"checkout, explicit consent, exact host");
+  console.log("PASS released membership consent controls",width,membership?"portal, exact host":"checkout, explicit consent, exact host");
   await context.close();
  }
 
