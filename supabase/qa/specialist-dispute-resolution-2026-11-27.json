@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-27",
+  "scope": "sandbox only",
+  "course_id": "bu-02",
+  "decline_event": "evt_3UgVIH3eiZFnd5l01vsUyX5W",
+  "decline_code": "generic_decline",
+  "checkout_event": "evt_1UgVJY3eiZFnd5l0w9SEAp57",
+  "checkout_webhook_http_status": 200,
+  "dispute_id": "du_1UgVJW3eiZFnd5l0IFJpYIOF",
+  "dispute_amount_pence": 999,
+  "dispute_status_initial": "needs_response",
+  "risk_before": "dispute_review",
+  "risk_before_request_id": 2663,
+  "resolution_status": "won",
+  "resolution_event": "evt_1UgVLX3eiZFnd5l0CbPmz4Ly",
+  "risk_after": "active",
+  "risk_after_request_id": 2664,
+  "risk_after_http_status": 200,
+  "fixture_cases": 18,
+  "live_entitlements": 0,
+  "live_receipts": 0,
+  "limitations": [
+    "Dispute resolution verified by Stripe API and read-only risk check, not signed dispute event delivery to specialist webhook",
+    "No actual browser access granted or tested",
+    "Lost-dispute branch verified by fixtures only"
+  ]
+}
