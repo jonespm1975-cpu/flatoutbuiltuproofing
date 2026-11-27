@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-27",
+  "owner_instruction": "Finish everything apart from material that needs NFRC technical approval; keep locked until approved by NFRC",
+  "commercial_approval_recorded": true,
+  "nfrc_response_found": false,
+  "content_locked": 24,
+  "public_orders_locked": 24,
+  "checkout_release": false,
+  "fulfilment_release": false,
+  "postmark_release": false,
+  "checkout_version": 7,
+  "checkout_commit": "1c2723a6febe009624448720208e00abf4506b7c",
+  "checkout_amount_currency_guard": "999 GBP, per-session adaptive pricing and managed payments disabled",
+  "signed_v2_sandbox_payments": 1,
+  "qa_account_cleanup": {
+    "request": 2681,
+    "http": 200,
+    "removed": 1,
+    "remaining": 0
+  },
+  "risk_qa_retired_version": 3,
+  "cleanup_qa_retired_version": 2,
+  "postmark_readiness": {
+    "request": 2682,
+    "http": 200,
+    "payloads": 24,
+    "rejections": 9,
+    "locked": 24,
+    "sending": false,
+    "claimed": 0,
+    "successful_scheduler_runs_at_check": 13
+  },
+  "limitations": [
+    "Public live browser fetch unavailable in current environment. Actual desktop browser and positive production paid-access verification outstanding.",
+    "Competent human technical approval must be recorded for exact final course versions; NFRC referral alone is not approval.",
+    "Qualified legal review of consumer contract still outstanding.",
+    "New production checkout pricing options verified in source and deployed, but actual live sessions deliberately not created.",
+    "Earlier genuine V2 sandbox payment was representative bu-03; remaining individual real sandbox payments and live Postmark customer delivery were not demonstrated.",
+    "No changes to membership release or four homepage designs."
+  ]
+}
