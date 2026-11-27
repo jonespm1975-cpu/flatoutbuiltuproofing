@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-27",
+  "contract_version": "specialist-2026-11-27-v2",
+  "approved": false,
+  "prior_archive_preserved": true,
+  "archive_commit": "3967ab836a8f17ee08ba161f55a4625f925b25b4",
+  "order_commit": "125ab390bbb62f3f412693ef054d214451352fea",
+  "database_migration": "synchronise_specialist_contract_2026_11_27_v2",
+  "database_commit": "5a22283109faeb8af31f526f96732419964ec242",
+  "checkout_version": 6,
+  "checkout_commit": "0208fb943e8e553443bf306257e0b14e90af4336",
+  "webhook_version": 7,
+  "webhook_commit": "1bfdb6ab7178b26979d384bfabb338e8fd7c837c",
+  "postmark_worker_version": 4,
+  "postmark_worker_commit": "2c5597454386a9abdb18ea6c115c53d67539e669",
+  "live_stripe_price_matches": 24,
+  "price_pence": 999,
+  "price_currency": "gbp",
+  "db_version_eligibility": {
+    "v2_accepted": 24,
+    "v1_rejected": 24,
+    "unknown_rejected": true,
+    "null_rejected": true
+  },
+  "postmark_check": {
+    "request_id": 2675,
+    "http_status": 200,
+    "payloads": 24,
+    "rejection_cases": 9,
+    "unapproved_contracts_blocked": 24,
+    "claimed": 0,
+    "sending_enabled": false,
+    "exact_archive_match": true
+  },
+  "live_records": {
+    "reservations": 0,
+    "purchases": 0,
+    "entitlements": 0,
+    "jobs": 0
+  },
+  "limitations": [
+    "Stripe read-only verification; contract version is set on future Checkout Session metadata, not rewritten on price objects or historical sandbox events.",
+    "Provider no-send check is local payload validation in deployed worker, not fresh Postmark API acceptance or customer delivery.",
+    "New-version signed payment and authenticated purchase-to-access verification remain pending. Public site deployment/browser verification and automatic scheduling not tested here.",
+    "Competent roofing review and qualified legal review remain outstanding; all release gates remain disabled.",
+    "No change to four homepage designs or membership."
+  ]
+}
