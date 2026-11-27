@@ -277,3 +277,16 @@
     routeToStore(link);
   });
 })();
+
+/* Visible, keyboard- and touch-friendly showroom shortcut on all four main pages. */
+(() => {
+  'use strict';
+  const tabs = document.querySelector('.roof-tab')?.parentElement;
+  if (!tabs || document.getElementById('fobur-showroom-shortcut')) return;
+  const shortcut = document.createElement('a');
+  shortcut.id = 'fobur-showroom-shortcut';
+  shortcut.href = 'tools-workwear-store.html';
+  shortcut.textContent = 'TOOLS & WORKWEAR SHOWROOM  ›';
+  shortcut.style.cssText = 'display:flex;align-items:center;justify-content:center;min-height:44px;max-width:420px;margin:8px auto;padding:9px 16px;border:1px solid #c7a64c;border-radius:6px;background:linear-gradient(135deg,#211b10,#080808);color:#f9ce7a;font-size:clamp(11px,3.1vw,15px);font-weight:750;letter-spacing:.045em;text-align:center;text-decoration:none;box-sizing:border-box;position:relative;z-index:2;';
+  tabs.after(shortcut);
+})();
