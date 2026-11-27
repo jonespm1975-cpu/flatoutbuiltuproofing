@@ -94,5 +94,5 @@
   $$('[data-enter]').forEach(b=>{b.addEventListener('click',()=>enter(b.dataset.enter));b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();enter(b.dataset.enter)}})});$$('.room-controls button[data-room="aisle"]').forEach(b=>b.addEventListener('click',()=>enter(b.dataset.dept)));$$('[data-category]').forEach(b=>b.addEventListener('click',()=>setCategory(b.dataset.category)));$('#backEntrance').addEventListener('click',back);$('#closeModal').addEventListener('click',()=>$('#productOverlay').classList.remove('open'));$('#productOverlay').addEventListener('click',e=>{if(e.target.id==='productOverlay')$('#productOverlay').classList.remove('open')});$('#modalAdd').addEventListener('click',()=>selected&&add(selected.id));$('#openBag').addEventListener('click',()=>$('#bagDrawer').classList.add('open'));$('#closeBag').addEventListener('click',()=>$('#bagDrawer').classList.remove('open'));document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#productOverlay').classList.remove('open');$('#bagDrawer').classList.remove('open')}});renderProducts();updateBag();
   </script>
 <script type="module" src="showroom-enquiries.js?v=1"></script>
-</body>
+<script type="module" src="site-tracking.js"></script></body>
 </html>
