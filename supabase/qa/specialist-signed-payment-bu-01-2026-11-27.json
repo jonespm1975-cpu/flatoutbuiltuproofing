@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-27",
+  "course_id": "bu-01",
+  "contract_version": "specialist-2026-11-27-v1",
+  "stripe": {
+    "livemode": false,
+    "payment_status": "paid",
+    "checkout_status": "complete",
+    "amount_pence": 999,
+    "currency": "gbp",
+    "event_type": "checkout.session.completed",
+    "event_id": "evt_1UgV7W3eiZFnd5l0c2Szx2Ee",
+    "pending_webhooks": 0
+  },
+  "supabase": {
+    "signature_verification_passed": true,
+    "matching_evidence_record": true,
+    "verified_at": "2026-11-27T19:47:48.040583Z",
+    "webhook_http_status": 200,
+    "webhook_response_logged_at": "2026-11-27T19:47:48.109000Z"
+  },
+  "limitations": [
+    "One representative specialist sandbox payment verified",
+    "QA webhook intentionally does not grant production course access or send email",
+    "Remaining 23 sandbox payments, actual Postmark delivery, production release not verified"
+  ]
+}
