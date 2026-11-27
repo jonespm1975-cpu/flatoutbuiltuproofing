@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-27",
+  "course_id": "bu-01",
+  "source": "verified signed sandbox checkout",
+  "payment_amount_pence": 999,
+  "provider": "Postmark",
+  "owner_only": true,
+  "provider_http_status": 200,
+  "provider_accepted": true,
+  "inbox_verified": true,
+  "accepted_at": "2026-11-27T19:50:27Z",
+  "duplicate_attempt_http_status": 409,
+  "matching_inbox_messages": 1,
+  "unauthorized_request_http_status": 401,
+  "unauthenticated_content_http_status": 401,
+  "live_customer_email_sent": false,
+  "live_entitlement_granted": false,
+  "delivery_webhook_tag_fix_commit": "97cc9d9163a921aae502bd4ce8df6a93dcf993b1",
+  "limitations": [
+    "Representative owner-only test receipt; not automatic production confirmation",
+    "Protected course content awaiting technical review",
+    "Remaining 23 individual payments and deliveries unverified"
+  ],
+  "qa_endpoint_retired": true
+}
