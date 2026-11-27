@@ -179,11 +179,21 @@
       tileGeometry(a,layout,n);
       if(i===0)tileGeometry(a,mobileOne,n,'-mobile');
       if(n===2){
-        const price=document.createElement('span');
-        price.className='fl-membership-price';
-        price.setAttribute('aria-hidden','true');
-        price.textContent='£5 MONTHLY';
-        a.append(price);
+        a.href='members.html';
+        a.setAttribute('aria-label','Subscribe to the £5 monthly Learning Pass — Voice Learning App, courses separate');
+        a.classList.add('fl-membership-open');
+        // Preserve the original gold artwork, icon and subscribe button. Replace
+        // only the old coming-soon ribbon and inaccurate membership offer copy.
+        const offer=document.createElement('span');
+        offer.className='fl-membership-live-copy';
+        offer.setAttribute('aria-hidden','true');
+        offer.innerHTML='<strong>£5 MONTHLY<br>MEMBERSHIP</strong><span>✓ Voice Learning App<br>✓ Cancel future renewals<br>✓ Courses purchased separately</span>';
+        a.append(offer);
+        const badge=document.createElement('span');
+        badge.className='fl-membership-live-badge';
+        badge.setAttribute('aria-hidden','true');
+        badge.textContent='NOW OPEN';
+        a.append(badge);
       }
       training.append(a);
     });
@@ -276,4 +286,24 @@
     if (label !== 'workwear') return;
     routeToStore(link);
   });
+})();
+
+/* Owner-approved live membership activation, 27 November 2026. */
+(() => {
+  const style=document.createElement('style');
+  style.textContent=`
+.fl-membership-open{container-type:inline-size}
+.fl-membership-live-copy{position:absolute;left:23%;top:2%;right:1%;bottom:22%;border-radius:0 5px 4px 0;background:linear-gradient(125deg,#090807,#11100c 55%,#080706);color:#f9df9f;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4%;padding:1% 2%;font:500 clamp(7px,1.1vw,13px)/1.15 Arial,sans-serif;pointer-events:none}
+.fl-membership-live-copy strong{font:italic 900 5.2cqw/.95 Georgia,serif;letter-spacing:-.02em;text-shadow:0 1px 2px #000}
+.fl-membership-live-copy span{font:500 3.6cqw/1.15 Arial,sans-serif;color:#f6efe0}
+.fl-membership-live-badge{position:absolute;top:4%;right:2%;padding:2% 3%;border:1px solid #b89144;border-radius:3px;background:linear-gradient(140deg,#f7db8f,#b78a37);color:#120b04;font:900 2.6cqw/1 Arial,sans-serif;pointer-events:none}
+`;
+  document.head.append(style);
+  document.querySelectorAll('a[aria-label="£5 monthly membership coming soon, no checkout"]').forEach(a=>{
+    a.href='members.html';a.setAttribute('aria-label','Subscribe to the £5 monthly Learning Pass');
+  });
+  const before='Four original luxury roofing pages. Free training and information are open. New £9.99 specialist lessons and the £5 monthly membership are coming soon; purchases are not enabled here.';
+  const after='Four roofing pages. Free training and the £5 monthly Learning Pass are open. New £9.99 specialist lessons are coming soon and remain separate.';
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){const node=walker.currentNode;if(node.textContent.trim()===before)node.textContent=node.textContent.replace(before,after);}
 })();
