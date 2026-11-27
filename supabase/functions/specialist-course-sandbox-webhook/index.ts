@@ -25,13 +25,19 @@ Deno.serve(async req=>{
   const stripe=new Stripe(key,{apiVersion:"2025-03-31.basil"});
   const s=await stripe.checkout.sessions.retrieve(notice.id);
   const m=s.metadata||{},course=m.course_id;
-  if(s.livemode||s.mode!=="payment"||s.payment_link||m.specialist_qa!=="true"||!course||!Object.hasOwn(PRICES,course)||m.terms_version!==TERMS||m.terms_accepted!=="true"||m.immediate_access_consent!=="true"||m.cancellation_acknowledgement!=="true"||m.eligibility_policy!=="uk-address-v1"||!Number.isFinite(Date.parse(m.consent_recorded_at||""))||s.amount_total!==999||s.currency!=="gbp")return result(422,"contract_or_payment_mismatch");
+  if(s.livemode||s.mode!=="payment"||s.payment_link||m.specialist_qa!=="true"||!course||!Object.hasOwn(PRICES,course)||![TERMS,"specialist-2026-11-27-v2"].includes(m.terms_version)||m.terms_accepted!=="true"||m.immediate_access_consent!=="true"||m.cancellation_acknowledgement!=="true"||m.eligibility_policy!=="uk-address-v1"||!Number.isFinite(Date.parse(m.consent_recorded_at||""))||s.amount_total!==999||s.currency!=="gbp")return result(422,"contract_or_payment_mismatch");
   if(s.payment_status!=="paid"||s.status!=="complete")return result(200,"not_paid");
   const country=(s as any).collected_information?.shipping_details?.address?.country??(s as any).shipping_details?.address?.country;
   if(country!=="GB")return result(422,"uk_eligibility_missing");
   const lines=await stripe.checkout.sessions.listLineItems(s.id,{limit:2});
   if(lines.has_more||lines.data.length!==1||lines.data[0].quantity!==1||lines.data[0].price?.id!==PRICES[course])return result(422,"price_mismatch");
   const admin=createClient(Deno.env.get("SUPABASE_URL")!,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,{auth:{persistSession:false,autoRefreshToken:false}});
+  if(m.terms_version==="specialist-2026-11-27-v2"){
+   if(course!=="bu-03"||m.qa_run!=="qa-v2-auth-20261127"||m.consent_fixture!=="simulated_not_customer_consent"||m.authenticated_qa!=="true"||!s.client_reference_id||s.client_reference_id!==m.supabase_user_id||!/^[0-9a-f-]{36}$/i.test(s.client_reference_id))return result(422,"authenticated_qa_mismatch");
+   const vr=await admin.rpc("record_specialist_v2_authenticated_sandbox_payment",{p_session:s.id,p_event:event.id,p_user:s.client_reference_id,p_course:course,p_price:PRICES[course],p_version:m.terms_version,p_consent:m.consent_recorded_at});
+   if(vr.error||vr.data!==true)return result(503,"authenticated_qa_record_failed");
+   return result(200,"authenticated_v2_sandbox_payment_verified_no_live_access_or_email");
+  }
   const r=await admin.rpc("record_specialist_sandbox_payment",{p_session:s.id,p_event:event.id,p_course:course,p_price:PRICES[course],p_version:TERMS,p_consent:m.consent_recorded_at});
   if(r.error||r.data!==true)return result(503,"qa_record_failed");
   return result(200,"sandbox_payment_verified_no_live_access_or_email");
